@@ -4,12 +4,12 @@ const { DataTypes } = Sequelize;
 const db = require('../db');
 
 const Session = db.define('session', {
-  //expected length of session (in minutes)
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
+  //expected length of session (in minutes)
   sessionTime: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -38,7 +38,6 @@ const Session = db.define('session', {
 Session.createWithUser = async function ({ userId, sessionTime }) {
   const session = await Session.create({ sessionTime: sessionTime });
   session.userId = userId;
-  // console.log('session:', session);
   await session.save();
   return session;
 };

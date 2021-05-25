@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Session },
+  models: { User, Session, Goal },
 } = require('../server/db');
 
 /**
@@ -25,6 +25,13 @@ async function seed() {
     Session.createWithUser({ userId: 1, sessionTime: 40 }),
     Session.createWithUser({ userId: 2, sessionTime: 50 }),
   ]);
+
+  const goals = await Promise.all([
+    Goal.create({ description: 'Define sequelize models.' }),
+    Goal.create({ description: 'Write express routes.' }),
+    Goal.create({ description: 'Create redux store' }),
+    Goal.create({ description: 'Create react components.' }),
+  ]);
   // console.log(`seeded successfully`);
   return {
     users: {
@@ -34,6 +41,12 @@ async function seed() {
     sessions: {
       session0: sessions[0],
       session1: sessions[1],
+    },
+    goals: {
+      goal0: goals[0],
+      goal1: goals[1],
+      goal2: goals[2],
+      goal3: goals[3],
     },
   };
 }
