@@ -10,7 +10,7 @@ describe('Goal model', () => {
   beforeEach(async () => {
     goals = (await seed()).goals;
   });
-  it('requires a description', () => {
+  it('requires a task', () => {
     //start here
     const { goal0, goal1 } = goals;
 
