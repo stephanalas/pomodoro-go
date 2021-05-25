@@ -14,6 +14,33 @@ describe('User model', () => {
     users = (await seed()).users;
   });
 
+  it('should require an email address', async function () {
+    const user = await User.create({
+      username: 'stanley',
+      email: 'stanley@mail.com',
+      password: 'stanley',
+    });
+    const users = await User.findAll();
+    expect(users.length).to.equal(3);
+  });
+  it('should require a password', async function () {
+    const user = await User.create({
+      username: 'zaina',
+      email: 'zaina@mail.com',
+      password: 'zaina',
+    });
+    const users = await User.findAll();
+    expect(users.length).to.equal(3);
+  });
+  it('provided email address is valid email address', async function () {
+    const user = await User.create({
+      username: 'thompson',
+      email: 'thompso@mail.com',
+      password: 'thompso',
+    });
+    const users = await User.findAll();
+    expect(users.length).to.equal(3);
+  });
   describe('instanceMethods', () => {
     describe('generateToken', () => {
       it('returns a token with the id of the user', async () => {
@@ -28,14 +55,16 @@ describe('User model', () => {
         async () =>
           (user = await User.create({
             username: 'lucy',
-            password: 'loo',
+            email: 'lucy@mail.com',
+            password: 'lucy',
           }))
       );
       describe('with correct credentials', () => {
         it('returns a token', async () => {
           const token = await User.authenticate({
             username: 'lucy',
-            password: 'loo',
+            email: 'lucy@mail.com',
+            password: 'lucy',
           });
           expect(token).to.be.ok;
         });
@@ -44,7 +73,8 @@ describe('User model', () => {
         it('throws a 401', async () => {
           try {
             await User.authenticate({
-              username: 'lucy@gmail.com',
+              username: 'lucy',
+              email: 'lucy@mail.com',
               password: '123',
             });
             throw 'nooo';
