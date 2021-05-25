@@ -13,9 +13,13 @@ describe('Session model', () => {
     sessions = (await seed()).sessions;
   });
 
-  it('requires a userId', () => {
+  it('`createWithUser` class method creates a session with an associated user', async () => {
     //start here
-    console.log(users);
+    const session3 = await Session.createWithUser({
+      userId: 1,
+      sessionTime: 30,
+    });
+    console.log('session3:', session3);
     // expect(session0.sessionTime).to.equal(40);
   });
   it('requires a sessionTime', () => {

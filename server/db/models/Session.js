@@ -35,8 +35,12 @@ const Session = db.define('session', {
 /**
  * classMethods
  */
-Session.createWithUser = function (userId, sessionTime) {
-  Session.create({ userId, sessionTime });
+Session.createWithUser = async function ({ userId, sessionTime }) {
+  const session = await Session.create({ sessionTime: sessionTime });
+  session.userId = userId;
+  // console.log('session:', session);
+  await session.save();
+  return session;
 };
 /**
  * hooks

@@ -22,8 +22,8 @@ async function seed() {
   // console.log(`seeded ${users.length} users`);
 
   const sessions = await Promise.all([
-    Session.create({ sessionTime: 40 }),
-    Session.create({ sessionTime: 50 }),
+    Session.createWithUser({ userId: 1, sessionTime: 40 }),
+    Session.createWithUser({ userId: 2, sessionTime: 50 }),
   ]);
   // console.log(`seeded successfully`);
   return {
