@@ -6,6 +6,8 @@ const User = require('./models/User');
 const Session = require('./models/Session');
 
 //associations could go here!
+Session.belongsTo(User);
+User.hasMany(Session);
 
 module.exports = {
   db,

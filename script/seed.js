@@ -11,7 +11,7 @@ const {
  */
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
-  console.log('db synced!');
+  // console.log('db synced!');
 
   // Creating Users
   const users = await Promise.all([
@@ -19,14 +19,13 @@ async function seed() {
     User.create({ username: 'murphy', password: '123' }),
   ]);
 
-  console.log(`seeded ${users.length} users`);
+  // console.log(`seeded ${users.length} users`);
 
   const sessions = await Promise.all([
-    Session.create({ sessionTime: 10 }),
+    Session.create({ sessionTime: 40 }),
     Session.create({ sessionTime: 50 }),
   ]);
-  console.log(`seeded ${sessions.length} sessions`);
-  console.log(`seeded successfully`);
+  // console.log(`seeded successfully`);
   return {
     users: {
       cody: users[0],
