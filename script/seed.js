@@ -27,10 +27,10 @@ async function seed() {
   ]);
 
   const goals = await Promise.all([
-    Goal.create({ description: 'Define sequelize models.' }),
-    Goal.create({ description: 'Write express routes.' }),
-    Goal.create({ description: 'Create redux store' }),
-    Goal.create({ description: 'Create react components.' }),
+    Goal.create({ task: 'Define sequelize models.' }),
+    Goal.create({ task: 'Write express routes.' }),
+    Goal.create({ task: 'Create redux store' }),
+    Goal.create({ task: 'Create react components.' }),
   ]);
   // console.log(`seeded successfully`);
   return {

@@ -14,7 +14,7 @@ describe('Goal model', () => {
     //start here
     const { goal0, goal1 } = goals;
 
-    expect(goal0.description).to.equal('Define sequelize models.');
-    expect(goal1.description).to.equal('Write express routes.');
+    expect(goal0.task).to.equal('Define sequelize models.');
+    expect(goal1.task).to.equal('Write express routes.');
   });
 });
