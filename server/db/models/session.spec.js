@@ -9,11 +9,9 @@ describe('Session model', () => {
   let sessions;
   beforeEach(async () => {
     users = (await seed()).users;
-
     sessions = (await seed()).sessions;
   });
   it('requires a sessionTime', () => {
-    //start here
     const { session0, session1 } = sessions;
 
     expect(session0.sessionTime).to.equal(40);
@@ -28,14 +26,19 @@ describe('Session model', () => {
     expect(Date.parse(expectedEndTime)).to.equal(Date.parse(check));
   });
   //using a UUID threw this test off; wasn't able to fix quickly but I'll look into
-  xit('`createWithUser` class method creates a session with an associated user', async () => {
-    const { cody } = users;
+  it('`createWithUser` class method creates a session with an associated user', async () => {
+    const john = await User.create({
+      username: 'john',
+      password: 'john_pw',
+      email: 'john@mail.com',
+    });
+
     const session3 = await Session.createWithUser({
-      userId: cody.id,
+      userId: john.id,
       sessionTime: 30,
     });
 
-    expect(session3.userId).to.equal(1);
+    expect(session3.userId).to.equal(john.id);
     expect(session3.sessionTime).to.equal(30);
     expect(session3.expectedEndTime).to.be.ok;
   });

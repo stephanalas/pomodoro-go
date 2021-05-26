@@ -10,11 +10,11 @@ describe('Goal model', () => {
   beforeEach(async () => {
     goals = (await seed()).goals;
   });
-  it('requires a task', () => {
+  it('requires a description', () => {
     //start here
     const { goal0, goal1 } = goals;
 
-    expect(goal0.task).to.equal('Define sequelize models.');
-    expect(goal1.task).to.equal('Write express routes.');
+    expect(goal0.description).to.equal('Define sequelize models.');
+    expect(goal1.description).to.equal('Write express routes.');
   });
 });
