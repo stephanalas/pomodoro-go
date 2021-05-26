@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User },
+  models: { User, Session, Goal },
 } = require('../server/db');
 
 /**
@@ -11,7 +11,7 @@ const {
  */
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
-  console.log('db synced!');
+  // console.log('db synced!');
 
   // Creating Users
   const users = await Promise.all([
@@ -23,12 +23,38 @@ async function seed() {
     }),
   ]);
 
-  console.log(`seeded ${users.length} users`);
-  console.log(`seeded successfully`);
+  const cody = users[0];
+  const murphy = users[1];
+
+  // console.log(`seeded ${users.length} users`);
+
+  const sessions = await Promise.all([
+    Session.createWithUser({ userId: cody.id, sessionTime: 40 }),
+    Session.createWithUser({ userId: murphy.id, sessionTime: 50 }),
+  ]);
+
+  const goals = await Promise.all([
+    Goal.create({ task: 'Define sequelize models.' }),
+    Goal.create({ task: 'Write express routes.' }),
+    Goal.create({ task: 'Create redux store' }),
+    Goal.create({ task: 'Create react components.' }),
+  ]);
+  // console.log(`seeded successfully`);
+
   return {
     users: {
-      cody: users[0],
-      murphy: users[1],
+      cody: cody,
+      murphy: murphy,
+    },
+    sessions: {
+      session0: sessions[0],
+      session1: sessions[1],
+    },
+    goals: {
+      goal0: goals[0],
+      goal1: goals[1],
+      goal2: goals[2],
+      goal3: goals[3],
     },
   };
 }
