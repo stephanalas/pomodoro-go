@@ -1,6 +1,7 @@
 const { UUID, UUIDV4, STRING, INTEGER } = require('sequelize');
 const db = require('../db');
 
+//Site model
 const Site = db.define('site', {
   id: {
     type: UUID,

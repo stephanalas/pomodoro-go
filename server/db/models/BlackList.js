@@ -1,6 +1,7 @@
 const { UUID, UUIDV4, STRING, INTEGER } = require('sequelize');
 const db = require('../db');
 
-const Blacklist = db.define('blackList', {});
+// association table
+const BlackList = db.define('blacklist', {});
 
-module.exports = Blacklist;
+module.exports = BlackList;
