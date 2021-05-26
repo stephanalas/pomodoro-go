@@ -15,15 +15,22 @@ async function seed() {
 
   // Creating Users
   const users = await Promise.all([
-    User.create({ username: 'cody', password: '123' }),
-    User.create({ username: 'murphy', password: '123' }),
+    User.create({ username: 'cody', password: '123', email: 'cody@mail.com' }),
+    User.create({
+      username: 'murphy',
+      password: '123',
+      email: 'murphy@mail.com',
+    }),
   ]);
+
+  const cody = users[0];
+  const murphy = users[1];
 
   // console.log(`seeded ${users.length} users`);
 
   const sessions = await Promise.all([
-    Session.createWithUser({ userId: 1, sessionTime: 40 }),
-    Session.createWithUser({ userId: 2, sessionTime: 50 }),
+    Session.createWithUser({ userId: cody.id, sessionTime: 40 }),
+    Session.createWithUser({ userId: murphy.id, sessionTime: 50 }),
   ]);
 
   const goals = await Promise.all([
@@ -33,10 +40,11 @@ async function seed() {
     Goal.create({ task: 'Create react components.' }),
   ]);
   // console.log(`seeded successfully`);
+
   return {
     users: {
-      cody: users[0],
-      murphy: users[1],
+      cody: cody,
+      murphy: murphy,
     },
     sessions: {
       session0: sessions[0],

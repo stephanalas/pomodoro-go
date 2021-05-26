@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const { UUID, UUIDV4, STRING, INTEGER } = require('sequelize');
 const db = require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -7,16 +7,32 @@ const axios = require('axios');
 const SALT_ROUNDS = 5;
 
 const User = db.define('user', {
+  id: {
+    type: UUID,
+    defaultValue: UUIDV4,
+    primaryKey: true,
+  },
   username: {
-    type: Sequelize.STRING,
+    type: STRING,
     unique: true,
     allowNull: false,
+    validate: {
+      notEmpty: true,
+    }
+  },
+  email: {
+    type: STRING,
+    allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: true,
+    },
   },
   password: {
-    type: Sequelize.STRING,
-  },
-  githubId: {
-    type: Sequelize.INTEGER,
+    type: STRING,
+    validate: {
+      notEmpty: true,
+    },
   },
 });
 
