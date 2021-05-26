@@ -35,7 +35,7 @@ const Session = db.define('session', {
 /**
  * classMethods
  */
-Session.createWithUser = async function ({ userId, sessionTime, goalId }) {
+Session.start = async function ({ userId, sessionTime, goalId }) {
   const session = await Session.create({ sessionTime: sessionTime });
   session.userId = userId;
   session.goalId = goalId;

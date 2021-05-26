@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Session, Goal },
+  models: { User, Session, Goal, Task },
 } = require('../server/db');
 
 /**
@@ -29,9 +29,9 @@ async function seed() {
   // console.log(`seeded ${users.length} users`);
 
   const sessions = await Promise.all([
-    Session.createWithUser({ userId: cody.id, sessionTime: 40 }),
-    Session.createWithUser({ userId: murphy.id, sessionTime: 50 }),
-    Session.createWithUser({ userId: murphy.id, sessionTime: 45 }),
+    Session.start({ userId: cody.id, sessionTime: 40 }),
+    Session.start({ userId: murphy.id, sessionTime: 50 }),
+    Session.start({ userId: murphy.id, sessionTime: 45 }),
   ]);
 
   const goals = await Promise.all([

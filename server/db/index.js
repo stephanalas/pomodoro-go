@@ -26,6 +26,7 @@ module.exports = {
     User,
     Session,
     Goal,
+    Task,
     Site,
     Blacklist,
   },

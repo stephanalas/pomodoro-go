@@ -5,7 +5,7 @@ const {
 } = require('../index');
 const seed = require('../../../script/seed');
 
-describe('Goal model', () => {
+describe('Task model', () => {
   let goals;
   beforeEach(async () => {
     tasks = (await seed()).tasks;

@@ -4,6 +4,7 @@ const {
   models: { Session, User },
 } = require('../index');
 const seed = require('../../../script/seed');
+const Goal = require('./Goal');
 
 describe('Session model', () => {
   let sessions;
@@ -26,20 +27,66 @@ describe('Session model', () => {
     expect(Date.parse(expectedEndTime)).to.equal(Date.parse(check));
   });
   //using a UUID threw this test off; wasn't able to fix quickly but I'll look into
-  it('`createWithUser` class method creates a session with an associated user', async () => {
-    const john = await User.create({
-      username: 'john',
-      password: 'john_pw',
-      email: 'john@mail.com',
-    });
+  describe('Session.start() class method', () => {
+    it('creates a session with an associated user and goal(if it is provided)', async () => {
+      const john = await User.create({
+        username: 'john',
+        password: 'john_pw',
+        email: 'john@mail.com',
+      });
 
-    const session3 = await Session.createWithUser({
-      userId: john.id,
-      sessionTime: 30,
-    });
+      const reactGoal = await Goal.create({
+        description: 'Make react components.',
+      });
 
-    expect(session3.userId).to.equal(john.id);
-    expect(session3.sessionTime).to.equal(30);
-    expect(session3.expectedEndTime).to.be.ok;
+      const session = await Session.start({
+        userId: john.id,
+        sessionTime: 30,
+        goalId: reactGoal.id,
+      });
+
+      expect(session.userId).to.equal(john.id);
+      expect(session.goalId).to.equal(reactGoal.id);
+      expect(session.sessionTime).to.equal(30);
+      expect(session.expectedEndTime).to.be.ok;
+    });
+    it('creates a session with a startTime and an expectedEndTime', async () => {
+      const john = await User.create({
+        username: 'john',
+        password: 'john_pw',
+        email: 'john@mail.com',
+      });
+
+      const reactGoal = await Goal.create({
+        description: 'Make react components.',
+      });
+
+      const session = await Session.start({
+        userId: john.id,
+        sessionTime: 30,
+        goalId: reactGoal.id,
+      });
+
+      expect(session.startTime).to.be.ok;
+      expect(session.expectedEndTime).to.be.ok;
+      expect(session.actualEndTime).to.not.be.ok;
+    });
+    it('does not require a goalId', async () => {
+      const jane = await User.create({
+        username: 'jane',
+        password: 'jane_pw',
+        email: 'jane@mail.com',
+      });
+
+      const session = await Session.start({
+        userId: jane.id,
+        sessionTime: 30,
+      });
+
+      expect(session.userId).to.equal(jane.id);
+      expect(session.goalId).to.not.be.ok;
+      expect(session.sessionTime).to.equal(30);
+      expect(session.expectedEndTime).to.be.ok;
+    });
   });
 });
