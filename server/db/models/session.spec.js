@@ -18,6 +18,14 @@ describe('Session model', () => {
     expect(session0.sessionTime).to.equal(40);
     expect(session1.sessionTime).to.equal(50);
   });
+  it('creates a session instance with a sessionTime, startTime and expectedEndTime', async () => {
+    try {
+      const session = await Session.create({ sessionTime: 35 });
+      expect(session.startTime).to.be.ok;
+      expect(session.expectedEndTime).to.be.ok;
+      expect(session.actualEndTime).to.not.be.ok;
+    } catch (error) {}
+  });
   it('`calcExpectedEndTime` method calculates and adds expectedEndTime attribute to instances as they are created', () => {
     const { session0 } = sessions;
     const expectedEndTime = session0.expectedEndTime;

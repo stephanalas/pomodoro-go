@@ -6,15 +6,28 @@ const {
 const seed = require('../../../script/seed');
 
 describe('Task model', () => {
-  let goals;
+  let tasks;
   beforeEach(async () => {
     tasks = (await seed()).tasks;
   });
-  it('requires a name', () => {
-    //start here
-    const { task0, task2 } = tasks;
-
-    expect(task0.name).to.equal('User model');
-    expect(task2.name).to.equal('Single User route');
+  it('requires a name', async () => {
+    try {
+      const task = await Task.create();
+    } catch (error) {
+      expect(error).to.be.ok;
+    }
+  });
+  it("name can't be empty string", async () => {
+    try {
+      const task = await Task.create({ name: '' });
+    } catch (error) {
+      expect(error).to.be.ok;
+    }
+  });
+  it('creates a task instance with a name', async () => {
+    try {
+      const task = await Task.create({ description: 'Create Nav component' });
+      expect(task.description).to.equal('Create Nav component');
+    } catch (error) {}
   });
 });
