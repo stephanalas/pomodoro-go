@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Session, Goal },
+  models: { User, Session, Goal, Task },
 } = require('../server/db');
 
 /**
@@ -29,15 +29,20 @@ async function seed() {
   // console.log(`seeded ${users.length} users`);
 
   const sessions = await Promise.all([
-    Session.createWithUser({ userId: cody.id, sessionTime: 40 }),
-    Session.createWithUser({ userId: murphy.id, sessionTime: 50 }),
+    Session.start({ userId: cody.id, sessionTime: 40 }),
+    Session.start({ userId: murphy.id, sessionTime: 50 }),
+    Session.start({ userId: murphy.id, sessionTime: 45 }),
   ]);
 
   const goals = await Promise.all([
-    Goal.create({ task: 'Define sequelize models.' }),
-    Goal.create({ task: 'Write express routes.' }),
-    Goal.create({ task: 'Create redux store' }),
-    Goal.create({ task: 'Create react components.' }),
+    Goal.create({ description: 'Define sequelize models.' }),
+    Goal.create({ description: 'Write express routes.' }),
+    Goal.create({ description: 'Create redux store' }),
+  ]);
+  const tasks = await Promise.all([
+    Task.create({ name: 'User model' }),
+    Task.create({ name: 'All Users route' }),
+    Task.create({ name: 'Single User route' }),
   ]);
   // console.log(`seeded successfully`);
 
@@ -49,12 +54,17 @@ async function seed() {
     sessions: {
       session0: sessions[0],
       session1: sessions[1],
+      session2: sessions[2],
     },
     goals: {
       goal0: goals[0],
       goal1: goals[1],
       goal2: goals[2],
-      goal3: goals[3],
+    },
+    tasks: {
+      task0: tasks[0],
+      task1: tasks[1],
+      task2: tasks[2],
     },
   };
 }

@@ -2,13 +2,13 @@ const Sequelize = require('sequelize');
 const { DataTypes } = Sequelize;
 const db = require('../db');
 
-const Goal = db.define('goal', {
+const Task = db.define('task', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
-  description: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
@@ -29,4 +29,4 @@ const Goal = db.define('goal', {
  * hooks
  */
 
-module.exports = Goal;
+module.exports = Task;

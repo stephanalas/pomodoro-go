@@ -35,9 +35,10 @@ const Session = db.define('session', {
 /**
  * classMethods
  */
-Session.createWithUser = async function ({ userId, sessionTime }) {
+Session.start = async function ({ userId, sessionTime, goalId }) {
   const session = await Session.create({ sessionTime: sessionTime });
   session.userId = userId;
+  session.goalId = goalId;
   await session.save();
   return session;
 };
@@ -53,7 +54,7 @@ const calcExpectedEndTime = (session) => {
   session.expectedEndTime = date + session.sessionTime * 60000;
 };
 
-Session.beforeSave((session) => {
+Session.beforeCreate((session) => {
   calcStartTime(session);
   calcExpectedEndTime(session);
 });
