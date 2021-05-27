@@ -15,8 +15,8 @@ describe('Session model', () => {
   it('requires a sessionTime', () => {
     const { session0, session1 } = sessions;
 
-    expect(session0.sessionTime).to.equal(30);
-    expect(session1.sessionTime).to.equal(40);
+    expect(session0.sessionTime).to.equal(40);
+    expect(session1.sessionTime).to.equal(50);
   });
   it('creates a session instance with a sessionTime, startTime and expectedEndTime', async () => {
     try {

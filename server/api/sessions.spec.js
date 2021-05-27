@@ -19,7 +19,7 @@ describe('Session routes', () => {
         .expect(200)
 
       expect(res.body).to.be.an('array');
-      expect(res.body.length).to.equal(20);
+      expect(res.body.length).to.equal(23);
     })
 
     it('Include user model', async () => {

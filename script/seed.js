@@ -59,7 +59,7 @@ async function seed() {
     const randomDay = Math.floor(Math.random()*30 + 1)
     const randomMonth = Math.floor(Math.random()*11 + 1)
     const randomHour = Math.floor(Math.random()*11 + 1)
-    each.createdAt = `2021-${randomMonth}-${randomDay} ${randomHour}:00:00.334-04`
+    each.createdAt = `2021-04-27T00:26:01.161Z` // 2021-05-27T00:26:01.161Z
     await each.save()
   })
 
