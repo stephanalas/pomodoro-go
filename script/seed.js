@@ -26,7 +26,7 @@ async function seed() {
   const cody = users[0];
   const murphy = users[1];
 
-  console.log(`seeded ${users.length} users`);
+  //console.log(`seeded ${users.length} users`);
 
   //Creating sessions
   const sessions = await Promise.all([
@@ -56,23 +56,22 @@ async function seed() {
   ]);
 
   sessions.map(async (each) => {
-    const randomDay = Math.floor(Math.random()*30 + 1)
-    const randomMonth = Math.floor(Math.random()*11 + 1)
+    const randomDay = Math.floor(Math.random() * 30 + 1);
+    const randomMonth = Math.floor(Math.random() * 11 + 1);
     // const randomHour = Math.floor(Math.random()*11 + 1)
-    if (randomDay < 10 && randomMonth <10) {
-      each.startTime = `2021-0${randomMonth}-0${randomDay}T00:26:01.161Z` // 2021-05-27T00:26:01.161Z
+    if (randomDay < 10 && randomMonth < 10) {
+      each.startTime = `2021-0${randomMonth}-0${randomDay}T00:26:01.161Z`; // 2021-05-27T00:26:01.161Z
     } else if (randomDay < 10 && randomMonth > 10) {
-      each.startTime = `2021-${randomMonth}-0${randomDay}T00:26:01.161Z` // 2021-05-27T00:26:01.161Z
+      each.startTime = `2021-${randomMonth}-0${randomDay}T00:26:01.161Z`; // 2021-05-27T00:26:01.161Z
     } else if (randomDay > 10 && randomMonth < 10) {
-      each.startTime = `2021-0${randomMonth}-${randomDay}T00:26:01.161Z`
+      each.startTime = `2021-0${randomMonth}-${randomDay}T00:26:01.161Z`;
     } else if (randomDay > 10 && randomMonth > 10) {
-      each.startTime = `2021-${randomMonth}-${randomDay}T00:26:01.161Z`
+      each.startTime = `2021-${randomMonth}-${randomDay}T00:26:01.161Z`;
     }
-    await each.save()
-  })
+    await each.save();
+  });
 
-  console.log(`seeded ${sessions.length} sessions`)
-
+  //console.log(`seeded ${sessions.length} sessions`)
 
   // Creating goals
   const goals = await Promise.all([
@@ -87,38 +86,50 @@ async function seed() {
     Task.create({ name: 'Single User route' }),
   ]);
 
-  console.log(`seeded ${goals.length} general goals`)
+  //console.log(`seeded ${goals.length} general goals`)
 
   // Creating sites
   const sites = await Promise.all([
-    Site.create({ siteUrl: 'https://twitter.com/', category: 'Social Media'}),
-    Site.create({ siteUrl: 'https://www.instagram.com/', category: 'Social Media'}),
-    Site.create({ siteUrl: 'https://www.facebook.com/', category: 'Social Media'}),
-    Site.create({ siteUrl: 'https://www.netflix.com/', category: 'Entertainment'}),
-    Site.create({ siteUrl: 'https://www.hulu.com/', category: 'Entertainment'}),
+    Site.create({ siteUrl: 'https://twitter.com/', category: 'Social Media' }),
+    Site.create({
+      siteUrl: 'https://www.instagram.com/',
+      category: 'Social Media',
+    }),
+    Site.create({
+      siteUrl: 'https://www.facebook.com/',
+      category: 'Social Media',
+    }),
+    Site.create({
+      siteUrl: 'https://www.netflix.com/',
+      category: 'Entertainment',
+    }),
+    Site.create({
+      siteUrl: 'https://www.hulu.com/',
+      category: 'Entertainment',
+    }),
   ]);
 
-  const twitter = sites[0]
-  const instagram = sites[1]
-  const facebook = sites[2]
-  const netflix = sites[3]
-  const hulu = sites[4]
+  const twitter = sites[0];
+  const instagram = sites[1];
+  const facebook = sites[2];
+  const netflix = sites[3];
+  const hulu = sites[4];
 
   // Creating site and user associations
   const blockedSites = await Promise.all([
-    BlackList.create({siteId: twitter.id, userId: cody.id}),
-    BlackList.create({siteId: twitter.id, userId: murphy.id}),
-    BlackList.create({siteId: instagram.id, userId: cody.id}),
-    BlackList.create({siteId: facebook.id, userId: murphy.id}),
-    BlackList.create({siteId: netflix.id, userId: murphy.id}),
-    BlackList.create({siteId: hulu.id, userId: murphy.id}),
-  ])
+    BlackList.create({ siteId: twitter.id, userId: cody.id }),
+    BlackList.create({ siteId: twitter.id, userId: murphy.id }),
+    BlackList.create({ siteId: instagram.id, userId: cody.id }),
+    BlackList.create({ siteId: facebook.id, userId: murphy.id }),
+    BlackList.create({ siteId: netflix.id, userId: murphy.id }),
+    BlackList.create({ siteId: hulu.id, userId: murphy.id }),
+  ]);
 
-  console.log(`seeded ${blockedSites.length} blacklisted sites`)
+  //console.log(`seeded ${blockedSites.length} blacklisted sites`)
 
   // Creating some tasks
 
-  console.log(`seeded everything successfully`);
+  //console.log(`seeded everything successfully`);
   return {
     users: {
       cody: cody,
@@ -146,8 +157,8 @@ async function seed() {
       instagram,
       facebook,
       netflix,
-      hulu
-    }
+      hulu,
+    },
   };
 }
 

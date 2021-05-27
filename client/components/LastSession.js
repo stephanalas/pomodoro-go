@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Typography, Paper } from '@material-ui/core';
 
-const LastSession = ({ handleClick, isLoggedIn }) => (
+const LastSession = () => (
   <div>
     <h1>FS-App-Template</h1>
     <nav>
@@ -43,4 +44,4 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(mapState, mapDispatch)(Navbar);
+export default connect(mapState, mapDispatch)(LastSession);
