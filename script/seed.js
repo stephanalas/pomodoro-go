@@ -58,8 +58,16 @@ async function seed() {
   sessions.map(async (each) => {
     const randomDay = Math.floor(Math.random()*30 + 1)
     const randomMonth = Math.floor(Math.random()*11 + 1)
-    const randomHour = Math.floor(Math.random()*11 + 1)
-    each.createdAt = `2021-04-27T00:26:01.161Z` // 2021-05-27T00:26:01.161Z
+    // const randomHour = Math.floor(Math.random()*11 + 1)
+    if (randomDay < 10 && randomMonth <10) {
+      each.startTime = `2021-0${randomMonth}-0${randomDay}T00:26:01.161Z` // 2021-05-27T00:26:01.161Z
+    } else if (randomDay < 10 && randomMonth > 10) {
+      each.startTime = `2021-${randomMonth}-0${randomDay}T00:26:01.161Z` // 2021-05-27T00:26:01.161Z
+    } else if (randomDay > 10 && randomMonth < 10) {
+      each.startTime = `2021-0${randomMonth}-${randomDay}T00:26:01.161Z`
+    } else if (randomDay > 10 && randomMonth > 10) {
+      each.startTime = `2021-${randomMonth}-${randomDay}T00:26:01.161Z`
+    }
     await each.save()
   })
 
