@@ -5,6 +5,7 @@ import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
 import LastSession from './components/LastSession';
 import { me } from './store';
+import { loadSessions } from './store/sessions';
 
 /**
  * COMPONENT
@@ -30,6 +31,7 @@ class Routes extends Component {
             <Route path="/" exact component={Login} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+            <Route path="/dashboard" exact component={LastSession} />
           </Switch>
         )}
       </div>
@@ -52,6 +54,7 @@ const mapDispatch = (dispatch) => {
   return {
     loadInitialData() {
       dispatch(me());
+      dispatch(loadSessions());
     },
   };
 };
