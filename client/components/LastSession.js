@@ -43,6 +43,10 @@ const LastSession = () => {
     expectedEndHour = expectedEndTime.getHours();
     console.log(expectedEndHour);
     expectedEndMinute = expectedEndTime.getMinutes();
+    const actualEndTime = new Date(lastSession.actualEndTime);
+    // actualEndHour = actualEndTime.getHours();
+    // console.log(actualEndHour);
+    // actualEndMinute = actualEndTime.getMinutes();
   }
 
   return (
@@ -78,13 +82,13 @@ const LastSession = () => {
           <Typography variant="caption" color="textSecondary">
             Actual End Time
           </Typography>
-          <Typography variant="h5">12:42 pm</Typography>
+          <Typography variant="h5">ToDo</Typography>
         </Grid>
         <Grid item xs={6}>
           <Typography variant="caption" color="textSecondary">
             Successful
           </Typography>
-          <Typography variant="h5">Yes</Typography>
+          <Typography variant="h5">ToDo</Typography>
         </Grid>
       </Grid>
     </Paper>

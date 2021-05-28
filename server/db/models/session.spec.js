@@ -97,4 +97,46 @@ describe('Session model', () => {
       expect(session.expectedEndTime).to.be.ok;
     });
   });
+  describe('Session.end() instance method', () => {
+    it('adds an actualEndTime to the session instance', async () => {
+      const john = await User.create({
+        username: 'john',
+        password: 'john_pw',
+        email: 'john@mail.com',
+      });
+
+      const reactGoal = await Goal.create({
+        description: 'Make react components.',
+      });
+
+      const session = await Session.start({
+        userId: john.id,
+        sessionTime: 30,
+        goalId: reactGoal.id,
+      });
+
+      session.end({ successful: true });
+      expect(session.actualEndTime).to.be.ok;
+    });
+    it('allows user to set `successful` to true or false when they end a session ', async () => {
+      const john = await User.create({
+        username: 'john',
+        password: 'john_pw',
+        email: 'john@mail.com',
+      });
+
+      const reactGoal = await Goal.create({
+        description: 'Make react components.',
+      });
+
+      const session = await Session.start({
+        userId: john.id,
+        sessionTime: 30,
+        goalId: reactGoal.id,
+      });
+
+      session.end({ successful: true });
+      expect(session.successful).to.equal(true);
+    });
+  });
 });
