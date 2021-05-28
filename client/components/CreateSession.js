@@ -12,9 +12,9 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'space-around',
     alignContent: 'center',
+    border: '1px solid red',
     height: '20rem',
     width: '40rem',
-    backgroundColor: 'red',
     margin: '10px',
   },
 }));
