@@ -19,7 +19,7 @@ const setAuth = auth => ({type: SET_AUTH, auth})
 export const me = () => async dispatch => {
   const token = window.localStorage.getItem(TOKEN)
   if (token) {
-    const res = await axios.get('/auth/me', {
+    const res = await axios.get('http://localhost:8080/auth/me', {
       headers: {
         authorization: token
       }
@@ -30,7 +30,7 @@ export const me = () => async dispatch => {
 
 export const authenticate = (username, password, method) => async dispatch => {
   try {
-    const res = await axios.post(`/auth/${method}`, {username, password})
+    const res = await axios.post(`http://localhost:8080/auth/${method}`, {username, password})
     window.localStorage.setItem(TOKEN, res.data.token)
     dispatch(me())
   } catch (authError) {

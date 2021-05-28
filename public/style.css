@@ -6,10 +6,6 @@ a {
   text-decoration: none;
 }
 
-label {
-  display: block;
-}
-
 nav a {
   display: inline-block;
   margin: 1em;
@@ -26,4 +22,12 @@ html {
   height: 100%;
   width: 100%;
   box-sizing: border-box;
+}
+
+#currBlocked {
+  list-style: none;
+}
+
+img {
+  width: 30%;
 }

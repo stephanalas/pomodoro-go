@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Dashboard from './components/Dashboard';
 import { me } from './store';
 import { loadSessions } from './store/sessions';
+import BlockError from './components/BlockError';
 
 /**
  * COMPONENT
@@ -26,6 +27,8 @@ class Routes extends Component {
             <Route path="/home" component={Home} />
             <Route path="/dashboard" component={LastSession} />
             <Redirect to="/home" />
+            {/* <Redirect to="/home" /> */}
+            <Route exact path="/uhoh" component={BlockError} />
           </Switch>
         ) : (
           <Switch>
