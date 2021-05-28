@@ -61,12 +61,20 @@ async function seed() {
     // const randomHour = Math.floor(Math.random()*11 + 1)
     if (randomDay < 10 && randomMonth < 10) {
       each.startTime = `2021-0${randomMonth}-0${randomDay}T00:26:01.161Z`; // 2021-05-27T00:26:01.161Z
+      const start = Date.parse(each.startTime);
+      each.expectedEndTime = start + each.sessionTime * 60000;
     } else if (randomDay < 10 && randomMonth > 10) {
       each.startTime = `2021-${randomMonth}-0${randomDay}T00:26:01.161Z`; // 2021-05-27T00:26:01.161Z
+      const start = Date.parse(each.startTime);
+      each.expectedEndTime = start + each.sessionTime * 60000;
     } else if (randomDay > 10 && randomMonth < 10) {
       each.startTime = `2021-0${randomMonth}-${randomDay}T00:26:01.161Z`;
+      const start = Date.parse(each.startTime);
+      each.expectedEndTime = start + each.sessionTime * 60000;
     } else if (randomDay > 10 && randomMonth > 10) {
       each.startTime = `2021-${randomMonth}-${randomDay}T00:26:01.161Z`;
+      const start = Date.parse(each.startTime);
+      each.expectedEndTime = start + each.sessionTime * 60000;
     }
     await each.save();
   });
