@@ -79,6 +79,13 @@ async function seed() {
     await each.save();
   });
 
+  const last = Session.start({ userId: murphy.id, sessionTime: 45 });
+  last.startTime = `2021-${randomMonth}-${randomDay}T00:26:01.161Z`;
+  const start = Date.parse(last.startTime);
+  last.expectedEndTime = start + last.sessionTime * 60000;
+  last.end({ successful: true });
+  console.log(last);
+
   //console.log(`seeded ${sessions.length} sessions`)
 
   // Creating goals
