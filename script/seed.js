@@ -84,12 +84,11 @@ async function seed() {
     last.startTime = `2021-02-11T00:26:01.161Z`;
     const start = Date.parse(last.startTime);
     last.expectedEndTime = start + last.sessionTime * 60000;
-    console.log(last);
-    last.end({ successful: true });
-    console.log('end', last);
+    const expected = Date.parse(last.expectedEndTime);
+    last.actualEndTime = expected + 5 * 60000;
+    last.successful = true;
     await last.save();
     sessions.push(last);
-    console.log('sessions:', sessions);
   };
 
   endLastSession();
