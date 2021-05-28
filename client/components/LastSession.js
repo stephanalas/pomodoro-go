@@ -12,50 +12,49 @@ import {
   Grid,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+dayjs.extend(localizedFormat);
 
 const useStyles = makeStyles({
   contain: {
     padding: 10,
     minWidth: 100,
-    maxWidth: 500,
+    maxWidth: 300,
     flexGrow: 1,
+  },
+  lsItem: {
+    padding: 8,
   },
 });
 
 const LastSession = () => {
   const classes = useStyles();
+  //useSelector allows this component to access state
   const sessions = useSelector((state) => state.sessions);
 
   let lastSession;
   if (sessions.length) {
     lastSession = sessions[sessions.length - 1];
   }
-  console.log(sessions);
-  let startHour;
-  let startMinute;
-  let expectedEndHour;
-  let expectedEndMinute;
-  let actualEndHour;
-  let actualEndMinute;
+
+  let startTime;
+  let expectedEndTime;
+  let actualEndTime;
+
   if (lastSession) {
-    const startTime = new Date(lastSession.startTime);
-    startHour = startTime.getHours();
-    startMinute = startTime.getMinutes();
-    const expectedEndTime = new Date(lastSession.expectedEndTime);
-    expectedEndHour = expectedEndTime.getHours();
-    console.log(expectedEndHour);
-    expectedEndMinute = expectedEndTime.getMinutes();
-    const actualEndTime = new Date(lastSession.actualEndTime);
-    actualEndHour = actualEndTime.getHours();
-    console.log(actualEndHour);
-    actualEndMinute = actualEndTime.getMinutes();
+    startTime = dayjs(lastSession.startTime).format('LT');
+    expectedEndTime = dayjs(lastSession.expectedEndTime).format('LT');
+    actualEndTime = dayjs(lastSession.actualEndTime).format('LT');
   }
 
   return (
     <Paper className={classes.contain}>
-      <Typography variant="h5">Last Session</Typography>
+      <Typography className={classes.lsItem} variant="h5" color="primary">
+        Last Session
+      </Typography>
       <Grid container>
-        <Grid item xs={6}>
+        <Grid item className={classes.lsItem} xs={6}>
           <Typography variant="caption" color="textSecondary">
             Length
           </Typography>
@@ -63,32 +62,30 @@ const LastSession = () => {
             {lastSession ? `${lastSession.sessionTime}min` : ''}
           </Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item className={classes.lsItem} xs={6}>
           <Typography variant="caption" color="textSecondary">
             Start Time
           </Typography>
-          <Typography variant="h5">
-            {lastSession ? `${startHour}:${startMinute}` : ''}
-          </Typography>
+          <Typography variant="h5">{lastSession ? startTime : ''}</Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item className={classes.lsItem} xs={6}>
           <Typography variant="caption" color="textSecondary">
             Expected End Time
           </Typography>
           <Typography variant="h5">
             {' '}
-            {lastSession ? `${expectedEndHour}:${expectedEndMinute}` : ''}
+            {lastSession ? expectedEndTime : ''}
           </Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item className={classes.lsItem} xs={6}>
           <Typography variant="caption" color="textSecondary">
             Actual End Time
           </Typography>
           <Typography variant="h5">
-            {lastSession ? `${actualEndHour}:${actualEndMinute}` : ''}
+            {lastSession ? actualEndTime : ''}
           </Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item className={classes.lsItem} xs={6}>
           <Typography variant="caption" color="textSecondary">
             Successful
           </Typography>
