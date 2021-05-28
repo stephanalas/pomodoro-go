@@ -13,12 +13,24 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
 
   chrome.storage.local.get(['blocked'], function (local) {
     const { blocked } = local;
+<<<<<<< Updated upstream
     if (Array.isArray(blocked) && blocked.find((domain) => {
       console.log(domain)
       return domain.includes(hostname)
     })) {
       // chrome.tabs.remove(tabId);
       chrome.tabs.update(tabId, {url: 'http://localhost:8080/uhoh'})
+=======
+    if (
+      Array.isArray(blocked) &&
+      blocked.find((domain) => {
+        console.log(domain);
+        return domain.includes(hostname);
+      })
+    ) {
+      // chrome.tabs.remove(tabId);
+      chrome.tabs.update(tabId, { url: 'http://localhost:8080/uhoh' });
+>>>>>>> Stashed changes
     }
   });
 });

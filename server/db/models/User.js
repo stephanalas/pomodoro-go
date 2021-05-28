@@ -1,4 +1,4 @@
-const { UUID, UUIDV4, STRING, INTEGER } = require('sequelize');
+const { UUID, UUIDV4, STRING, INTEGER, BOOLEAN } = require('sequelize');
 const db = require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -18,7 +18,7 @@ const User = db.define('user', {
     allowNull: false,
     validate: {
       notEmpty: true,
-    }
+    },
   },
   email: {
     type: STRING,
@@ -33,6 +33,10 @@ const User = db.define('user', {
     validate: {
       notEmpty: true,
     },
+  },
+  admin: {
+    type: BOOLEAN,
+    defaultValue: false,
   },
 });
 
@@ -66,6 +70,7 @@ User.authenticate = async function ({ username, password }) {
 User.findByToken = async function (token) {
   try {
     const { id } = await jwt.verify(token, process.env.JWT);
+    console.log('!!!User Model!!!', id);
     const user = User.findByPk(id);
     if (!user) {
       throw 'nooo';

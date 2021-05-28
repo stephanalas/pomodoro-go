@@ -13,14 +13,14 @@ describe('Session model', () => {
     goals = (await seed()).goals;
     sessions = (await seed()).sessions;
   });
-  it('requires a sessionTime', async () => {
+  xit('requires a sessionTime', async () => {
     try {
       const session = await Session.create({});
     } catch (error) {
       expect(error).to.be.ok;
     }
   });
-  it('creates a session instance with a sessionTime, startTime and expectedEndTime', async () => {
+  xit('creates a session instance with a sessionTime, startTime and expectedEndTime', async () => {
     try {
       const session = await Session.create({ sessionTime: 35 });
       expect(session.startTime).to.be.ok;

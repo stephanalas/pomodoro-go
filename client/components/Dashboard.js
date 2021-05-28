@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -7,6 +8,12 @@ import {
   MenuItem,
   InputLabel,
 } from '@material-ui/core';
+=======
+import React from 'react';
+import { Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+>>>>>>> Stashed changes
 import LastSession from './LastSession';
 import TotalSessions from './TotalSessions';
 import AverageSession from './AverageSession';
@@ -14,6 +21,7 @@ import DayOfWeekChart from './DayOfWeekChart';
 import HeatMap from './HeatMap';
 
 const Dashboard = () => {
+<<<<<<< Updated upstream
   let sessions = useSelector((state) => state.sessions);
   const [timeFrame, setTimeFrame] = useState('Year');
   const handleChange = (event) => {
@@ -79,6 +87,27 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={6}>
           <HeatMap sessions={sessions} />
+=======
+  return (
+    <div>
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <LastSession />
+        </Grid>
+        <Grid item xs={4}>
+          <TotalSessions />
+        </Grid>
+        <Grid item xs={4}>
+          <AverageSession />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <DayOfWeekChart />
+        </Grid>
+        <Grid item xs={6}>
+          <HeatMap />
+>>>>>>> Stashed changes
         </Grid>
       </Grid>
     </div>
