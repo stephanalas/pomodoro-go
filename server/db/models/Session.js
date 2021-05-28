@@ -46,6 +46,24 @@ Session.start = async function ({ userId, sessionTime, goalId }) {
   return session;
 };
 
+Session.seed = async function (users) {
+  const randomUserIndex = Math.floor(Math.random() * users.length);
+  const sessionTimes = [30, 35, 45, 50, 55, 60];
+  const randomSessionTime =
+    sessionTimes[Math.floor(Math.random() * sessionTimes.length)];
+
+  // const session = await Session.create({
+  //   sessionTime,
+  // });
+  // session.userId = userId;
+  // session.startTime = startTime;
+  // const date = Date.parse(session.startTime);
+  // session.expectedEndTime = date + session.sessionTime * 60000;
+  // session.goalId = goalId;
+  // await session.save();
+  // return session;
+};
+
 /**
  * hooks
  */

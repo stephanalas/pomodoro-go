@@ -6378,6 +6378,57 @@ const Signup = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapSignup, m
 
 /***/ }),
 
+/***/ "./client/components/Dashboard.js":
+/*!****************************************!*\
+  !*** ./client/components/Dashboard.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dayjs/plugin/localizedFormat */ "./node_modules/dayjs/plugin/localizedFormat.js");
+/* harmony import */ var dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _LastSession__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./LastSession */ "./client/components/LastSession.js");
+/* harmony import */ var _TotalSessions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TotalSessions */ "./client/components/TotalSessions.js");
+
+
+
+
+
+
+
+dayjs__WEBPACK_IMPORTED_MODULE_2___default().extend((dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_3___default()));
+
+
+const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_6__.default)({
+  contain: {
+    padding: 10,
+    minWidth: 100,
+    maxWidth: 300,
+    flexGrow: 1
+  },
+  lsItem: {
+    padding: 8
+  }
+});
+
+const Dashboard = () => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_LastSession__WEBPACK_IMPORTED_MODULE_4__.default, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_TotalSessions__WEBPACK_IMPORTED_MODULE_5__.default, null));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Dashboard);
+
+/***/ }),
+
 /***/ "./client/components/Home.js":
 /*!***********************************!*\
   !*** ./client/components/Home.js ***!
@@ -6599,6 +6650,112 @@ const mapDispatch = dispatch => {
 
 /***/ }),
 
+/***/ "./client/components/TotalSessions.js":
+/*!********************************************!*\
+  !*** ./client/components/TotalSessions.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Paper/Paper.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Typography/Typography.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Grid/Grid.js");
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dayjs/plugin/localizedFormat */ "./node_modules/dayjs/plugin/localizedFormat.js");
+/* harmony import */ var dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+
+
+dayjs__WEBPACK_IMPORTED_MODULE_2___default().extend((dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_3___default()));
+const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__.default)({
+  contain: {
+    padding: 10,
+    minWidth: 100,
+    maxWidth: 300,
+    flexGrow: 1
+  },
+  lsItem: {
+    padding: 8
+  }
+});
+
+const TotalSessions = () => {
+  const classes = useStyles(); //useSelector allows this component to access state
+
+  const sessions = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.sessions);
+  let total;
+
+  if (sessions.length) {
+    total = sessions.length;
+  }
+
+  let totalSuccessful = [];
+  let totalFailed = [];
+
+  if (sessions.length) {
+    totalSuccessful = sessions.filter(session => {
+      return session.successful === true;
+    });
+    totalFailed = sessions.filter(session => {
+      return session.successful === false;
+    });
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
+    className: classes.contain
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+    className: classes.lsItem,
+    variant: "h5",
+    color: "primary"
+  }, "Total Sessions"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    container: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    item: true,
+    className: classes.lsItem,
+    xs: 4
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+    variant: "caption",
+    color: "textSecondary"
+  }, "Total Sessions"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+    variant: "h5"
+  }, sessions.length ? sessions.length : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    item: true,
+    className: classes.lsItem,
+    xs: 4
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+    variant: "caption",
+    color: "textSecondary"
+  }, "Successful"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+    variant: "h5"
+  }, sessions.length ? totalSuccessful.length : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
+    item: true,
+    className: classes.lsItem,
+    xs: 4
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+    variant: "caption",
+    color: "textSecondary"
+  }, "Failed"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+    variant: "h5"
+  }, ' ', sessions.length ? totalFailed.length : ''))));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TotalSessions);
+
+/***/ }),
+
 /***/ "./client/history.js":
 /*!***************************!*\
   !*** ./client/history.js ***!
@@ -6666,7 +6823,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _components_AuthForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/AuthForm */ "./client/components/AuthForm.js");
 /* harmony import */ var _components_Home__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Home */ "./client/components/Home.js");
-/* harmony import */ var _components_LastSession__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/LastSession */ "./client/components/LastSession.js");
+/* harmony import */ var _components_Dashboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Dashboard */ "./client/components/Dashboard.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./client/store/index.js");
 /* harmony import */ var _store_sessions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./store/sessions */ "./client/store/sessions.js");
 
@@ -6695,7 +6852,7 @@ class Routes extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       component: _components_Home__WEBPACK_IMPORTED_MODULE_3__.default
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
       path: "/dashboard",
-      component: _components_LastSession__WEBPACK_IMPORTED_MODULE_4__.default
+      component: LastSession
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Redirect, {
       to: "/home"
     })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
@@ -6711,7 +6868,7 @@ class Routes extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
       path: "/dashboard",
       exact: true,
-      component: _components_LastSession__WEBPACK_IMPORTED_MODULE_4__.default
+      component: _components_Dashboard__WEBPACK_IMPORTED_MODULE_4__.default
     })));
   }
 

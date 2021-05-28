@@ -93,6 +93,8 @@ async function seed() {
 
   endLastSession();
 
+  const test = Session.seed(users);
+
   //console.log(`seeded ${sessions.length} sessions`)
 
   // Creating goals
