@@ -35,6 +35,8 @@ const LastSession = () => {
   let startMinute;
   let expectedEndHour;
   let expectedEndMinute;
+  let actualEndHour;
+  let actualEndMinute;
   if (lastSession) {
     const startTime = new Date(lastSession.startTime);
     startHour = startTime.getHours();
@@ -44,9 +46,9 @@ const LastSession = () => {
     console.log(expectedEndHour);
     expectedEndMinute = expectedEndTime.getMinutes();
     const actualEndTime = new Date(lastSession.actualEndTime);
-    // actualEndHour = actualEndTime.getHours();
-    // console.log(actualEndHour);
-    // actualEndMinute = actualEndTime.getMinutes();
+    actualEndHour = actualEndTime.getHours();
+    console.log(actualEndHour);
+    actualEndMinute = actualEndTime.getMinutes();
   }
 
   return (
@@ -82,13 +84,17 @@ const LastSession = () => {
           <Typography variant="caption" color="textSecondary">
             Actual End Time
           </Typography>
-          <Typography variant="h5">ToDo</Typography>
+          <Typography variant="h5">
+            {lastSession ? `${actualEndHour}:${actualEndMinute}` : ''}
+          </Typography>
         </Grid>
         <Grid item xs={6}>
           <Typography variant="caption" color="textSecondary">
             Successful
           </Typography>
-          <Typography variant="h5">ToDo</Typography>
+          <Typography variant="h5">
+            {lastSession ? (lastSession.successful ? 'Yes' : 'No') : ''}
+          </Typography>
         </Grid>
       </Grid>
     </Paper>

@@ -6465,6 +6465,8 @@ const LastSession = () => {
   let startMinute;
   let expectedEndHour;
   let expectedEndMinute;
+  let actualEndHour;
+  let actualEndMinute;
 
   if (lastSession) {
     const startTime = new Date(lastSession.startTime);
@@ -6474,9 +6476,10 @@ const LastSession = () => {
     expectedEndHour = expectedEndTime.getHours();
     console.log(expectedEndHour);
     expectedEndMinute = expectedEndTime.getMinutes();
-    const actualEndTime = new Date(lastSession.actualEndTime); // actualEndHour = actualEndTime.getHours();
-    // console.log(actualEndHour);
-    // actualEndMinute = actualEndTime.getMinutes();
+    const actualEndTime = new Date(lastSession.actualEndTime);
+    actualEndHour = actualEndTime.getHours();
+    console.log(actualEndHour);
+    actualEndMinute = actualEndTime.getMinutes();
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default, {
@@ -6517,7 +6520,7 @@ const LastSession = () => {
     color: "textSecondary"
   }, "Actual End Time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     variant: "h5"
-  }, "ToDo")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
+  }, lastSession ? `${actualEndHour}:${actualEndMinute}` : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
     item: true,
     xs: 6
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
@@ -6525,7 +6528,7 @@ const LastSession = () => {
     color: "textSecondary"
   }, "Successful"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     variant: "h5"
-  }, "ToDo"))));
+  }, lastSession ? lastSession.successful ? 'Yes' : 'No' : ''))));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LastSession);

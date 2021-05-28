@@ -79,12 +79,20 @@ async function seed() {
     await each.save();
   });
 
-  const last = Session.start({ userId: murphy.id, sessionTime: 45 });
-  last.startTime = `2021-${randomMonth}-${randomDay}T00:26:01.161Z`;
-  const start = Date.parse(last.startTime);
-  last.expectedEndTime = start + last.sessionTime * 60000;
-  last.end({ successful: true });
-  console.log(last);
+  const endLastSession = async () => {
+    const last = await Session.start({ userId: murphy.id, sessionTime: 45 });
+    last.startTime = `2021-02-11T00:26:01.161Z`;
+    const start = Date.parse(last.startTime);
+    last.expectedEndTime = start + last.sessionTime * 60000;
+    console.log(last);
+    last.end({ successful: true });
+    console.log('end', last);
+    await last.save();
+    sessions.push(last);
+    console.log('sessions:', sessions);
+  };
+
+  endLastSession();
 
   //console.log(`seeded ${sessions.length} sessions`)
 
