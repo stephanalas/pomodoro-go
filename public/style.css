@@ -7,7 +7,7 @@ a {
 }
 
 nav a {
-  display: inline-block;
+  display: inline;
   margin: 1em;
 }
 
@@ -25,4 +25,7 @@ html {
 
 img {
   width: 30%;
+}
+.auth {
+  display: inline;
 }
