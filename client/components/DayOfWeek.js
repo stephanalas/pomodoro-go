@@ -1,39 +1,73 @@
 import React, { useEffect } from 'react';
-import Chart from 'chart.js/auto';
+import { useSelector } from 'react-redux';
+import {
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  Bar,
+  ResponsiveContainer,
+} from 'recharts';
+
+const data = [
+  {
+    name: 'Page A',
+    uv: 4000,
+    pv: 2400,
+  },
+  {
+    name: 'Page B',
+    uv: 3000,
+    pv: 1398,
+  },
+  {
+    name: 'Page C',
+    uv: 2000,
+    pv: 9800,
+  },
+  {
+    name: 'Page D',
+    uv: 2780,
+    pv: 3908,
+  },
+  {
+    name: 'Page E',
+    uv: 1890,
+    pv: 4800,
+  },
+  {
+    name: 'Page F',
+    uv: 2390,
+    pv: 3800,
+  },
+  {
+    name: 'Page G',
+    uv: 3490,
+    pv: 4300,
+  },
+];
 
 const DayOfWeek = () => {
-  // Similar to componentDidMount and componentDidUpdate:
-  useEffect(() => {
-    // Update the document title using the browser API
-    const ctx = document.getElementById('myChart');
-    new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [
-          {
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-              'Red',
-              'Blue',
-              'Yellow',
-              'Green',
-              'Purple',
-              'Orange',
-            ],
-            borderColor: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            borderWidth: 1,
-          },
-        ],
-      },
-    });
+  const sessions = useSelector((state) => state.sessions);
+  const sessionStartTimes = sessions.map((session) => {
+    return session.startTime;
   });
+  console.log(sessionStartTimes);
 
   return (
-    <div className="App">
-      <canvas id="myChart" width="400" height="400" />
-    </div>
+    // <ResponsiveContainer width="100%" height="100%">
+    <BarChart width={730} height={250} data={data}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Bar dataKey="pv" fill="#8884d8" />
+      <Bar dataKey="uv" fill="#82ca9d" />
+    </BarChart>
+    // </ResponsiveContainer>
   );
 };
 
