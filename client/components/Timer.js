@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
+import dayjs from 'dayjs';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
@@ -26,12 +27,6 @@ const Timer = () => {
   const [countDown, setCountDown] = useState(false);
   const classes = useStyles();
 
-  const formatNumber = (number) => {
-    if ((number + '').length === 1) {
-      return `0${number}`;
-    } else return number + '';
-  };
-
   // add minutes and seconds
   const incrementMinutes = () => {
     setMinutes(minutes + 1);
@@ -49,36 +44,55 @@ const Timer = () => {
   const handleTime = () => {
     const timerSeconds = seconds * 1000;
     const timerMinutes = minutes * 60000;
+
     setSessionTime(timerMinutes + timerSeconds);
   };
-  const handlePlay = () => {
+  const handlePlay = (ev) => {
     // data for session model
     const expectedEndTime = new Date(new Date().setMilliseconds(sessionTime));
 
     setExpected(expectedEndTime);
-
     // start countdown
     setCountDown(true);
-    nextFunc();
+    toggleTimer(ev);
   };
-  const nextFunc = () => {
-    if (sessionTime && countDown) {
-      const timer = setInterval(() => {
+  const handlePause = (ev) => {
+    setCountDown(false);
+    toggleTimer(ev);
+  };
+  const msToHMS = (ms) => {
+    let seconds = ms / 1000;
+
+    let hours = parseInt(seconds / 3600);
+    seconds = seconds % 3600;
+
+    let minutes = parseInt(seconds / 60);
+    seconds = seconds % 60;
+
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    return hours + ':' + minutes + ':' + seconds;
+  };
+
+  const toggleTimer = (ev) => {
+    const button = ev.target.innerText;
+    if (button === 'PLAY') {
+      window.timer = setInterval(() => {
         setSessionTime((sessionTime) => sessionTime - 1000);
       }, 1000);
-      return () => {
-        clearInterval(timer);
-      };
+    }
+    if (button === 'STOP' || button === 'PAUSE') {
+      console.log('im here');
+      clearInterval(timer);
     }
   };
   return (
     <section className={classes.timerContainer}>
       <div className={classes.timer}>
         {sessionTime ? (
-          <div>
-            {formatNumber(new Date(sessionTime).getMinutes())} :{' '}
-            {formatNumber(new Date(sessionTime).getSeconds())}
-          </div>
+          <div>{msToHMS(sessionTime)}</div>
         ) : (
           <div>
             <div id="minutes">
@@ -95,8 +109,12 @@ const Timer = () => {
         )}
       </div>
       <div className={classes.buttons}>
-        <Button onClick={handlePlay}>Play</Button>
-        <Button>Stop</Button>
+        {countDown ? (
+          <Button onClick={handlePause}>pause</Button>
+        ) : (
+          <Button onClick={handlePlay}>Play</Button>
+        )}
+        {sessionTime ? <Button onClick={toggleTimer}>stop</Button> : null}
         <Button onClick={handleTime}>Set Time</Button>
       </div>
     </section>
