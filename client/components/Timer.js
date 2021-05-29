@@ -7,7 +7,7 @@ const useStyles = makeStyles(() => ({
     border: '1px solid black',
     alignSelf: 'center',
     height: '100%',
-    width: '100%',
+    width: '50%',
     borderRadius: '30px',
     display: 'flex',
     flexFlow: 'column',
@@ -112,7 +112,9 @@ const Timer = () => {
         {countDown ? (
           <Button onClick={handlePause}>pause</Button>
         ) : (
-          <Button onClick={handlePlay}>Play</Button>
+          <Button onClick={handlePlay} disabled={sessionTime ? false : true}>
+            Play
+          </Button>
         )}
         {sessionTime ? <Button onClick={toggleTimer}>stop</Button> : null}
         <Button onClick={handleTime}>Set Time</Button>
