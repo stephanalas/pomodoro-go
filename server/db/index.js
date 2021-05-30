@@ -10,13 +10,14 @@ const BlackList = require('./models/BlackList');
 const Task = require('./models/Task');
 
 Site.belongsToMany(User, {
-  through: BlackList
+  through: BlackList,
 });
 User.belongsToMany(Site, { through: BlackList });
 //associations could go here!
 Session.belongsTo(User);
 User.hasMany(Session);
 Session.belongsTo(Goal);
+Task.belongsTo(Session);
 Task.belongsTo(Goal);
 Goal.hasMany(Task);
 
