@@ -8,15 +8,15 @@ const useStyles = makeStyles(() => ({
     alignContent: 'center',
     justifyContent: 'center',
     border: '1px solid red',
+    height: '100%',
   },
   paper: {
     display: 'flex',
     justifyContent: 'space-around',
     alignContent: 'center',
     border: '1px solid red',
-    height: '20rem',
-    width: '40rem',
     margin: '10px',
+    height: '100%',
   },
 }));
 const CreateSession = () => {

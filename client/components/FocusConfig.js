@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import TimerInput from './TimerInput';
 import TaskList from './TaskList';
+import CreateTask from './CreateTask';
 
 const useStyles = makeStyles(() => {
   return {
@@ -34,12 +35,21 @@ const useStyles = makeStyles(() => {
     gridContainer: {
       margin: '0',
       display: 'flex',
-      // justifyContent: 'center',
+      justifyContent: 'center',
+      height: '100%',
     },
     inputContainer: {
       display: 'flex',
       flexFlow: 'row',
       justifyContent: 'space-around',
+    },
+    taskArea: {
+      height: '100%',
+      display: 'flex',
+      flexFlow: 'column',
+    },
+    taskList: {
+      height: '100%',
     },
   };
 });
@@ -72,9 +82,9 @@ const FocusConfig = () => {
             <TimerInput label={label[0]} />
           ))}
         </Grid>
-        <Grid container>
-          <Grid item>Add Tasks</Grid>
-          <Grid item>
+        <Grid container className={classes.taskArea}>
+          <CreateTask />
+          <Grid item xs={12} className={classes.taskList}>
             <TaskList />
           </Grid>
         </Grid>

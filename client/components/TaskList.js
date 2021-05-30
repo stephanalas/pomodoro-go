@@ -1,10 +1,16 @@
-import React from 'React';
-import { makeStyles } from '@material-ui/core';
+import React, { useState } from 'react';
+import { makeStyles, List } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({}));
+const useStyles = makeStyles(() => ({
+  paper: {
+    border: 'solid 1px black',
+    height: '50%',
+  },
+}));
 
 const TaskList = () => {
-  return <div>Hello</div>;
+  const classes = useStyles();
+  return <List className={classes.paper}></List>;
 };
 
 export default TaskList;

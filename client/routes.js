@@ -4,7 +4,6 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import CreateSession from './components/CreateSession';
 import Home from './components/Home';
-import Timer from './components/Timer';
 import { me } from './store';
 
 /**
@@ -19,7 +18,7 @@ class Routes extends Component {
     const { isLoggedIn } = this.props;
 
     return (
-      <div>
+      <div style={{ height: '100%' }}>
         {isLoggedIn ? (
           <Switch>
             <Route path="/home" component={Home} />
