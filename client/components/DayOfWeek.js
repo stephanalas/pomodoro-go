@@ -1,73 +1,33 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import {
-  BarChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  Bar,
-  ResponsiveContainer,
-} from 'recharts';
+import { Typography, Paper, Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import DayOfWeekChart from './DayOfWeekChart';
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
+const useStyles = makeStyles({
+  contain: {
+    padding: 10,
+    minWidth: 500,
+    minHeight: 500,
+    flexGrow: 1,
   },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
+  lsItem: {
+    padding: 8,
   },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-  },
-];
+});
 
 const DayOfWeek = () => {
+  const classes = useStyles();
+  //useSelector allows this component to access state
   const sessions = useSelector((state) => state.sessions);
-  const sessionStartTimes = sessions.map((session) => {
-    return session.startTime;
-  });
-  console.log(sessionStartTimes);
 
   return (
-    // <ResponsiveContainer width="100%" height="100%">
-    <BarChart width={730} height={250} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="pv" fill="#8884d8" />
-      <Bar dataKey="uv" fill="#82ca9d" />
-    </BarChart>
-    // </ResponsiveContainer>
+    <Paper className={classes.contain}>
+      {/* <Typography className={classes.lsItem} variant="h5" color="primary">
+        Day of Week
+      </Typography> */}
+      <DayOfWeekChart />
+    </Paper>
   );
 };
 
