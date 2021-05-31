@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
     height: 'max-content',
   },
 }));
-const CreateTask = () => {
+const CreateTask = (props) => {
   const classes = useStyles();
   return (
     <div className={classes.container}>
@@ -19,8 +19,11 @@ const CreateTask = () => {
         className={classes.input}
         placeholder="Create a task"
         variant="outlined"
+        disabled={props.goal ? false : true}
       />
-      <Button className={classes.button}>Add Task</Button>
+      <Button className={classes.button} disabled={props.goal ? false : true}>
+        Add Task
+      </Button>
     </div>
   );
 };

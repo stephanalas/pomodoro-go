@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
-import dayjs from 'dayjs';
-import TimeDisplay from './TimeDisplay';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
@@ -38,23 +36,20 @@ const Timer = (props) => {
     setSessionTime,
     setExpected,
   } = props;
-  const handleTime = () => {
-    const timerSeconds = seconds * 1000;
-    const timerMinutes = minutes * 60000;
-    const timerHours = hours * 60000 * 60;
-
-    setSessionTime(timerHours + timerMinutes + timerSeconds);
-  };
   const handlePlay = (ev) => {
+    // handlePlay 'starts' the session but does not create the session.
+    // the session gets created when a goal is selected. Then a user will be able to input the session time and create task to complete
+    // handlePlay would just update the expectedEndTime and startTime and should enable the block site feature
+
     // data for session model
     const expectedEndTime = new Date(new Date().setMilliseconds(sessionTime));
-    console.log(expectedEndTime);
     setExpected(expectedEndTime);
     // start countdown
     setCountDown(true);
     toggleTimer(ev);
   };
   const handlePause = (ev) => {
+    // handlePause should
     setCountDown(false);
     toggleTimer(ev);
   };
@@ -89,21 +84,6 @@ const Timer = (props) => {
   return (
     <section className={classes.timerContainer}>
       <div className={classes.timer}>
-        {/* {props.sessionTime ? (
-          <div>{msToHMS(props.sessionTime)}</div>
-        ) : (
-          <div className={classes.TimeDisplay}>
-            {[
-              [hours, setHours, 'Hours'],
-              [minutes, setMinutes, 'Minutes'],
-              [seconds, setSeconds, 'Seconds'],
-            ].map((section) => (
-              <TimeDisplay
-                time={section[0]}
-                setTime={section[1]}
-                label={section[2]}
-              />
-            ))} */}
         <div>{msToHMS(props.sessionTime)}</div>
       </div>
       <div className={classes.buttons}>
@@ -115,7 +95,6 @@ const Timer = (props) => {
           </Button>
         )}
         {sessionTime ? <Button onClick={toggleTimer}>stop</Button> : null}
-        {/* <Button onClick={handleTime}>Set Time</Button> */}
       </div>
     </section>
   );

@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Grid,
-  Input,
-  makeStyles,
-  Paper,
-  Typography,
-  TextField,
-  Select,
-  MenuItem,
-} from '@material-ui/core';
+import { Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import TimerInput from './TimerInput';
 import TaskList from './TaskList';
 import CreateTask from './CreateTask';
@@ -79,11 +70,12 @@ const FocusConfig = (props) => {
               label={label[0]}
               sessionTime={props.sessionTime}
               setSessionTime={props.setSessionTime}
+              goal={goal}
             />
           ))}
         </Grid>
         <Grid container className={classes.taskArea}>
-          <CreateTask />
+          <CreateTask goal={goal} />
           <Grid item xs={12} className={classes.taskList}>
             <TaskList />
           </Grid>

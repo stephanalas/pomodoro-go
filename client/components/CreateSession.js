@@ -21,19 +21,22 @@ const useStyles = makeStyles(() => ({
 }));
 const CreateSession = () => {
   const classes = useStyles();
+
   const [sessionTime, setSessionTime] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [expectedEndTime, setExpected] = useState({});
   const [goal, setGoal] = useState('');
-  const handleTime = () => {
-    const timerSeconds = seconds * 1000;
-    const timerMinutes = minutes * 60000;
-    const timerHours = hours * 60000 * 60;
 
-    setSessionTime(timerHours + timerMinutes + timerSeconds);
-  };
+  // might need this function later on
+  // const handleTime = () => {
+  //   const timerSeconds = seconds * 1000;
+  //   const timerMinutes = minutes * 60000;
+  //   const timerHours = hours * 60000 * 60;
+
+  //   setSessionTime(timerHours + timerMinutes + timerSeconds);
+  // };
   return (
     <Container className={classes.main}>
       <Paper className={classes.paper}>
@@ -47,7 +50,7 @@ const CreateSession = () => {
           setMinutes={setMinutes}
           setSeconds={setSeconds}
           setExpected={setExpected}
-          handleTime={handleTime}
+          // handleTime={handleTime}
         />
         <FocusConfig
           goal={goal}

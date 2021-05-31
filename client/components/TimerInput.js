@@ -9,10 +9,11 @@ const useStyles = makeStyles(() => ({
 const TimerInput = (props) => {
   const classes = useStyles();
   const [inputError, setInputError] = useState(false);
+
   const hasError = (ev) => {
     setInputError(false);
+    //checking for errors
     const input = parseInt(ev.target.value);
-    console.log(input);
     if (input + '' === 'NaN') return true;
 
     const hasChar = ev.target.value
@@ -24,13 +25,7 @@ const TimerInput = (props) => {
     }
     return input > 60 || input < 0 || hasChar ? true : false;
   };
-  // const getTime = () => {
-  //   if (props.label.toLowerCase() === 'hours') {
-  //     return props.sessionTime / 3600000;
-  //   } else if (props.label.toLowerCase() === 'minutes') {
-  //     return props.sessionTime / 60000;
-  //   } else return props.sessionTime / 1000;
-  // };
+
   const handleChange = (ev) => {
     if (hasError(ev)) {
       setInputError(true);
@@ -56,6 +51,7 @@ const TimerInput = (props) => {
         error={inputError ? true : false}
         helperText={inputError ? 'input error' : null}
         onChange={handleChange}
+        disabled={props.goal ? false : true}
       ></TextField>
     </Grid>
   );
