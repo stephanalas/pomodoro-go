@@ -4,7 +4,13 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import CreateSession from './components/CreateSession';
 import Home from './components/Home';
+<<<<<<< HEAD
 import { me } from './store';
+=======
+import Dashboard from './components/Dashboard';
+import { me } from './store';
+import { loadSessions } from './store/sessions';
+>>>>>>> main
 
 /**
  * COMPONENT
@@ -22,14 +28,19 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path="/home" component={Home} />
+            <Route path="/dashboard" component={LastSession} />
             <Redirect to="/home" />
           </Switch>
         ) : (
           <Switch>
             <Route path="/" exact component={Login} />
+<<<<<<< HEAD
             <Route path="/test" exact component={CreateSession} />
+=======
+>>>>>>> main
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+            <Route path="/dashboard" exact component={Dashboard} />
           </Switch>
         )}
       </div>
@@ -52,6 +63,10 @@ const mapDispatch = (dispatch) => {
   return {
     loadInitialData() {
       dispatch(me());
+<<<<<<< HEAD
+=======
+      dispatch(loadSessions());
+>>>>>>> main
     },
   };
 };

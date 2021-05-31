@@ -21,5 +21,22 @@ describe('User routes', () => {
       expect(res.body).to.be.an('array');
       expect(res.body.length).to.equal(2);
     })
+
+    it('only returns id, username and email', async () => {
+      const res = await request(app)
+        .get('/api/users')
+        .expect(200)
+
+      expect(res.body[0]).to.not.have.property('password');
+    })
+
+    it('include site and session models', async () => {
+      const res = await request(app)
+        .get('/api/users')
+        .expect(200)
+
+      expect(res.body[0]).to.have.property('sessions');
+      expect(res.body[0]).to.have.property('sites');
+    })
   }) // end describe('/api/users')
 }) // end describe('User routes')

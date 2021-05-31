@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Session, Goal, Task },
+  models: { User, Session, Goal, Site, BlackList, Task },
 } = require('../server/db');
 
 /**
@@ -26,26 +26,76 @@ async function seed() {
   const cody = users[0];
   const murphy = users[1];
 
-  // console.log(`seeded ${users.length} users`);
+  //console.log(`seeded ${users.length} users`);
 
-  const sessions = await Promise.all([
-    Session.start({ userId: cody.id, sessionTime: 40 }),
-    Session.start({ userId: murphy.id, sessionTime: 50 }),
-    Session.start({ userId: murphy.id, sessionTime: 45 }),
-  ]);
-
+  // Creating goals
   const goals = await Promise.all([
-    Goal.create({ description: 'Define sequelize models.' }),
-    Goal.create({ description: 'Write express routes.' }),
-    Goal.create({ description: 'Create redux store' }),
+    Goal.create({ description: 'Working' }),
+    Goal.create({ description: 'Studying' }),
+    Goal.create({ description: 'Reading' }),
+    Goal.create({ description: 'Meditating' }),
   ]);
+
+  //Creating sessions
+  const sessionSeeds = [];
+
+  for (let i = 0; i < 30; i++) {
+    sessionSeeds.push(Session.seed(users, goals));
+  }
+
+  const sessions = await Promise.all(sessionSeeds);
+  // console.log(`seeded ${sessions.length} sessions`);
+
   const tasks = await Promise.all([
     Task.create({ name: 'User model' }),
     Task.create({ name: 'All Users route' }),
     Task.create({ name: 'Single User route' }),
   ]);
-  // console.log(`seeded successfully`);
 
+  //console.log(`seeded ${goals.length} general goals`)
+
+  // Creating sites
+  const sites = await Promise.all([
+    Site.create({ siteUrl: 'https://twitter.com/', category: 'Social Media' }),
+    Site.create({
+      siteUrl: 'https://www.instagram.com/',
+      category: 'Social Media',
+    }),
+    Site.create({
+      siteUrl: 'https://www.facebook.com/',
+      category: 'Social Media',
+    }),
+    Site.create({
+      siteUrl: 'https://www.netflix.com/',
+      category: 'Entertainment',
+    }),
+    Site.create({
+      siteUrl: 'https://www.hulu.com/',
+      category: 'Entertainment',
+    }),
+  ]);
+
+  const twitter = sites[0];
+  const instagram = sites[1];
+  const facebook = sites[2];
+  const netflix = sites[3];
+  const hulu = sites[4];
+
+  // Creating site and user associations
+  const blockedSites = await Promise.all([
+    BlackList.create({ siteId: twitter.id, userId: cody.id }),
+    BlackList.create({ siteId: twitter.id, userId: murphy.id }),
+    BlackList.create({ siteId: instagram.id, userId: cody.id }),
+    BlackList.create({ siteId: facebook.id, userId: murphy.id }),
+    BlackList.create({ siteId: netflix.id, userId: murphy.id }),
+    BlackList.create({ siteId: hulu.id, userId: murphy.id }),
+  ]);
+
+  //console.log(`seeded ${blockedSites.length} blacklisted sites`)
+
+  // Creating some tasks
+
+  //console.log(`seeded everything successfully`);
   return {
     users: {
       cody: cody,
@@ -55,6 +105,8 @@ async function seed() {
       session0: sessions[0],
       session1: sessions[1],
       session2: sessions[2],
+      session3: sessions[3],
+      session4: sessions[4],
     },
     goals: {
       goal0: goals[0],
@@ -65,6 +117,13 @@ async function seed() {
       task0: tasks[0],
       task1: tasks[1],
       task2: tasks[2],
+    },
+    sites: {
+      twitter,
+      instagram,
+      facebook,
+      netflix,
+      hulu,
     },
   };
 }

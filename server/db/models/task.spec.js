@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const {
   db,
-  models: { Task, Goal },
+  models: { Task, Goal, Session },
 } = require('../index');
 const seed = require('../../../script/seed');
 
@@ -34,5 +34,12 @@ describe('Task model', () => {
     task.goalId = goal.id;
     await task.save();
     expect(task.goalId).to.equal(goal.id);
+  });
+  it('user can specify a task for a new session', async () => {
+    const task = await Task.create({ name: 'make Dashboard component' });
+    const session = await Session.create({ sessionTime: 40 });
+    task.sessionId = session.id;
+    await task.save();
+    expect(task.sessionId).to.equal(session.id);
   });
 });

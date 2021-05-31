@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const {
   db,
-  models: { Site, Blacklist, User },
+  models: { Site, BlackList, User },
 } = require('../index');
 
 describe('Blacklist Model', function () {
@@ -31,7 +31,7 @@ describe('Blacklist Model', function () {
         siteUrl: 'https://www.instagram.com/',
         category: 'social media',
       });
-      const blacklist = await Blacklist.create({
+      const blackListItem = await BlackList.create({
         siteId: site2.id,
         userId: user1.id,
       });
@@ -41,7 +41,8 @@ describe('Blacklist Model', function () {
   });
 
   it('Blacklist should return an array', async () => {
-    const sites = await Blacklist.findAll();
+    const sites = await BlackList.findAll();
+
     expect(sites).to.be.a('array');
     expect(sites.length).to.be.greaterThan(0);
   });
