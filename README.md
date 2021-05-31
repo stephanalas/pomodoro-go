@@ -1,6 +1,6 @@
 # FS-App-Template
 
-## Test
+## Test husky installation
 ## Setup
 
 To use this as boilerplate, you'll need to take the following steps:
