@@ -115,7 +115,7 @@ const Timer = (props) => {
           </Button>
         )}
         {sessionTime ? <Button onClick={toggleTimer}>stop</Button> : null}
-        <Button onClick={handleTime}>Set Time</Button>
+        {/* <Button onClick={handleTime}>Set Time</Button> */}
       </div>
     </section>
   );
