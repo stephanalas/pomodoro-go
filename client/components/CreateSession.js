@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, Container, Paper } from '@material-ui/core';
 import Timer from './Timer';
 import FocusConfig from './FocusConfig';
@@ -21,10 +21,26 @@ const useStyles = makeStyles(() => ({
 }));
 const CreateSession = () => {
   const classes = useStyles();
+  const [sessionTime, setSessionTime] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [expectedEndTime, setExpected] = useState({});
+
   return (
     <Container className={classes.main}>
       <Paper className={classes.paper}>
-        <Timer />
+        <Timer
+          sessionTime={sessionTime}
+          setSessionTime={setSessionTime}
+          hours={hours}
+          minutes={minutes}
+          seconds={seconds}
+          setHours={setHours}
+          setMinutes={setMinutes}
+          setSeconds={setSeconds}
+          setExpected={setExpected}
+        />
         <FocusConfig />
       </Paper>
     </Container>

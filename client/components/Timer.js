@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
 import dayjs from 'dayjs';
+import TimeDisplay from './TimeDisplay';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
     border: '1px solid black',
-    alignSelf: 'center',
     height: '100%',
     width: '50%',
     borderRadius: '30px',
@@ -15,18 +15,29 @@ const useStyles = makeStyles(() => ({
     alignContent: 'center',
   },
   timer: {
-    alignSelf: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    width: '50%',
+  },
+  TimeDisplay: {
+    display: 'flex',
   },
 }));
-const Timer = () => {
+const Timer = (props) => {
   // the value for timer will come from the timer config component
-  const [sessionTime, setSessionTime] = useState(0);
-  const [expectedEndTime, setExpected] = useState({});
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
   const [countDown, setCountDown] = useState(false);
   const classes = useStyles();
-
+  const {
+    setHours,
+    setMinutes,
+    setSeconds,
+    seconds,
+    minutes,
+    hours,
+    sessionTime,
+    setSessionTime,
+    setExpected,
+  } = props;
   // add minutes and seconds
   const incrementMinutes = () => {
     setMinutes(minutes + 1);
@@ -44,8 +55,9 @@ const Timer = () => {
   const handleTime = () => {
     const timerSeconds = seconds * 1000;
     const timerMinutes = minutes * 60000;
+    const timerHours = hours * 60000 * 60;
 
-    setSessionTime(timerMinutes + timerSeconds);
+    setSessionTime(timerHours + timerMinutes + timerSeconds);
   };
   const handlePlay = (ev) => {
     // data for session model
@@ -91,11 +103,11 @@ const Timer = () => {
   return (
     <section className={classes.timerContainer}>
       <div className={classes.timer}>
-        {sessionTime ? (
-          <div>{msToHMS(sessionTime)}</div>
+        {props.sessionTime ? (
+          <div>{msToHMS(props.sessionTime)}</div>
         ) : (
-          <div>
-            <div id="minutes">
+          <div className={classes.TimeDisplay}>
+            {/* <div id="minutes">
               <Button onClick={incrementMinutes}>+</Button>
               {minutes}
               <Button onClick={decrementMinutes}>-</Button>
@@ -104,7 +116,18 @@ const Timer = () => {
               <Button onClick={incrementSeconds}>+</Button>
               {seconds}
               <Button onClick={decrementSeconds}>-</Button>
-            </div>
+            </div> */}
+            {[
+              [hours, setHours, 'Hours'],
+              [minutes, setMinutes, 'Minutes'],
+              [seconds, setSeconds, 'Seconds'],
+            ].map((section) => (
+              <TimeDisplay
+                time={section[0]}
+                setTime={section[1]}
+                label={section[2]}
+              />
+            ))}
           </div>
         )}
       </div>
