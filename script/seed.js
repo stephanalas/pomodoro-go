@@ -28,73 +28,6 @@ async function seed() {
 
   //console.log(`seeded ${users.length} users`);
 
-  //Creating sessions
-  const sessions = await Promise.all([
-    Session.start({ userId: cody.id, sessionTime: 40 }),
-    Session.start({ userId: murphy.id, sessionTime: 50 }),
-    Session.start({ userId: murphy.id, sessionTime: 45 }),
-    Session.start({ userId: cody.id, sessionTime: 30 }),
-    Session.start({ userId: cody.id, sessionTime: 40 }),
-    Session.start({ userId: cody.id, sessionTime: 40 }),
-    Session.start({ userId: cody.id, sessionTime: 45 }),
-    Session.start({ userId: cody.id, sessionTime: 40 }),
-    Session.start({ userId: cody.id, sessionTime: 60 }),
-    Session.start({ userId: cody.id, sessionTime: 30 }),
-    Session.start({ userId: cody.id, sessionTime: 45 }),
-    Session.start({ userId: murphy.id, sessionTime: 60 }),
-    Session.start({ userId: murphy.id, sessionTime: 120 }),
-    Session.start({ userId: murphy.id, sessionTime: 35 }),
-    Session.start({ userId: murphy.id, sessionTime: 45 }),
-    Session.start({ userId: murphy.id, sessionTime: 50 }),
-    Session.start({ userId: murphy.id, sessionTime: 50 }),
-    Session.start({ userId: murphy.id, sessionTime: 40 }),
-    Session.start({ userId: murphy.id, sessionTime: 60 }),
-    Session.start({ userId: murphy.id, sessionTime: 50 }),
-    Session.start({ userId: murphy.id, sessionTime: 20 }),
-    Session.start({ userId: murphy.id, sessionTime: 45 }),
-    Session.start({ userId: murphy.id, sessionTime: 50 }),
-  ]);
-
-  sessions.map(async (each) => {
-    const randomDay = Math.floor(Math.random() * 30 + 1);
-    const randomMonth = Math.floor(Math.random() * 11 + 1);
-    // const randomHour = Math.floor(Math.random()*11 + 1)
-    if (randomDay < 10 && randomMonth < 10) {
-      each.startTime = `2021-0${randomMonth}-0${randomDay}T00:26:01.161Z`; // 2021-05-27T00:26:01.161Z
-      const start = Date.parse(each.startTime);
-      each.expectedEndTime = start + each.sessionTime * 60000;
-    } else if (randomDay < 10 && randomMonth > 10) {
-      each.startTime = `2021-${randomMonth}-0${randomDay}T00:26:01.161Z`; // 2021-05-27T00:26:01.161Z
-      const start = Date.parse(each.startTime);
-      each.expectedEndTime = start + each.sessionTime * 60000;
-    } else if (randomDay > 10 && randomMonth < 10) {
-      each.startTime = `2021-0${randomMonth}-${randomDay}T00:26:01.161Z`;
-      const start = Date.parse(each.startTime);
-      each.expectedEndTime = start + each.sessionTime * 60000;
-    } else if (randomDay > 10 && randomMonth > 10) {
-      each.startTime = `2021-${randomMonth}-${randomDay}T00:26:01.161Z`;
-      const start = Date.parse(each.startTime);
-      each.expectedEndTime = start + each.sessionTime * 60000;
-    }
-    await each.save();
-  });
-
-  const endLastSession = async () => {
-    const last = await Session.start({ userId: murphy.id, sessionTime: 45 });
-    last.startTime = `2021-02-11T00:26:01.161Z`;
-    const start = Date.parse(last.startTime);
-    last.expectedEndTime = start + last.sessionTime * 60000;
-    const expected = Date.parse(last.expectedEndTime);
-    last.actualEndTime = expected + 5 * 60000;
-    last.successful = true;
-    await last.save();
-    sessions.push(last);
-  };
-
-  endLastSession();
-
-  //console.log(`seeded ${sessions.length} sessions`)
-
   // Creating goals
   const goals = await Promise.all([
     Goal.create({ description: 'Working' }),
@@ -102,6 +35,17 @@ async function seed() {
     Goal.create({ description: 'Reading' }),
     Goal.create({ description: 'Meditating' }),
   ]);
+
+  //Creating sessions
+  const sessionSeeds = [];
+
+  for (let i = 0; i < 30; i++) {
+    sessionSeeds.push(Session.seed(users, goals));
+  }
+
+  const sessions = await Promise.all(sessionSeeds);
+  // console.log(`seeded ${sessions.length} sessions`);
+
   const tasks = await Promise.all([
     Task.create({ name: 'User model' }),
     Task.create({ name: 'All Users route' }),
