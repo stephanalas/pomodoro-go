@@ -12,6 +12,7 @@ import {
 import TimerInput from './TimerInput';
 import TaskList from './TaskList';
 import CreateTask from './CreateTask';
+import GoalSelector from './GoalSelector';
 
 const useStyles = makeStyles(() => {
   return {
@@ -54,7 +55,9 @@ const useStyles = makeStyles(() => {
   };
 });
 
-const FocusConfig = () => {
+const FocusConfig = (props) => {
+  const { setGoal, goal } = props;
+
   const classes = useStyles();
   return (
     <Paper className={classes.container}>
@@ -69,17 +72,14 @@ const FocusConfig = () => {
         <Grid item>
           <Typography align="center">Create Session</Typography>
         </Grid>
-        <Grid container item className={classes.goal}>
-          <Typography>Select Goal</Typography>
-          <Select>
-            <MenuItem>Study</MenuItem>
-            <MenuItem>Meditate</MenuItem>
-            <MenuItem>Work</MenuItem>
-          </Select>
-        </Grid>
+        <GoalSelector className={classes.goal} setGoal={setGoal} goal={goal} />
         <Grid item xs={12} className={classes.inputContainer}>
           {[['Hours'], ['Minutes'], ['Seconds']].map((label) => (
-            <TimerInput label={label[0]} />
+            <TimerInput
+              label={label[0]}
+              sessionTime={props.sessionTime}
+              setSessionTime={props.setSessionTime}
+            />
           ))}
         </Grid>
         <Grid container className={classes.taskArea}>

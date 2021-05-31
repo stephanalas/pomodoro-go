@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
   timer: {
     display: 'flex',
     justifyContent: 'center',
-    width: '50%',
+    alignItems: 'center',
   },
   TimeDisplay: {
     display: 'flex',
@@ -38,20 +38,6 @@ const Timer = (props) => {
     setSessionTime,
     setExpected,
   } = props;
-  // add minutes and seconds
-  const incrementMinutes = () => {
-    setMinutes(minutes + 1);
-  };
-  const decrementMinutes = () => {
-    setMinutes(minutes - 1);
-  };
-  const incrementSeconds = () => {
-    setSeconds(seconds + 1);
-  };
-  const decrementSeconds = () => {
-    setSeconds(seconds - 1);
-  };
-
   const handleTime = () => {
     const timerSeconds = seconds * 1000;
     const timerMinutes = minutes * 60000;
@@ -62,7 +48,7 @@ const Timer = (props) => {
   const handlePlay = (ev) => {
     // data for session model
     const expectedEndTime = new Date(new Date().setMilliseconds(sessionTime));
-
+    console.log(expectedEndTime);
     setExpected(expectedEndTime);
     // start countdown
     setCountDown(true);
@@ -103,20 +89,10 @@ const Timer = (props) => {
   return (
     <section className={classes.timerContainer}>
       <div className={classes.timer}>
-        {props.sessionTime ? (
+        {/* {props.sessionTime ? (
           <div>{msToHMS(props.sessionTime)}</div>
         ) : (
           <div className={classes.TimeDisplay}>
-            {/* <div id="minutes">
-              <Button onClick={incrementMinutes}>+</Button>
-              {minutes}
-              <Button onClick={decrementMinutes}>-</Button>
-            </div>
-            <div id="seconds">
-              <Button onClick={incrementSeconds}>+</Button>
-              {seconds}
-              <Button onClick={decrementSeconds}>-</Button>
-            </div> */}
             {[
               [hours, setHours, 'Hours'],
               [minutes, setMinutes, 'Minutes'],
@@ -127,9 +103,8 @@ const Timer = (props) => {
                 setTime={section[1]}
                 label={section[2]}
               />
-            ))}
-          </div>
-        )}
+            ))} */}
+        <div>{msToHMS(props.sessionTime)}</div>
       </div>
       <div className={classes.buttons}>
         {countDown ? (
