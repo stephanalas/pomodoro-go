@@ -39,7 +39,7 @@ async function seed() {
   //Creating sessions
   const sessionSeeds = [];
 
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 200; i++) {
     sessionSeeds.push(Session.seed(users, goals));
   }
 
