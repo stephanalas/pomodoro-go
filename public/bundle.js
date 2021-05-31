@@ -7808,7 +7808,8 @@ const DayOfWeekChart = props => {
       color: "textSecondary",
       variant: "body2"
     }, "Breakdown"),
-    title: "Day of Week"
+    title: "Day of Week",
+    color: "textPrimary"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default, {
     sx: {
       height: 336,
@@ -8088,8 +8089,7 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__.defau
 });
 
 const TotalSessions = () => {
-  const classes = useStyles(); //useSelector allows this component to access state
-
+  const classes = useStyles();
   const sessions = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.sessions);
   let total;
 

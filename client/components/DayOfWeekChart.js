@@ -126,6 +126,7 @@ const DayOfWeekChart = (props) => {
           </Typography>
         }
         title="Day of Week"
+        color="textPrimary"
       />
       {/* <Scrollbar> */}
       <Box

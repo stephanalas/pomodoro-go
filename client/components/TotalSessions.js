@@ -20,7 +20,6 @@ const useStyles = makeStyles({
 
 const TotalSessions = () => {
   const classes = useStyles();
-  //useSelector allows this component to access state
   const sessions = useSelector((state) => state.sessions);
 
   let total;
