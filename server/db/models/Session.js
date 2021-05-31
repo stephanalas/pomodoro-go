@@ -72,7 +72,7 @@ Session.seed = async function (users, goals) {
   session.actualEndTime = expected + randomSessionVariance * 60000;
   randomSuccessful = booleans[Math.floor(Math.random() * booleans.length)];
   session.successful = randomSuccessful;
-  // console.log('session:', session);
+
   await session.save();
   return session;
 };
