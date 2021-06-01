@@ -4,10 +4,24 @@ import Chart from 'react-apexcharts';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
-import { alpha, useTheme } from '@material-ui/core/styles';
+import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import { Box, Card, CardHeader, Typography } from '@material-ui/core';
 
+const useStyles = makeStyles({
+  contain: {
+    padding: 10,
+    minWidth: 100,
+    maxWidth: 600,
+    flexGrow: 1,
+  },
+  lsItem: {
+    padding: 8,
+    paddingBottom: 0,
+  },
+});
+
 const HeatMap = (props) => {
+  const classes = useStyles();
   const sessions = useSelector((state) => state.sessions);
   const sessionDays = sessions.map((session) => {
     const dayOfWeek = dayjs(session.startTime).format('ddd');
@@ -350,8 +364,17 @@ const HeatMap = (props) => {
   };
 
   return (
-    <Card {...props}>
-      <CardHeader title="Session Frequency" color="textPrimary" />
+    <Card className={classes.contain} {...props}>
+      <Typography className={classes.lsItem} variant="h5" color="primary">
+        Session Frequency
+      </Typography>
+      <Typography
+        className={classes.lsItem}
+        variant="caption"
+        color="textSecondary"
+      >
+        Time of Week
+      </Typography>
       {/* <Scrollbar> */}
       <Box
         sx={{
