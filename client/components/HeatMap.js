@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   contain: {
     padding: 10,
     minWidth: 100,
-    maxWidth: 600,
+    // maxWidth: 600,
     flexGrow: 1,
   },
   lsItem: {
@@ -383,7 +383,7 @@ const HeatMap = (props) => {
           px: 2,
         }}
       >
-        <Chart width="500" height="300" type="heatmap" {...chart} />
+        <Chart width="800" height="450" type="heatmap" {...chart} />
       </Box>
       {/* </Scrollbar> */}
     </Card>

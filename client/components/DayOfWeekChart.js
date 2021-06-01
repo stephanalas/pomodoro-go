@@ -4,10 +4,24 @@ import Chart from 'react-apexcharts';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
-import { alpha, useTheme } from '@material-ui/core/styles';
+import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import { Box, Card, CardHeader, Typography } from '@material-ui/core';
 
+const useStyles = makeStyles({
+  contain: {
+    padding: 10,
+    minWidth: 100,
+    // maxWidth: 600,
+    flexGrow: 1,
+  },
+  lsItem: {
+    padding: 8,
+    paddingBottom: 0,
+  },
+});
+
 const DayOfWeekChart = (props) => {
+  const classes = useStyles();
   const sessions = useSelector((state) => state.sessions);
   const sessionDays = sessions.map((session) => {
     const dayOfWeek = dayjs(session.startTime).format('ddd');
@@ -118,27 +132,18 @@ const DayOfWeekChart = (props) => {
   };
 
   return (
-    <Card {...props}>
-      <CardHeader
-        subheader={
-          <Typography color="textSecondary" variant="body2">
-            Distribution
-          </Typography>
-        }
-        title="Day of Week"
-        color="textPrimary"
-      />
-      {/* <Scrollbar> */}
-      <Box
-        sx={{
-          height: 336,
-          minWidth: 500,
-          px: 2,
-        }}
+    <Card className={classes.contain} {...props}>
+      <Typography className={classes.lsItem} variant="h5" color="primary">
+        Session Distribution
+      </Typography>
+      <Typography
+        className={classes.lsItem}
+        variant="caption"
+        color="textSecondary"
       >
-        <Chart width="500" height="300" type="bar" {...chart} />
-      </Box>
-      {/* </Scrollbar> */}
+        Day of Week
+      </Typography>
+      <Chart width="800" height="450" type="bar" {...chart} />
     </Card>
   );
 };

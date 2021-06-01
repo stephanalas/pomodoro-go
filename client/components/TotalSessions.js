@@ -10,7 +10,8 @@ const useStyles = makeStyles({
   contain: {
     padding: 10,
     minWidth: 100,
-    maxWidth: 300,
+    minHeight: 250,
+    // maxWidth: 300,
     flexGrow: 1,
   },
   lsItem: {
