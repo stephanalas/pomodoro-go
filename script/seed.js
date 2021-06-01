@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Session, Goal, Site, BlackList, Task },
+  models: { User, Session, Goal, Site, Task },
 } = require('../server/db');
 
 /**
@@ -39,7 +39,7 @@ async function seed() {
   //Creating sessions
   const sessionSeeds = [];
 
-  for (let i = 0; i < 400; i++) {
+  for (let i = 0; i < 386; i++) {
     sessionSeeds.push(Session.seed(users, goals));
   }
 
@@ -82,14 +82,14 @@ async function seed() {
   const hulu = sites[4];
 
   // Creating site and user associations
-  const blockedSites = await Promise.all([
-    BlackList.create({ siteId: twitter.id, userId: cody.id }),
-    BlackList.create({ siteId: twitter.id, userId: murphy.id }),
-    BlackList.create({ siteId: instagram.id, userId: cody.id }),
-    BlackList.create({ siteId: facebook.id, userId: murphy.id }),
-    BlackList.create({ siteId: netflix.id, userId: murphy.id }),
-    BlackList.create({ siteId: hulu.id, userId: murphy.id }),
-  ]);
+  // const blockedSites = await Promise.all([
+  //   BlackList.create({ siteId: twitter.id, userId: cody.id }),
+  //   BlackList.create({ siteId: twitter.id, userId: murphy.id }),
+  //   BlackList.create({ siteId: instagram.id, userId: cody.id }),
+  //   BlackList.create({ siteId: facebook.id, userId: murphy.id }),
+  //   BlackList.create({ siteId: netflix.id, userId: murphy.id }),
+  //   BlackList.create({ siteId: hulu.id, userId: murphy.id }),
+  // ]);
 
   //console.log(`seeded ${blockedSites.length} blacklisted sites`)
 
