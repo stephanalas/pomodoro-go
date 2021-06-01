@@ -122,7 +122,7 @@ const DayOfWeekChart = (props) => {
       <CardHeader
         subheader={
           <Typography color="textSecondary" variant="body2">
-            Breakdown
+            Distribution
           </Typography>
         }
         title="Day of Week"
