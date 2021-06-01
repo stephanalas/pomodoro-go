@@ -63,7 +63,7 @@ const useStyles = makeStyles({
 
 const Alert = (props) => {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
-}
+};
 
 //Start of component
 const BlockSites = (props) => {
@@ -96,7 +96,7 @@ const BlockSites = (props) => {
 
   useEffect(() => {
     if (chrome.storage !== undefined) {
-      blockIt()
+      blockIt();
     }
   }, [toggleStatus]);
   //
@@ -118,9 +118,9 @@ const BlockSites = (props) => {
     const blocked = props.blockedSites.filter((each) => {
       return toggleStatus[`item${each.id}`] === true
     }).map((site) => {
-      return site.siteUrl
-    })
-    console.log(blocked)
+      return site.siteUrl;
+    });
+    console.log(blocked);
     chrome.storage.local.set({ blocked }, function () {
       console.log('we shall block', blocked);
     });
