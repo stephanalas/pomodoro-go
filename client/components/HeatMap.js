@@ -19,31 +19,295 @@ const HeatMap = (props) => {
   });
 
   const distHours = [
-    {name: '0', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '1', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '2', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '3', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '4', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '5', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '6', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '7', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '8', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '9', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '10', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '11', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '12', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '13', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '14', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '15', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '16', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '17', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '18', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '19', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '20', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '21', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '22', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    {name: '23', data: [{x: 'Sun',y:0}, {x: 'Mon',y:0}, {x: 'Tue',y:0}, {x: 'Wed',y:0}, {x: 'Thu',y:0}, {x: 'Fri',y:0},{x: 'Sat',y:0}]},
-    ]
+    {
+      name: '0',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '1',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '2',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '3',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '4',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '5',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '6',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '7',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '8',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '9',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '10',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '11',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '12',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '13',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '14',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '15',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '16',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '17',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '18',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '19',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '20',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '21',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '22',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+    {
+      name: '23',
+      data: [
+        { x: 'Sun', y: 0 },
+        { x: 'Mon', y: 0 },
+        { x: 'Tue', y: 0 },
+        { x: 'Wed', y: 0 },
+        { x: 'Thu', y: 0 },
+        { x: 'Fri', y: 0 },
+        { x: 'Sat', y: 0 },
+      ],
+    },
+  ];
 
   if (sessions.length) {
     for (let i = 0; i < sessions.length; i++) {
@@ -52,7 +316,7 @@ const HeatMap = (props) => {
       const timeSlot = distHours[time];
       const slotData = timeSlot.data;
       for (let j = 0; j < slotData.length; j++) {
-        if (slotData[j].x === dayOfWeek) slotData[j].y++
+        if (slotData[j].x === dayOfWeek) slotData[j].y++;
       }
     }
   }
@@ -87,10 +351,7 @@ const HeatMap = (props) => {
 
   return (
     <Card {...props}>
-      <CardHeader
-        title="HeatMap"
-        color="textPrimary"
-      />
+      <CardHeader title="Session Frequency" color="textPrimary" />
       {/* <Scrollbar> */}
       <Box
         sx={{
