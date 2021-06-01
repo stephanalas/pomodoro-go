@@ -51,8 +51,8 @@ describe('thunk creators', () => {
         }
       })
       it('eventually dispatches the SET_AUTH action', async () => {
-        const fakeUser = {username: 'Cody'}
-        mockAxios.onGet('/auth/me').replyOnce(200, fakeUser)
+        const fakeUser = {username: 'cody'}
+        mockAxios.onGet('http://localhost:8080/auth/me').replyOnce(200, fakeUser)
         await store.dispatch(me())
         const actions = store.getActions()
         expect(actions[0].type).to.be.equal('SET_AUTH')
