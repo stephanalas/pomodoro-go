@@ -29,14 +29,6 @@ const BlockError = () => {
 
   return (
     <div>
-      {answers.question1 === 'true' &&
-      answers.question2 === 'true' &&
-      answers.question3 === 'true' ? undefined : (
-          <Alert severity="info">
-          If any of the answers is No, then you should go back to what you were
-          doing!
-          </Alert>
-        )}
       <Typography variant="h5" gutterBottom>
         Looks like you are getting distracted...
       </Typography>
@@ -46,6 +38,15 @@ const BlockError = () => {
         <br />
         Answer the questions below if you really want to just take a quick look:
       </Typography>
+      {answers.question1 === 'true' &&
+      answers.question2 === 'true' &&
+      answers.question3 === 'true' ? undefined : (
+          <Alert severity="info">
+          If any of the answers is No, then you should go back to what you were
+          doing!
+          </Alert>
+        )}
+      <br />
       <FormControl component="fieldset">
         <FormLabel component="legend">Content of question 1</FormLabel>
         <RadioGroup
