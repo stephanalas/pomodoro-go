@@ -1,11 +1,9 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Typography, Paper, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
-
 import TotalDonut from './TotalDonut';
 
 const useStyles = makeStyles({
@@ -13,6 +11,7 @@ const useStyles = makeStyles({
     padding: 10,
     minWidth: 100,
     minHeight: 250,
+    // maxHeight: 250,
     // maxWidth: 300,
     flexGrow: 1,
   },
@@ -21,9 +20,18 @@ const useStyles = makeStyles({
   },
 });
 
-const TotalSessions = () => {
+const TotalSessions = (props) => {
   const classes = useStyles();
-  const sessions = useSelector((state) => state.sessions);
+  // const sessions = useSelector((state) => state.sessions);
+
+  const { sessions } = props;
+  let totalExpectedSessionLength;
+  if (sessions.length) {
+    totalExpectedSessionLength = sessions.reduce((total, session) => {
+      total += session.sessionTime;
+      return total;
+    }, 0);
+  }
 
   let total;
   if (sessions.length) {
@@ -48,33 +56,37 @@ const TotalSessions = () => {
         Total Sessions
       </Typography>
       <Grid container>
-        <Grid item className={classes.lsItem} xs={4}>
-          <Typography variant="caption" color="textSecondary">
-            Total Sessions
-          </Typography>
-          <Typography variant="h5">
-            {sessions.length ? sessions.length : ''}
-          </Typography>
+        <Grid container item direction="column" xs={6}>
+          <Grid item className={classes.lsItem} xs={4}>
+            <Typography variant="caption" color="textSecondary">
+              Total Sessions
+            </Typography>
+            <Typography variant="h5">
+              {sessions.length ? sessions.length : ''}
+            </Typography>
+          </Grid>
+          <Grid item className={classes.lsItem} xs={4}>
+            <Typography variant="caption" color="textSecondary">
+              Successful
+            </Typography>
+            <Typography variant="h5">
+              {sessions.length ? totalSuccessful.length : ''}
+            </Typography>
+          </Grid>
+          <Grid item className={classes.lsItem} xs={4}>
+            <Typography variant="caption" color="textSecondary">
+              Failed
+            </Typography>
+            <Typography variant="h5">
+              {' '}
+              {sessions.length ? totalFailed.length : ''}
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item className={classes.lsItem} xs={4}>
-          <Typography variant="caption" color="textSecondary">
-            Successful
-          </Typography>
-          <Typography variant="h5">
-            {sessions.length ? totalSuccessful.length : ''}
-          </Typography>
-        </Grid>
-        <Grid item className={classes.lsItem} xs={4}>
-          <Typography variant="caption" color="textSecondary">
-            Failed
-          </Typography>
-          <Typography variant="h5">
-            {' '}
-            {sessions.length ? totalFailed.length : ''}
-          </Typography>
+        <Grid item xs={6}>
+          <TotalDonut sessions={sessions} />
         </Grid>
       </Grid>
-      <TotalDonut />
     </Paper>
   );
 };

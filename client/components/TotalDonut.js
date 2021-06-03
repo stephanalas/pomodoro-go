@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-
+import React from 'react';
 import Chart from 'react-apexcharts';
 
-const TotalDonut = () => {
-  const sessions = useSelector((state) => state.sessions);
-
+const TotalDonut = (props) => {
+  // const sessions = useSelector((state) => state.sessions);
+  const { sessions } = props;
+  let totalExpectedSessionLength;
+  if (sessions.length) {
+    totalExpectedSessionLength = sessions.reduce((total, session) => {
+      total += session.sessionTime;
+      return total;
+    }, 0);
+  }
   let total;
   if (sessions.length) {
     total = sessions.length;
@@ -25,8 +30,14 @@ const TotalDonut = () => {
 
   const chart = {
     options: {
+      dataLabels: { enabled: false },
       colors: ['#3C4693', '#7783DB'],
       labels: ['Successful', 'Failed'],
+      legend: { show: false, position: 'bottom' },
+      chart: {
+        offsetX: -70,
+        offsetY: -40,
+      },
     },
 
     series: [totalSuccessful.length, totalFailed.length],
@@ -38,7 +49,7 @@ const TotalDonut = () => {
         options={chart.options}
         series={chart.series}
         type="donut"
-        width="380"
+        width="290"
       />
     </div>
   );

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import Chart from 'react-apexcharts';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
@@ -7,14 +6,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
-import {
-  Card,
-  Typography,
-  FormControl,
-  Select,
-  InputLabel,
-  MenuItem,
-} from '@material-ui/core';
+import { Card, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
   contain: {
