@@ -119,11 +119,9 @@ const AverageSession = () => {
 
   const avgFailedExpSessionLength =
     totalFailedExpSessionLength / sessionsFailed.length;
-  console.log(avgFailedExpSessionLength);
   const avgFailedExpSessionMinutes = parseInt(
     Math.round(avgFailedExpSessionLength)
   );
-  console.log(avgFailedExpSessionMinutes);
   //Average Actual Length of Failed Sessions
 
   let totalFailedSessionLength;

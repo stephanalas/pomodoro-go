@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Typography, Paper, Grid } from '@material-ui/core';
+import {
+  Paper,
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import DayOfWeekChart from './DayOfWeekChart';
 
@@ -20,13 +26,27 @@ const DayOfWeek = () => {
   const classes = useStyles();
   //useSelector allows this component to access state
   const sessions = useSelector((state) => state.sessions);
+  const [timeFrame, setTimeFrame] = useState('Quarter');
+  // console.log('this.state', this.state);
+  const handleChange = (event) => {
+    setTimeFrame(event.target.value);
+  };
 
   return (
     <Paper className={classes.contain}>
-      {/* <Typography className={classes.lsItem} variant="h5" color="primary">
-        Day of Week
-      </Typography> */}
-      <DayOfWeekChart />
+      <FormControl>
+        <InputLabel id="time-frame-label"></InputLabel>
+        <Select
+          labelId="time-frame-label"
+          value={timeFrame}
+          onChange={handleChange}
+        >
+          <MenuItem value={'Week'}>Week</MenuItem>
+          <MenuItem value={'Month'}>Month</MenuItem>
+          <MenuItem value={'Quarter'}>Quarter</MenuItem>
+        </Select>
+      </FormControl>
+      <DayOfWeekChart timeFrame={timeFrame} />
     </Paper>
   );
 };
