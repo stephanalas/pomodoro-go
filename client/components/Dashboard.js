@@ -1,5 +1,12 @@
-import React from 'react';
-import { Grid } from '@material-ui/core';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import {
+  Grid,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import LastSession from './LastSession';
@@ -9,8 +16,36 @@ import DayOfWeekChart from './DayOfWeekChart';
 import HeatMap from './HeatMap';
 
 const Dashboard = () => {
+  let sessions = useSelector((state) => state.sessions);
+  const [timeFrame, setTimeFrame] = useState('Quarter');
+  // console.log('this.state', this.state);
+  const handleChange = (event) => {
+    setTimeFrame(event.target.value);
+  };
+  if (timeFrame === 'Quarter') {
+    const filtered = sessions.filter((session) => {
+      const startTime = Date.parse(session.startTime);
+      return startTime > Date.now() - 86400000 * 90;
+    });
+    sessions = filtered;
+    // console.log('filtered:', filtered);
+  }
+  console.log(timeFrame, sessions);
+
   return (
     <div>
+      <FormControl>
+        <InputLabel id="time-frame-label"></InputLabel>
+        <Select
+          labelId="time-frame-label"
+          value={timeFrame}
+          onChange={handleChange}
+        >
+          <MenuItem value={'Week'}>Week</MenuItem>
+          <MenuItem value={'Month'}>Month</MenuItem>
+          <MenuItem value={'Quarter'}>Quarter</MenuItem>
+        </Select>
+      </FormControl>
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <LastSession />
@@ -24,7 +59,7 @@ const Dashboard = () => {
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <DayOfWeekChart />
+          <DayOfWeekChart sessions={sessions} />
         </Grid>
         <Grid item xs={6}>
           <HeatMap />

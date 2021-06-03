@@ -31,22 +31,12 @@ const useStyles = makeStyles({
 
 const DayOfWeekChart = (props) => {
   const classes = useStyles();
-  let sessions = useSelector((state) => state.sessions);
+  // let timeFrame = useSelector((state) => state.timeFrame);
+  // const handleChange = (event) => {
+  //   setTimeFrame(event.target.value);
+  // };
+  const { sessions } = props;
 
-  const [timeFrame, setTimeFrame] = useState('Quarter');
-  // console.log('this.state', this.state);
-  const handleChange = (event) => {
-    setTimeFrame(event.target.value);
-  };
-  if (timeFrame === 'Quarter') {
-    const filtered = sessions.filter((session) => {
-      const startTime = Date.parse(session.startTime);
-      return startTime > Date.now() - 86400000 * 90;
-    });
-    sessions = filtered;
-    // console.log('filtered:', filtered);
-  }
-  console.log(timeFrame, sessions);
   const sessionDays = sessions.map((session) => {
     const dayOfWeek = dayjs(session.startTime).format('ddd');
     return dayOfWeek;
@@ -167,18 +157,7 @@ const DayOfWeekChart = (props) => {
       >
         Day of Week
       </Typography>
-      <FormControl>
-        <InputLabel id="time-frame-label"></InputLabel>
-        <Select
-          labelId="time-frame-label"
-          value={timeFrame}
-          onChange={handleChange}
-        >
-          <MenuItem value={'Week'}>Week</MenuItem>
-          <MenuItem value={'Month'}>Month</MenuItem>
-          <MenuItem value={'Quarter'}>Quarter</MenuItem>
-        </Select>
-      </FormControl>
+
       <Chart width="800" height="450" type="bar" {...chart} />
     </Card>
   );
