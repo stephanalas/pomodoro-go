@@ -6,6 +6,8 @@ import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 
+import TotalDonut from './TotalDonut';
+
 const useStyles = makeStyles({
   contain: {
     padding: 10,
@@ -72,6 +74,7 @@ const TotalSessions = () => {
           </Typography>
         </Grid>
       </Grid>
+      <TotalDonut />
     </Paper>
   );
 };
