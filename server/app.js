@@ -1,16 +1,3 @@
-<<<<<<< Updated upstream
-const path = require('path')
-const express = require('express')
-const morgan = require('morgan')
-const app = express()
-const cors = require('cors')
-module.exports = app
-const cookieParser = require('cookie-parser');
-// logging middleware
-app.use(morgan('dev'))
-app.use(cors())
-
-=======
 const cookieParser = require('cookie-parser');
 const express = require('express');
 // logging middleware
@@ -22,7 +9,6 @@ const app = express();
 module.exports = app;
 app.use(cors());
 app.use(morgan('dev'));
->>>>>>> Stashed changes
 // body parsing middleware
 app.use(express.json());
 app.use(cookieParser());
