@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import Chart from 'react-apexcharts';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
-import { Box, Card, CardHeader, Typography } from '@material-ui/core';
+import { Box, Card, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
   contain: {
@@ -22,7 +22,16 @@ const useStyles = makeStyles({
 
 const HeatMap = (props) => {
   const classes = useStyles();
-  const sessions = useSelector((state) => state.sessions);
+  // const sessions = useSelector((state) => state.sessions);
+  const { sessions } = props;
+  let totalExpectedSessionLength;
+  if (sessions.length) {
+    totalExpectedSessionLength = sessions.reduce((total, session) => {
+      total += session.sessionTime;
+      return total;
+    }, 0);
+  }
+
   const sessionDays = sessions.map((session) => {
     const dayOfWeek = dayjs(session.startTime).format('ddd');
     return dayOfWeek;
