@@ -35,6 +35,11 @@ html {
 img {
   width: 30%;
 }
+
 .auth {
   display: inline;
+}
+
+#player {
+  display: flex;
 }

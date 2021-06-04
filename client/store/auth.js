@@ -2,7 +2,9 @@ import axios from 'axios';
 import history from '../history';
 
 const TOKEN = 'token';
-
+const SPOTIFY_ACCESS_TOKEN = 'spotify_access_token';
+const SPOTIFY_REFRESH_TOKEN = 'spotify_refresh_token';
+const NEW_SPOTIFY_DEVICE = 'new-spotify-device';
 /**
  * ACTION TYPES
  */
@@ -38,7 +40,7 @@ export const authenticateGoogle = (email) => async dispatch => {
     console.log('error with authenticate google ')
     throw error
   }
-}
+};
 
 export const authenticate = (username, email, password, method) => async dispatch => {
   try {
@@ -52,6 +54,9 @@ export const authenticate = (username, email, password, method) => async dispatc
 
 export const logout = () => {
   window.localStorage.removeItem(TOKEN);
+  window.localStorage.removeItem(SPOTIFY_ACCESS_TOKEN);
+  window.localStorage.removeItem(SPOTIFY_REFRESH_TOKEN);
+  window.localStorage.removeItem(NEW_SPOTIFY_DEVICE);
   history.push('/login');
   return {
     type: SET_AUTH,
