@@ -6,9 +6,22 @@ a {
   text-decoration: none;
 }
 
+<<<<<<< Updated upstream
 nav a {
+=======
+#navBar * {
+  display: flex;
+  justify-content: space-between;
+  margin: 1em;
+}
+
+#GoogleContainer * {
+>>>>>>> Stashed changes
   display: inline;
   margin: 1em;
+}
+#login-button {
+  width: 500px;
 }
 
 #app,

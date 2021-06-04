@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
@@ -9,13 +10,26 @@ const cookieParser = require('cookie-parser');
 app.use(morgan('dev'))
 app.use(cors())
 
+=======
+const cookieParser = require('cookie-parser');
+const express = require('express');
+// logging middleware
+const path = require('path');
+const morgan = require('morgan');
+const cors = require('cors');
+const app = express();
+
+module.exports = app;
+app.use(cors());
+app.use(morgan('dev'));
+>>>>>>> Stashed changes
 // body parsing middleware
 app.use(express.json());
 app.use(cookieParser());
 // auth and api routes
 app.use('/auth', require('./auth'));
 app.use('/api', require('./api'));
-
+app.use('/google', require('./google'));
 app.get('/', (req, res) =>
   res.sendFile(path.join(__dirname, '..', 'public/index.html'))
 );

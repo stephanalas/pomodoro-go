@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React from 'react';
 import Chart from 'react-apexcharts';
 import dayjs from 'dayjs';
@@ -7,6 +8,16 @@ dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import { Card, Typography } from '@material-ui/core';
+=======
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import Chart from 'react-apexcharts';
+import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+dayjs.extend(localizedFormat);
+import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
+import { Box, Card, CardHeader, Typography } from '@material-ui/core';
+>>>>>>> Stashed changes
 
 const useStyles = makeStyles({
   contain: {
@@ -23,12 +34,16 @@ const useStyles = makeStyles({
 
 const DayOfWeekChart = (props) => {
   const classes = useStyles();
+<<<<<<< Updated upstream
   // let timeFrame = useSelector((state) => state.timeFrame);
   // const handleChange = (event) => {
   //   setTimeFrame(event.target.value);
   // };
   const { sessions } = props;
 
+=======
+  const sessions = useSelector((state) => state.sessions);
+>>>>>>> Stashed changes
   const sessionDays = sessions.map((session) => {
     const dayOfWeek = dayjs(session.startTime).format('ddd');
     return dayOfWeek;
@@ -149,7 +164,10 @@ const DayOfWeekChart = (props) => {
       >
         Day of Week
       </Typography>
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
       <Chart width="800" height="450" type="bar" {...chart} />
     </Card>
   );

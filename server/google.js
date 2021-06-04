@@ -5,73 +5,68 @@ const { OAuth2Client } = require('google-auth-library');
 const CLIENT_ID =
   '67500047765-oj928l0bem24tr3vc71m8gmlp5ij0bre.apps.googleusercontent.com';
 const client = new OAuth2Client(CLIENT_ID);
+module.exports = router;
 
-app.get('/login', (req,res)=>{
+router.get('/login', (req, res) => {
   res.render('login');
-})
+});
 
-app.post('/login', (req,res)=>{
+router.post('/login', (req, res) => {
   let token = req.body.token;
-
+  console.log('Check the google!', token);
   async function verify() {
-      const ticket = await client.verifyIdToken({
-          idToken: token,
-          audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
-      });
-      const payload = ticket.getPayload();
-      const userid = payload['sub'];
-    }
-    verify()
-    .then(()=>{
-        res.cookie('session-token', token);
-        res.send('success')
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
+    });
+    const payload = ticket.getPayload();
+    const userid = payload['sub'];
+  }
+  verify()
+    .then(() => {
+      res.cookie('session-token', token);
+      res.send('success');
     })
     .catch(console.error);
+});
 
-})
-
-app.get('/profile', checkAuthenticated, (req, res)=>{
+router.get('/profile', checkAuthenticated, (req, res) => {
   let user = req.user;
-  res.render('profile', {user});
-})
+  res.render('profile', { user });
+});
 
-app.get('/protectedRoute', checkAuthenticated, (req,res)=>{
-  res.send('This route is protected')
-})
+router.get('/protectedRoute', checkAuthenticated, (req, res) => {
+  res.send('This route is protected');
+});
 
-app.get('/logout', (req, res)=>{
+router.get('/logout', (req, res) => {
   res.clearCookie('session-token');
-  res.redirect('/login')
+  res.redirect('/login');
+});
 
-})
-
-
-function checkAuthenticated(req, res, next){
-
+function checkAuthenticated(req, res, next) {
   let token = req.cookies['session-token'];
 
   let user = {};
   async function verify() {
-      const ticket = await client.verifyIdToken({
-          idToken: token,
-          audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
-      });
-      const payload = ticket.getPayload();
-      user.name = payload.name;
-      user.email = payload.email;
-      user.picture = payload.picture;
-    }
-    verify()
-    .then(()=>{
-        req.user = user;
-        next();
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
+    });
+    const payload = ticket.getPayload();
+    user.name = payload.name;
+    user.email = payload.email;
+    // user.picture = payload.picture;
+  }
+  verify()
+    .then(() => {
+      req.user = user;
+      next();
     })
-    .catch(err=>{
-        res.redirect('/login')
-    })
-
+    .catch((err) => {
+      res.redirect('/login');
+    });
 }
-
 
 // let getGoogleProfile = function (accessToken) {
 //   return new Promise((resolve, reject) => {

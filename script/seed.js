@@ -2,7 +2,11 @@
 
 const {
   db,
+<<<<<<< Updated upstream
   models: { User, Session, Goal, Site, Task },
+=======
+  models: { User, Session, Goal, Site, Task, BlackList },
+>>>>>>> Stashed changes
 } = require('../server/db');
 
 /**
@@ -14,7 +18,7 @@ async function seed() {
   // console.log('db synced!');
 
   // Creating Users
-  const users = ([
+  const [
     cody,
     murphy,
     felicity,
@@ -43,7 +47,7 @@ async function seed() {
         admin,
       });
     })
-  ));
+  );
 
   // const cody = users[0];
   // const murphy = users[1];
@@ -103,6 +107,7 @@ async function seed() {
     Goal.create({ description: 'Meditating' }),
   ]);
 
+<<<<<<< Updated upstream
   //Creating sessions
   const sessionSeeds = [];
 
@@ -111,6 +116,16 @@ async function seed() {
   }
 
   const sessions = await Promise.all(sessionSeeds);
+=======
+  // //Creating sessions
+  // const sessionSeeds = [];
+
+  // for (let i = 0; i < 192; i++) {
+  //   sessionSeeds.push(Session.seed(users, goals));
+  // }
+
+  // const sessions = await Promise.all(sessionSeeds);
+>>>>>>> Stashed changes
   // console.log(`seeded ${sessions.length} sessions`);
 
   const tasks = await Promise.all([

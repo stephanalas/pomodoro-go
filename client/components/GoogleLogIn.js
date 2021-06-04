@@ -1,6 +1,6 @@
 /* global gapi */
 import React, { Component } from 'react';
-
+import { Dropdown } from 'react-bootstrap';
 // https://github.com/intricatecloud/bookface-demo/blob/master/src/App.js
 
 export function GoogleInfo() {
@@ -8,11 +8,11 @@ export function GoogleInfo() {
   const user = authInstance.currentUser.get();
   const profile = user.getBasicProfile();
   const email = profile.getEmail();
-  const imageUrl = profile.getImageUrl()
+  // const imageUrl = profile.getImageUrl();
 
   return (
     <div id="googleInfo">
-      <img className="push" src={imageUrl}/>
+      {/* <img className="push" src={imageUrl} /> */}
       <Dropdown>
         <Dropdown.Toggle as="a">{email}</Dropdown.Toggle>
         <Dropdown.Menu>
@@ -32,7 +32,7 @@ export class GoogleLogIn extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div id="GoogleContainer">
         <div id="login-button">Sign in with Google</div>
       </div>
     );
