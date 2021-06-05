@@ -9,10 +9,10 @@ const {
  * seed - this function clears the database, updates tables to
  *      match the models, and populates the database.
  */
+
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
   // console.log('db synced!');
-
   // Creating Users
   const users = await Promise.all([
     User.create({ username: 'cody', password: '123', email: 'cody@mail.com' }),
@@ -26,7 +26,67 @@ async function seed() {
   const cody = users[0];
   const murphy = users[1];
 
-  //console.log(`seeded ${users.length} users`);
+  // Creating admin Users
+  const [felicity, russel, stephan, ding] = await Promise.all(
+    [
+      ['felicity@mail.com', '123', 'felicity', true],
+      ['russel@mail.com', '123', 'russel', true],
+      ['stephan@mail.com', '123', 'stephan', true],
+      ['ding@mail.com', '123', 'ding', true],
+    ].map(([email, password, username, admin]) => {
+      return User.create({
+        email,
+        password,
+        username,
+        admin,
+      });
+    })
+  );
+
+  //Creating sessions
+  // const sessions = await Promise.all([
+  //   Session.start({ userId: cody.id, sessionTime: 40 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 50 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 45 }),
+  //   Session.start({ userId: cody.id, sessionTime: 30 }),
+  //   Session.start({ userId: cody.id, sessionTime: 40 }),
+  //   Session.start({ userId: cody.id, sessionTime: 40 }),
+  //   Session.start({ userId: cody.id, sessionTime: 45 }),
+  //   Session.start({ userId: cody.id, sessionTime: 40 }),
+  //   Session.start({ userId: cody.id, sessionTime: 60 }),
+  //   Session.start({ userId: cody.id, sessionTime: 30 }),
+  //   Session.start({ userId: cody.id, sessionTime: 45 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 60 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 120 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 35 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 45 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 50 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 50 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 40 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 60 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 50 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 20 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 45 }),
+  //   Session.start({ userId: murphy.id, sessionTime: 50 }),
+  // ]);
+
+  // sessions.map(async (each) => {
+  //   const randomDay = Math.floor(Math.random() * 30 + 1);
+  //   const randomMonth = Math.floor(Math.random() * 11 + 1);
+  //   // const randomHour = Math.floor(Math.random()*11 + 1)
+  //   if (randomDay < 10 && randomMonth < 10) {
+  //     each.startTime = `2021-0${randomMonth}-0${randomDay}T00:26:01.161Z`; // 2021-05-27T00:26:01.161Z
+  //   } else if (randomDay < 10 && randomMonth > 10) {
+  //     each.startTime = `2021-${randomMonth}-0${randomDay}T00:26:01.161Z`; // 2021-05-27T00:26:01.161Z
+  //   } else if (randomDay > 10 && randomMonth < 10) {
+  //     each.startTime = `2021-0${randomMonth}-${randomDay}T00:26:01.161Z`;
+  //   } else if (randomDay > 10 && randomMonth > 10) {
+  //     each.startTime = `2021-${randomMonth}-${randomDay}T00:26:01.161Z`;
+  //   }
+  //   await each.save();
+  // });
+
+  // console.log(`seeded ${sessions.length} sessions`);
 
   // Creating goals
   const goals = await Promise.all([
