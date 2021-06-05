@@ -28,13 +28,15 @@ class Routes extends Component {
             <Route path="/home" component={Home} />
             <Route path="/dashboard" component={Dashboard} />
             {/* <Redirect to="/home" /> */}
+            <Route path="/timer" exact component={CreateSession} />
+
             <Route exact path="/uhoh" component={BlockError} />
             <Route exact path="/blocksites" component={BlockSites} />
           </Switch>
         ) : (
           <Switch>
             <Route path="/" exact component={Login} />
-            <Route path="/test" exact component={CreateSession} />
+            <Route path="/timer" exact component={CreateSession} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/dashboard" exact component={Dashboard} />

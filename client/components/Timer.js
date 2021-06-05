@@ -84,7 +84,7 @@ const Timer = (props) => {
   return (
     <section className={classes.timerContainer}>
       <div className={classes.timer}>
-        <div>{msToHMS(props.sessionTime)}</div>
+        <div>{msToHMS(sessionTime)}</div>
       </div>
       <div className={classes.buttons}>
         {countDown ? (

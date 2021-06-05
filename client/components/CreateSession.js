@@ -50,12 +50,11 @@ const CreateSession = () => {
           setMinutes={setMinutes}
           setSeconds={setSeconds}
           setExpected={setExpected}
-          // handleTime={handleTime}
         />
         <FocusConfig
           goal={goal}
           setGoal={setGoal}
-          handleTime={handleTime}
+          expectedEndTime={expectedEndTime}
           sessionTime={sessionTime}
           setSessionTime={setSessionTime}
         />
