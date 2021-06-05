@@ -13,6 +13,16 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.post('/', async (req, res, next) => {
+  try {
+    const { userId } = req.body
+    const session = await Session.create({ userId })
+    res.status(201).send(session) 
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.get('/:sessionId', async (req, res, next) => {
   try {
     const session = await Session.findByPk(req.params.sessionId, {
