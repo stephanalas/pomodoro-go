@@ -5,7 +5,7 @@ const {
 } = require('../index');
 
 describe('Blacklist Model', function () {
-  beforeEach(async () => {
+  before(async () => {
     try {
       await db.sync({ force: true });
       const user1 = await User.create({

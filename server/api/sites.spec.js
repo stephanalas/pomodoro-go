@@ -7,7 +7,7 @@ const seed = require('../../script/seed');
 const app = require('../app')
 
 describe('Session routes', () => {
-  beforeEach(async() => {
+  before(async() => {
     await seed();
   })
 
