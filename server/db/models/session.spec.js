@@ -94,38 +94,38 @@ describe('Session model', () => {
       expect(session.expectedEndTime).to.be.ok;
     });
   });
-  describe('Session.seed() class method', () => {
-    it('creates a session', async () => {
-      const jane = await User.create({
-        username: 'jane',
-        password: 'jane_pw',
-        email: 'jane@mail.com',
-      });
-      const john = await User.create({
-        username: 'john',
-        password: 'john_pw',
-        email: 'john@mail.com',
-      });
 
-      const reactGoal = await Goal.create({
-        description: 'Make react components.',
-      });
-      const otherGoal = await Goal.create({
-        description: 'Make other components.',
-      });
-
-      const usersArr = [jane, john];
-
-      const goalsArr = [reactGoal, otherGoal];
-      const session = await Session.seed(usersArr, goalsArr);
-
-      expect(typeof session.userId).to.equal('string');
-      expect(typeof session.goalId).to.equal('string');
-      expect(typeof session.sessionTime).to.equal('number');
-      expect(typeof session.expectedEndTime).to.equal('object');
-      expect(typeof session.successful).to.equal('boolean');
+  it('Session.seed() class method creates a session', async () => {
+    const jane = await User.create({
+      username: 'jane',
+      password: 'jane_pw',
+      email: 'jane@mail.com',
     });
+    const john = await User.create({
+      username: 'john',
+      password: 'john_pw',
+      email: 'john@mail.com',
+    });
+
+    const reactGoal = await Goal.create({
+      description: 'Make react components.',
+    });
+    const otherGoal = await Goal.create({
+      description: 'Make other components.',
+    });
+
+    const usersArr = [jane, john];
+
+    const goalsArr = [reactGoal, otherGoal];
+    const session = await Session.seed(usersArr, goalsArr);
+
+    expect(typeof session.userId).to.equal('string');
+    expect(typeof session.goalId).to.equal('string');
+    expect(typeof session.sessionTime).to.equal('number');
+    expect(typeof session.expectedEndTime).to.equal('object');
+    expect(typeof session.successful).to.equal('boolean');
   });
+
   describe('Session.end() instance method', () => {
     it('adds an actualEndTime to the session instance', async () => {
       const john = await User.create({
