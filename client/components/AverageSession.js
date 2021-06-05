@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Typography, Paper, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import dayjs from 'dayjs';
@@ -10,7 +9,7 @@ const useStyles = makeStyles({
   contain: {
     padding: 10,
     minWidth: 100,
-    minHeight: 250,
+    minHeight: 272,
     // maxWidth: 300,
     flexGrow: 1,
   },
@@ -23,10 +22,10 @@ const useStyles = makeStyles({
   },
 });
 
-const AverageSession = () => {
+const AverageSession = (props) => {
   const classes = useStyles();
-  const sessions = useSelector((state) => state.sessions);
-
+  // const sessions = useSelector((state) => state.sessions);
+  const { sessions } = props;
   let totalExpectedSessionLength;
   if (sessions.length) {
     totalExpectedSessionLength = sessions.reduce((total, session) => {
@@ -46,10 +45,10 @@ const AverageSession = () => {
       const actualSessionLength = actualEndTime - startTime;
 
       total += actualSessionLength;
+
       return total;
     }, 0);
   }
-
   const avgSessionLength = totalActualSessionLength / sessions.length;
   const avgSessionMinutes = parseInt(avgSessionLength / 60000);
 
@@ -103,8 +102,8 @@ const AverageSession = () => {
 
   const avgSuccessfulSessionLength =
     totalSuccessfulSessionLength / sessionsSuccessful.length;
-  const avgSuccessfulSessionMinutes = parseInt(
-    Math.round(totalSuccessfulSessionLength / 60000 / 200)
+  const avgSuccessfulSessionMinutes = Math.round(
+    avgSuccessfulSessionLength / 60000
   );
 
   //Average Expected Length of Failed Sessions
@@ -119,11 +118,9 @@ const AverageSession = () => {
 
   const avgFailedExpSessionLength =
     totalFailedExpSessionLength / sessionsFailed.length;
-  console.log(avgFailedExpSessionLength);
   const avgFailedExpSessionMinutes = parseInt(
     Math.round(avgFailedExpSessionLength)
   );
-  console.log(avgFailedExpSessionMinutes);
   //Average Actual Length of Failed Sessions
 
   let totalFailedSessionLength;
@@ -140,9 +137,8 @@ const AverageSession = () => {
 
   const avgFailedSessionLength =
     totalFailedSessionLength / sessionsFailed.length;
-  const avgFailedSessionMinutes = parseInt(
-    Math.round(totalFailedSessionLength / 60000 / 200)
-  );
+
+  const avgFailedSessionMinutes = Math.round(avgFailedSessionLength / 60000);
 
   return (
     <Paper className={classes.contain}>
@@ -194,7 +190,7 @@ const AverageSession = () => {
               Actual
             </Typography>
             <Typography variant="h5">
-              {sessions.length ? `${avgSessionMinutes}min` : ''}
+              {sessions.length ? `${avgSuccessfulSessionMinutes}min` : ''}
             </Typography>
           </Grid>
 
