@@ -7,32 +7,27 @@ const seed = require('../../../script/seed');
 const Goal = require('./Goal');
 
 describe('Session model', () => {
-  let sessions;
   beforeEach(async () => {
-    users = (await seed()).users;
-    goals = (await seed()).goals;
-    sessions = (await seed()).sessions;
+    await seed();
   });
   it('requires a sessionTime', async () => {
     try {
-      const session = await Session.create({});
+      await Session.create({});
     } catch (error) {
       expect(error).to.be.ok;
     }
   });
   it('creates a session instance with a sessionTime, startTime and expectedEndTime', async () => {
-    try {
-      const session = await Session.create({ sessionTime: 35 });
-      expect(session.startTime).to.be.ok;
-      expect(session.expectedEndTime).to.be.ok;
-      expect(session.actualEndTime).to.not.be.ok;
-    } catch (error) {}
+    const session = await Session.create({ sessionTime: 35 });
+    expect(session.startTime).to.be.ok;
+    expect(session.expectedEndTime).to.be.ok;
+    expect(session.actualEndTime).to.not.be.ok;
   });
-  it('`calcExpectedEndTime` method calculates and adds expectedEndTime attribute to instances as they are created', () => {
-    const { session0 } = sessions;
-    const expectedEndTime = session0.expectedEndTime;
+  it('`calcExpectedEndTime` method calculates and adds expectedEndTime attribute to instances as they are created', async function () {
+    const session = await Session.create({ sessionTime: 35 });
+    const expectedEndTime = session.expectedEndTime;
     const check = new Date(
-      Date.parse(session0.startTime) + session0.sessionTime * 60000
+      Date.parse(session.startTime) + session.sessionTime * 60000
     );
     expect(Date.parse(expectedEndTime)).to.equal(Date.parse(check));
   });
