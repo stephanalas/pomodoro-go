@@ -10,10 +10,10 @@ const Session = db.define('session', {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
-  //expected length of session (in minutes)
+  //expected length of session (in milliseconds)
   sessionTime: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    // allowNull: false,
   },
   startTime: {
     type: DataTypes.DATE,
@@ -50,8 +50,8 @@ Session.start = async function ({ userId, sessionTime, goalId }) {
 Session.seed = async function (users, goals) {
   const randomUserIndex = Math.floor(Math.random() * users.length);
   const randomGoalIndex = Math.floor(Math.random() * goals.length);
-  const sessionTimes = [30, 35, 45, 50, 55, 60];
-  const sessionVariances = [-2, -6, -9, 0, 3, 5, 8];
+  const sessionTimes = [1800, 2100, 2700, 3000, 3300, 3600];
+  const sessionVariances = [-120, -360, -540, 0, 180, 300, 480];
   const booleans = [true, false];
   const randomSessionTime =
     sessionTimes[Math.floor(Math.random() * sessionTimes.length)];
@@ -69,7 +69,7 @@ Session.seed = async function (users, goals) {
   randomSessionVariance =
     sessionVariances[Math.floor(Math.random() * sessionVariances.length)];
   const expected = Date.parse(session.expectedEndTime);
-  session.actualEndTime = expected + randomSessionVariance * 60000;
+  session.actualEndTime = expected + randomSessionVariance * 1000;
   randomSuccessful = booleans[Math.floor(Math.random() * booleans.length)];
   session.successful = randomSuccessful;
 
@@ -86,12 +86,15 @@ const calcStartTime = (session) => {
 
 const calcExpectedEndTime = (session) => {
   const date = Date.parse(session.startTime);
-  session.expectedEndTime = date + session.sessionTime * 60000;
+  session.expectedEndTime = date + session.sessionTime * 1000;
 };
 
 Session.beforeCreate((session) => {
-  calcStartTime(session);
-  calcExpectedEndTime(session);
+  session.successful = false
+  if (session.sessionTime) {
+    calcStartTime(session);
+    calcExpectedEndTime(session);
+  }
 });
 
 module.exports = Session;
