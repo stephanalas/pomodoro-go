@@ -41,7 +41,7 @@ router.put('/:sessionId', async (req, res, next) => {
     const session = await Session.findByPk(req.params.sessionId)
     session.sessionTime = sessionTime
     await session.save()
-    res.status(202).send(session)
+    res.status(200).send(session)
   } catch (error) {
     next(error)
   }
