@@ -23,6 +23,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+
 router.get('/:sessionId', async (req, res, next) => {
   try {
     const session = await Session.findByPk(req.params.sessionId, {
@@ -31,6 +32,18 @@ router.get('/:sessionId', async (req, res, next) => {
     res.send(session)
   } catch (err) {
     next(err)
+  }
+})
+
+router.put('/:sessionId', async (req, res, next) => {
+  try {
+    const { sessionTime } = req.body
+    const session = await Session.findByPk(req.params.sessionId)
+    session.sessionTime = sessionTime
+    await session.save()
+    res.status(202).send(session)
+  } catch (error) {
+    next(error)
   }
 })
 

@@ -55,7 +55,10 @@ const updateSessionActionCreator = (session) => {
 }
 const updateSession = (sessionId, data) => async dispatch => {
   try {
-    
+    const response = await axios.put(j`/api/sessions/${sessionId}`, data);
+    const { data } = response;
+    dispatch(updateSessionActionCreator(data))
+
   } catch (error) {
     console.log('error in updateSession thunk')
     console.log(error)
