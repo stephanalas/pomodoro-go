@@ -15,9 +15,15 @@ import HeatMap from './HeatMap';
 
 const Dashboard = () => {
   let sessions = useSelector((state) => state.sessions);
+  let goals = useSelector((state) => state.goals);
+  console.log(goals);
   const [timeFrame, setTimeFrame] = useState('Year');
-  const handleChange = (event) => {
+  const [goal, setGoal] = useState('');
+  const handleTimeFrameChange = (event) => {
     setTimeFrame(event.target.value);
+  };
+  const handleGoalChange = (event) => {
+    setGoal(event.target.value);
   };
 
   if (timeFrame === 'Year') {
@@ -50,16 +56,30 @@ const Dashboard = () => {
   return (
     <div>
       <FormControl>
-        <InputLabel id="time-frame-label"></InputLabel>
+        <InputLabel id="time-frame-label">Period</InputLabel>
         <Select
           labelId="time-frame-label"
           value={timeFrame}
-          onChange={handleChange}
+          onChange={handleTimeFrameChange}
         >
           <MenuItem value={'Week'}>Week</MenuItem>
           <MenuItem value={'Month'}>Month</MenuItem>
           <MenuItem value={'Quarter'}>Quarter</MenuItem>
           <MenuItem value={'Year'}>Year</MenuItem>
+        </Select>
+      </FormControl>
+      <FormControl>
+        <InputLabel id="goal-label">Goal</InputLabel>
+
+        <Select labelId="goal-label" value={goal} onChange={handleGoalChange}>
+          <MenuItem value={'All'}>All</MenuItem>
+          {goals.map((goal) => {
+            return (
+              <MenuItem key={goal.id} value={goal.description}>
+                {goal.description}
+              </MenuItem>
+            );
+          })}
         </Select>
       </FormControl>
       <Grid container spacing={3}>
