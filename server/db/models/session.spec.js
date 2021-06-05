@@ -6,7 +6,8 @@ const {
 const seed = require('../../../script/seed');
 const Goal = require('./Goal');
 
-describe('Session model', () => {
+describe('Session model', function () {
+  this.timeout(5000);
   let sessions;
   beforeEach(async () => {
     users = (await seed()).users;

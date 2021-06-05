@@ -26597,7 +26597,6 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__.defau
     padding: 10,
     minWidth: 100,
     minHeight: 272,
-    // maxWidth: 300,
     flexGrow: 1
   },
   lsItem: {
@@ -26606,8 +26605,7 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__.defau
 });
 
 const LastSession = () => {
-  const classes = useStyles(); //useSelector allows this component to access state
-
+  const classes = useStyles();
   const sessions = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.sessions);
   let lastSession;
 
@@ -27158,8 +27156,6 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__.defau
     padding: 10,
     minWidth: 100,
     minHeight: 250,
-    // maxHeight: 250,
-    // maxWidth: 300,
     flexGrow: 1
   },
   lsItem: {
@@ -27168,8 +27164,7 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__.defau
 });
 
 const TotalSessions = props => {
-  const classes = useStyles(); // const sessions = useSelector((state) => state.sessions);
-
+  const classes = useStyles();
   const {
     sessions
   } = props;
