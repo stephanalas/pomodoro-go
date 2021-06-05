@@ -23,38 +23,18 @@ const CreateSession = () => {
   const classes = useStyles();
 
   const [sessionTime, setSessionTime] = useState(0);
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-  const [expectedEndTime, setExpected] = useState({});
   const [goal, setGoal] = useState('');
 
-  // might need this function later on
-  // const handleTime = () => {
-  //   const timerSeconds = seconds * 1000;
-  //   const timerMinutes = minutes * 60000;
-  //   const timerHours = hours * 60000 * 60;
-
-  //   setSessionTime(timerHours + timerMinutes + timerSeconds);
-  // };
   return (
     <Container className={classes.main}>
       <Paper className={classes.paper}>
         <Timer
           sessionTime={sessionTime}
           setSessionTime={setSessionTime}
-          hours={hours}
-          minutes={minutes}
-          seconds={seconds}
-          setHours={setHours}
-          setMinutes={setMinutes}
-          setSeconds={setSeconds}
-          setExpected={setExpected}
         />
         <FocusConfig
           goal={goal}
           setGoal={setGoal}
-          expectedEndTime={expectedEndTime}
           sessionTime={sessionTime}
           setSessionTime={setSessionTime}
         />

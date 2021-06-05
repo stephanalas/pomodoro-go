@@ -26,24 +26,15 @@ const Timer = (props) => {
   const [countDown, setCountDown] = useState(false);
   const classes = useStyles();
   const {
-    setHours,
-    setMinutes,
-    setSeconds,
-    seconds,
-    minutes,
-    hours,
     sessionTime,
     setSessionTime,
-    setExpected,
   } = props;
   const handlePlay = (ev) => {
     // handlePlay 'starts' the session but does not create the session.
     // the session gets created when a goal is selected. Then a user will be able to input the session time and create task to complete
-    // handlePlay would just update the expectedEndTime and startTime and should enable the block site feature
+    // handlePlay would just update the  and should enable the block site feature
 
     // data for session model
-    const expectedEndTime = new Date(new Date().setMilliseconds(sessionTime));
-    setExpected(expectedEndTime);
     // start countdown
     setCountDown(true);
     toggleTimer(ev);
