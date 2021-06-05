@@ -29,8 +29,9 @@ const sessionsReducer = (state = [], action) => {
 };
 
 
-const CREATE_SESSION = 'CREATE_SESSION'
+const CREATE_SESSION = 'CREATE_SESSION';
 const UPDATE_SESSION = 'UPDATE_SESSION';
+
 const createSessionActionCreator = (session) => {
   return {
     type: CREATE_SESSION,
@@ -53,9 +54,9 @@ const updateSessionActionCreator = (session) => {
     session
   }
 }
-const updateSession = (sessionId, data) => async dispatch => {
+const updateSession = (sessionId, sessionTime) => async dispatch => {
   try {
-    const response = await axios.put(j`/api/sessions/${sessionId}`, data);
+    const response = await axios.put(`/api/sessions/${sessionId}`, { sessionTime });
     const { data } = response;
     dispatch(updateSessionActionCreator(data))
 
@@ -66,11 +67,11 @@ const updateSession = (sessionId, data) => async dispatch => {
 }
 
 const currentSessionReducer = (state = {}, action) => {
-  if (action.type === CREATE_SESSION) {
+  if (action.type === CREATE_SESSION || action.type === UPDATE_SESSION) {
     state = action.session;
   }
   return state;
 };
 
 
-export { loadSessions, sessionsReducer, currentSessionReducer, createSession };
+export { loadSessions, sessionsReducer, currentSessionReducer, createSession, updateSession };

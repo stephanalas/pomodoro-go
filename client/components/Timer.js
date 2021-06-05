@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
+import { connect } from 'react-redux'
+import { updateSession } from '../store/sessions';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
@@ -28,12 +30,15 @@ const Timer = (props) => {
   const {
     sessionTime,
     setSessionTime,
+    updateSession
   } = props;
   const handlePlay = (ev) => {
     // handlePlay 'starts' the session but does not create the session.
     // the session gets created when a goal is selected. Then a user will be able to input the session time and create task to complete
     // handlePlay would just update the  and should enable the block site feature
-
+    
+    // this would start the session
+    if (!props.currentSession.sessionTime) updateSession(props.currentSession.id, sessionTime)
     // data for session model
     // start countdown
     setCountDown(true);
@@ -90,4 +95,8 @@ const Timer = (props) => {
     </section>
   );
 };
-export default Timer;
+export default connect(({ currentSession }) => ({ currentSession }), (dispatch) => {
+  return {
+    updateSession: (sessionId, sessionTime) => dispatch(updateSession(sessionId, sessionTime))
+  }
+})(Timer);
