@@ -26703,7 +26703,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store */ "./client/store/index.js");
 /* harmony import */ var _GoogleLogIn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GoogleLogIn */ "./client/components/GoogleLogIn.js");
 /* harmony import */ var _secret__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../secret */ "./client/secret.js");
-/* harmony import */ var _secret__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_secret__WEBPACK_IMPORTED_MODULE_4__);
 /* global gapi */
 
 
@@ -26723,7 +26722,7 @@ class Navbar extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   initializeGoogleSignIn() {
     window.gapi.load('auth2', () => {
       window.gapi.auth2.init({
-        apiKey: (_secret__WEBPACK_IMPORTED_MODULE_4___default()),
+        apiKey: _secret__WEBPACK_IMPORTED_MODULE_4__.default,
         client_id: '67500047765-oj928l0bem24tr3vc71m8gmlp5ij0bre.apps.googleusercontent.com'
       }).then(() => {
         const authInstance = window.gapi.auth2.getAuthInstance();
@@ -27415,9 +27414,15 @@ const mapDispatch = dispatch => {
 /*!**************************!*\
   !*** ./client/secret.js ***!
   \**************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const API_KEY = 'AIzaSyA1 - PBVF4GJpBB3x0_w2u1_1h1RktBJE_8';
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (API_KEY);
 
 /***/ }),
 
