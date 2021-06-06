@@ -7,7 +7,7 @@ const seed = require('../../../script/seed');
 
 describe('Goal model', () => {
   let goals;
-  beforeEach(async () => {
+  before(async () => {
     goals = (await seed()).goals;
   });
   it('requires a description', async () => {

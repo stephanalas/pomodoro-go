@@ -27,7 +27,7 @@ describe('Session model', () => {
     const session = await Session.create({ sessionTime: 35 });
     const expectedEndTime = session.expectedEndTime;
     const check = new Date(
-      Date.parse(session.startTime) + session.sessionTime * 60000
+      Date.parse(session.startTime) + session.sessionTime * 1000
     );
     expect(Date.parse(expectedEndTime)).to.equal(Date.parse(check));
   });

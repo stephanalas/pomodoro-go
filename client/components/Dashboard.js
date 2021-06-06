@@ -53,29 +53,11 @@ const Dashboard = () => {
     sessions = filtered;
   }
 
-  // goals.forEach((currGoal) => {
-  //   if (currGoal === goal) {
-  //     const filtered = sessions.filter((session) => {
-  //       session.goal == goal;
-  //     });
-  //     sessions = filtered;
-  //   }
-  // });
-  console.log('sessions before:', sessions);
-  console.log('goal:', goal);
-  console.log('goals:', goals);
   if (goal !== 'All' && goal) {
-    console.log('inside the if - goal:', goal);
-
     sessions = sessions.filter((session) => {
-      console.log('session.goalId:', session.goalId);
       return session.goalId === goal;
     });
-    console.log('after the session filter', sessions);
   }
-
-  console.log('sessions after:', sessions);
-
   return (
     <div>
       <FormControl>

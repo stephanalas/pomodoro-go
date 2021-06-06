@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Typography, Paper, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import dayjs from 'dayjs';
@@ -20,7 +20,6 @@ const useStyles = makeStyles({
 
 const LastSession = () => {
   const classes = useStyles();
-  //useSelector allows this component to access state
   const sessions = useSelector((state) => state.sessions);
 
   let lastSession;
