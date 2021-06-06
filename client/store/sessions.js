@@ -13,10 +13,9 @@ const loadSessions = () => {
       const response = await axios.get('/api/sessions');
       const sessions = response.data;
       dispatch(loadSessionsActionCreator(sessions));
-      
     } catch (error) {
-      console.log('error in loadSessions thunk')
-      console.log(error)
+      console.log('error in loadSessions thunk');
+      console.log(error);
     }
   };
 };
@@ -28,43 +27,43 @@ const sessionsReducer = (state = [], action) => {
   return state;
 };
 
-
 const CREATE_SESSION = 'CREATE_SESSION';
 const UPDATE_SESSION = 'UPDATE_SESSION';
 
 const createSessionActionCreator = (session) => {
   return {
     type: CREATE_SESSION,
-    session
-  }
-}
+    session,
+  };
+};
 const createSession = (userId) => async (dispatch) => {
   try {
-    const response = await axios.post('/api/sessions', { userId});
-    const { data } = response
-    dispatch(createSessionActionCreator(data))
+    const response = await axios.post('/api/sessions', { userId });
+    const { data } = response;
+    dispatch(createSessionActionCreator(data));
   } catch (error) {
-    console.log('error in createSession thunk')
-    console.log(error)
+    console.log('error in createSession thunk');
+    console.log(error);
   }
-}
+};
 const updateSessionActionCreator = (session) => {
   return {
     type: UPDATE_SESSION,
-    session
-  }
-}
-const updateSession = (sessionId, sessionTime) => async dispatch => {
+    session,
+  };
+};
+const updateSession = (sessionId, sessionTime) => async (dispatch) => {
   try {
-    const response = await axios.put(`/api/sessions/${sessionId}`, { sessionTime });
+    const response = await axios.put(`/api/sessions/${sessionId}`, {
+      sessionTime,
+    });
     const { data } = response;
-    dispatch(updateSessionActionCreator(data))
-
+    dispatch(updateSessionActionCreator(data));
   } catch (error) {
-    console.log('error in updateSession thunk')
-    console.log(error)
+    console.log('error in updateSession thunk');
+    console.log(error);
   }
-}
+};
 
 const currentSessionReducer = (state = {}, action) => {
   if (action.type === CREATE_SESSION || action.type === UPDATE_SESSION) {
@@ -73,5 +72,10 @@ const currentSessionReducer = (state = {}, action) => {
   return state;
 };
 
-
-export { loadSessions, sessionsReducer, currentSessionReducer, createSession, updateSession };
+export {
+  loadSessions,
+  sessionsReducer,
+  currentSessionReducer,
+  createSession,
+  updateSession,
+};

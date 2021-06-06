@@ -11,8 +11,6 @@ const useStyles = makeStyles({
     padding: 10,
     minWidth: 100,
     minHeight: 250,
-    // maxHeight: 250,
-    // maxWidth: 300,
     flexGrow: 1,
   },
   lsItem: {
@@ -22,8 +20,6 @@ const useStyles = makeStyles({
 
 const TotalSessions = (props) => {
   const classes = useStyles();
-  // const sessions = useSelector((state) => state.sessions);
-
   const { sessions } = props;
   let totalExpectedSessionLength;
   if (sessions.length) {

@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Dashboard from './components/Dashboard';
 import { me } from './store';
 import { loadSessions } from './store/sessions';
+import { loadGoals } from './store/goals';
 import BlockError from './components/BlockError';
 import BlockSites from './components/BlockSites';
 
@@ -63,6 +64,7 @@ const mapDispatch = (dispatch) => {
     loadInitialData() {
       dispatch(me());
       dispatch(loadSessions());
+      dispatch(loadGoals());
     },
   };
 };

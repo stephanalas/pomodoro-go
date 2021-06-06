@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Session, Goal, Site, Task },
+  models: { User, Session, Goal, Site, Task, BlackList },
 } = require('../server/db');
 
 /**
@@ -43,51 +43,6 @@ async function seed() {
     })
   );
 
-  //Creating sessions
-  // const sessions = await Promise.all([
-  //   Session.start({ userId: cody.id, sessionTime: 40 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 50 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 45 }),
-  //   Session.start({ userId: cody.id, sessionTime: 30 }),
-  //   Session.start({ userId: cody.id, sessionTime: 40 }),
-  //   Session.start({ userId: cody.id, sessionTime: 40 }),
-  //   Session.start({ userId: cody.id, sessionTime: 45 }),
-  //   Session.start({ userId: cody.id, sessionTime: 40 }),
-  //   Session.start({ userId: cody.id, sessionTime: 60 }),
-  //   Session.start({ userId: cody.id, sessionTime: 30 }),
-  //   Session.start({ userId: cody.id, sessionTime: 45 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 60 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 120 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 35 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 45 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 50 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 50 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 40 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 60 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 50 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 20 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 45 }),
-  //   Session.start({ userId: murphy.id, sessionTime: 50 }),
-  // ]);
-
-  // sessions.map(async (each) => {
-  //   const randomDay = Math.floor(Math.random() * 30 + 1);
-  //   const randomMonth = Math.floor(Math.random() * 11 + 1);
-  //   // const randomHour = Math.floor(Math.random()*11 + 1)
-  //   if (randomDay < 10 && randomMonth < 10) {
-  //     each.startTime = `2021-0${randomMonth}-0${randomDay}T00:26:01.161Z`; // 2021-05-27T00:26:01.161Z
-  //   } else if (randomDay < 10 && randomMonth > 10) {
-  //     each.startTime = `2021-${randomMonth}-0${randomDay}T00:26:01.161Z`; // 2021-05-27T00:26:01.161Z
-  //   } else if (randomDay > 10 && randomMonth < 10) {
-  //     each.startTime = `2021-0${randomMonth}-${randomDay}T00:26:01.161Z`;
-  //   } else if (randomDay > 10 && randomMonth > 10) {
-  //     each.startTime = `2021-${randomMonth}-${randomDay}T00:26:01.161Z`;
-  //   }
-  //   await each.save();
-  // });
-
-  // console.log(`seeded ${sessions.length} sessions`);
-
   // Creating goals
   const goals = await Promise.all([
     Goal.create({ description: 'Working' }),
@@ -99,7 +54,7 @@ async function seed() {
   //Creating sessions
   const sessionSeeds = [];
 
-  for (let i = 0; i < 192; i++) {
+  for (let i = 0; i < 100; i++) {
     sessionSeeds.push(Session.seed(users, goals));
   }
 
@@ -142,14 +97,14 @@ async function seed() {
   const hulu = sites[4];
 
   // Creating site and user associations
-  // const blockedSites = await Promise.all([
-  //   BlackList.create({ siteId: twitter.id, userId: cody.id }),
-  //   BlackList.create({ siteId: twitter.id, userId: murphy.id }),
-  //   BlackList.create({ siteId: instagram.id, userId: cody.id }),
-  //   BlackList.create({ siteId: facebook.id, userId: murphy.id }),
-  //   BlackList.create({ siteId: netflix.id, userId: murphy.id }),
-  //   BlackList.create({ siteId: hulu.id, userId: murphy.id }),
-  // ]);
+  await Promise.all([
+    BlackList.create({ siteId: twitter.id, userId: cody.id }),
+    BlackList.create({ siteId: twitter.id, userId: murphy.id }),
+    BlackList.create({ siteId: instagram.id, userId: cody.id }),
+    BlackList.create({ siteId: facebook.id, userId: murphy.id }),
+    BlackList.create({ siteId: netflix.id, userId: murphy.id }),
+    BlackList.create({ siteId: hulu.id, userId: murphy.id }),
+  ]);
 
   //console.log(`seeded ${blockedSites.length} blacklisted sites`)
 
