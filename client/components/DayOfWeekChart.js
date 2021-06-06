@@ -1,14 +1,34 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import Chart from 'react-apexcharts';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(localizedFormat);
-import { alpha, useTheme } from '@material-ui/core/styles';
-import { Box, Card, CardHeader, Typography } from '@material-ui/core';
+dayjs.extend(relativeTime);
+import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
+import { Card, Typography } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  contain: {
+    padding: 10,
+    minWidth: 100,
+    // maxWidth: 600,
+    flexGrow: 1,
+  },
+  lsItem: {
+    padding: 8,
+    paddingBottom: 0,
+  },
+});
 
 const DayOfWeekChart = (props) => {
-  const sessions = useSelector((state) => state.sessions);
+  const classes = useStyles();
+  // let timeFrame = useSelector((state) => state.timeFrame);
+  // const handleChange = (event) => {
+  //   setTimeFrame(event.target.value);
+  // };
+  const { sessions } = props;
+
   const sessionDays = sessions.map((session) => {
     const dayOfWeek = dayjs(session.startTime).format('ddd');
     return dayOfWeek;
@@ -118,27 +138,19 @@ const DayOfWeekChart = (props) => {
   };
 
   return (
-    <Card {...props}>
-      <CardHeader
-        subheader={
-          <Typography color="textSecondary" variant="body2">
-            Breakdown
-          </Typography>
-        }
-        title="Day of Week"
-        color="textPrimary"
-      />
-      {/* <Scrollbar> */}
-      <Box
-        sx={{
-          height: 336,
-          minWidth: 500,
-          px: 2,
-        }}
+    <Card className={classes.contain} {...props}>
+      <Typography className={classes.lsItem} variant="h5" color="primary">
+        Session Distribution
+      </Typography>
+      <Typography
+        className={classes.lsItem}
+        variant="caption"
+        color="textSecondary"
       >
-        <Chart width="500" height="300" type="bar" {...chart} />
-      </Box>
-      {/* </Scrollbar> */}
+        Day of Week
+      </Typography>
+
+      <Chart width="800" height="450" type="bar" {...chart} />
     </Card>
   );
 };
