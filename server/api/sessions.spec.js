@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const request = require('supertest');
 const seed = require('../../script/seed');
 const app = require('../app');
-
+const { db: { User } } = require('../../db')
 describe('Session routes', () => {
   let user;
   before(async () => {
