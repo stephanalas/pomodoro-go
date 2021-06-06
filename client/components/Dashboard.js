@@ -16,7 +16,7 @@ import HeatMap from './HeatMap';
 const Dashboard = () => {
   let sessions = useSelector((state) => state.sessions);
   let goals = useSelector((state) => state.goals);
-  console.log(goals);
+
   const [timeFrame, setTimeFrame] = useState('Year');
   const [goal, setGoal] = useState('');
   const handleTimeFrameChange = (event) => {
@@ -53,6 +53,29 @@ const Dashboard = () => {
     sessions = filtered;
   }
 
+  // goals.forEach((currGoal) => {
+  //   if (currGoal === goal) {
+  //     const filtered = sessions.filter((session) => {
+  //       session.goal == goal;
+  //     });
+  //     sessions = filtered;
+  //   }
+  // });
+  console.log('sessions before:', sessions);
+  console.log('goal:', goal);
+  console.log('goals:', goals);
+  if (goal !== 'All' && goal) {
+    console.log('inside the if - goal:', goal);
+
+    sessions = sessions.filter((session) => {
+      console.log('session.goalId:', session.goalId);
+      return session.goalId === goal;
+    });
+    console.log('after the session filter', sessions);
+  }
+
+  console.log('sessions after:', sessions);
+
   return (
     <div>
       <FormControl>
@@ -70,12 +93,11 @@ const Dashboard = () => {
       </FormControl>
       <FormControl>
         <InputLabel id="goal-label">Goal</InputLabel>
-
         <Select labelId="goal-label" value={goal} onChange={handleGoalChange}>
           <MenuItem value={'All'}>All</MenuItem>
           {goals.map((goal) => {
             return (
-              <MenuItem key={goal.id} value={goal.description}>
+              <MenuItem key={goal.id} value={goal.id}>
                 {goal.description}
               </MenuItem>
             );
