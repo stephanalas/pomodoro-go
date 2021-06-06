@@ -81,9 +81,12 @@ describe('User model', () => {
   describe('instanceMethods', () => {
     describe('generateToken', () => {
       it('returns a token with the id of the user', async () => {
-        const token = await users.cody.generateToken();
+        const {
+          users: { cody },
+        } = await seed();
+        const token = await cody.generateToken();
         const { id } = await jwt.verify(token, process.env.JWT);
-        expect(id).to.equal(users.cody.id);
+        expect(id).to.equal(cody.id);
       });
     }); // end describe('correctPassword')
     describe('authenticate', () => {
