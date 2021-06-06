@@ -25179,37 +25179,17 @@ const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default)(() 
 const CreateSession = () => {
   const classes = useStyles();
   const [sessionTime, setSessionTime] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-  const [hours, setHours] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-  const [minutes, setMinutes] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-  const [seconds, setSeconds] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-  const [expectedEndTime, setExpected] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
-  const [goal, setGoal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''); // might need this function later on
-  // const handleTime = () => {
-  //   const timerSeconds = seconds * 1000;
-  //   const timerMinutes = minutes * 60000;
-  //   const timerHours = hours * 60000 * 60;
-  //   setSessionTime(timerHours + timerMinutes + timerSeconds);
-  // };
-
+  const [goal, setGoal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     className: classes.main
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
     className: classes.paper
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Timer__WEBPACK_IMPORTED_MODULE_1__.default, {
     sessionTime: sessionTime,
-    setSessionTime: setSessionTime,
-    hours: hours,
-    minutes: minutes,
-    seconds: seconds,
-    setHours: setHours,
-    setMinutes: setMinutes,
-    setSeconds: setSeconds,
-    setExpected: setExpected // handleTime={handleTime}
-
+    setSessionTime: setSessionTime
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FocusConfig__WEBPACK_IMPORTED_MODULE_2__.default, {
     goal: goal,
     setGoal: setGoal,
-    handleTime: handleTime,
     sessionTime: sessionTime,
     setSessionTime: setSessionTime
   })));
@@ -25673,7 +25653,8 @@ const FocusConfig = props => {
     item: true,
     xs: 12,
     className: classes.inputContainer
-  }, [['Hours'], ['Minutes'], ['Seconds']].map(label => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TimerInput__WEBPACK_IMPORTED_MODULE_1__.default, {
+  }, [['Hours'], ['Minutes'], ['Seconds']].map((label, idx) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TimerInput__WEBPACK_IMPORTED_MODULE_1__.default, {
+    id: idx,
     label: label[0],
     sessionTime: props.sessionTime,
     setSessionTime: props.setSessionTime,
@@ -25706,15 +25687,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Grid/Grid.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/FormControl/FormControl.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/InputLabel/InputLabel.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Select/Select.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/MenuItem/MenuItem.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Grid/Grid.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/FormControl/FormControl.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/InputLabel/InputLabel.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Select/Select.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/MenuItem/MenuItem.js");
+/* harmony import */ var _store_sessions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/sessions */ "./client/store/sessions.js");
 
 
-const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default)(() => ({
+
+
+const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default)(() => ({
   select: {
     width: '50%'
   },
@@ -25730,32 +25715,49 @@ const GoalSelector = props => {
   } = props;
 
   const handleChange = ev => {
+    if (!props.currentSession.id) {
+      props.createSession(props.auth.id);
+    }
+
     setGoal(ev.target.value);
   };
 
   const classes = useStyles();
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     container: true,
     item: true
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
     className: classes.form
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
     id: "goal-label"
-  }, "Select Goal"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
+  }, "Select Goal"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
     labelId: "goal-label",
     className: classes.select,
     value: goal,
     onChange: handleChange
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, {
     value: "Study"
-  }, "Study"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+  }, "Study"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, {
     value: "Meditate"
-  }, "Meditate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+  }, "Meditate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, {
     value: "Work"
   }, "Work"))));
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GoalSelector);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(state => {
+  const {
+    currentSession,
+    auth
+  } = state;
+  return {
+    currentSession,
+    auth
+  };
+}, dispatch => {
+  return {
+    createSession: userId => dispatch((0,_store_sessions__WEBPACK_IMPORTED_MODULE_2__.createSession)(userId))
+  };
+})(GoalSelector));
 
 /***/ }),
 
@@ -26859,11 +26861,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Button/Button.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Button/Button.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _store_sessions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/sessions */ "./client/store/sessions.js");
 
 
-const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default)(() => ({
+
+
+const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default)(() => ({
   timerContainer: {
     border: '1px solid black',
     height: '100%',
@@ -26889,24 +26895,18 @@ const Timer = props => {
   const [countDown, setCountDown] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const classes = useStyles();
   const {
-    setHours,
-    setMinutes,
-    setSeconds,
-    seconds,
-    minutes,
-    hours,
     sessionTime,
     setSessionTime,
-    setExpected
+    updateSession
   } = props;
 
   const handlePlay = ev => {
     // handlePlay 'starts' the session but does not create the session.
     // the session gets created when a goal is selected. Then a user will be able to input the session time and create task to complete
-    // handlePlay would just update the expectedEndTime and startTime and should enable the block site feature
-    // data for session model
-    const expectedEndTime = new Date(new Date().setMilliseconds(sessionTime));
-    setExpected(expectedEndTime); // start countdown
+    // handlePlay would just update the  and should enable the block site feature
+    // this would start the session
+    if (!props.currentSession.sessionTime) updateSession(props.currentSession.id, sessionTime); // data for session model
+    // start countdown
 
     setCountDown(true);
     toggleTimer(ev);
@@ -26949,19 +26949,27 @@ const Timer = props => {
     className: classes.timerContainer
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: classes.timer
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, msToHMS(props.sessionTime))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, msToHMS(sessionTime))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: classes.buttons
-  }, countDown ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
+  }, countDown ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     onClick: handlePause
-  }, "pause") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
+  }, "pause") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     onClick: handlePlay,
     disabled: sessionTime ? false : true
-  }, "Play"), sessionTime ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
+  }, "Play"), sessionTime ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     onClick: toggleTimer
   }, "stop") : null));
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Timer);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(({
+  currentSession
+}) => ({
+  currentSession
+}), dispatch => {
+  return {
+    updateSession: (sessionId, sessionTime) => dispatch((0,_store_sessions__WEBPACK_IMPORTED_MODULE_2__.updateSession)(sessionId, sessionTime))
+  };
+})(Timer));
 
 /***/ }),
 
@@ -26989,36 +26997,50 @@ const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default)(() 
 }));
 
 const TimerInput = props => {
-  const classes = useStyles();
+  const classes = useStyles(); // timer may need local state
+
   const [inputError, setInputError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [input, setInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
 
   const hasError = ev => {
     setInputError(false); //checking for errors
 
-    const input = parseInt(ev.target.value);
-    if (input + '' === 'NaN') return true;
+    const i = parseInt(ev.target.value);
+    if (i + '' === 'NaN') return true;
     const hasChar = ev.target.value.split('').some(item => parseInt(item) === NaN);
-    console.log(hasChar);
 
-    if (props.label === 'Hours') {
-      return input > 24 || input < 0 || hasChar ? true : false;
-    }
+    if (props.label === 'Hours') {}
 
-    return input > 60 || input < 0 || hasChar ? true : false;
+    if (hasChar) return true;
+    if (props.label === 'Hours' && i > 23) return true;
+    if (i > 59) return true;
+    setInput(ev.target.value);
+    return false;
   };
 
   const handleChange = ev => {
     if (hasError(ev)) {
       setInputError(true);
       return;
-    } // change the session time bases on input
+    }
 
+    console.log(input); // change the session time bases on input
 
     if (props.label.toLowerCase() === 'hours') {
-      props.setSessionTime(ev.target.value * 3600000);
+      const previous = (input ? parseInt(input) : 0) * 3600000;
+      const hours = parseInt(ev.target.value) * 3600000;
+      props.setSessionTime(props.sessionTime - previous + hours);
     } else if (props.label.toLowerCase() === 'minutes') {
-      props.setSessionTime(ev.target.value * 60000);
-    } else props.setSessionTime(ev.target.value * 1000);
+      const previous = (input ? parseInt(input) : 0) * 60000;
+      const minutes = parseInt(ev.target.value) * 60000;
+      props.setSessionTime(props.sessionTime - previous + minutes);
+    } else {
+      const previous = (input ? parseInt(input) : 0) * 1000;
+      const seconds = parseInt(ev.target.value) * 1000;
+      props.setSessionTime(props.sessionTime - previous + seconds);
+    }
+
+    ;
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
@@ -27035,7 +27057,11 @@ const TimerInput = props => {
     error: inputError ? true : false,
     helperText: inputError ? 'input error' : null,
     onChange: handleChange,
-    disabled: props.goal ? false : true
+    disabled: props.goal ? false : true,
+    multiline: true,
+    inputProps: {
+      maxLength: 2
+    }
   }));
 };
 
@@ -27322,6 +27348,10 @@ class Routes extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       path: "/dashboard",
       component: _components_Dashboard__WEBPACK_IMPORTED_MODULE_5__.default
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+      path: "/timer",
+      exact: true,
+      component: _components_CreateSession__WEBPACK_IMPORTED_MODULE_3__.default
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
       exact: true,
       path: "/uhoh",
       component: _components_BlockError__WEBPACK_IMPORTED_MODULE_8__.default
@@ -27334,7 +27364,7 @@ class Routes extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       exact: true,
       component: _components_AuthForm__WEBPACK_IMPORTED_MODULE_2__.Login
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-      path: "/test",
+      path: "/timer",
       exact: true,
       component: _components_CreateSession__WEBPACK_IMPORTED_MODULE_3__.default
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
@@ -27596,7 +27626,8 @@ __webpack_require__.r(__webpack_exports__);
 const reducer = (0,redux__WEBPACK_IMPORTED_MODULE_6__.combineReducers)({
   auth: _auth__WEBPACK_IMPORTED_MODULE_3__.default,
   blockedSites: _blockSites__WEBPACK_IMPORTED_MODULE_5__.default,
-  sessions: _sessions__WEBPACK_IMPORTED_MODULE_4__.sessionsReducer
+  sessions: _sessions__WEBPACK_IMPORTED_MODULE_4__.sessionsReducer,
+  currentSession: _sessions__WEBPACK_IMPORTED_MODULE_4__.currentSessionReducer
 });
 const middleware = (0,redux_devtools_extension__WEBPACK_IMPORTED_MODULE_2__.composeWithDevTools)((0,redux__WEBPACK_IMPORTED_MODULE_6__.applyMiddleware)(redux_thunk__WEBPACK_IMPORTED_MODULE_1__.default, (0,redux_logger__WEBPACK_IMPORTED_MODULE_0__.createLogger)({
   collapsed: true
@@ -27617,7 +27648,10 @@ const store = (0,redux__WEBPACK_IMPORTED_MODULE_6__.createStore)(reducer, middle
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "loadSessions": () => (/* binding */ loadSessions),
-/* harmony export */   "sessionsReducer": () => (/* binding */ sessionsReducer)
+/* harmony export */   "sessionsReducer": () => (/* binding */ sessionsReducer),
+/* harmony export */   "currentSessionReducer": () => (/* binding */ currentSessionReducer),
+/* harmony export */   "createSession": () => (/* binding */ createSession),
+/* harmony export */   "updateSession": () => (/* binding */ updateSession)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
@@ -27633,15 +27667,75 @@ const loadSessionsActionCreator = sessions => {
 
 const loadSessions = () => {
   return async dispatch => {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/sessions');
-    const sessions = response.data;
-    dispatch(loadSessionsActionCreator(sessions));
+    try {
+      const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/sessions');
+      const sessions = response.data;
+      dispatch(loadSessionsActionCreator(sessions));
+    } catch (error) {
+      console.log('error in loadSessions thunk');
+      console.log(error);
+    }
   };
 };
 
 const sessionsReducer = (state = [], action) => {
   if (action.type === LOAD_SESSIONS) {
     state = action.sessions;
+  }
+
+  return state;
+};
+
+const CREATE_SESSION = 'CREATE_SESSION';
+const UPDATE_SESSION = 'UPDATE_SESSION';
+
+const createSessionActionCreator = session => {
+  return {
+    type: CREATE_SESSION,
+    session
+  };
+};
+
+const createSession = userId => async dispatch => {
+  try {
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/sessions', {
+      userId
+    });
+    const {
+      data
+    } = response;
+    dispatch(createSessionActionCreator(data));
+  } catch (error) {
+    console.log('error in createSession thunk');
+    console.log(error);
+  }
+};
+
+const updateSessionActionCreator = session => {
+  return {
+    type: UPDATE_SESSION,
+    session
+  };
+};
+
+const updateSession = (sessionId, sessionTime) => async dispatch => {
+  try {
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().put(`/api/sessions/${sessionId}`, {
+      sessionTime
+    });
+    const {
+      data
+    } = response;
+    dispatch(updateSessionActionCreator(data));
+  } catch (error) {
+    console.log('error in updateSession thunk');
+    console.log(error);
+  }
+};
+
+const currentSessionReducer = (state = {}, action) => {
+  if (action.type === CREATE_SESSION || action.type === UPDATE_SESSION) {
+    state = action.session;
   }
 
   return state;

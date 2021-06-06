@@ -17,14 +17,13 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const { userId } = req.body
-    const session = await Session.create({ userId })
-    res.status(201).send(session) 
+    const { userId } = req.body;
+    const session = await Session.create({ userId });
+    res.status(201).send(session);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
-
+});
 
 router.get('/:sessionId', async (req, res, next) => {
   try {
@@ -39,15 +38,15 @@ router.get('/:sessionId', async (req, res, next) => {
 
 router.put('/:sessionId', async (req, res, next) => {
   try {
-    const { sessionTime } = req.body
-    const session = await Session.findByPk(req.params.sessionId)
-    session.sessionTime = sessionTime
-    await session.save()
-    res.status(200).send(session)
+    const { sessionTime } = req.body;
+    const session = await Session.findByPk(req.params.sessionId);
+    session.sessionTime = sessionTime;
+    await session.save();
+    res.status(200).send(session);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 router.get('/user/:userId', async (req, res, next) => {
   try {
