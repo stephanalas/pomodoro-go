@@ -8,7 +8,7 @@ const Goal = require('./Goal');
 
 describe('Session model', () => {
   beforeEach(async () => {
-    await seed();
+    await db.sync({ force: true });
   });
   it('requires a sessionTime', async () => {
     try {
@@ -34,10 +34,10 @@ describe('Session model', () => {
   //using a UUID threw this test off; wasn't able to fix quickly but I'll look into
   describe('Session.start() class method', () => {
     it('creates a session with an associated user and goal(if it is provided)', async () => {
-      const john = await User.create({
-        username: 'john',
-        password: 'john_pw',
-        email: 'john@mail.com',
+      const chris = await User.create({
+        username: 'chris',
+        password: 'chris_pw',
+        email: 'chris@mail.com',
       });
 
       const reactGoal = await Goal.create({
@@ -45,12 +45,12 @@ describe('Session model', () => {
       });
 
       const session = await Session.start({
-        userId: john.id,
+        userId: chris.id,
         sessionTime: 30,
         goalId: reactGoal.id,
       });
 
-      expect(session.userId).to.equal(john.id);
+      expect(session.userId).to.equal(chris.id);
       expect(session.goalId).to.equal(reactGoal.id);
       expect(session.sessionTime).to.equal(30);
       expect(session.expectedEndTime).to.be.ok;
@@ -96,15 +96,15 @@ describe('Session model', () => {
   });
 
   it('Session.seed() class method creates a session', async () => {
-    const jane = await User.create({
-      username: 'jane',
-      password: 'jane_pw',
-      email: 'jane@mail.com',
+    const marshall = await User.create({
+      username: 'marshall',
+      password: 'marshall_pw',
+      email: 'marshall@mail.com',
     });
-    const john = await User.create({
-      username: 'john',
-      password: 'john_pw',
-      email: 'john@mail.com',
+    const kid = await User.create({
+      username: 'kid',
+      password: 'kid_pw',
+      email: 'kid@mail.com',
     });
 
     const reactGoal = await Goal.create({
@@ -114,7 +114,7 @@ describe('Session model', () => {
       description: 'Make other components.',
     });
 
-    const usersArr = [jane, john];
+    const usersArr = [marshall, kid];
 
     const goalsArr = [reactGoal, otherGoal];
     const session = await Session.seed(usersArr, goalsArr);
