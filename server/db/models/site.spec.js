@@ -5,7 +5,7 @@ const {
 } = require('../index');
 
 describe('Site Model', function () {
-  beforeEach(async () => {
+  before(async () => {
     try {
       await db.sync({ force: true });
       const site = await Site.create({

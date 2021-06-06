@@ -33,7 +33,7 @@ describe('Session model', function () {
     const { session0 } = sessions;
     const expectedEndTime = session0.expectedEndTime;
     const check = new Date(
-      Date.parse(session0.startTime) + session0.sessionTime * 60000
+      Date.parse(session0.startTime) + session0.sessionTime * 1000
     );
     expect(Date.parse(expectedEndTime)).to.equal(Date.parse(check));
   });

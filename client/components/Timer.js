@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
+import { connect } from 'react-redux'
+import { updateSession } from '../store/sessions';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
@@ -26,24 +28,18 @@ const Timer = (props) => {
   const [countDown, setCountDown] = useState(false);
   const classes = useStyles();
   const {
-    setHours,
-    setMinutes,
-    setSeconds,
-    seconds,
-    minutes,
-    hours,
     sessionTime,
     setSessionTime,
-    setExpected,
+    updateSession
   } = props;
   const handlePlay = (ev) => {
     // handlePlay 'starts' the session but does not create the session.
     // the session gets created when a goal is selected. Then a user will be able to input the session time and create task to complete
-    // handlePlay would just update the expectedEndTime and startTime and should enable the block site feature
-
+    // handlePlay would just update the  and should enable the block site feature
+    
+    // this would start the session
+    if (!props.currentSession.sessionTime) updateSession(props.currentSession.id, sessionTime)
     // data for session model
-    const expectedEndTime = new Date(new Date().setMilliseconds(sessionTime));
-    setExpected(expectedEndTime);
     // start countdown
     setCountDown(true);
     toggleTimer(ev);
@@ -84,7 +80,7 @@ const Timer = (props) => {
   return (
     <section className={classes.timerContainer}>
       <div className={classes.timer}>
-        <div>{msToHMS(props.sessionTime)}</div>
+        <div>{msToHMS(sessionTime)}</div>
       </div>
       <div className={classes.buttons}>
         {countDown ? (
@@ -99,4 +95,8 @@ const Timer = (props) => {
     </section>
   );
 };
-export default Timer;
+export default connect(({ currentSession }) => ({ currentSession }), (dispatch) => {
+  return {
+    updateSession: (sessionId, sessionTime) => dispatch(updateSession(sessionId, sessionTime))
+  }
+})(Timer);

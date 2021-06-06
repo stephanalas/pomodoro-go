@@ -7,6 +7,7 @@ import { GoogleLogIn, GoogleInfo } from './GoogleLogIn';
 import API_KEY from '../secret';
 // https://github.com/intricatecloud/bookface-demo/blob/master/src/App.js?fbclid=IwAR1fyP0714chJ3O0OPJ4330BjJERsvyKLxvXXOjU0dMfGXfO6k_V3UhABMw
 
+
 class Navbar extends Component {
   constructor(props) {
     super(props);
