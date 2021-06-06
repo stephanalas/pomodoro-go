@@ -12,7 +12,6 @@ import TotalSessions from './TotalSessions';
 import AverageSession from './AverageSession';
 import DayOfWeekChart from './DayOfWeekChart';
 import HeatMap from './HeatMap';
-//test test
 const Dashboard = () => {
   let sessions = useSelector((state) => state.sessions);
   let goals = useSelector((state) => state.goals);
