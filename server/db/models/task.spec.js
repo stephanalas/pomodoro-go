@@ -7,7 +7,7 @@ const seed = require('../../../script/seed');
 
 describe('Task model', () => {
   let tasks;
-  beforeEach(async () => {
+  before(async () => {
     tasks = (await seed()).tasks;
   });
   it('requires a name', async () => {

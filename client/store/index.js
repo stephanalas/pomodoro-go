@@ -3,13 +3,13 @@ import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import auth from './auth';
-import { sessionsReducer } from './sessions';
+import { sessionsReducer, currentSessionReducer } from './sessions';
 import blockedSitesReducer from './blockSites';
-
 const reducer = combineReducers({
   auth,
   blockedSites: blockedSitesReducer,
-  sessions: sessionsReducer
+  sessions: sessionsReducer,
+  currentSession: currentSessionReducer
 })
 
 const middleware = composeWithDevTools(

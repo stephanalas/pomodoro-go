@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import {
   Grid,
   Select,
@@ -7,6 +8,7 @@ import {
   FormControl,
   makeStyles,
 } from '@material-ui/core';
+import { createSession } from '../store/sessions';
 const useStyles = makeStyles(() => ({
   select: {
     width: '50%',
@@ -19,6 +21,9 @@ const GoalSelector = (props) => {
   const { goal, setGoal } = props;
 
   const handleChange = (ev) => {
+    if (!props.currentSession.id) {
+      props.createSession(props.auth.id)
+    }
     setGoal(ev.target.value);
   };
   const classes = useStyles();
@@ -41,4 +46,14 @@ const GoalSelector = (props) => {
   );
 };
 
-export default GoalSelector;
+export default connect(state => {
+  const { currentSession, auth } = state
+  return {
+    currentSession,
+    auth
+  }
+}, dispatch => {
+  return {
+    createSession: (userId) => dispatch(createSession(userId))
+  }
+})(GoalSelector);
