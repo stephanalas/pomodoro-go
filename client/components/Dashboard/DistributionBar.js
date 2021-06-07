@@ -31,7 +31,7 @@ const useStyles = makeStyles({
   },
 });
 
-const DayOfWeekChart = (props) => {
+const DistributionBar = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const { sessions } = props;
@@ -155,10 +155,9 @@ const DayOfWeekChart = (props) => {
     const goal = session.goal.description;
     return goal;
   });
-  // console.log('sessionGoals:', sessionGoals);
+
   let distGoals = {};
   sessionGoals.forEach((goal) => {
-    // console.log('goal:', goal);
     if (distGoals[goal]) distGoals[goal]++;
     else {
       distGoals[goal] = 1;
@@ -300,4 +299,4 @@ const DayOfWeekChart = (props) => {
   );
 };
 
-export default DayOfWeekChart;
+export default DistributionBar;

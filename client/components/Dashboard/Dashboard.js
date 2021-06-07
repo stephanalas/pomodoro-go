@@ -11,8 +11,9 @@ import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import LastSession from './LastSession';
 import TotalSessions from './TotalSessions';
 import AverageSession from './AverageSession';
-import DayOfWeekChart from './DayOfWeekChart';
+import DistributionBar from './DistributionBar';
 import HeatMap from './HeatMap';
+import HistoryLine from './HistoryLine';
 
 const useStyles = makeStyles({
   contain: {
@@ -131,12 +132,13 @@ const Dashboard = () => {
       </Grid>
       <Grid container spacing={3}>
         <Grid item xs={6}>
-          <DayOfWeekChart sessions={sessions} />
+          <DistributionBar sessions={sessions} />
         </Grid>
         <Grid item xs={6}>
           <HeatMap sessions={sessions} />
         </Grid>
       </Grid>
+      <HistoryLine sessions={sessions} />
     </div>
   );
 };
