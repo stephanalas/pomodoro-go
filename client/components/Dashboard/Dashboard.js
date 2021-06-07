@@ -11,7 +11,7 @@ import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import LastSession from './LastSession';
 import TotalSessions from './TotalSessions';
 import AverageSession from './AverageSession';
-import DayOfWeekChart from './DistributionChart/DayOfWeekChart';
+import DayOfWeekChart from './DayOfWeekChart';
 import HeatMap from './HeatMap';
 
 const useStyles = makeStyles({
