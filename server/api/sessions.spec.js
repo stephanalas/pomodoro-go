@@ -9,7 +9,7 @@ describe('Session routes', () => {
   });
 
   describe('/api/sessions/', () => {
-    it('GET /api/sessions', async () => {
+    it('GET /api/sessions', async (done) => {
       const res = await request(app).get('/api/sessions').expect(200);
       expect(res.body).to.be.an('array');
       expect(res.body.length).to.equal(192);

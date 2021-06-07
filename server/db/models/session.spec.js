@@ -5,6 +5,7 @@ const {
 } = require('../index');
 const seed = require('../../../script/seed');
 const Goal = require('./Goal');
+const { Done } = require('@material-ui/icons');
 
 describe('Session model', () => {
   let sessions;
