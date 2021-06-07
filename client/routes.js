@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Dashboard from './components/Dashboard';
 import { me } from './store';
 import { loadSessions } from './store/sessions';
+import { loadGoals } from './store/goals';
 import BlockError from './components/BlockError';
 import BlockSites from './components/BlockSites';
 
@@ -28,13 +29,15 @@ class Routes extends Component {
             <Route path="/home" component={Home} />
             <Route path="/dashboard" component={Dashboard} />
             {/* <Redirect to="/home" /> */}
+            <Route path="/timer" exact component={CreateSession} />
+
             <Route exact path="/uhoh" component={BlockError} />
             <Route exact path="/blocksites" component={BlockSites} />
           </Switch>
         ) : (
           <Switch>
             <Route path="/" exact component={Login} />
-            <Route path="/test" exact component={CreateSession} />
+            <Route path="/timer" exact component={CreateSession} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/dashboard" exact component={Dashboard} />
@@ -61,6 +64,7 @@ const mapDispatch = (dispatch) => {
     loadInitialData() {
       dispatch(me());
       dispatch(loadSessions());
+      dispatch(loadGoals());
     },
   };
 };

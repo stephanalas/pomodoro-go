@@ -10,7 +10,7 @@ const seed = require('../../script/seed');
 const app = require('../app');
 
 describe('User routes', () => {
-  beforeEach(async () => {
+  before(async() => {
     await seed();
   });
 

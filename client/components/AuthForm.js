@@ -11,14 +11,16 @@ const AuthForm = (props) => {
   return (
     <div>
       {/* script for google OAuth */}
-      <script src="https://accounts.google.com/gsi/client" async defer></script>
+      {/* <script src="https://accounts.google.com/gsi/client" async defer></script> */}
       <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="username">
-            <small>Username</small>
-          </label>
-          <input name="username" type="text" />
-        </div>
+        {name === 'signup' ? (
+          <div>
+            <label htmlFor="username">
+              <small>Username</small>
+            </label>
+            <input name="username" type="text" />
+          </div>
+        ) : null}
         <div>
           <label htmlFor="email">
             <small>E-mail</small>
@@ -36,7 +38,7 @@ const AuthForm = (props) => {
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
-      <div
+      {/* <div
         id="g_id_onload"
         data-client_id="YOUR_GOOGLE_CLIENT_ID"
         data-login_uri="https://your.domain/your_login_endpoint"
@@ -50,7 +52,7 @@ const AuthForm = (props) => {
         data-text="sign_in_with"
         data-shape="rectangular"
         data-logo_alignment="left"
-      ></div>
+      ></div> */}
     </div>
   );
 };
@@ -83,7 +85,9 @@ const mapDispatch = (dispatch) => {
     handleSubmit(evt) {
       evt.preventDefault();
       const formName = evt.target.name;
-      const username = evt.target.username.value;
+      let username = null;
+      if (formName === 'signup') username = evt.target.username.value;
+
       const email = evt.target.email.value;
       const password = evt.target.password.value;
       dispatch(authenticate(username, email, password, formName));
