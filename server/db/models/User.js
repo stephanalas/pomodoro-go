@@ -15,10 +15,10 @@ const User = db.define('user', {
   username: {
     type: STRING,
     unique: true,
-    // allowNull: true,
-    // validate: {
-    //   notEmpty: true,
-    // },
+    allowNull: true,
+    validate: {
+      notEmpty: true,
+    },
   },
   email: {
     type: STRING,
@@ -57,8 +57,13 @@ User.prototype.generateToken = function () {
 /**
  * classMethods
  */
-User.authenticate = async function ({ email, password }) {
+User.authenticate = async function (userObj, method = null) {
+  if (method === 'google') {
+    return userObj.generateToken();
+  }
+  const { email, password } = userObj;
   const user = await this.findOne({ where: { email } });
+  console.log(await user.correctPassword(password));
   if (!user || !(await user.correctPassword(password))) {
     const error = Error('Incorrect username/password');
     error.status = 401;
@@ -93,6 +98,15 @@ const hashPassword = async (user) => {
   }
 };
 
-User.beforeCreate(hashPassword);
+User.beforeCreate(async (user) => {
+  try {
+    if (!user.username) {
+      user.username = user.email;
+    }
+    user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
+  } catch (error) {
+    console.log(error);
+  }
+});
 User.beforeUpdate(hashPassword);
 User.beforeBulkCreate((users) => Promise.all(users.map(hashPassword)));

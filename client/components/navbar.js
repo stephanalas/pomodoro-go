@@ -15,7 +15,6 @@ class Navbar extends Component {
       isSignedIn: null,
       authInstance: {}
     };
-    this.handleClick = this.handleClick.bind(this)
   }
 
   initializeGoogleSignIn() {
