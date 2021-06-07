@@ -23,6 +23,11 @@ const useStyles = makeStyles({
 const HeatMap = (props) => {
   const classes = useStyles();
   const { sessions } = props;
+  const [rightChart, setRightChart] = useState('Frequency');
+
+  const handleRightChartChange = (event) => {
+    setRightChart(event.target.value);
+  };
 
   let totalExpectedSessionLength;
   if (sessions.length) {
@@ -374,6 +379,19 @@ const HeatMap = (props) => {
 
   return (
     <Card className={classes.contain} {...props}>
+      <Grid item>
+        <FormControl className={classes.formControl}>
+          <InputLabel id="misc-label">Display</InputLabel>
+          <Select
+            labelId="misc-label"
+            value={rightChart}
+            onChange={handlerightChartChange}
+          >
+            <MenuItem value={'Frequency'}>Frequency</MenuItem>
+            <MenuItem value={'History'}>History</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
       <Typography className={classes.lsItem} variant="h5" color="primary">
         Session Frequency
       </Typography>
@@ -391,7 +409,16 @@ const HeatMap = (props) => {
           px: 2,
         }}
       >
-        <Chart width="800" height="450" type="heatmap" {...chart} />
+        {rightChart === 'Frequency' ? (
+          <Chart width="800" height="450" type="heatmap" {...chart} />
+        ) : (
+          ''
+        )}
+        {rightChart === 'History' ? (
+          <Chart width="800" height="450" type="heatmap" {...chart} />
+        ) : (
+          ''
+        )}
       </Box>
     </Card>
   );

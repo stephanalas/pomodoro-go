@@ -114,14 +114,14 @@ const HistoryLine = (props) => {
     <div className="app">
       <Card className={classes.contain} {...props}>
         <Typography className={classes.lsItem} variant="h5" color="primary">
-          Session Frequency
+          Session History
         </Typography>
         <Typography
           className={classes.lsItem}
           variant="caption"
           color="textSecondary"
         >
-          Time of Week
+          Month
         </Typography>
         <Box
           sx={{
