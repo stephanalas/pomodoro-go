@@ -22,8 +22,8 @@ const useStyles = makeStyles({
 
 const HeatMap = (props) => {
   const classes = useStyles();
-  // const sessions = useSelector((state) => state.sessions);
   const { sessions } = props;
+
   let totalExpectedSessionLength;
   if (sessions.length) {
     totalExpectedSessionLength = sessions.reduce((total, session) => {
@@ -384,7 +384,6 @@ const HeatMap = (props) => {
       >
         Time of Week
       </Typography>
-      {/* <Scrollbar> */}
       <Box
         sx={{
           height: 336,
@@ -394,7 +393,6 @@ const HeatMap = (props) => {
       >
         <Chart width="800" height="450" type="heatmap" {...chart} />
       </Box>
-      {/* </Scrollbar> */}
     </Card>
   );
 };

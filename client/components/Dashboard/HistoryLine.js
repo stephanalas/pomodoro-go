@@ -1,12 +1,28 @@
 import React, { useState } from 'react';
 import Chart from 'react-apexcharts';
+import { Box, Card, Typography } from '@material-ui/core';
+import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 
+const useStyles = makeStyles({
+  contain: {
+    padding: 10,
+    minWidth: 100,
+    // maxWidth: 600,
+    flexGrow: 1,
+  },
+  lsItem: {
+    padding: 8,
+    paddingBottom: 0,
+  },
+});
+
 const HistoryLine = (props) => {
+  const classes = useStyles();
   const { sessions } = props;
 
   //Distribution By Goals Chart
@@ -14,38 +30,53 @@ const HistoryLine = (props) => {
     const month = dayjs(session.startTime).format('MMM');
     return month;
   });
-  let distMonths = {
-    Jan: 0,
-    Feb: 0,
-    Mar: 0,
-    Apr: 0,
-    May: 0,
-    Jun: 0,
-    Jul: 0,
-    Aug: 0,
-    Sep: 0,
-    Oct: 0,
-    Nov: 0,
-    Dec: 0,
+  let seriesMonths = {
+    Jan: { successful: 0, failed: 0 },
+    Feb: { successful: 0, failed: 0 },
+    Mar: { successful: 0, failed: 0 },
+    Apr: { successful: 0, failed: 0 },
+    May: { successful: 0, failed: 0 },
+    Jun: { successful: 0, failed: 0 },
+    Jul: { successful: 0, failed: 0 },
+    Aug: { successful: 0, failed: 0 },
+    Sep: { successful: 0, failed: 0 },
+    Oct: { successful: 0, failed: 0 },
+    Nov: { successful: 0, failed: 0 },
+    Dec: { successful: 0, failed: 0 },
   };
-  months.forEach((month) => {
-    distMonths[month]++;
+  sessions.forEach((session) => {
+    const { startTime, successful } = session;
+    const month = dayjs(startTime).format('MMM');
+    if (successful === true) {
+      seriesMonths[month].successful++;
+    } else {
+      seriesMonths[month].failed++;
+    }
   });
-  console.log('distMonths:', distMonths);
+  console.log('seriesMonths:', seriesMonths);
 
   let monthsArr = [];
-  for (const [key, val] of Object.entries(distMonths)) {
+  for (const [key, val] of Object.entries(seriesMonths)) {
     monthsArr.push(key);
   }
   let monthValsArr = [];
-  for (const [key, val] of Object.entries(distMonths)) {
+  for (const [key, val] of Object.entries(seriesMonths)) {
     monthValsArr.push(val);
   }
 
   const monthData = {
     series: [
       {
-        data: monthValsArr,
+        name: 'Successful',
+        data: monthValsArr.map((val) => {
+          return val.successful;
+        }),
+      },
+      {
+        name: 'Failed',
+        data: monthValsArr.map((val) => {
+          return val.failed;
+        }),
       },
     ],
     categories: monthsArr,
@@ -53,6 +84,7 @@ const HistoryLine = (props) => {
   console.log('monthData:', monthData);
 
   const options = {
+    colors: ['#3C4693', '#FF1654'],
     chart: {
       id: 'basic-line',
     },
@@ -80,11 +112,27 @@ const HistoryLine = (props) => {
 
   return (
     <div className="app">
-      <div className="row">
-        <div className="mixed-chart">
+      <Card className={classes.contain} {...props}>
+        <Typography className={classes.lsItem} variant="h5" color="primary">
+          Session Frequency
+        </Typography>
+        <Typography
+          className={classes.lsItem}
+          variant="caption"
+          color="textSecondary"
+        >
+          Time of Week
+        </Typography>
+        <Box
+          sx={{
+            height: 336,
+            minWidth: 500,
+            px: 2,
+          }}
+        >
           <Chart options={options} series={series} type="line" width="500" />
-        </div>
-      </div>
+        </Box>
+      </Card>
     </div>
   );
 };
