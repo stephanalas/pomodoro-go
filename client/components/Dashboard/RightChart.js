@@ -392,25 +392,6 @@ const HeatMap = (props) => {
           </Select>
         </FormControl>
       </Grid>
-      <Typography className={classes.lsItem} variant="h5" color="primary">
-        Session Frequency
-      </Typography>
-      <Typography
-        className={classes.lsItem}
-        variant="caption"
-        color="textSecondary"
-      >
-        Time of Week
-      </Typography>
-      <Box
-        sx={{
-          height: 336,
-          minWidth: 500,
-          px: 2,
-        }}
-      >
-        <Chart width="800" height="450" type="heatmap" {...chart} />
-      </Box>
     </Card>
   );
 };
