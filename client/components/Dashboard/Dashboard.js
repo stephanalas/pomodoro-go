@@ -7,16 +7,38 @@ import {
   MenuItem,
   InputLabel,
 } from '@material-ui/core';
+import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import LastSession from './LastSession';
 import TotalSessions from './TotalSessions';
 import AverageSession from './AverageSession';
-import DayOfWeekChart from './DayOfWeekChart';
+import DayOfWeekChart from './DistributionChart/DayOfWeekChart';
 import HeatMap from './HeatMap';
+
+const useStyles = makeStyles({
+  contain: {
+    padding: 10,
+    minWidth: 100,
+    flexGrow: 1,
+  },
+  lsItem: {
+    padding: 8,
+    paddingBottom: 0,
+  },
+  formControl: {
+    minWidth: 100,
+  },
+  dashboardContain: {
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
+});
+
 const Dashboard = () => {
+  const classes = useStyles();
   let sessions = useSelector((state) => state.sessions);
   let goals = useSelector((state) => state.goals);
 
-  const [timeFrame, setTimeFrame] = useState('All');
+  const [timeFrame, setTimeFrame] = useState('');
   const [goal, setGoal] = useState('');
   const handleTimeFrameChange = (event) => {
     setTimeFrame(event.target.value);
@@ -58,34 +80,44 @@ const Dashboard = () => {
     });
   }
   return (
-    <div>
-      <FormControl>
-        <InputLabel id="time-frame-label">Period</InputLabel>
-        <Select
-          labelId="time-frame-label"
-          value={timeFrame}
-          onChange={handleTimeFrameChange}
-        >
-          <MenuItem value={'All'}>All</MenuItem>
-          <MenuItem value={'Week'}>Week</MenuItem>
-          <MenuItem value={'Month'}>Month</MenuItem>
-          <MenuItem value={'Quarter'}>Quarter</MenuItem>
-          <MenuItem value={'Year'}>Year</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl>
-        <InputLabel id="goal-label">Goal</InputLabel>
-        <Select labelId="goal-label" value={goal} onChange={handleGoalChange}>
-          <MenuItem value={'All'}>All</MenuItem>
-          {goals.map((goal) => {
-            return (
-              <MenuItem key={goal.id} value={goal.id}>
-                {goal.description}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
+    <div className={classes.dashboardContain}>
+      <Grid justify="flex-end" container spacing={3}>
+        <Grid item>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="time-frame-label">Period</InputLabel>
+            <Select
+              labelId="time-frame-label"
+              value={timeFrame}
+              onChange={handleTimeFrameChange}
+            >
+              <MenuItem value={'All'}>All</MenuItem>
+              <MenuItem value={'Week'}>Week</MenuItem>
+              <MenuItem value={'Month'}>Month</MenuItem>
+              <MenuItem value={'Quarter'}>Quarter</MenuItem>
+              <MenuItem value={'Year'}>Year</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="goal-label">Goal</InputLabel>
+            <Select
+              labelId="goal-label"
+              value={goal}
+              onChange={handleGoalChange}
+            >
+              <MenuItem value={'All'}>All</MenuItem>
+              {goals.map((goal) => {
+                return (
+                  <MenuItem key={goal.id} value={goal.id}>
+                    {goal.description}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </Grid>
+      </Grid>
       <Grid container spacing={3}>
         <Grid item xs={4}>
           <LastSession sessions={sessions} />

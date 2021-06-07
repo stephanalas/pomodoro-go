@@ -7,12 +7,12 @@ dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import { Card, Typography } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   contain: {
     padding: 10,
     minWidth: 100,
-    // maxWidth: 600,
     flexGrow: 1,
   },
   lsItem: {
@@ -21,34 +21,32 @@ const useStyles = makeStyles({
   },
 });
 
-const DayOfWeekChart = (props) => {
+const SessionsByGoal = (props) => {
   const classes = useStyles();
-  // let timeFrame = useSelector((state) => state.timeFrame);
-  // const handleChange = (event) => {
-  //   setTimeFrame(event.target.value);
-  // };
   const { sessions } = props;
-
-  const sessionDays = sessions.map((session) => {
-    const dayOfWeek = dayjs(session.startTime).format('ddd');
-    return dayOfWeek;
+  const sessionGoals = sessions.map((session) => {
+    const goal = session.goal.description;
+    return goal;
   });
-  const distDays = { Sun: 0, Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0 };
-  if (sessions.length) {
-    for (let i = 0; i < sessionDays.length; i++) {
-      distDays[sessionDays[i]]++;
+  // console.log('sessionGoals:', sessionGoals);
+  let distGoals = {};
+  sessionGoals.forEach((goal) => {
+    // console.log('goal:', goal);
+    if (distGoals[goal]) distGoals[goal]++;
+    else {
+      distGoals[goal] = 1;
     }
-  }
+  });
 
-  let daysArr = [];
-  for (const [key, val] of Object.entries(distDays)) {
-    daysArr.push(key);
+  let goalsArr = [];
+  for (const [key, val] of Object.entries(distGoals)) {
+    goalsArr.push(key);
   }
-
   let valsArr = [];
-  for (const [key, val] of Object.entries(distDays)) {
+  for (const [key, val] of Object.entries(distGoals)) {
     valsArr.push(val);
   }
+  console.log(valsArr);
 
   const data = {
     series: [
@@ -56,8 +54,9 @@ const DayOfWeekChart = (props) => {
         data: valsArr,
       },
     ],
-    categories: daysArr,
+    categories: goalsArr,
   };
+
   const theme = useTheme();
   const chart = {
     options: {
@@ -147,7 +146,7 @@ const DayOfWeekChart = (props) => {
         variant="caption"
         color="textSecondary"
       >
-        Day of Week
+        Goal
       </Typography>
 
       <Chart width="800" height="450" type="bar" {...chart} />
@@ -155,4 +154,4 @@ const DayOfWeekChart = (props) => {
   );
 };
 
-export default DayOfWeekChart;
+export default SessionsByGoal;
