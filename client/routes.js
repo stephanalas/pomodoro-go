@@ -4,7 +4,7 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import CreateSession from './components/CreateSession';
 import Home from './components/Home';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
 import { me } from './store';
 import { loadSessions } from './store/sessions';
 import { loadGoals } from './store/goals';

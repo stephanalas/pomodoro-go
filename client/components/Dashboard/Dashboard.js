@@ -16,7 +16,7 @@ const Dashboard = () => {
   let sessions = useSelector((state) => state.sessions);
   let goals = useSelector((state) => state.goals);
 
-  const [timeFrame, setTimeFrame] = useState('Year');
+  const [timeFrame, setTimeFrame] = useState('All');
   const [goal, setGoal] = useState('');
   const handleTimeFrameChange = (event) => {
     setTimeFrame(event.target.value);
@@ -66,6 +66,7 @@ const Dashboard = () => {
           value={timeFrame}
           onChange={handleTimeFrameChange}
         >
+          <MenuItem value={'All'}>All</MenuItem>
           <MenuItem value={'Week'}>Week</MenuItem>
           <MenuItem value={'Month'}>Month</MenuItem>
           <MenuItem value={'Quarter'}>Quarter</MenuItem>
