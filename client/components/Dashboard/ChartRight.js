@@ -28,6 +28,7 @@ const useStyles = makeStyles({
 });
 
 //This component displays either the Session History or Session Frequency charts
+// depending on what is selected from the dropdown menu
 const ChartRight = (props) => {
   const classes = useStyles();
   const { sessions } = props;

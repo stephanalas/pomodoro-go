@@ -31,6 +31,8 @@ const useStyles = makeStyles({
   },
 });
 
+//This component displays either the 'By Day of Week' bar chart or the 'By Goal'
+//bar chart depending on what is selected from the dropdown menu
 const ChartLeft = (props) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -289,7 +291,6 @@ const ChartLeft = (props) => {
           </FormControl>
         </Grid>
       </Grid>
-
       {distribution === 'Day of Week' ? (
         <Chart width="800" height="450" type="bar" {...chart} />
       ) : (
