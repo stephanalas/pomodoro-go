@@ -13,7 +13,6 @@ import TotalSessions from './TotalSessions';
 import AverageSession from './AverageSession';
 import DistributionBar from './DistributionBar';
 import HeatMap from './HeatMap';
-import HistoryLine from './HistoryLine';
 
 const useStyles = makeStyles({
   contain: {
@@ -138,7 +137,6 @@ const Dashboard = () => {
           <HeatMap sessions={sessions} />
         </Grid>
       </Grid>
-      <HistoryLine sessions={sessions} />
     </div>
   );
 };

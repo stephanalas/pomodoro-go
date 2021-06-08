@@ -25,7 +25,7 @@ const HistoryLine = (props) => {
   const classes = useStyles();
   const { sessions } = props;
 
-  //Distribution By Goals Chart
+  //Session History Chart
   const months = sessions.map((session) => {
     const month = dayjs(session.startTime).format('MMM');
     return month;
@@ -111,28 +111,26 @@ const HistoryLine = (props) => {
   const series = monthData.series;
 
   return (
-    <div className="app">
-      <Card className={classes.contain} {...props}>
-        <Typography className={classes.lsItem} variant="h5" color="primary">
-          Session History
-        </Typography>
-        <Typography
-          className={classes.lsItem}
-          variant="caption"
-          color="textSecondary"
-        >
-          Month
-        </Typography>
-        <Box
-          sx={{
-            height: 336,
-            minWidth: 500,
-            px: 2,
-          }}
-        >
-          <Chart options={options} series={series} type="line" width="500" />
-        </Box>
-      </Card>
+    <div className={classes.contain} {...props}>
+      <Typography className={classes.lsItem} variant="h5" color="primary">
+        Session History
+      </Typography>
+      <Typography
+        className={classes.lsItem}
+        variant="caption"
+        color="textSecondary"
+      >
+        Month
+      </Typography>
+      <Box
+        sx={{
+          height: 336,
+          minWidth: 500,
+          px: 2,
+        }}
+      >
+        <Chart options={options} series={series} type="line" width="500" />
+      </Box>
     </div>
   );
 };
