@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import Chart from 'react-apexcharts';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
@@ -20,7 +19,6 @@ const useStyles = makeStyles({
   contain: {
     padding: 10,
     minWidth: 100,
-    // maxWidth: 600,
     flexGrow: 1,
   },
   lsItem: {
@@ -29,7 +27,8 @@ const useStyles = makeStyles({
   },
 });
 
-const HeatMap = (props) => {
+//This component displays either the Session History or Session Frequency charts
+const ChartRight = (props) => {
   const classes = useStyles();
   const { sessions } = props;
   const [rightChart, setRightChart] = useState('Frequency');
@@ -38,6 +37,7 @@ const HeatMap = (props) => {
     setRightChart(event.target.value);
   };
 
+  //Session Frequency chart
   let totalExpectedSessionLength;
   if (sessions.length) {
     totalExpectedSessionLength = sessions.reduce((total, session) => {
@@ -45,15 +45,6 @@ const HeatMap = (props) => {
       return total;
     }, 0);
   }
-
-  const sessionDays = sessions.map((session) => {
-    const dayOfWeek = dayjs(session.startTime).format('ddd');
-    return dayOfWeek;
-  });
-  const sessionTimes = sessions.map((session) => {
-    const time = dayjs(session.startTime).format('H');
-    return time;
-  });
 
   const distHours = [
     {
@@ -358,7 +349,6 @@ const HeatMap = (props) => {
     }
   }
 
-  const theme = useTheme();
   const chart = {
     options: {
       chart: {
@@ -387,10 +377,6 @@ const HeatMap = (props) => {
   };
 
   //Session History Chart
-  const months = sessions.map((session) => {
-    const month = dayjs(session.startTime).format('MMM');
-    return month;
-  });
   let seriesMonths = {
     Jan: { successful: 0, failed: 0 },
     Feb: { successful: 0, failed: 0 },
@@ -414,7 +400,6 @@ const HeatMap = (props) => {
       seriesMonths[month].failed++;
     }
   });
-  console.log('seriesMonths:', seriesMonths);
 
   let monthsArr = [];
   for (const [key, val] of Object.entries(seriesMonths)) {
@@ -442,7 +427,6 @@ const HeatMap = (props) => {
     ],
     categories: monthsArr,
   };
-  console.log('monthData:', monthData);
 
   const options = {
     colors: ['#3C4693', '#FF1654'],
@@ -501,7 +485,6 @@ const HeatMap = (props) => {
             </Select>
           </FormControl>
         </Grid>
-
         <Box
           sx={{
             height: 336,
@@ -531,4 +514,4 @@ const HeatMap = (props) => {
   );
 };
 
-export default HeatMap;
+export default ChartRight;

@@ -31,7 +31,7 @@ const useStyles = makeStyles({
   },
 });
 
-const DistributionBar = (props) => {
+const ChartLeft = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const { sessions } = props;
@@ -299,4 +299,4 @@ const DistributionBar = (props) => {
   );
 };
 
-export default DistributionBar;
+export default ChartLeft;
