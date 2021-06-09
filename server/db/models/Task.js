@@ -14,6 +14,10 @@ const Task = db.define('task', {
     validate: {
       notEmpty: true,
     },
+    status: {
+      type: DataTypes.ENUM(['Completed', 'Pending', 'Not completed']),
+      defaultValue: 'Pending',
+    },
   },
 });
 
