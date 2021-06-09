@@ -24461,19 +24461,15 @@ const AuthForm = props => {
     handleSubmit,
     error
   } = props;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("script", {
-    src: "https://accounts.google.com/gsi/client",
-    async: true,
-    defer: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
     onSubmit: handleSubmit,
     name: name
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+  }, name === 'signup' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
     htmlFor: "username"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("small", null, "Username")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
     name: "username",
     type: "text"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+  })) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
     htmlFor: "email"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("small", null, "E-mail")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
     name: "email",
@@ -24485,20 +24481,7 @@ const AuthForm = props => {
     type: "password"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     type: "submit"
-  }, displayName)), error && error.response && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, " ", error.response.data, " ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    id: "g_id_onload",
-    "data-client_id": "YOUR_GOOGLE_CLIENT_ID",
-    "data-login_uri": "https://your.domain/your_login_endpoint",
-    "data-auto_prompt": "false"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "g_id_signin",
-    "data-type": "standard",
-    "data-size": "large",
-    "data-theme": "outline",
-    "data-text": "sign_in_with",
-    "data-shape": "rectangular",
-    "data-logo_alignment": "left"
-  }));
+  }, displayName)), error && error.response && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, " ", error.response.data, " ")));
 };
 /**
  * CONTAINER
@@ -24530,7 +24513,8 @@ const mapDispatch = dispatch => {
     handleSubmit(evt) {
       evt.preventDefault();
       const formName = evt.target.name;
-      const username = evt.target.username.value;
+      let username = null;
+      if (formName === 'signup') username = evt.target.username.value;
       const email = evt.target.email.value;
       const password = evt.target.password.value;
       dispatch((0,_store__WEBPACK_IMPORTED_MODULE_2__.authenticate)(username, email, password, formName));
@@ -25179,37 +25163,17 @@ const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default)(() 
 const CreateSession = () => {
   const classes = useStyles();
   const [sessionTime, setSessionTime] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-  const [hours, setHours] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-  const [minutes, setMinutes] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-  const [seconds, setSeconds] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-  const [expectedEndTime, setExpected] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
-  const [goal, setGoal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''); // might need this function later on
-  // const handleTime = () => {
-  //   const timerSeconds = seconds * 1000;
-  //   const timerMinutes = minutes * 60000;
-  //   const timerHours = hours * 60000 * 60;
-  //   setSessionTime(timerHours + timerMinutes + timerSeconds);
-  // };
-
+  const [goal, setGoal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     className: classes.main
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
     className: classes.paper
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Timer__WEBPACK_IMPORTED_MODULE_1__.default, {
     sessionTime: sessionTime,
-    setSessionTime: setSessionTime,
-    hours: hours,
-    minutes: minutes,
-    seconds: seconds,
-    setHours: setHours,
-    setMinutes: setMinutes,
-    setSeconds: setSeconds,
-    setExpected: setExpected // handleTime={handleTime}
-
+    setSessionTime: setSessionTime
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FocusConfig__WEBPACK_IMPORTED_MODULE_2__.default, {
     goal: goal,
     setGoal: setGoal,
-    handleTime: handleTime,
     sessionTime: sessionTime,
     setSessionTime: setSessionTime
   })));
@@ -25301,10 +25265,16 @@ __webpack_require__.r(__webpack_exports__);
 
 const Dashboard = () => {
   let sessions = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.sessions);
+  let goals = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.goals);
   const [timeFrame, setTimeFrame] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Year');
+  const [goal, setGoal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
 
-  const handleChange = event => {
+  const handleTimeFrameChange = event => {
     setTimeFrame(event.target.value);
+  };
+
+  const handleGoalChange = event => {
+    setGoal(event.target.value);
   };
 
   if (timeFrame === 'Year') {
@@ -25335,12 +25305,18 @@ const Dashboard = () => {
     sessions = filtered;
   }
 
+  if (goal !== 'All' && goal) {
+    sessions = sessions.filter(session => {
+      return session.goalId === goal;
+    });
+  }
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, {
     id: "time-frame-label"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default, {
+  }, "Period"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default, {
     labelId: "time-frame-label",
     value: timeFrame,
-    onChange: handleChange
+    onChange: handleTimeFrameChange
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
     value: 'Week'
   }, "Week"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
@@ -25349,7 +25325,20 @@ const Dashboard = () => {
     value: 'Quarter'
   }, "Quarter"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
     value: 'Year'
-  }, "Year"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_11__.default, {
+  }, "Year"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, {
+    id: "goal-label"
+  }, "Goal"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default, {
+    labelId: "goal-label",
+    value: goal,
+    onChange: handleGoalChange
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
+    value: 'All'
+  }, "All"), goals.map(goal => {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
+      key: goal.id,
+      value: goal.id
+    }, goal.description);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_11__.default, {
     container: true,
     spacing: 3
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_11__.default, {
@@ -25673,7 +25662,8 @@ const FocusConfig = props => {
     item: true,
     xs: 12,
     className: classes.inputContainer
-  }, [['Hours'], ['Minutes'], ['Seconds']].map(label => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TimerInput__WEBPACK_IMPORTED_MODULE_1__.default, {
+  }, [['Hours'], ['Minutes'], ['Seconds']].map((label, idx) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_TimerInput__WEBPACK_IMPORTED_MODULE_1__.default, {
+    id: idx,
     label: label[0],
     sessionTime: props.sessionTime,
     setSessionTime: props.setSessionTime,
@@ -25706,15 +25696,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Grid/Grid.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/FormControl/FormControl.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/InputLabel/InputLabel.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Select/Select.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/MenuItem/MenuItem.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Grid/Grid.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/FormControl/FormControl.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/InputLabel/InputLabel.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Select/Select.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/MenuItem/MenuItem.js");
+/* harmony import */ var _store_sessions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/sessions */ "./client/store/sessions.js");
 
 
-const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default)(() => ({
+
+
+const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default)(() => ({
   select: {
     width: '50%'
   },
@@ -25730,32 +25724,49 @@ const GoalSelector = props => {
   } = props;
 
   const handleChange = ev => {
+    if (!props.currentSession.id) {
+      props.createSession(props.auth.id);
+    }
+
     setGoal(ev.target.value);
   };
 
   const classes = useStyles();
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     container: true,
     item: true
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
     className: classes.form
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
     id: "goal-label"
-  }, "Select Goal"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
+  }, "Select Goal"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, {
     labelId: "goal-label",
     className: classes.select,
     value: goal,
     onChange: handleChange
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, {
     value: "Study"
-  }, "Study"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+  }, "Study"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, {
     value: "Meditate"
-  }, "Meditate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+  }, "Meditate"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, {
     value: "Work"
   }, "Work"))));
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GoalSelector);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(state => {
+  const {
+    currentSession,
+    auth
+  } = state;
+  return {
+    currentSession,
+    auth
+  };
+}, dispatch => {
+  return {
+    createSession: userId => dispatch((0,_store_sessions__WEBPACK_IMPORTED_MODULE_2__.createSession)(userId))
+  };
+})(GoalSelector));
 
 /***/ }),
 
@@ -25771,9 +25782,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "GoogleInfo": () => (/* binding */ GoogleInfo),
 /* harmony export */   "GoogleLogIn": () => (/* binding */ GoogleLogIn)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Dropdown.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Dropdown.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _store_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/auth */ "./client/store/auth.js");
 /* global gapi */
+
+
+
 
  // https://github.com/intricatecloud/bookface-demo/blob/master/src/App.js
 
@@ -25783,25 +25801,46 @@ function GoogleInfo() {
   const profile = user.getBasicProfile();
   const email = profile.getEmail(); // const imageUrl = profile.getImageUrl();
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  const [userInDB, setUserInDB] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (!userInDB) {
+      console.log('attempting to login in google account');
+      dispatch((0,_store_auth__WEBPACK_IMPORTED_MODULE_3__.authenticateGoogle)(email));
+      setUserInDB(true);
+    }
+  }, [dispatch]);
+
+  const handleClick = ev => {
+    if (window.localStorage.getItem('token')) {
+      dispatch((0,_store_auth__WEBPACK_IMPORTED_MODULE_3__.logout)());
+    }
+
+    authInstance.signOut();
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
     id: "googleInfo"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__.default, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__.default.Toggle, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.Toggle, {
     as: "a"
-  }, email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__.default.Menu, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__.default.Item, {
-    onClick: authInstance.signOut
+  }, email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.Menu, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__.default.Item, {
+    onClick: handleClick
   }, "Sign out"))));
 }
-class GoogleLogIn extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
+class GoogleLogIn extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
   componentDidMount() {
     window.gapi.load('signin2', () => {
-      window.gapi.signin2.render('login-button');
+      window.gapi.signin2.render('login-button', {
+        width: 50,
+        height: 50
+      });
     });
   }
 
   render() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
       id: "GoogleContainer"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
       id: "login-button"
     }, "Sign in with Google"));
   }
@@ -26597,7 +26636,6 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__.defau
     padding: 10,
     minWidth: 100,
     minHeight: 272,
-    // maxWidth: 300,
     flexGrow: 1
   },
   lsItem: {
@@ -26606,8 +26644,7 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__.defau
 });
 
 const LastSession = () => {
-  const classes = useStyles(); //useSelector allows this component to access state
-
+  const classes = useStyles();
   const sessions = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.sessions);
   let lastSession;
 
@@ -26698,34 +26735,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store */ "./client/store/index.js");
 /* harmony import */ var _GoogleLogIn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GoogleLogIn */ "./client/components/GoogleLogIn.js");
-/* harmony import */ var _secret__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../secret */ "./client/secret.js");
 /* global gapi */
 
 
 
 
-
- // https://github.com/intricatecloud/bookface-demo/blob/master/src/App.js?fbclid=IwAR1fyP0714chJ3O0OPJ4330BjJERsvyKLxvXXOjU0dMfGXfO6k_V3UhABMw
+ // import API_KEY from '../secret';
+// https://github.com/intricatecloud/bookface-demo/blob/master/src/App.js?fbclid=IwAR1fyP0714chJ3O0OPJ4330BjJERsvyKLxvXXOjU0dMfGXfO6k_V3UhABMw
 
 class Navbar extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSignedIn: null
+      isSignedIn: null,
+      authInstance: {}
     };
   }
 
   initializeGoogleSignIn() {
     window.gapi.load('auth2', () => {
       window.gapi.auth2.init({
-        apiKey: _secret__WEBPACK_IMPORTED_MODULE_4__.default,
+        // apiKey: API_KEY,
         client_id: '67500047765-oj928l0bem24tr3vc71m8gmlp5ij0bre.apps.googleusercontent.com'
       }).then(() => {
         const authInstance = window.gapi.auth2.getAuthInstance();
+        this.setState({ ...this.state,
+          authInstance
+        });
         const isSignedIn = authInstance.isSignedIn.get();
         this.setState({
           isSignedIn
@@ -26775,19 +26815,21 @@ class Navbar extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     } = this.props;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Pomodoro,Go!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("nav", {
       id: "navBar"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Route // path="/google"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Route // path="/google"
     , {
       render: () => this.ifUserSignedIn(_GoogleLogIn__WEBPACK_IMPORTED_MODULE_3__.GoogleInfo)
-    }), isLoggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
+    }), isLoggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
       to: "/home"
     }, "Home"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
       href: "#",
       onClick: handleClick
-    }, "Logout")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
+    }, "Logout")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
       to: "/login"
-    }, "Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
+    }, "Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
       to: "/signup"
-    }, "Sign Up"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null));
+    }, "Sign Up"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+      to: "/timer"
+    }, "Timer"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null));
   }
 
 }
@@ -26861,11 +26903,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Button/Button.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Button/Button.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _store_sessions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/sessions */ "./client/store/sessions.js");
 
 
-const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default)(() => ({
+
+
+const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default)(() => ({
   timerContainer: {
     border: '1px solid black',
     height: '100%',
@@ -26891,24 +26937,18 @@ const Timer = props => {
   const [countDown, setCountDown] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const classes = useStyles();
   const {
-    setHours,
-    setMinutes,
-    setSeconds,
-    seconds,
-    minutes,
-    hours,
     sessionTime,
     setSessionTime,
-    setExpected
+    updateSession
   } = props;
 
   const handlePlay = ev => {
     // handlePlay 'starts' the session but does not create the session.
     // the session gets created when a goal is selected. Then a user will be able to input the session time and create task to complete
-    // handlePlay would just update the expectedEndTime and startTime and should enable the block site feature
-    // data for session model
-    const expectedEndTime = new Date(new Date().setMilliseconds(sessionTime));
-    setExpected(expectedEndTime); // start countdown
+    // handlePlay would just update the  and should enable the block site feature
+    // this would start the session
+    if (!props.currentSession.sessionTime) updateSession(props.currentSession.id, sessionTime); // data for session model
+    // start countdown
 
     setCountDown(true);
     toggleTimer(ev);
@@ -26951,19 +26991,27 @@ const Timer = props => {
     className: classes.timerContainer
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: classes.timer
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, msToHMS(props.sessionTime))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, msToHMS(sessionTime))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: classes.buttons
-  }, countDown ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
+  }, countDown ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     onClick: handlePause
-  }, "pause") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
+  }, "pause") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     onClick: handlePlay,
     disabled: sessionTime ? false : true
-  }, "Play"), sessionTime ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
+  }, "Play"), sessionTime ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     onClick: toggleTimer
   }, "stop") : null));
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Timer);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(({
+  currentSession
+}) => ({
+  currentSession
+}), dispatch => {
+  return {
+    updateSession: (sessionId, sessionTime) => dispatch((0,_store_sessions__WEBPACK_IMPORTED_MODULE_2__.updateSession)(sessionId, sessionTime))
+  };
+})(Timer));
 
 /***/ }),
 
@@ -26991,36 +27039,50 @@ const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default)(() 
 }));
 
 const TimerInput = props => {
-  const classes = useStyles();
+  const classes = useStyles(); // timer may need local state
+
   const [inputError, setInputError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [input, setInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
 
   const hasError = ev => {
     setInputError(false); //checking for errors
 
-    const input = parseInt(ev.target.value);
-    if (input + '' === 'NaN') return true;
+    const i = parseInt(ev.target.value);
+    if (i + '' === 'NaN') return true;
     const hasChar = ev.target.value.split('').some(item => parseInt(item) === NaN);
-    console.log(hasChar);
 
-    if (props.label === 'Hours') {
-      return input > 24 || input < 0 || hasChar ? true : false;
-    }
+    if (props.label === 'Hours') {}
 
-    return input > 60 || input < 0 || hasChar ? true : false;
+    if (hasChar) return true;
+    if (props.label === 'Hours' && i > 23) return true;
+    if (i > 59) return true;
+    setInput(ev.target.value);
+    return false;
   };
 
   const handleChange = ev => {
     if (hasError(ev)) {
       setInputError(true);
       return;
-    } // change the session time bases on input
+    }
 
+    console.log(input); // change the session time bases on input
 
     if (props.label.toLowerCase() === 'hours') {
-      props.setSessionTime(ev.target.value * 3600000);
+      const previous = (input ? parseInt(input) : 0) * 3600000;
+      const hours = parseInt(ev.target.value) * 3600000;
+      props.setSessionTime(props.sessionTime - previous + hours);
     } else if (props.label.toLowerCase() === 'minutes') {
-      props.setSessionTime(ev.target.value * 60000);
-    } else props.setSessionTime(ev.target.value * 1000);
+      const previous = (input ? parseInt(input) : 0) * 60000;
+      const minutes = parseInt(ev.target.value) * 60000;
+      props.setSessionTime(props.sessionTime - previous + minutes);
+    } else {
+      const previous = (input ? parseInt(input) : 0) * 1000;
+      const seconds = parseInt(ev.target.value) * 1000;
+      props.setSessionTime(props.sessionTime - previous + seconds);
+    }
+
+    ;
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
@@ -27037,7 +27099,11 @@ const TimerInput = props => {
     error: inputError ? true : false,
     helperText: inputError ? 'input error' : null,
     onChange: handleChange,
-    disabled: props.goal ? false : true
+    disabled: props.goal ? false : true,
+    multiline: true,
+    inputProps: {
+      maxLength: 2
+    }
   }));
 };
 
@@ -27158,8 +27224,6 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__.defau
     padding: 10,
     minWidth: 100,
     minHeight: 250,
-    // maxHeight: 250,
-    // maxWidth: 300,
     flexGrow: 1
   },
   lsItem: {
@@ -27168,8 +27232,7 @@ const useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__.defau
 });
 
 const TotalSessions = props => {
-  const classes = useStyles(); // const sessions = useSelector((state) => state.sessions);
-
+  const classes = useStyles();
   const {
     sessions
   } = props;
@@ -27283,15 +27346,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _components_AuthForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/AuthForm */ "./client/components/AuthForm.js");
 /* harmony import */ var _components_CreateSession__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/CreateSession */ "./client/components/CreateSession.js");
 /* harmony import */ var _components_Home__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Home */ "./client/components/Home.js");
 /* harmony import */ var _components_Dashboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Dashboard */ "./client/components/Dashboard.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./store */ "./client/store/index.js");
 /* harmony import */ var _store_sessions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./store/sessions */ "./client/store/sessions.js");
-/* harmony import */ var _components_BlockError__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/BlockError */ "./client/components/BlockError.js");
-/* harmony import */ var _components_BlockSites__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/BlockSites */ "./client/components/BlockSites.js");
+/* harmony import */ var _store_goals__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./store/goals */ "./client/store/goals.js");
+/* harmony import */ var _components_BlockError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/BlockError */ "./client/components/BlockError.js");
+/* harmony import */ var _components_BlockSites__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/BlockSites */ "./client/components/BlockSites.js");
+
 
 
 
@@ -27320,35 +27385,39 @@ class Routes extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       style: {
         height: '100%'
       }
-    }, isLoggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+    }, isLoggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
       path: "/home",
       component: _components_Home__WEBPACK_IMPORTED_MODULE_4__.default
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
       path: "/dashboard",
       component: _components_Dashboard__WEBPACK_IMPORTED_MODULE_5__.default
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+      path: "/timer",
+      exact: true,
+      component: _components_CreateSession__WEBPACK_IMPORTED_MODULE_3__.default
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
       exact: true,
       path: "/uhoh",
-      component: _components_BlockError__WEBPACK_IMPORTED_MODULE_8__.default
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+      component: _components_BlockError__WEBPACK_IMPORTED_MODULE_9__.default
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
       exact: true,
       path: "/blocksites",
-      component: _components_BlockSites__WEBPACK_IMPORTED_MODULE_9__.default
-    })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+      component: _components_BlockSites__WEBPACK_IMPORTED_MODULE_10__.default
+    })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
       path: "/",
       exact: true,
       component: _components_AuthForm__WEBPACK_IMPORTED_MODULE_2__.Login
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-      path: "/test",
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+      path: "/timer",
       exact: true,
       component: _components_CreateSession__WEBPACK_IMPORTED_MODULE_3__.default
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
       path: "/login",
       component: _components_AuthForm__WEBPACK_IMPORTED_MODULE_2__.Login
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
       path: "/signup",
       component: _components_AuthForm__WEBPACK_IMPORTED_MODULE_2__.Signup
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
       path: "/dashboard",
       exact: true,
       component: _components_Dashboard__WEBPACK_IMPORTED_MODULE_5__.default
@@ -27374,6 +27443,7 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch((0,_store__WEBPACK_IMPORTED_MODULE_6__.me)());
       dispatch((0,_store_sessions__WEBPACK_IMPORTED_MODULE_7__.loadSessions)());
+      dispatch((0,_store_goals__WEBPACK_IMPORTED_MODULE_8__.loadGoals)());
     }
 
   };
@@ -27381,22 +27451,7 @@ const mapDispatch = dispatch => {
 // when the url changes
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_router_dom__WEBPACK_IMPORTED_MODULE_10__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapState, mapDispatch)(Routes)));
-
-/***/ }),
-
-/***/ "./client/secret.js":
-/*!**************************!*\
-  !*** ./client/secret.js ***!
-  \**************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "API_KEY": () => (/* binding */ API_KEY)
-/* harmony export */ });
-const API_KEY = 'AIzaSyA1-PBVF4GJpBB3x0_w2u1_1h1RktBJE_8';
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_router_dom__WEBPACK_IMPORTED_MODULE_11__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapState, mapDispatch)(Routes)));
 
 /***/ }),
 
@@ -27410,6 +27465,7 @@ const API_KEY = 'AIzaSyA1-PBVF4GJpBB3x0_w2u1_1h1RktBJE_8';
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "me": () => (/* binding */ me),
+/* harmony export */   "authenticateGoogle": () => (/* binding */ authenticateGoogle),
 /* harmony export */   "authenticate": () => (/* binding */ authenticate),
 /* harmony export */   "logout": () => (/* binding */ logout),
 /* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
@@ -27450,10 +27506,25 @@ const me = () => async dispatch => {
     return dispatch(setAuth(res.data));
   }
 };
+const authenticateGoogle = email => async dispatch => {
+  try {
+    const res = await axios__WEBPACK_IMPORTED_MODULE_0___default().post('http://localhost:8080/auth/google', {
+      email
+    });
+    window.localStorage.setItem(TOKEN, res.data.token);
+    dispatch(me());
+  } catch (error) {
+    console.log('error with authenticate google ');
+    throw error;
+  }
+};
 const authenticate = (username, email, password, method) => async dispatch => {
   try {
-    const res = await axios__WEBPACK_IMPORTED_MODULE_0___default().post(`http://localhost:8080/auth/${method}`, {
+    const res = await axios__WEBPACK_IMPORTED_MODULE_0___default().post(`http://localhost:8080/auth/${method}`, method === 'signup' ? {
       username,
+      email,
+      password
+    } : {
       email,
       password
     });
@@ -27569,6 +27640,50 @@ const blockedSitesReducer = (state = [], action) => {
 
 /***/ }),
 
+/***/ "./client/store/goals.js":
+/*!*******************************!*\
+  !*** ./client/store/goals.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "loadGoals": () => (/* binding */ loadGoals),
+/* harmony export */   "goalsReducer": () => (/* binding */ goalsReducer)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+const LOAD_GOALS = 'LOAD_GOALS';
+
+const loadGoalsActionCreator = goals => {
+  return {
+    type: LOAD_GOALS,
+    goals
+  };
+};
+
+const loadGoals = () => {
+  return async dispatch => {
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/goals');
+    const goals = response.data;
+    dispatch(loadGoalsActionCreator(goals));
+  };
+};
+
+const goalsReducer = (state = [], action) => {
+  if (action.type === LOAD_GOALS) {
+    state = action.goals;
+  }
+
+  return state;
+};
+
+
+
+/***/ }),
+
 /***/ "./client/store/index.js":
 /*!*******************************!*\
   !*** ./client/store/index.js ***!
@@ -27580,17 +27695,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   "authenticate": () => (/* reexport safe */ _auth__WEBPACK_IMPORTED_MODULE_3__.authenticate),
+/* harmony export */   "authenticateGoogle": () => (/* reexport safe */ _auth__WEBPACK_IMPORTED_MODULE_3__.authenticateGoogle),
 /* harmony export */   "logout": () => (/* reexport safe */ _auth__WEBPACK_IMPORTED_MODULE_3__.logout),
 /* harmony export */   "me": () => (/* reexport safe */ _auth__WEBPACK_IMPORTED_MODULE_3__.me)
 /* harmony export */ });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redux_logger__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
 /* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-devtools-extension */ "./node_modules/redux-devtools-extension/index.js");
 /* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./auth */ "./client/store/auth.js");
-/* harmony import */ var _sessions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sessions */ "./client/store/sessions.js");
-/* harmony import */ var _blockSites__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./blockSites */ "./client/store/blockSites.js");
+/* harmony import */ var _goals__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./goals */ "./client/store/goals.js");
+/* harmony import */ var _sessions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./sessions */ "./client/store/sessions.js");
+/* harmony import */ var _blockSites__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./blockSites */ "./client/store/blockSites.js");
 
 
 
@@ -27598,15 +27715,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const reducer = (0,redux__WEBPACK_IMPORTED_MODULE_6__.combineReducers)({
+
+const reducer = (0,redux__WEBPACK_IMPORTED_MODULE_7__.combineReducers)({
   auth: _auth__WEBPACK_IMPORTED_MODULE_3__.default,
-  blockedSites: _blockSites__WEBPACK_IMPORTED_MODULE_5__.default,
-  sessions: _sessions__WEBPACK_IMPORTED_MODULE_4__.sessionsReducer
+  blockedSites: _blockSites__WEBPACK_IMPORTED_MODULE_6__.default,
+  sessions: _sessions__WEBPACK_IMPORTED_MODULE_5__.sessionsReducer,
+  goals: _goals__WEBPACK_IMPORTED_MODULE_4__.goalsReducer,
+  currentSession: _sessions__WEBPACK_IMPORTED_MODULE_5__.currentSessionReducer
 });
-const middleware = (0,redux_devtools_extension__WEBPACK_IMPORTED_MODULE_2__.composeWithDevTools)((0,redux__WEBPACK_IMPORTED_MODULE_6__.applyMiddleware)(redux_thunk__WEBPACK_IMPORTED_MODULE_1__.default, (0,redux_logger__WEBPACK_IMPORTED_MODULE_0__.createLogger)({
+const middleware = (0,redux_devtools_extension__WEBPACK_IMPORTED_MODULE_2__.composeWithDevTools)((0,redux__WEBPACK_IMPORTED_MODULE_7__.applyMiddleware)(redux_thunk__WEBPACK_IMPORTED_MODULE_1__.default, (0,redux_logger__WEBPACK_IMPORTED_MODULE_0__.createLogger)({
   collapsed: true
 })));
-const store = (0,redux__WEBPACK_IMPORTED_MODULE_6__.createStore)(reducer, middleware);
+const store = (0,redux__WEBPACK_IMPORTED_MODULE_7__.createStore)(reducer, middleware);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
 
 
@@ -27622,7 +27742,10 @@ const store = (0,redux__WEBPACK_IMPORTED_MODULE_6__.createStore)(reducer, middle
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "loadSessions": () => (/* binding */ loadSessions),
-/* harmony export */   "sessionsReducer": () => (/* binding */ sessionsReducer)
+/* harmony export */   "sessionsReducer": () => (/* binding */ sessionsReducer),
+/* harmony export */   "currentSessionReducer": () => (/* binding */ currentSessionReducer),
+/* harmony export */   "createSession": () => (/* binding */ createSession),
+/* harmony export */   "updateSession": () => (/* binding */ updateSession)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
@@ -27638,15 +27761,75 @@ const loadSessionsActionCreator = sessions => {
 
 const loadSessions = () => {
   return async dispatch => {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/sessions');
-    const sessions = response.data;
-    dispatch(loadSessionsActionCreator(sessions));
+    try {
+      const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/sessions');
+      const sessions = response.data;
+      dispatch(loadSessionsActionCreator(sessions));
+    } catch (error) {
+      console.log('error in loadSessions thunk');
+      console.log(error);
+    }
   };
 };
 
 const sessionsReducer = (state = [], action) => {
   if (action.type === LOAD_SESSIONS) {
     state = action.sessions;
+  }
+
+  return state;
+};
+
+const CREATE_SESSION = 'CREATE_SESSION';
+const UPDATE_SESSION = 'UPDATE_SESSION';
+
+const createSessionActionCreator = session => {
+  return {
+    type: CREATE_SESSION,
+    session
+  };
+};
+
+const createSession = userId => async dispatch => {
+  try {
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/sessions', {
+      userId
+    });
+    const {
+      data
+    } = response;
+    dispatch(createSessionActionCreator(data));
+  } catch (error) {
+    console.log('error in createSession thunk');
+    console.log(error);
+  }
+};
+
+const updateSessionActionCreator = session => {
+  return {
+    type: UPDATE_SESSION,
+    session
+  };
+};
+
+const updateSession = (sessionId, sessionTime) => async dispatch => {
+  try {
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().put(`/api/sessions/${sessionId}`, {
+      sessionTime
+    });
+    const {
+      data
+    } = response;
+    dispatch(updateSessionActionCreator(data));
+  } catch (error) {
+    console.log('error in updateSession thunk');
+    console.log(error);
+  }
+};
+
+const currentSessionReducer = (state = {}, action) => {
+  if (action.type === CREATE_SESSION || action.type === UPDATE_SESSION) {
+    state = action.session;
   }
 
   return state;
