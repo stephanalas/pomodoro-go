@@ -8,11 +8,12 @@ const passport = require('passport');
 
 router.post(
   '/login',
-  passport.authenticate('local'),
+  passport.authenticate('local', { failureFlash: 'invalid input' }),
   async (req, res, next) => {
     try {
       // user === token
       const { passport } = req.session;
+      console.log(req.session);
       const token = passport.user;
       res.send({ token });
     } catch (err) {

@@ -38,12 +38,16 @@ passport.use(
   new LocalStrategy({ usernameField: 'email' }, (username, password, done) => {
     User.findOne({ where: { email: username } }).then(async (user) => {
       try {
-        console.log('hello');
+        console.log('starting local strat');
         if (!user) {
+          console.log('no user found');
           return done(null, false, { message: 'Email not found' });
-        } else if (!user.correctPassword(password)) {
+        } else if (!(await user.correctPassword(password))) {
+          console.log('bad password');
           return done(null, false, { message: 'Incorrect password' });
         } else {
+          console.log('found user');
+          console.log(username, password);
           return done(null, await user.generateToken());
         }
       } catch (error) {

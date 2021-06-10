@@ -50,7 +50,6 @@ export const authenticate =
           ? { username, email, password }
           : { email, password }
       );
-      console.log(res);
       window.localStorage.setItem(TOKEN, res.data.token);
       dispatch(me());
     } catch (authError) {

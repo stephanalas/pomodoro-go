@@ -3,13 +3,24 @@ const express = require('express');
 // logging middleware
 const path = require('path');
 const morgan = require('morgan');
+const session = require('express-session');
 const cors = require('cors');
 const passport = require('passport');
 const app = express();
+const flash = require('connect-flash');
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.JWT,
+    cookie: { maxAge: 600000 },
+  })
+);
 
 module.exports = app;
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
+app.use(flash());
 app.use(cors());
 app.use(morgan('dev'));
 // body parsing middleware
