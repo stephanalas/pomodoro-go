@@ -22,5 +22,4 @@ const mapState = (state) => {
     username: state.auth.username,
   };
 };
-
 export default connect(mapState)(Home);

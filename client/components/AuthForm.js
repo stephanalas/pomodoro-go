@@ -13,13 +13,14 @@ const AuthForm = (props) => {
       {/* script for google OAuth */}
       {/* <script src="https://accounts.google.com/gsi/client" async defer></script> */}
       <form onSubmit={handleSubmit} name={name}>
-        { name === 'signup' ? <div>
-          <label htmlFor="username">
-            <small>Username</small>
-          </label>
-          <input name="username" type="text" />
-        </div>
-         : null }
+        {name === 'signup' ? (
+          <div>
+            <label htmlFor="username">
+              <small>Username</small>
+            </label>
+            <input name="username" type="text" />
+          </div>
+        ) : null}
         <div>
           <label htmlFor="email">
             <small>E-mail</small>
@@ -89,7 +90,8 @@ const mapDispatch = (dispatch) => {
 
       const email = evt.target.email.value;
       const password = evt.target.password.value;
-      dispatch(authenticate(username, email, password, formName))
+      console.log('dispatching authenticate');
+      dispatch(authenticate(username, email, password, formName));
     },
   };
 };
