@@ -35,27 +35,34 @@ passport.use(
 const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(
-  new LocalStrategy({ usernameField: 'email' }, (username, password, done) => {
-    User.findOne({ where: { email: username } }).then(async (user) => {
+  new LocalStrategy(
+    { usernameField: 'email' },
+    async (username, password, done) => {
       try {
         console.log('starting local strat');
+
+        // checking to see if there is a user
+        const user = await User.findOne({ where: { email: username } });
+
         if (!user) {
           console.log('no user found');
-          return done(null, false, { message: 'Email not found' });
+          // returns email not found message as user
+          return done(null, { message: 'Email not found' });
         } else if (!(await user.correctPassword(password))) {
           console.log('bad password');
-          return done(null, false, { message: 'Incorrect password' });
+          // returns incorrect password message as useer
+          return done(null, { message: 'Incorrect password' });
         } else {
           console.log('found user');
-          console.log(username, password);
+          // generates users token
           return done(null, await user.generateToken());
         }
       } catch (error) {
         console.log('error from local strategy authentication', error);
         done(error, false);
       }
-    });
-  })
+    }
+  )
 );
 
 passport.serializeUser((token, done) => {

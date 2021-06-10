@@ -8,18 +8,44 @@ const passport = require('passport');
 
 router.post(
   '/login',
-  passport.authenticate('local', { failureFlash: 'invalid input' }),
-  async (req, res, next) => {
-    try {
-      // user === token
-      const { passport } = req.session;
-      console.log(req.session);
-      const token = passport.user;
-      res.send({ token });
-    } catch (err) {
-      next(err);
-    }
+  (req, res, next) => {
+    passport.authenticate('local', async (err, token, info) => {
+      if (err) {
+        return next(err);
+      }
+
+      // if there is a error with password or email
+      if (token.message) {
+        res.send(token);
+      } else {
+        // try to login with token from the passport authenticate middleware
+        req.logIn(token, async () => {
+          try {
+            // sets user in server session
+            req.session.user = await User.findByToken(token);
+            // send user and token
+            return res.send({
+              token,
+            });
+          } catch (err) {
+            return next(err);
+          }
+        });
+      }
+    })(req, res, next);
   }
+  // passport.authenticate('local', { failureMessage: 'invalid input' }),
+  // async (req, res, next) => {
+  //   try {
+  //     // user === token
+  //     const { passport } = req.session;
+  //     console.log(req.session);
+  //     const token = passport.user;
+  //     res.send({ token });
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // }
 );
 
 router.post('/signup', async (req, res, next) => {

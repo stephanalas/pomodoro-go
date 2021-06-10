@@ -8,25 +8,24 @@ const cors = require('cors');
 const passport = require('passport');
 const app = express();
 const flash = require('connect-flash');
+// body parsing middleware
+app.use(express.json());
+app.use(cookieParser());
+// auth and api routes
 app.use(
   session({
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     secret: process.env.JWT,
     cookie: { maxAge: 600000 },
   })
 );
 
-module.exports = app;
+app.use(flash());
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
-app.use(flash());
 app.use(cors());
 app.use(morgan('dev'));
-// body parsing middleware
-app.use(express.json());
-app.use(cookieParser());
-// auth and api routes
 app.use('/auth', require('./auth'));
 app.use('/api', require('./api'));
 app.use('/google', require('./google'));
@@ -60,3 +59,5 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).send(err.message || 'Internal server error.');
 });
+
+module.exports = app;

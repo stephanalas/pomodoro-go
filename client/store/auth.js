@@ -50,7 +50,14 @@ export const authenticate =
           ? { username, email, password }
           : { email, password }
       );
-      window.localStorage.setItem(TOKEN, res.data.token);
+      let error;
+      // if response returns error message setAuth as error
+      if (res.data.message) {
+        error = res.data.message;
+        return dispatch(setAuth({ error }));
+      }
+      const { token } = res.data;
+      window.localStorage.setItem(TOKEN, token);
       dispatch(me());
     } catch (authError) {
       return dispatch(setAuth({ error: authError }));

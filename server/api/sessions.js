@@ -5,20 +5,16 @@ const {
 const Task = require('../db/models/Task');
 module.exports = router;
 const passport = require('../auth/auth');
-router.get(
-  '/',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res, next) => {
-    try {
-      const sessions = await Session.findAll({
-        include: [User],
-      });
-      res.send(sessions);
-    } catch (err) {
-      next(err);
-    }
+router.get('/', passport.authenticate('jwt'), async (req, res, next) => {
+  try {
+    const sessions = await Session.findAll({
+      include: [User],
+    });
+    res.send(sessions);
+  } catch (err) {
+    next(err);
   }
-);
+});
 
 router.post('/', async (req, res, next) => {
   try {
