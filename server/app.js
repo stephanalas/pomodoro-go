@@ -4,9 +4,12 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors');
+const passport = require('passport');
 const app = express();
 
 module.exports = app;
+app.use(express.urlencoded({ extended: false }));
+app.use(passport.initialize());
 app.use(cors());
 app.use(morgan('dev'));
 // body parsing middleware
@@ -16,6 +19,7 @@ app.use(cookieParser());
 app.use('/auth', require('./auth'));
 app.use('/api', require('./api'));
 app.use('/google', require('./google'));
+
 app.get('/', (req, res) =>
   res.sendFile(path.join(__dirname, '..', 'public/index.html'))
 );
