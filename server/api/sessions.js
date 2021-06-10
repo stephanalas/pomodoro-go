@@ -2,6 +2,7 @@ const router = require('express').Router();
 const {
   models: { Session, User },
 } = require('../db');
+const Task = require('../db/models/Task');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -58,5 +59,21 @@ router.get('/user/:userId', async (req, res, next) => {
     res.send(userSessions);
   } catch (err) {
     next(err);
+  }
+});
+
+router.post('/:sessionId/tasks', async (req, res, next) => {
+  try {
+    const { sessionId } = req.params;
+    const { task } = req.body;
+    await Task.create({ name: task, sessionId });
+
+    const session = await Session.findOne({
+      where: { sessionId },
+      include: [User, Task],
+    });
+    res.status(201).send(session);
+  } catch (error) {
+    next(error);
   }
 });

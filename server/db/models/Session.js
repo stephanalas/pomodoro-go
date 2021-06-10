@@ -27,6 +27,9 @@ const Session = db.define('session', {
   successful: {
     type: DataTypes.BOOLEAN,
   },
+  goal: {
+    type: DataTypes.ENUM(['Work', 'Study', 'Read', 'Meditate']),
+  },
 });
 
 /**
@@ -39,10 +42,10 @@ Session.prototype.end = async function ({ successful }) {
 /**
  * classMethods
  */
-Session.start = async function ({ userId, sessionTime, goalId }) {
+Session.start = async function ({ userId, sessionTime, goal }) {
   const session = await Session.create({ sessionTime: sessionTime });
   session.userId = userId;
-  session.goalId = goalId;
+  session.goal = goal;
   await session.save();
   return session;
 };
@@ -62,7 +65,7 @@ Session.seed = async function (users, goals) {
   const user = users[randomUserIndex];
   session.userId = user.id;
   await session.save();
-  session.goalId = goals[randomGoalIndex].id;
+  session.goal = goals[randomGoalIndex];
   const start = faker.date.past();
   session.startTime = start;
   calcExpectedEndTime(session);
@@ -90,7 +93,7 @@ const calcExpectedEndTime = (session) => {
 };
 
 Session.beforeCreate((session) => {
-  session.successful = false
+  session.successful = false;
   if (session.sessionTime) {
     calcStartTime(session);
     calcExpectedEndTime(session);
