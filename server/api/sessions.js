@@ -4,17 +4,21 @@ const {
 } = require('../db');
 const Task = require('../db/models/Task');
 module.exports = router;
-
-router.get('/', async (req, res, next) => {
-  try {
-    const sessions = await Session.findAll({
-      include: [User],
-    });
-    res.send(sessions);
-  } catch (err) {
-    next(err);
+const passport = require('../auth/auth');
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const sessions = await Session.findAll({
+        include: [User],
+      });
+      res.send(sessions);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.post('/', async (req, res, next) => {
   try {
@@ -66,7 +70,7 @@ router.post('/:sessionId/tasks', async (req, res, next) => {
   try {
     const { sessionId } = req.params;
     const { task } = req.body;
-    const task = await Task.create({ name: task, sessionId });
+    await Task.create({ name: task, sessionId });
 
     const session = await Session.findOne({
       where: { sessionId },
