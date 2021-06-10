@@ -5,13 +5,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import auth from './auth';
 import { sessionsReducer, currentSessionReducer } from './sessions';
 import blockedSitesReducer from './blockSites';
-import { addTask, deleteTask,taskReducer } from './task'
 
 const reducer = combineReducers({
   auth,
   blockedSites: blockedSitesReducer,
   sessions: sessionsReducer,
-  task:taskReducer,
   currentSession: currentSessionReducer,
 
 });

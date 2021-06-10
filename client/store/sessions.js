@@ -65,9 +65,41 @@ const updateSession = (sessionId, sessionTime) => async (dispatch) => {
   }
 };
 
+const ADD_TASK = 'ADD_TASK';
+const DELETE_TASK = 'DELETE_TASK'
+
+const addTaskCreator = (task) => {
+  return {
+    type: ADD_TASK,
+    task,
+  };
+};
+
+const addTask = (name,sessionId) => {
+  return async (dispatch) => {
+    const task = await axios.post('/api/session//:sessionId/tasks',{name,sessionId}).data;
+
+    dispatch(addTaskCreator (task));
+  };
+};
+const deleteTaskCreator = (id) => {
+  return {
+    type: DELETE_TASK,
+    id
+  };
+};
+
+const deleteTask = (id) => {
+  return async (dispatch) => {
+    const task = await axios.delete(`/api/session//:sessionId/tasks/${id}`);
+    dispatch(deleteTaskCreator(id));
+  };}
 const currentSessionReducer = (state = {}, action) => {
-  if (action.type === CREATE_SESSION || action.type === UPDATE_SESSION) {
+  if (action.type === CREATE_SESSION || action.type === UPDATE_SESSION || action.type === ADD_TASK) {
     state = action.session;
+  }
+  if(action.type===DELETE_TASK){return state.filter(t => {return t.id !== action.session.id})
+
   }
   return state;
 };
@@ -76,6 +108,8 @@ export {
   loadSessions,
   sessionsReducer,
   currentSessionReducer,
+  addTask,
+  deleteTask,
   createSession,
   updateSession,
 };

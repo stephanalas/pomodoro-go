@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { makeStyles, Container, Paper } from '@material-ui/core';
 import Timer from './Timer';
 import FocusConfig from './FocusConfig';
-import {addTask, deleteTask} from '../store/task'
 
 const useStyles = makeStyles(() => ({
   main: {

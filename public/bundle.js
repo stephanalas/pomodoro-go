@@ -25133,18 +25133,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Container/Container.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Paper/Paper.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Container/Container.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Paper/Paper.js");
 /* harmony import */ var _Timer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Timer */ "./client/components/Timer.js");
 /* harmony import */ var _FocusConfig__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FocusConfig */ "./client/components/FocusConfig.js");
-/* harmony import */ var _store_task__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/task */ "./client/store/task.js");
 
 
 
 
-
-const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default)(() => ({
+const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default)(() => ({
   main: {
     display: 'flex',
     alignContent: 'center',
@@ -25166,9 +25164,9 @@ const CreateSession = () => {
   const classes = useStyles();
   const [sessionTime, setSessionTime] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
   const [goal, setGoal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
     className: classes.main
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
     className: classes.paper
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Timer__WEBPACK_IMPORTED_MODULE_1__.default, {
     sessionTime: sessionTime,
@@ -26973,7 +26971,8 @@ const Timer = props => {
     seconds = seconds % 60;
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? seconds >= 0 ? '0' + seconds : '00' : seconds; //I added seconds>=0? '0' + seconds:'00'
+    seconds = seconds < 10 ? seconds >= 0 ? '0' + seconds : '00' : seconds; //Ding:I added seconds>=0? '0' + seconds:'00'
+    //But the play button may also need to be modified...
 
     return hours + ':' + minutes + ':' + seconds;
   };
@@ -27659,7 +27658,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "logout": () => (/* reexport safe */ _auth__WEBPACK_IMPORTED_MODULE_3__.logout),
 /* harmony export */   "me": () => (/* reexport safe */ _auth__WEBPACK_IMPORTED_MODULE_3__.me)
 /* harmony export */ });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redux_logger__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
@@ -27667,7 +27666,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./auth */ "./client/store/auth.js");
 /* harmony import */ var _sessions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sessions */ "./client/store/sessions.js");
 /* harmony import */ var _blockSites__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./blockSites */ "./client/store/blockSites.js");
-/* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./task */ "./client/store/task.js");
 
 
 
@@ -27675,18 +27673,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-const reducer = (0,redux__WEBPACK_IMPORTED_MODULE_7__.combineReducers)({
+const reducer = (0,redux__WEBPACK_IMPORTED_MODULE_6__.combineReducers)({
   auth: _auth__WEBPACK_IMPORTED_MODULE_3__.default,
   blockedSites: _blockSites__WEBPACK_IMPORTED_MODULE_5__.default,
   sessions: _sessions__WEBPACK_IMPORTED_MODULE_4__.sessionsReducer,
-  task: _task__WEBPACK_IMPORTED_MODULE_6__.taskReducer,
   currentSession: _sessions__WEBPACK_IMPORTED_MODULE_4__.currentSessionReducer
 });
-const middleware = (0,redux_devtools_extension__WEBPACK_IMPORTED_MODULE_2__.composeWithDevTools)((0,redux__WEBPACK_IMPORTED_MODULE_7__.applyMiddleware)(redux_thunk__WEBPACK_IMPORTED_MODULE_1__.default, (0,redux_logger__WEBPACK_IMPORTED_MODULE_0__.createLogger)({
+const middleware = (0,redux_devtools_extension__WEBPACK_IMPORTED_MODULE_2__.composeWithDevTools)((0,redux__WEBPACK_IMPORTED_MODULE_6__.applyMiddleware)(redux_thunk__WEBPACK_IMPORTED_MODULE_1__.default, (0,redux_logger__WEBPACK_IMPORTED_MODULE_0__.createLogger)({
   collapsed: true
 })));
-const store = (0,redux__WEBPACK_IMPORTED_MODULE_7__.createStore)(reducer, middleware);
+const store = (0,redux__WEBPACK_IMPORTED_MODULE_6__.createStore)(reducer, middleware);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
 
 
@@ -27704,6 +27700,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "loadSessions": () => (/* binding */ loadSessions),
 /* harmony export */   "sessionsReducer": () => (/* binding */ sessionsReducer),
 /* harmony export */   "currentSessionReducer": () => (/* binding */ currentSessionReducer),
+/* harmony export */   "addTask": () => (/* binding */ addTask),
+/* harmony export */   "deleteTask": () => (/* binding */ deleteTask),
 /* harmony export */   "createSession": () => (/* binding */ createSession),
 /* harmony export */   "updateSession": () => (/* binding */ updateSession)
 /* harmony export */ });
@@ -27787,34 +27785,6 @@ const updateSession = (sessionId, sessionTime) => async dispatch => {
   }
 };
 
-const currentSessionReducer = (state = {}, action) => {
-  if (action.type === CREATE_SESSION || action.type === UPDATE_SESSION) {
-    state = action.session;
-  }
-
-  return state;
-};
-
-
-
-/***/ }),
-
-/***/ "./client/store/task.js":
-/*!******************************!*\
-  !*** ./client/store/task.js ***!
-  \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "addTask": () => (/* binding */ addTask),
-/* harmony export */   "deleteTask": () => (/* binding */ deleteTask),
-/* harmony export */   "taskReducer": () => (/* binding */ taskReducer)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
 const ADD_TASK = 'ADD_TASK';
 const DELETE_TASK = 'DELETE_TASK';
 
@@ -27849,19 +27819,18 @@ const deleteTask = id => {
   };
 };
 
-const taskReducer = (state = [], action) => {
-  switch (action.type) {
-    case ADD_TASK:
-      return [...state, action.task];
-
-    case DELETE_TASK:
-      return state.filter(t => {
-        return t.id !== action.task.id;
-      });
-
-    default:
-      return state;
+const currentSessionReducer = (state = {}, action) => {
+  if (action.type === CREATE_SESSION || action.type === UPDATE_SESSION || action.type === ADD_TASK) {
+    state = action.session;
   }
+
+  if (action.type === DELETE_TASK) {
+    return state.filter(t => {
+      return t.id !== action.session.id;
+    });
+  }
+
+  return state;
 };
 
 
