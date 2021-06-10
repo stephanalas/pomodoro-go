@@ -4,14 +4,22 @@ const {
 } = require('../db');
 module.exports = router;
 const generator = require('generate-password');
+const passport = require('passport');
 
-router.post('/login', async (req, res, next) => {
-  try {
-    res.send({ token: await User.authenticate(req.body) });
-  } catch (err) {
-    next(err);
+router.post(
+  '/login',
+  passport.authenticate('local'),
+  async (req, res, next) => {
+    try {
+      // user === token
+      const { passport } = req.session;
+      const token = passport.user;
+      res.send({ token });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.post('/signup', async (req, res, next) => {
   try {
