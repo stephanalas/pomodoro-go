@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const {
   db,
-  models: { Task, Goal, Session },
+  models: { Task, Session },
 } = require('../index');
 const seed = require('../../../script/seed');
 
@@ -27,13 +27,6 @@ describe('Task model', () => {
   it('creates a task instance with a name', async () => {
     const task = await Task.create({ name: 'Create Nav component' });
     expect(task.name).to.equal('Create Nav component');
-  });
-  it('user can assign a task to a goal', async () => {
-    const task = await Task.create({ name: 'create thunks' });
-    const goal = await Goal.create({ description: 'create redux store' });
-    task.goalId = goal.id;
-    await task.save();
-    expect(task.goalId).to.equal(goal.id);
   });
   it('user can specify a task for a new session', async () => {
     const task = await Task.create({ name: 'make Dashboard component' });
