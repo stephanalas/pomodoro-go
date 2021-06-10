@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {
-  models: { Session, User, Goal },
+  models: { Session, User },
 } = require('../db');
 const Task = require('../db/models/Task');
 module.exports = router;
@@ -8,7 +8,7 @@ module.exports = router;
 router.get('/', async (req, res, next) => {
   try {
     const sessions = await Session.findAll({
-      include: [{ model: User }, { model: Goal }],
+      include: [{ model: User }],
     });
     res.send(sessions);
   } catch (err) {
