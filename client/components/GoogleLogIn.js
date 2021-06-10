@@ -43,14 +43,20 @@ export function GoogleInfo() {
 export class GoogleLogIn extends Component {
   componentDidMount() {
     window.gapi.load('signin2', () => {
-      window.gapi.signin2.render('login-button', { width: 50, height: 50 });
+      window.gapi.signin2.render('login-button', {
+        // scope: 'profile email',
+        width: 200,
+        height: 50,
+        longtitle: true,
+        theme: 'dark',
+      });
     });
   }
 
   render() {
     return (
       <div id="GoogleContainer">
-        <div id="login-button">Sign in with Google</div>
+        <div id="login-button"></div>
       </div>
     );
   }

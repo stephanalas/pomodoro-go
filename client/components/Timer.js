@@ -60,7 +60,9 @@ const Timer = (props) => {
 
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
+    seconds = seconds < 10 ?seconds>=0? '0' + seconds:'00' : seconds;
+    //I added seconds>=0? '0' + seconds:'00'
+  
 
     return hours + ':' + minutes + ':' + seconds;
   };

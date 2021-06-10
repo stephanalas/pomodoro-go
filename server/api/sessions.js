@@ -66,7 +66,7 @@ router.post('/:sessionId/tasks', async (req, res, next) => {
   try {
     const { sessionId } = req.params;
     const { task } = req.body;
-    const task = await Task.create({ name: task, sessionId });
+    await Task.create({ name: task, sessionId });
 
     const session = await Session.findOne({
       where: { sessionId },

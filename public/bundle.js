@@ -25133,16 +25133,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Container/Container.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Paper/Paper.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Container/Container.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Paper/Paper.js");
 /* harmony import */ var _Timer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Timer */ "./client/components/Timer.js");
 /* harmony import */ var _FocusConfig__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FocusConfig */ "./client/components/FocusConfig.js");
+/* harmony import */ var _store_task__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/task */ "./client/store/task.js");
 
 
 
 
-const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default)(() => ({
+
+const useStyles = (0,_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default)(() => ({
   main: {
     display: 'flex',
     alignContent: 'center',
@@ -25164,9 +25166,9 @@ const CreateSession = () => {
   const classes = useStyles();
   const [sessionTime, setSessionTime] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
   const [goal, setGoal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
     className: classes.main
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, {
     className: classes.paper
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Timer__WEBPACK_IMPORTED_MODULE_1__.default, {
     sessionTime: sessionTime,
@@ -25831,8 +25833,11 @@ class GoogleLogIn extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
   componentDidMount() {
     window.gapi.load('signin2', () => {
       window.gapi.signin2.render('login-button', {
-        width: 50,
-        height: 50
+        // scope: 'profile email',
+        width: 200,
+        height: 50,
+        longtitle: true,
+        theme: 'dark'
       });
     });
   }
@@ -25842,7 +25847,7 @@ class GoogleLogIn extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
       id: "GoogleContainer"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
       id: "login-button"
-    }, "Sign in with Google"));
+    }));
   }
 
 }
@@ -26968,7 +26973,8 @@ const Timer = props => {
     seconds = seconds % 60;
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
+    seconds = seconds < 10 ? seconds >= 0 ? '0' + seconds : '00' : seconds; //I added seconds>=0? '0' + seconds:'00'
+
     return hours + ':' + minutes + ':' + seconds;
   };
 
@@ -27346,16 +27352,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _components_AuthForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/AuthForm */ "./client/components/AuthForm.js");
 /* harmony import */ var _components_CreateSession__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/CreateSession */ "./client/components/CreateSession.js");
 /* harmony import */ var _components_Home__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Home */ "./client/components/Home.js");
 /* harmony import */ var _components_Dashboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Dashboard */ "./client/components/Dashboard.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./store */ "./client/store/index.js");
 /* harmony import */ var _store_sessions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./store/sessions */ "./client/store/sessions.js");
-/* harmony import */ var _store_goals__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./store/goals */ "./client/store/goals.js");
-/* harmony import */ var _components_BlockError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/BlockError */ "./client/components/BlockError.js");
-/* harmony import */ var _components_BlockSites__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/BlockSites */ "./client/components/BlockSites.js");
+/* harmony import */ var _components_BlockError__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/BlockError */ "./client/components/BlockError.js");
+/* harmony import */ var _components_BlockSites__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/BlockSites */ "./client/components/BlockSites.js");
 
 
 
@@ -27364,7 +27369,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
+ // import { loadGoals } from './store/goals';
 
 
 
@@ -27385,39 +27390,39 @@ class Routes extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       style: {
         height: '100%'
       }
-    }, isLoggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+    }, isLoggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
       path: "/home",
       component: _components_Home__WEBPACK_IMPORTED_MODULE_4__.default
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
       path: "/dashboard",
       component: _components_Dashboard__WEBPACK_IMPORTED_MODULE_5__.default
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
       path: "/timer",
       exact: true,
       component: _components_CreateSession__WEBPACK_IMPORTED_MODULE_3__.default
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
       exact: true,
       path: "/uhoh",
-      component: _components_BlockError__WEBPACK_IMPORTED_MODULE_9__.default
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+      component: _components_BlockError__WEBPACK_IMPORTED_MODULE_8__.default
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
       exact: true,
       path: "/blocksites",
-      component: _components_BlockSites__WEBPACK_IMPORTED_MODULE_10__.default
-    })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+      component: _components_BlockSites__WEBPACK_IMPORTED_MODULE_9__.default
+    })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
       path: "/",
       exact: true,
       component: _components_AuthForm__WEBPACK_IMPORTED_MODULE_2__.Login
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
       path: "/timer",
       exact: true,
       component: _components_CreateSession__WEBPACK_IMPORTED_MODULE_3__.default
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
       path: "/login",
       component: _components_AuthForm__WEBPACK_IMPORTED_MODULE_2__.Login
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
       path: "/signup",
       component: _components_AuthForm__WEBPACK_IMPORTED_MODULE_2__.Signup
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
       path: "/dashboard",
       exact: true,
       component: _components_Dashboard__WEBPACK_IMPORTED_MODULE_5__.default
@@ -27442,8 +27447,7 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch((0,_store__WEBPACK_IMPORTED_MODULE_6__.me)());
-      dispatch((0,_store_sessions__WEBPACK_IMPORTED_MODULE_7__.loadSessions)());
-      dispatch((0,_store_goals__WEBPACK_IMPORTED_MODULE_8__.loadGoals)());
+      dispatch((0,_store_sessions__WEBPACK_IMPORTED_MODULE_7__.loadSessions)()); // dispatch(loadGoals());
     }
 
   };
@@ -27451,7 +27455,7 @@ const mapDispatch = dispatch => {
 // when the url changes
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_router_dom__WEBPACK_IMPORTED_MODULE_11__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapState, mapDispatch)(Routes)));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_router_dom__WEBPACK_IMPORTED_MODULE_10__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapState, mapDispatch)(Routes)));
 
 /***/ }),
 
@@ -27640,50 +27644,6 @@ const blockedSitesReducer = (state = [], action) => {
 
 /***/ }),
 
-/***/ "./client/store/goals.js":
-/*!*******************************!*\
-  !*** ./client/store/goals.js ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "loadGoals": () => (/* binding */ loadGoals),
-/* harmony export */   "goalsReducer": () => (/* binding */ goalsReducer)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-const LOAD_GOALS = 'LOAD_GOALS';
-
-const loadGoalsActionCreator = goals => {
-  return {
-    type: LOAD_GOALS,
-    goals
-  };
-};
-
-const loadGoals = () => {
-  return async dispatch => {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/goals');
-    const goals = response.data;
-    dispatch(loadGoalsActionCreator(goals));
-  };
-};
-
-const goalsReducer = (state = [], action) => {
-  if (action.type === LOAD_GOALS) {
-    state = action.goals;
-  }
-
-  return state;
-};
-
-
-
-/***/ }),
-
 /***/ "./client/store/index.js":
 /*!*******************************!*\
   !*** ./client/store/index.js ***!
@@ -27705,9 +27665,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
 /* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-devtools-extension */ "./node_modules/redux-devtools-extension/index.js");
 /* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./auth */ "./client/store/auth.js");
-/* harmony import */ var _goals__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./goals */ "./client/store/goals.js");
-/* harmony import */ var _sessions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./sessions */ "./client/store/sessions.js");
-/* harmony import */ var _blockSites__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./blockSites */ "./client/store/blockSites.js");
+/* harmony import */ var _sessions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./sessions */ "./client/store/sessions.js");
+/* harmony import */ var _blockSites__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./blockSites */ "./client/store/blockSites.js");
+/* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./task */ "./client/store/task.js");
 
 
 
@@ -27718,10 +27678,10 @@ __webpack_require__.r(__webpack_exports__);
 
 const reducer = (0,redux__WEBPACK_IMPORTED_MODULE_7__.combineReducers)({
   auth: _auth__WEBPACK_IMPORTED_MODULE_3__.default,
-  blockedSites: _blockSites__WEBPACK_IMPORTED_MODULE_6__.default,
-  sessions: _sessions__WEBPACK_IMPORTED_MODULE_5__.sessionsReducer,
-  goals: _goals__WEBPACK_IMPORTED_MODULE_4__.goalsReducer,
-  currentSession: _sessions__WEBPACK_IMPORTED_MODULE_5__.currentSessionReducer
+  blockedSites: _blockSites__WEBPACK_IMPORTED_MODULE_5__.default,
+  sessions: _sessions__WEBPACK_IMPORTED_MODULE_4__.sessionsReducer,
+  task: _task__WEBPACK_IMPORTED_MODULE_6__.taskReducer,
+  currentSession: _sessions__WEBPACK_IMPORTED_MODULE_4__.currentSessionReducer
 });
 const middleware = (0,redux_devtools_extension__WEBPACK_IMPORTED_MODULE_2__.composeWithDevTools)((0,redux__WEBPACK_IMPORTED_MODULE_7__.applyMiddleware)(redux_thunk__WEBPACK_IMPORTED_MODULE_1__.default, (0,redux_logger__WEBPACK_IMPORTED_MODULE_0__.createLogger)({
   collapsed: true
@@ -27833,6 +27793,75 @@ const currentSessionReducer = (state = {}, action) => {
   }
 
   return state;
+};
+
+
+
+/***/ }),
+
+/***/ "./client/store/task.js":
+/*!******************************!*\
+  !*** ./client/store/task.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addTask": () => (/* binding */ addTask),
+/* harmony export */   "deleteTask": () => (/* binding */ deleteTask),
+/* harmony export */   "taskReducer": () => (/* binding */ taskReducer)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+const ADD_TASK = 'ADD_TASK';
+const DELETE_TASK = 'DELETE_TASK';
+
+const addTaskCreator = task => {
+  return {
+    type: ADD_TASK,
+    task
+  };
+};
+
+const addTask = (name, sessionId) => {
+  return async dispatch => {
+    const task = await axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/session//:sessionId/tasks', {
+      name,
+      sessionId
+    }).data;
+    dispatch(addTaskCreator(task));
+  };
+};
+
+const deleteTaskCreator = id => {
+  return {
+    type: DELETE_TASK,
+    id
+  };
+};
+
+const deleteTask = id => {
+  return async dispatch => {
+    const task = await axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/session//:sessionId/tasks/${id}');
+    dispatch(deleteTaskCreator(id));
+  };
+};
+
+const taskReducer = (state = [], action) => {
+  switch (action.type) {
+    case ADD_TASK:
+      return [...state, action.task];
+
+    case DELETE_TASK:
+      return state.filter(t => {
+        return t.id !== action.task.id;
+      });
+
+    default:
+      return state;
+  }
 };
 
 

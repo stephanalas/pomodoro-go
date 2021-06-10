@@ -3,15 +3,17 @@ import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import auth from './auth';
-import { goalsReducer } from './goals';
 import { sessionsReducer, currentSessionReducer } from './sessions';
 import blockedSitesReducer from './blockSites';
+import { addTask, deleteTask,taskReducer } from './task'
+
 const reducer = combineReducers({
   auth,
   blockedSites: blockedSitesReducer,
   sessions: sessionsReducer,
-  goals: goalsReducer,
+  task:taskReducer,
   currentSession: currentSessionReducer,
+
 });
 
 const middleware = composeWithDevTools(
