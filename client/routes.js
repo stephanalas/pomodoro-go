@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
@@ -9,6 +9,7 @@ import { me } from './store';
 import { loadSessions } from './store/sessions';
 import BlockError from './components/BlockError';
 import BlockSites from './components/BlockSites';
+import Player from './components/Player';
 
 /**
  * COMPONENT
@@ -32,6 +33,7 @@ class Routes extends Component {
 
             <Route exact path="/uhoh" component={BlockError} />
             <Route exact path="/blocksites" component={BlockSites} />
+            {/* <Route exact path="/callback" component={Player} /> */}
           </Switch>
         ) : (
           <Switch>

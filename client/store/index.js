@@ -5,11 +5,26 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import auth from './auth';
 import { sessionsReducer, currentSessionReducer } from './sessions';
 import blockedSitesReducer from './blockSites';
+import playlistsReducer from './spotify/getPlaylists';
+import currPlaylistReducer from './spotify/getCurrPlaylist';
+import currPlaybackReducer from './spotify/getCurrPlayback';
+import devicesReducer from './spotify/getDevices';
+import recPlaylistsReducer from './spotify/getRecPlaylists';
+import addToQueueReducer from './spotify/addToQueue';
+import recentTrackReducer from './spotify/getRecentTrack';
+
 const reducer = combineReducers({
   auth,
   blockedSites: blockedSitesReducer,
   sessions: sessionsReducer,
   currentSession: currentSessionReducer,
+  allPlaylists: playlistsReducer,
+  currPlaylist: currPlaylistReducer,
+  recPlaylists: recPlaylistsReducer,
+  currPlayback: currPlaybackReducer,
+  newlyAddedTrack: addToQueueReducer,
+  devices: devicesReducer,
+  recentTrack: recentTrackReducer,
 });
 
 const middleware = composeWithDevTools(
