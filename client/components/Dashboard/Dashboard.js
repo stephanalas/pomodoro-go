@@ -46,8 +46,6 @@ const Dashboard = () => {
       goalOptions.push(goals[i]);
     }
   }
-  console.log(goalOptions);
-  // let goals = useSelector((state) => state.goals);
 
   const [timeFrame, setTimeFrame] = useState('');
   const [goal, setGoal] = useState('');
