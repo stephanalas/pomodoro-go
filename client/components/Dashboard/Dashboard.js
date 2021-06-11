@@ -102,7 +102,6 @@ const Dashboard = () => {
       capitalized += char.toUpperCase();
     } else capitalized += char;
   }
-  console.log(capitalized);
 
   return (
     <div className={classes.dashboardContain}>

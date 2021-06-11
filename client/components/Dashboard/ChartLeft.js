@@ -152,6 +152,140 @@ const ChartLeft = (props) => {
     series: data.series,
   };
 
+  //Distribution By Hours Chart
+  const sessionHours = sessions.map((session) => {
+    const hourOfDay = dayjs(session.startTime).format('H');
+    return hourOfDay;
+  });
+  const distHours = {
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+    8: 0,
+    9: 0,
+    10: 0,
+    11: 0,
+    12: 0,
+    13: 0,
+    14: 0,
+    15: 0,
+    16: 0,
+    17: 0,
+    18: 0,
+    19: 0,
+    20: 0,
+    21: 0,
+    22: 0,
+    23: 0,
+  };
+  if (sessions.length) {
+    for (let i = 0; i < sessionHours.length; i++) {
+      distHours[sessionHours[i]]++;
+    }
+  }
+
+  let hoursArr = [];
+  for (const [key, val] of Object.entries(distHours)) {
+    hoursArr.push(key);
+  }
+
+  let hourValsArr = [];
+  for (const [key, val] of Object.entries(distHours)) {
+    hourValsArr.push(val);
+  }
+
+  const hourData = {
+    series: [
+      {
+        data: hourValsArr,
+      },
+    ],
+    categories: hoursArr,
+  };
+
+  const hourChart = {
+    options: {
+      chart: {
+        background: 'transparent',
+        stacked: true,
+        toolbar: {
+          show: true,
+        },
+      },
+      colors: ['#3C4693', '#7783DB', '#7783DB'],
+      dataLabels: {
+        enabled: false,
+      },
+      grid: {
+        borderColor: theme.palette.divider,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      states: {
+        active: {
+          filter: {
+            type: 'none',
+          },
+        },
+        hover: {
+          filter: {
+            type: 'none',
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      stroke: {
+        colors: ['transparent'],
+        show: true,
+        width: 2,
+      },
+      theme: {
+        mode: theme.palette.mode,
+      },
+      tooltip: {
+        mode: theme.palette.mode,
+      },
+      xaxis: {
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        categories: hourData.categories,
+        labels: {
+          style: {
+            colors: theme.palette.text.secondary,
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          offsetX: -12,
+          style: {
+            colors: theme.palette.text.secondary,
+          },
+        },
+      },
+    },
+    series: hourData.series,
+  };
+
   //Distribution By Goals Chart
   const sessionGoals = sessions.map((session) => {
     const goal = session.goal;
@@ -287,6 +421,7 @@ const ChartLeft = (props) => {
               onChange={handleDistributionChange}
             >
               <MenuItem value={'Day of Week'}>Day of Week</MenuItem>
+              <MenuItem value={'Hour of Day'}>Hour of Day</MenuItem>
               <MenuItem value={'Goal'}>Goal</MenuItem>
             </Select>
           </FormControl>
@@ -295,7 +430,17 @@ const ChartLeft = (props) => {
       {distribution === 'Day of Week' ? (
         <Chart width="800" height="450" type="bar" {...chart} />
       ) : (
+        ''
+      )}
+      {distribution === 'Hour of Day' ? (
+        <Chart width="800" height="450" type="bar" {...hourChart} />
+      ) : (
+        ''
+      )}
+      {distribution === 'Goal' ? (
         <Chart width="800" height="450" type="bar" {...goalChart} />
+      ) : (
+        ''
       )}
     </Card>
   );
