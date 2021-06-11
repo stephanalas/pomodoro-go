@@ -183,7 +183,7 @@ const Player = (props) => {
                 <CardContent className={classes.content}>
                   <Typography component="h5" variant="h5">
                     {props.currPlayback
-                      ? props.currPlayback?.item?.name
+                      ? props.currPlayback.item?.name
                       : 'Nothing is playing right now'}
                   </Typography>
                   <Typography variant="subtitle1" color="textSecondary">
