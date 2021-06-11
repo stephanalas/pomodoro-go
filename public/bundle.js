@@ -27788,20 +27788,19 @@ const updateSession = (sessionId, sessionTime) => async dispatch => {
 const ADD_TASK = 'ADD_TASK';
 const DELETE_TASK = 'DELETE_TASK';
 
-const addTaskCreator = task => {
+const addTaskCreator = session => {
   return {
     type: ADD_TASK,
-    task
+    session
   };
 };
 
-const addTask = (name, sessionId) => {
+const addTask = (task, sessionId) => {
   return async dispatch => {
-    const task = await axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/session//:sessionId/tasks', {
-      name,
-      sessionId
+    const updatedSession = await axios__WEBPACK_IMPORTED_MODULE_0___default().post(`/api/session/${sessionId}/tasks`, {
+      task
     }).data;
-    dispatch(addTaskCreator(task));
+    dispatch(addTaskCreator(updatedSession));
   };
 };
 
@@ -27814,7 +27813,7 @@ const deleteTaskCreator = id => {
 
 const deleteTask = id => {
   return async dispatch => {
-    const task = await axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/session//:sessionId/tasks/${id}');
+    const task = await axios__WEBPACK_IMPORTED_MODULE_0___default().delete(`/api/session//:sessionId/tasks/${id}`);
     dispatch(deleteTaskCreator(id));
   };
 };
