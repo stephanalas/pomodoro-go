@@ -81,7 +81,7 @@ const Player = (props) => {
   const theme = useTheme();
   console.log(props);
 
-  const accessToken = props.location?.search.slice(1);
+  const accessToken = props.location.search.slice(1);
 
   const playStart = async () => {
     const args = window.localStorage.getItem('spotify_access_token');
