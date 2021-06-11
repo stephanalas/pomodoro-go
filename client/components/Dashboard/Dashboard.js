@@ -36,7 +36,18 @@ const useStyles = makeStyles({
 const Dashboard = () => {
   const classes = useStyles();
   let sessions = useSelector((state) => state.sessions);
-  let goals = useSelector((state) => state.goals);
+  let goals = sessions.map((session) => {
+    return session.goal;
+  });
+
+  const goalOptions = [];
+  for (let i = 0; i < goals.length; i++) {
+    if (!goalOptions.includes(goals[i])) {
+      goalOptions.push(goals[i]);
+    }
+  }
+  console.log(goalOptions);
+  // let goals = useSelector((state) => state.goals);
 
   const [timeFrame, setTimeFrame] = useState('');
   const [goal, setGoal] = useState('');
@@ -76,7 +87,7 @@ const Dashboard = () => {
 
   if (goal !== 'All' && goal) {
     sessions = sessions.filter((session) => {
-      return session.goalId === goal;
+      return session.goal === goal;
     });
   }
   return (
@@ -107,10 +118,10 @@ const Dashboard = () => {
               onChange={handleGoalChange}
             >
               <MenuItem value={'All'}>All</MenuItem>
-              {goals.map((goal) => {
+              {goalOptions.map((goal, idx) => {
                 return (
-                  <MenuItem key={goal.id} value={goal.id}>
-                    {goal.description}
+                  <MenuItem key={idx} value={goal}>
+                    {goal}
                   </MenuItem>
                 );
               })}

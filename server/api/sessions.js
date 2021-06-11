@@ -28,6 +28,7 @@ router.post('/', async (req, res, next) => {
 
 router.get('/:sessionId', async (req, res, next) => {
   try {
+    console.log('sessions get route');
     const session = await Session.findByPk(req.params.sessionId, {
       include: [User],
     });

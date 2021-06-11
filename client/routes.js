@@ -61,6 +61,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     loadInitialData() {
+      console.log('inside loadInitialData');
       dispatch(me());
       dispatch(loadSessions());
     },
