@@ -102,12 +102,12 @@ const PlayerDevices = (props) => {
         subheader={<ListSubheader>Available devices</ListSubheader>}
         className={classes.deviceList}
       >
-        {props.devices ? props.devices.devices?.map((each) => {
+        {props.devices.devices ? props.devices.devices.map((each) => {
           return (
             <ListItem key={each.id} className={classes.deviceItem}>
               <ListItemText id="device-name" primary={each.name} />
               <ListItemSecondaryAction>
-                {props.currPlayback?.device?.id === each.id ? (
+                {props.currPlayback.device && props.currPlayback.device.id === each.id ? (
                   <MusicNoteIcon />
                 ) : (
                   <Tooltip title="Play on this device" placement="top">

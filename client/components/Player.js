@@ -181,12 +181,12 @@ const Player = (props) => {
               <div className={classes.details}>
                 <CardContent className={classes.content}>
                   <Typography component="h5" variant="h5">
-                    {props.currPlayback
+                    {props.currPlayback.item
                       ? props.currPlayback.item.name
                       : 'Nothing is playing right now'}
                   </Typography>
                   <Typography variant="subtitle1" color="textSecondary">
-                    {props.currPlayback
+                    {props.currPlayback.item
                       ? props.currPlayback.item.artists[0].name
                       : undefined}
                   </Typography>
@@ -224,7 +224,7 @@ const Player = (props) => {
               <CardMedia
                 className={classes.cover}
                 image={`${
-                  props.currPlayback
+                  props.currPlayback.item
                     ? props.currPlayback.item.album.images[0].url
                     : undefined
                 }`}
