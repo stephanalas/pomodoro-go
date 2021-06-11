@@ -154,7 +154,7 @@ const ChartLeft = (props) => {
 
   //Distribution By Goals Chart
   const sessionGoals = sessions.map((session) => {
-    const goal = session.goal.description;
+    const goal = session.goal;
     return goal;
   });
 

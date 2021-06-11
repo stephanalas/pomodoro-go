@@ -39,7 +39,6 @@ class Routes extends Component {
             <Route path="/timer" exact component={CreateSession} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path="/dashboard" exact component={Dashboard} />
           </Switch>
         )}
       </div>
