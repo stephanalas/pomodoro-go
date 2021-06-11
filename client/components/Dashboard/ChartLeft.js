@@ -274,7 +274,7 @@ const ChartLeft = (props) => {
             variant="caption"
             color="textSecondary"
           >
-            {distribution}
+            Amount of Sessions by {distribution}
           </Typography>
         </Grid>
         <Grid item>

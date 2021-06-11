@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Session, Goal, Site, Task, BlackList },
+  models: { User, Session, Site, Task, BlackList },
 } = require('../server/db');
 
 /**
