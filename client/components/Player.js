@@ -79,7 +79,6 @@ const SpotifyConnectButton = withStyles(() => ({
 const Player = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  console.log(props);
 
   const accessToken = props.location.search.slice(1);
 
