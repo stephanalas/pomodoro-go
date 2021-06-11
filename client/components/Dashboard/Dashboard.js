@@ -6,6 +6,7 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  Typography,
 } from '@material-ui/core';
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import LastSession from './LastSession';
@@ -26,6 +27,7 @@ const useStyles = makeStyles({
   },
   formControl: {
     minWidth: 100,
+    marginRight: 10,
   },
   dashboardContain: {
     paddingLeft: 15,
@@ -40,6 +42,7 @@ const Dashboard = () => {
   if (auth) {
     sessions = sessions.filter((session) => session.userId === auth.id);
   }
+
   let goals = sessions.map((session) => {
     return session.goal;
   });
@@ -86,16 +89,33 @@ const Dashboard = () => {
     });
     sessions = filtered;
   }
-
   if (goal !== 'All' && goal) {
     sessions = sessions.filter((session) => {
       return session.goal === goal;
     });
   }
+  let capitalized = '';
+
+  for (let i = 0; i < auth.username.length; i++) {
+    const char = auth.username[i];
+    if (i === 0) {
+      capitalized += char.toUpperCase();
+    } else capitalized += char;
+  }
+  console.log(capitalized);
+
   return (
     <div className={classes.dashboardContain}>
-      <Grid justify="flex-end" container spacing={3}>
+      <Grid container direction="row" justify="space-between" spacing={3}>
         <Grid item>
+          <Typography variant="overline">Dashboard</Typography>
+          <Typography variant="h6">
+            Good Morning{capitalized ? `, ${capitalized}` : ''}
+            <br />
+          </Typography>
+          <Typography variant="subtitle2">Here is your latest data.</Typography>
+        </Grid>
+        <Grid direction="row" item>
           <FormControl className={classes.formControl}>
             <InputLabel id="time-frame-label">Period</InputLabel>
             <Select
@@ -110,8 +130,6 @@ const Dashboard = () => {
               <MenuItem value={'Year'}>Year</MenuItem>
             </Select>
           </FormControl>
-        </Grid>
-        <Grid item>
           <FormControl className={classes.formControl}>
             <InputLabel id="goal-label">Goal</InputLabel>
             <Select
