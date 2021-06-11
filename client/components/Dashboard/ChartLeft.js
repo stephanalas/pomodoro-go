@@ -80,7 +80,7 @@ const ChartLeft = (props) => {
         background: 'transparent',
         stacked: true,
         toolbar: {
-          show: false,
+          show: true,
         },
       },
       colors: ['#3C4693', '#7783DB', '#7783DB'],
@@ -190,7 +190,7 @@ const ChartLeft = (props) => {
         background: 'transparent',
         stacked: true,
         toolbar: {
-          show: false,
+          show: true,
         },
       },
       colors: ['#3C4693', '#7783DB', '#7783DB'],
@@ -225,6 +225,7 @@ const ChartLeft = (props) => {
       legend: {
         show: false,
       },
+
       stroke: {
         colors: ['transparent'],
         show: true,

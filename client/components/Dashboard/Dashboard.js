@@ -115,7 +115,7 @@ const Dashboard = () => {
           </Typography>
           <Typography variant="subtitle2">Here is your latest data.</Typography>
         </Grid>
-        <Grid direction="row" item>
+        <Grid item>
           <FormControl className={classes.formControl}>
             <InputLabel id="time-frame-label">Period</InputLabel>
             <Select

@@ -354,13 +354,14 @@ const ChartRight = (props) => {
     options: {
       chart: {
         toolbar: {
-          show: false,
+          show: true,
         },
       },
       colors: ['#3C4693'],
       dataLabels: {
         enabled: false,
       },
+
       grid: {
         xaxis: {
           lines: {
@@ -368,8 +369,14 @@ const ChartRight = (props) => {
           },
         },
         yaxis: {
+          show: false,
           lines: {
             show: true,
+          },
+          labels: {
+            formatter: (value) => {
+              return (value += 'n');
+            },
           },
         },
       },

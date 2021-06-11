@@ -36,6 +36,9 @@ const TotalDonut = (props) => {
       labels: ['Successful', 'Failed'],
       legend: { show: false, position: 'bottom' },
       chart: {
+        toolbar: {
+          show: false,
+        },
         offsetX: -70,
         offsetY: -40,
       },
