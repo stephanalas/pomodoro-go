@@ -373,11 +373,6 @@ const ChartRight = (props) => {
           lines: {
             show: true,
           },
-          labels: {
-            formatter: (value) => {
-              return (value += 'n');
-            },
-          },
         },
       },
     },
