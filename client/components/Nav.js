@@ -7,7 +7,7 @@ import { GoogleLogIn, GoogleInfo } from './GoogleLogIn';
 // import API_KEY from '../secret';
 // https://github.com/intricatecloud/bookface-demo/blob/master/src/App.js?fbclid=IwAR1fyP0714chJ3O0OPJ4330BjJERsvyKLxvXXOjU0dMfGXfO6k_V3UhABMw
 
-class Navbar extends Component {
+class Nav extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,7 +58,7 @@ class Navbar extends Component {
   }
   ifUserSignedIn(G) {
     if (this.state.isSignedIn === null) {
-      return <h1>Checking if you're signed in with Google Account...</h1>;
+      return <h1>Checking if you are signed in with Google Account...</h1>;
     }
     return this.state.isSignedIn ? <G /> : <GoogleLogIn />;
   }
@@ -112,4 +112,4 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(mapState, mapDispatch)(Navbar);
+export default connect(mapState, mapDispatch)(Nav);
