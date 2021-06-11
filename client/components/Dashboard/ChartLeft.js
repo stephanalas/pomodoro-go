@@ -208,8 +208,6 @@ const ChartLeft = (props) => {
     categories: hoursArr,
   };
 
-  console.log('categories:', hourData.categories);
-
   const hourChart = {
     options: {
       chart: {
