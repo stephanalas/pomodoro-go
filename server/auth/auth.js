@@ -4,6 +4,7 @@ const passport = require('passport');
 const {
   models: { User },
 } = require('../db');
+
 passport.use(
   'jwt',
   new JwtStrategy(
@@ -45,8 +46,8 @@ passport.use(
         const user = await User.findOne({ where: { email: username } });
 
         if (!user) {
-          console.log('no user found');
           // returns email not found message as user
+
           return done(null, { message: 'Email not found' });
         } else if (!(await user.correctPassword(password))) {
           console.log('bad password');
@@ -64,6 +65,17 @@ passport.use(
     }
   )
 );
+// const GoogleStrategy = require('passport-google-oauth2').Strategy;
+
+// passport.use(
+//   new GoogleStrategy({
+//     clientID: process.env.GOOGLE_CLIENT_ID,
+//     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//     callbackURL: 'http://localhost:8080/auth/google/callback',
+//     passReqToCallback: true,
+//   }),
+//   (request, accessToken, refreshToken, profile, done) => {}
+// );
 
 passport.serializeUser((token, done) => {
   done(null, token);
