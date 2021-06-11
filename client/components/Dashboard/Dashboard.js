@@ -38,11 +38,8 @@ const Dashboard = () => {
   let sessions = useSelector((state) => state.sessions);
   const auth = useSelector((state) => state.auth);
   if (auth) {
-    console.log('there is an auth');
     sessions = sessions.filter((session) => session.userId === auth.id);
   }
-  console.log(sessions);
-
   let goals = sessions.map((session) => {
     return session.goal;
   });
