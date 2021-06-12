@@ -18,8 +18,8 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const { userId } = req.body;
-    const createdSession = await Session.create({ userId });
+    const { userId, goal } = req.body;
+    const createdSession = await Session.create({ userId, goal });
     const eagerLoadedSession = await Session.findOne({
       where: { id: createdSession.id },
       include: [User, Task],
@@ -44,11 +44,17 @@ router.get('/:sessionId', async (req, res, next) => {
 
 router.put('/:sessionId', async (req, res, next) => {
   try {
-    const { sessionTime } = req.body;
-    const session = await Session.findByPk(req.params.sessionId);
-    session.sessionTime = sessionTime;
+    const { sessionTime, goal } = req.body;
+    const { sessionId } = req.params;
+    const session = await Session.findByPk(sessionId);
+    session.goal = goal;
+    if (sessionTime) {
+      session.sessionTime = sessionTime;
+    }
     await session.save();
-    res.status(200).send(session);
+    res
+      .status(200)
+      .send(await Session.findByPk(sessionId, { include: [User, Task] }));
   } catch (error) {
     next(error);
   }
