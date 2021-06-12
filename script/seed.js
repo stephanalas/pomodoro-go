@@ -21,6 +21,11 @@ async function seed() {
       password: '123',
       email: 'murphy@mail.com',
     }),
+    User.create({
+      username: 'jen',
+      password: '123',
+      email: 'jenmiller2102@gmail.com',
+    }),
   ]);
 
   const cody = users[0];

@@ -39,6 +39,7 @@ const Dashboard = () => {
   const classes = useStyles();
   let sessions = useSelector((state) => state.sessions);
   const auth = useSelector((state) => state.auth);
+  console.log('auth:', auth);
   if (auth) {
     sessions = sessions.filter((session) => session.userId === auth.id);
   }
