@@ -3,17 +3,16 @@ const { DataTypes } = Sequelize;
 const db = require('../db');
 
 const Task = db.define('task', {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true,
-  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
       notEmpty: true,
     },
+  },
+  completed: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
 });
 

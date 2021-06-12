@@ -43,17 +43,9 @@ async function seed() {
     })
   );
 
-  // Creating goals
-  const goals = await Promise.all([
-    Goal.create({ description: 'Working' }),
-    Goal.create({ description: 'Studying' }),
-    Goal.create({ description: 'Reading' }),
-    Goal.create({ description: 'Meditating' }),
-  ]);
-
   //Creating sessions
   const sessionSeeds = [];
-
+  const goals = ['Study', 'Work', 'Read', 'Meditate'];
   for (let i = 0; i < 100; i++) {
     sessionSeeds.push(Session.seed(users, goals));
   }
@@ -122,11 +114,6 @@ async function seed() {
       session2: sessions[2],
       session3: sessions[3],
       session4: sessions[4],
-    },
-    goals: {
-      goal0: goals[0],
-      goal1: goals[1],
-      goal2: goals[2],
     },
     tasks: {
       task0: tasks[0],

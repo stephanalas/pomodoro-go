@@ -67,7 +67,7 @@ const FocusConfig = (props) => {
         <Grid item xs={12} className={classes.inputContainer}>
           {[['Hours'], ['Minutes'], ['Seconds']].map((label, idx) => (
             <TimerInput
-              id={idx}
+              key={idx * 10}
               label={label[0]}
               sessionTime={props.sessionTime}
               setSessionTime={props.setSessionTime}

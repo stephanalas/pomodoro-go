@@ -4,7 +4,6 @@ const {
   models: { Session, User },
 } = require('../index');
 const seed = require('../../../script/seed');
-const Goal = require('./Goal');
 
 describe('Session model', () => {
   beforeEach(async () => {
@@ -40,18 +39,13 @@ describe('Session model', () => {
         email: 'chris@mail.com',
       });
 
-      const reactGoal = await Goal.create({
-        description: 'Make react components.',
-      });
-
       const session = await Session.start({
         userId: chris.id,
         sessionTime: 30,
-        goalId: reactGoal.id,
+        goal: 'Work',
       });
 
       expect(session.userId).to.equal(chris.id);
-      expect(session.goalId).to.equal(reactGoal.id);
       expect(session.sessionTime).to.equal(30);
       expect(session.expectedEndTime).to.be.ok;
     });
@@ -62,36 +56,15 @@ describe('Session model', () => {
         email: 'john@mail.com',
       });
 
-      const reactGoal = await Goal.create({
-        description: 'Make react components.',
-      });
-
       const session = await Session.start({
         userId: john.id,
         sessionTime: 30,
-        goalId: reactGoal.id,
+        goal: 'Work',
       });
 
       expect(session.startTime).to.be.ok;
       expect(session.expectedEndTime).to.be.ok;
       expect(session.actualEndTime).to.not.be.ok;
-    });
-    it('does not require a goalId', async () => {
-      const jane = await User.create({
-        username: 'jane',
-        password: 'jane_pw',
-        email: 'jane@mail.com',
-      });
-
-      const session = await Session.start({
-        userId: jane.id,
-        sessionTime: 30,
-      });
-
-      expect(session.userId).to.equal(jane.id);
-      expect(session.goalId).to.not.be.ok;
-      expect(session.sessionTime).to.equal(30);
-      expect(session.expectedEndTime).to.be.ok;
     });
   });
 
@@ -107,20 +80,12 @@ describe('Session model', () => {
       email: 'kid@mail.com',
     });
 
-    const reactGoal = await Goal.create({
-      description: 'Make react components.',
-    });
-    const otherGoal = await Goal.create({
-      description: 'Make other components.',
-    });
-
     const usersArr = [marshall, kid];
+    const goals = ['Study', 'Work', 'Read', 'Meditate'];
 
-    const goalsArr = [reactGoal, otherGoal];
-    const session = await Session.seed(usersArr, goalsArr);
+    const session = await Session.seed(usersArr, goals);
 
     expect(typeof session.userId).to.equal('string');
-    expect(typeof session.goalId).to.equal('string');
     expect(typeof session.sessionTime).to.equal('number');
     expect(typeof session.expectedEndTime).to.equal('object');
     expect(typeof session.successful).to.equal('boolean');
@@ -134,14 +99,10 @@ describe('Session model', () => {
         email: 'john@mail.com',
       });
 
-      const reactGoal = await Goal.create({
-        description: 'Make react components.',
-      });
-
       const session = await Session.start({
         userId: john.id,
         sessionTime: 30,
-        goalId: reactGoal.id,
+        goal: 'Work',
       });
 
       session.end({ successful: true });
@@ -154,14 +115,10 @@ describe('Session model', () => {
         email: 'john@mail.com',
       });
 
-      const reactGoal = await Goal.create({
-        description: 'Make react components.',
-      });
-
       const session = await Session.start({
         userId: john.id,
         sessionTime: 30,
-        goalId: reactGoal.id,
+        goal: 'Work',
       });
 
       session.end({ successful: true });

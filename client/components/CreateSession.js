@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles, Container, Paper } from '@material-ui/core';
 import Timer from './Timer';
 import FocusConfig from './FocusConfig';
+
 const useStyles = makeStyles(() => ({
   main: {
     display: 'flex',

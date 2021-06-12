@@ -7,13 +7,12 @@ import { GoogleLogIn, GoogleInfo } from './GoogleLogIn';
 // import API_KEY from '../secret';
 // https://github.com/intricatecloud/bookface-demo/blob/master/src/App.js?fbclid=IwAR1fyP0714chJ3O0OPJ4330BjJERsvyKLxvXXOjU0dMfGXfO6k_V3UhABMw
 
-
 class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isSignedIn: null,
-      authInstance: {}
+      authInstance: {},
     };
   }
 
@@ -27,7 +26,7 @@ class Navbar extends Component {
         })
         .then(() => {
           const authInstance = window.gapi.auth2.getAuthInstance();
-          this.setState({...this.state, authInstance })
+          this.setState({ ...this.state, authInstance });
           const isSignedIn = authInstance.isSignedIn.get();
           this.setState({ isSignedIn });
 
@@ -35,7 +34,7 @@ class Navbar extends Component {
             this.setState({ isSignedIn });
           });
         });
-        // .grantOfflineAccess();
+      // .grantOfflineAccess();
       //About grantOfflineAccess:
       // https://developers.google.com/identity/sign-in/web/reference
       console.log('Api inited');
@@ -73,7 +72,7 @@ class Navbar extends Component {
             // path="/google"
             render={() => this.ifUserSignedIn(GoogleInfo)}
           />
-          { isLoggedIn ? (
+          {isLoggedIn ? (
             <div>
               {/* The navbar will show these links after you log in */}
               <Link to="/home">Home</Link>
@@ -86,7 +85,7 @@ class Navbar extends Component {
               {/* The navbar will show these links before you log in */}
               <Link to="/login">Login</Link>
               <Link to="/signup">Sign Up</Link>
-              <Link to='/timer'>Timer</Link>
+              <Link to="/timer">Timer</Link>
             </div>
           )}
         </nav>

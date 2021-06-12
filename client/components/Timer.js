@@ -60,7 +60,10 @@ const Timer = (props) => {
 
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
+    seconds = seconds < 10 ?seconds>=0? '0' + seconds:'00' : seconds;
+    //Ding:I added seconds>=0? '0' + seconds:'00'
+    //But the play button may also need to be modified...
+  
 
     return hours + ':' + minutes + ':' + seconds;
   };

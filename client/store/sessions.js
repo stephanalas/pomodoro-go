@@ -65,8 +65,65 @@ const updateSession = (sessionId, sessionTime) => async (dispatch) => {
   }
 };
 
+const ADD_TASK = 'ADD_TASK';
+const DELETE_TASK = 'DELETE_TASK';
+
+const addTaskCreator = (session) => {
+  return {
+    type: ADD_TASK,
+    session,
+  };
+};
+
+const addTask = (task, sessionId) => {
+  return async (dispatch) => {
+    const response = await axios.post(`/api/sessions/${sessionId}/tasks`, {
+      task,
+    });
+    const updatedSession = response.data;
+    dispatch(addTaskCreator(updatedSession));
+  };
+};
+const deleteTaskCreator = (session) => {
+  return {
+    type: DELETE_TASK,
+    session,
+  };
+};
+
+const deleteTask = (id, sessionId) => {
+  return async (dispatch) => {
+    const res = await axios.delete(`/api/sessions/${sessionId}/tasks/${id}`);
+    console.log(res.data);
+    dispatch(deleteTaskCreator(res.data));
+  };
+};
+const UPDATE_TASK = 'UPDATE_TASK';
+const updateTaskActionCreator = (session) => {
+  return {
+    type: UPDATE_TASK,
+    session,
+  };
+};
+
+const updateTask = (taskId, sessionId) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/sessions/${sessionId}/tasks/${taskId}`);
+    dispatch(updateTaskActionCreator(res.data));
+  } catch (error) {
+    console.log('error with updateTask');
+    console.log(error);
+  }
+};
+
 const currentSessionReducer = (state = {}, action) => {
-  if (action.type === CREATE_SESSION || action.type === UPDATE_SESSION) {
+  if (
+    action.type === CREATE_SESSION ||
+    action.type === UPDATE_SESSION ||
+    action.type === ADD_TASK ||
+    action.type === DELETE_TASK ||
+    action.type === UPDATE_TASK
+  ) {
     state = action.session;
   }
   return state;
@@ -76,6 +133,9 @@ export {
   loadSessions,
   sessionsReducer,
   currentSessionReducer,
+  addTask,
+  updateTask,
+  deleteTask,
   createSession,
   updateSession,
 };
