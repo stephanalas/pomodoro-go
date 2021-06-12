@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles, List } from '@material-ui/core';
-
+import { connect } from 'react-redux';
+import Task from './Task';
 const useStyles = makeStyles(() => ({
   paper: {
     border: 'solid 1px black',
@@ -8,9 +9,20 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const TaskList = () => {
+const TaskList = (props) => {
   const classes = useStyles();
-  return <List className={classes.paper}></List>;
+  let tasks = props.tasks || [];
+  console.log(props);
+  return (
+    <List className={classes.paper}>
+      {tasks.map((task) => (
+        <Task task={task} key={task.id} />
+      ))}
+    </List>
+  );
 };
 
-export default TaskList;
+export default connect(({ currentSession }) => {
+  const { tasks } = currentSession || [];
+  return { tasks };
+})(TaskList);
