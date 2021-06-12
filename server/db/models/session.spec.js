@@ -4,11 +4,6 @@ const {
   models: { Session, User },
 } = require('../index');
 const seed = require('../../../script/seed');
-<<<<<<< HEAD
-const Goal = require('./Goal');
-const { Done } = require('@material-ui/icons');
-=======
->>>>>>> dd4ea7690c8aa02743628d52612a287d2c901ea1
 
 describe('Session model', () => {
   beforeEach(async () => {

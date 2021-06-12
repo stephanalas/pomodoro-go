@@ -19,8 +19,12 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const { userId } = req.body;
-    const session = await Session.create({ userId });
-    res.status(201).send(session);
+    const createdSession = await Session.create({ userId });
+    const eagerLoadedSession = await Session.findOne({
+      where: { id: createdSession.id },
+      include: [User, Task],
+    });
+    res.status(201).send(eagerLoadedSession);
   } catch (error) {
     next(error);
   }
@@ -69,7 +73,7 @@ router.post('/:sessionId/tasks', async (req, res, next) => {
     await Task.create({ name: task, sessionId });
 
     const session = await Session.findOne({
-      where: { sessionId },
+      where: { id: sessionId },
       include: [User, Task],
     });
     res.status(201).send(session);
@@ -81,10 +85,15 @@ router.post('/:sessionId/tasks', async (req, res, next) => {
 router.delete('/:sessionId/tasks/:taskId', async (req, res, next) => {
   try {
     const { taskId, sessionId } = req.params;
+    console.log(taskId, sessionId);
     const deleteTask = await Task.findByPk(taskId);
     await deleteTask.destroy();
-       const session = await Session.findOne({ where: { id : sessionId }, include: [User, Task] } )
-    res.status(204).send(session);
+    const session = await Session.findOne({
+      where: { id: sessionId },
+      include: [User, Task],
+    });
+    console.log(session);
+    res.send(session);
   } catch (error) {
     next(error);
   }
@@ -93,13 +102,14 @@ router.delete('/:sessionId/tasks/:taskId', async (req, res, next) => {
 router.put('/:sessionId/tasks/:taskId', async (req, res, next) => {
   try {
     const { taskId } = req.params;
-    const {name} = req.body;
-    const updateTask = await Task.update({name})
-    const session = await Session.findOne({ where: { id : sessionId }, include: [User, Task] } )
-res.status(204).send(session);
+    const { name } = req.body;
+    const updateTask = await Task.update({ name });
+    const session = await Session.findOne({
+      where: { id: sessionId },
+      include: [User, Task],
+    });
+    res.status(204).send(session);
   } catch (error) {
     next(error);
   }
 });
-
-
