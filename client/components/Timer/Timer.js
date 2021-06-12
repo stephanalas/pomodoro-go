@@ -34,8 +34,10 @@ const Timer = (props) => {
     // handlePlay would just update the  and should enable the block site feature
 
     // this would start the session
-    if (!props.currentSession.sessionTime)
-      updateSession(props.currentSession.id, sessionTime);
+    if (!props.currentSession.sessionTime) {
+      console.log(sessionTime);
+      updateSession(props.currentSession.id, { sessionTime });
+    }
     // data for session model
     // start countdown
     setCountDown(true);
