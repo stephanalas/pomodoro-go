@@ -1,15 +1,15 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import CreateSession from './components/CreateSession';
 import Home from './components/Home';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
 import { me } from './store';
 import { loadSessions } from './store/sessions';
-// import { loadGoals } from './store/goals';
 import BlockError from './components/BlockError';
 import BlockSites from './components/BlockSites';
+import Player from './components/Player';
 
 /**
  * COMPONENT
@@ -33,6 +33,7 @@ class Routes extends Component {
 
             <Route exact path="/uhoh" component={BlockError} />
             <Route exact path="/blocksites" component={BlockSites} />
+            {/* <Route exact path="/callback" component={Player} /> */}
           </Switch>
         ) : (
           <Switch>
@@ -40,7 +41,6 @@ class Routes extends Component {
             <Route path="/timer" exact component={CreateSession} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path="/dashboard" exact component={Dashboard} />
           </Switch>
         )}
       </div>
@@ -64,7 +64,6 @@ const mapDispatch = (dispatch) => {
     loadInitialData() {
       dispatch(me());
       dispatch(loadSessions());
-      // dispatch(loadGoals());
     },
   };
 };

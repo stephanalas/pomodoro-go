@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Typography, Paper, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -48,7 +48,7 @@ const LastSession = () => {
             Length
           </Typography>
           <Typography variant="h5">
-            {lastSession ? `${lastSession.sessionTime}min` : ''}
+            {lastSession ? `${lastSession.sessionTime / 60}min` : ''}
           </Typography>
         </Grid>
         <Grid item className={classes.lsItem} xs={6}>
