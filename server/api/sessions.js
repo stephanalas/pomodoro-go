@@ -8,7 +8,7 @@ module.exports = router;
 router.get('/', async (req, res, next) => {
   try {
     const sessions = await Session.findAll({
-      include: [User],
+      include: [{ model: User }],
     });
     res.send(sessions);
   } catch (err) {
@@ -28,6 +28,7 @@ router.post('/', async (req, res, next) => {
 
 router.get('/:sessionId', async (req, res, next) => {
   try {
+    console.log('sessions get route');
     const session = await Session.findByPk(req.params.sessionId, {
       include: [User],
     });

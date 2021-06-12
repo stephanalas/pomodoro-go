@@ -80,7 +80,7 @@ const AverageSession = (props) => {
   const avgSuccessfulExpSessionLength =
     totalSuccessfulExpSessionLength / sessionsSuccessful.length;
   const avgSuccessfulExpSessionMinutes = parseInt(
-    Math.round(avgSuccessfulExpSessionLength)
+    Math.round(avgSuccessfulExpSessionLength / 60)
   );
 
   //Average Actual Length of Successful Sessions
@@ -119,7 +119,7 @@ const AverageSession = (props) => {
   const avgFailedExpSessionLength =
     totalFailedExpSessionLength / sessionsFailed.length;
   const avgFailedExpSessionMinutes = parseInt(
-    Math.round(avgFailedExpSessionLength)
+    Math.round(avgFailedExpSessionLength / 60)
   );
   //Average Actual Length of Failed Sessions
 

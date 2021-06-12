@@ -2,8 +2,8 @@ import React from 'react';
 import Chart from 'react-apexcharts';
 
 const TotalDonut = (props) => {
-  // const sessions = useSelector((state) => state.sessions);
   const { sessions } = props;
+
   let totalExpectedSessionLength;
   if (sessions.length) {
     totalExpectedSessionLength = sessions.reduce((total, session) => {
@@ -11,6 +11,7 @@ const TotalDonut = (props) => {
       return total;
     }, 0);
   }
+
   let total;
   if (sessions.length) {
     total = sessions.length;
@@ -35,6 +36,9 @@ const TotalDonut = (props) => {
       labels: ['Successful', 'Failed'],
       legend: { show: false, position: 'bottom' },
       chart: {
+        toolbar: {
+          show: false,
+        },
         offsetX: -70,
         offsetY: -40,
       },
