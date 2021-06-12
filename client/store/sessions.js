@@ -28,7 +28,6 @@ const sessionsReducer = (state = [], action) => {
 };
 
 const CREATE_SESSION = 'CREATE_SESSION';
-const UPDATE_SESSION = 'UPDATE_SESSION';
 
 const createSessionActionCreator = (session) => {
   return {
@@ -36,9 +35,9 @@ const createSessionActionCreator = (session) => {
     session,
   };
 };
-const createSession = (userId) => async (dispatch) => {
+const createSession = (userId, goal) => async (dispatch) => {
   try {
-    const response = await axios.post('/api/sessions', { userId });
+    const response = await axios.post('/api/sessions', { userId, goal });
     const { data } = response;
     dispatch(createSessionActionCreator(data));
   } catch (error) {
@@ -46,17 +45,18 @@ const createSession = (userId) => async (dispatch) => {
     console.log(error);
   }
 };
+
+const UPDATE_SESSION = 'UPDATE_SESSION';
+
 const updateSessionActionCreator = (session) => {
   return {
     type: UPDATE_SESSION,
     session,
   };
 };
-const updateSession = (sessionId, sessionTime) => async (dispatch) => {
+const updateSession = (sessionId, sessionInfo) => async (dispatch) => {
   try {
-    const response = await axios.put(`/api/sessions/${sessionId}`, {
-      sessionTime,
-    });
+    const response = await axios.put(`/api/sessions/${sessionId}`, sessionInfo);
     const { data } = response;
     dispatch(updateSessionActionCreator(data));
   } catch (error) {
@@ -66,7 +66,6 @@ const updateSession = (sessionId, sessionTime) => async (dispatch) => {
 };
 
 const ADD_TASK = 'ADD_TASK';
-const DELETE_TASK = 'DELETE_TASK';
 
 const addTaskCreator = (session) => {
   return {
@@ -84,6 +83,9 @@ const addTask = (task, sessionId) => {
     dispatch(addTaskCreator(updatedSession));
   };
 };
+
+const DELETE_TASK = 'DELETE_TASK';
+
 const deleteTaskCreator = (session) => {
   return {
     type: DELETE_TASK,
@@ -98,7 +100,9 @@ const deleteTask = (id, sessionId) => {
     dispatch(deleteTaskCreator(res.data));
   };
 };
+
 const UPDATE_TASK = 'UPDATE_TASK';
+
 const updateTaskActionCreator = (session) => {
   return {
     type: UPDATE_TASK,
