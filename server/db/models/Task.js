@@ -9,10 +9,10 @@ const Task = db.define('task', {
     validate: {
       notEmpty: true,
     },
-    completed: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
+  },
+  completed: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
 });
 

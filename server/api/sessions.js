@@ -82,6 +82,18 @@ router.post('/:sessionId/tasks', async (req, res, next) => {
   }
 });
 
+router.put('/:sessionId/tasks/:taskId', async (req, res, next) => {
+  try {
+    const { taskId, sessionId } = req.params;
+    const task = await Task.findOne({ where: { sessionId, id: taskId } });
+    task.completed = !task.completed;
+    await task.save();
+    res.send(await Session.findByPk(sessionId, { include: [User, Task] }));
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.delete('/:sessionId/tasks/:taskId', async (req, res, next) => {
   try {
     const { taskId, sessionId } = req.params;

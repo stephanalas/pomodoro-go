@@ -98,12 +98,31 @@ const deleteTask = (id, sessionId) => {
     dispatch(deleteTaskCreator(res.data));
   };
 };
+const UPDATE_TASK = 'UPDATE_TASK';
+const updateTaskActionCreator = (session) => {
+  return {
+    type: UPDATE_TASK,
+    session,
+  };
+};
+
+const updateTask = (taskId, sessionId) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/sessions/${sessionId}/tasks/${taskId}`);
+    dispatch(updateTaskActionCreator(res.data));
+  } catch (error) {
+    console.log('error with updateTask');
+    console.log(error);
+  }
+};
+
 const currentSessionReducer = (state = {}, action) => {
   if (
     action.type === CREATE_SESSION ||
     action.type === UPDATE_SESSION ||
     action.type === ADD_TASK ||
-    action.type === DELETE_TASK
+    action.type === DELETE_TASK ||
+    action.type === UPDATE_TASK
   ) {
     state = action.session;
   }
@@ -115,6 +134,7 @@ export {
   sessionsReducer,
   currentSessionReducer,
   addTask,
+  updateTask,
   deleteTask,
   createSession,
   updateSession,
