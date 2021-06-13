@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { SessionContext } from './CreateSession';
+import { updateSession } from '../../store/sessions';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -28,9 +29,9 @@ export default connect(null, (dispatch) => {
   };
 })(function (props) {
   const classes = useStyles();
-  const { currentSession, updateSession } = props;
+  const { updateSession, toggleTimer } = props;
   const { setCountDown } = useContext(SessionContext);
-
+  const currentSession = useSelector((state) => state.currentSession);
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -41,8 +42,9 @@ export default connect(null, (dispatch) => {
     setOpen(false);
   };
   const handleStop = (ev) => {
+    handleClose();
     updateSession(currentSession.id, { status: 'Done' });
-
+    clearInterval(window.timer);
     setCountDown(false);
     toggleTimer(ev);
   };
