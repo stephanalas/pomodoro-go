@@ -17,18 +17,25 @@ describe('Session model', () => {
     }
   });
   it('creates a session instance with a sessionTime, startTime and expectedEndTime', async () => {
-    const session = await Session.create({ sessionTime: 35 });
+    const session = await Session.create({
+      sessionTime: 3500,
+      startTime: new Date(),
+    });
+    expect(session.sessionTime).to.be.ok;
     expect(session.startTime).to.be.ok;
     expect(session.expectedEndTime).to.be.ok;
     expect(session.actualEndTime).to.not.be.ok;
   });
-  it('`calcExpectedEndTime` method calculates and adds expectedEndTime attribute to instances as they are created', async function () {
-    const session = await Session.create({ sessionTime: 35 });
-    const expectedEndTime = session.expectedEndTime;
-    const check = new Date(
-      Date.parse(session.startTime) + session.sessionTime * 1000
+  it('`calcExpectedEndTime` method calculates and adds expectedEndTime attribute to instances', async function () {
+    const session = await Session.create({
+      sessionTime: 3500,
+      startTime: new Date(),
+    });
+
+    const endTime = new Date(session.startTime).setMilliseconds(
+      session.sessionTime
     );
-    expect(Date.parse(expectedEndTime)).to.equal(Date.parse(check));
+    expect(new Date(session.expectedEndTime).getTime()).to.equal(endTime);
   });
   //using a UUID threw this test off; wasn't able to fix quickly but I'll look into
   describe('Session.start() class method', () => {
