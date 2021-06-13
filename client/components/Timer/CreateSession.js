@@ -2,7 +2,6 @@ import React, { createContext, useState } from 'react';
 import { makeStyles, Container, Paper } from '@material-ui/core';
 import Timer from './Timer';
 import FocusConfig from './FocusConfig';
-
 export const SessionContext = createContext();
 
 const useStyles = makeStyles(() => ({
@@ -12,6 +11,7 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
     border: '1px solid red',
     height: '100%',
+    width: '40rem',
   },
   paper: {
     display: 'flex',
@@ -19,6 +19,7 @@ const useStyles = makeStyles(() => ({
     alignContent: 'center',
     border: '1px solid red',
     margin: '10px',
+    width: '40rem',
     height: '100%',
   },
 }));
