@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, makeStyles, TextField } from '@material-ui/core';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { addTask } from '../../store/sessions';
+import { SessionContext } from './CreateSession';
 const useStyles = makeStyles(() => ({
   input: {
     width: '80%',
@@ -15,14 +16,17 @@ const useStyles = makeStyles(() => ({
 }));
 const CreateTask = (props) => {
   const classes = useStyles();
+  const currentSession = useSelector((state) => state.currentSession);
+  const { goal } = useContext(SessionContext);
   const [task, setTask] = useState('');
-  const { currentSession } = props;
+
   const handleChange = (ev) => {
     setTask(ev.target.value);
   };
   const handleClick = () => {
     if (task.length) {
       props.addTask(task, currentSession.id);
+      setTask('');
     }
   };
   return (
@@ -31,12 +35,13 @@ const CreateTask = (props) => {
         className={classes.input}
         placeholder="Create a task"
         variant="outlined"
-        disabled={props.goal || !currentSession.startTime ? false : true}
+        disabled={goal || !currentSession.startTime ? false : true}
         onChange={handleChange}
+        value={task}
       />
       <Button
         className={classes.button}
-        disabled={props.goal || !currentSession.startTime ? false : true}
+        disabled={goal || !currentSession.startTime ? false : true}
         onClick={handleClick}
       >
         Add Task
@@ -45,11 +50,8 @@ const CreateTask = (props) => {
   );
 };
 
-export default connect(
-  ({ currentSession }) => ({ currentSession }),
-  (dispatch) => {
-    return {
-      addTask: (task, sessionId) => dispatch(addTask(task, sessionId)),
-    };
-  }
-)(CreateTask);
+export default connect(null, (dispatch) => {
+  return {
+    addTask: (task, sessionId) => dispatch(addTask(task, sessionId)),
+  };
+})(CreateTask);

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { makeStyles, Container, Paper } from '@material-ui/core';
 import Timer from './Timer';
 import FocusConfig from './FocusConfig';
+
+export const SessionContext = createContext();
 
 const useStyles = makeStyles(() => ({
   main: {
@@ -25,19 +27,27 @@ const CreateSession = () => {
 
   const [sessionTime, setSessionTime] = useState(0);
   const [goal, setGoal] = useState('');
+  const [countDown, setCountDown] = useState(false);
 
   return (
-    <Container className={classes.main}>
-      <Paper className={classes.paper}>
-        <Timer sessionTime={sessionTime} setSessionTime={setSessionTime} />
-        <FocusConfig
-          goal={goal}
-          setGoal={setGoal}
-          sessionTime={sessionTime}
-          setSessionTime={setSessionTime}
-        />
-      </Paper>
-    </Container>
+    <SessionContext.Provider
+      value={{ goal, setGoal, sessionTime, setSessionTime }}
+      value={{
+        sessionTime,
+        setSessionTime,
+        goal,
+        setGoal,
+        countDown,
+        setCountDown,
+      }}
+    >
+      <Container className={classes.main}>
+        <Paper className={classes.paper}>
+          <Timer />
+          <FocusConfig />
+        </Paper>
+      </Container>
+    </SessionContext.Provider>
   );
 };
 export default CreateSession;

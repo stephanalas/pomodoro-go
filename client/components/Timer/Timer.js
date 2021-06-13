@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { updateSession } from '../../store/sessions';
+import StopButton from './StopButton';
+import { SessionContext } from './CreateSession';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
@@ -23,20 +25,23 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
   },
 }));
+
 const Timer = (props) => {
-  // the value for timer will come from the timer config component
-  const [countDown, setCountDown] = useState(false);
   const classes = useStyles();
-  const { sessionTime, setSessionTime, updateSession } = props;
+
+  const currentSession = useSelector((state) => state.currentSession);
+  const { setCountDown, sessionTime, countDown, setSessionTime } =
+    useContext(SessionContext);
+  // the value for timer will come from the timer config component
+  const { updateSession } = props;
   const handlePlay = (ev) => {
     // handlePlay 'starts' the session but does not create the session.
     // the session gets created when a goal is selected. Then a user will be able to input the session time and create task to complete
     // handlePlay would just update the  and should enable the block site feature
 
     // this would start the session
-    if (!props.currentSession.sessionTime) {
-      console.log(sessionTime);
-      updateSession(props.currentSession.id, { sessionTime });
+    if (!currentSession.sessionTime) {
+      updateSession(currentSession.id, { sessionTime });
     }
     // data for session model
     // start countdown
@@ -74,7 +79,6 @@ const Timer = (props) => {
       }, 1000);
     }
     if (button === 'STOP' || button === 'PAUSE') {
-      console.log('im here');
       clearInterval(timer);
     }
   };
@@ -91,17 +95,14 @@ const Timer = (props) => {
             Play
           </Button>
         )}
-        {sessionTime ? <Button onClick={toggleTimer}>stop</Button> : null}
+        {countDown ? <StopButton /> : null}
       </div>
     </section>
   );
 };
-export default connect(
-  ({ currentSession }) => ({ currentSession }),
-  (dispatch) => {
-    return {
-      updateSession: (sessionId, sessionTime) =>
-        dispatch(updateSession(sessionId, sessionTime)),
-    };
-  }
-)(Timer);
+export default connect(null, (dispatch) => {
+  return {
+    updateSession: (sessionId, sessionTime) =>
+      dispatch(updateSession(sessionId, sessionTime)),
+  };
+})(Timer);

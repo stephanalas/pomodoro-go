@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { connect } from 'react-redux';
 import { Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import TimerInput from './TimerInput';
 import TaskList from './TaskList';
 import CreateTask from './CreateTask';
 import GoalSelector from './GoalSelector';
+
+import { SessionContext } from './CreateSession';
 
 const useStyles = makeStyles(() => {
   return {
@@ -47,8 +50,8 @@ const useStyles = makeStyles(() => {
 });
 
 const FocusConfig = (props) => {
-  const { setGoal, goal } = props;
-
+  const { currentSession } = props;
+  const { goal } = useContext(SessionContext);
   const classes = useStyles();
   return (
     <Paper className={classes.container}>
@@ -61,22 +64,33 @@ const FocusConfig = (props) => {
         className={classes.gridContainer}
       >
         <Grid item>
-          <Typography align="center">Create Session</Typography>
+          {currentSession.status !== 'Ongoing' ? (
+            <Typography align="center">Create Session</Typography>
+          ) : (
+            <Typography>Current Session</Typography>
+          )}
         </Grid>
-        <GoalSelector className={classes.goal} setGoal={setGoal} goal={goal} />
-        <Grid item xs={12} className={classes.inputContainer}>
+        <Grid item xs={12}>
+          {currentSession.status !== 'Ongoing' ? (
+            <GoalSelector className={classes.goal} />
+          ) : (
+            <Typography>Goal : {goal}</Typography>
+          )}
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          style={{
+            display: currentSession.status === 'Ongoing' ? 'none' : null,
+          }}
+          className={classes.inputContainer}
+        >
           {[['Hours'], ['Minutes'], ['Seconds']].map((label, idx) => (
-            <TimerInput
-              key={idx * 10}
-              label={label[0]}
-              sessionTime={props.sessionTime}
-              setSessionTime={props.setSessionTime}
-              goal={goal}
-            />
+            <TimerInput key={idx * 10} label={label[0]} />
           ))}
         </Grid>
         <Grid container className={classes.taskArea}>
-          <CreateTask goal={goal} />
+          {currentSession.status !== 'Ongoing' ? <CreateTask /> : null}
           <Grid item xs={12} className={classes.taskList}>
             <TaskList />
           </Grid>
@@ -86,4 +100,6 @@ const FocusConfig = (props) => {
   );
 };
 
-export default FocusConfig;
+export default connect(({ currentSession }) => ({ currentSession }))(
+  FocusConfig
+);

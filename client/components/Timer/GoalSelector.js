@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useContext } from 'react';
+import { connect, useSelector } from 'react-redux';
 import {
   Grid,
   Select,
@@ -9,6 +9,8 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import { createSession, updateSession } from '../../store/sessions';
+import { SessionContext } from './CreateSession';
+
 const useStyles = makeStyles(() => ({
   select: {
     width: '50%',
@@ -18,18 +20,26 @@ const useStyles = makeStyles(() => ({
   },
 }));
 const GoalSelector = (props) => {
-  const { goal, setGoal } = props;
+  const auth = useSelector((state) => state.auth);
+  const currentSession = useSelector((state) => state.currentSession);
+  const { goal, setGoal } = useContext(SessionContext);
+  const { createSession, updateSession } = props;
+  const classes = useStyles();
 
   const handleChange = (ev) => {
-    if (!props.currentSession.id) {
-      props.createSession(props.auth.id, ev.target.value);
+    const { value } = ev.target;
+
+    if (!currentSession.id) {
+      createSession(auth.id, value);
     }
-    if (props.currentSession.goal) {
-      props.updateSession(props.currentSession.id, { goal: ev.target.value });
+
+    if (currentSession.goal) {
+      updateSession(currentSession.id, { goal: value });
     }
-    setGoal(ev.target.value);
+
+    setGoal(value);
   };
-  const classes = useStyles();
+
   return (
     <Grid container item>
       <FormControl className={classes.form}>
@@ -43,25 +53,17 @@ const GoalSelector = (props) => {
           <MenuItem value="Study">Study</MenuItem>
           <MenuItem value="Meditate">Meditate</MenuItem>
           <MenuItem value="Work">Work</MenuItem>
+          <MenuItem value="Read">Read</MenuItem>
         </Select>
       </FormControl>
     </Grid>
   );
 };
 
-export default connect(
-  (state) => {
-    const { currentSession, auth } = state;
-    return {
-      currentSession,
-      auth,
-    };
-  },
-  (dispatch) => {
-    return {
-      createSession: (userId, goal) => dispatch(createSession(userId, goal)),
-      updateSession: (sessionId, sessionInfo) =>
-        dispatch(updateSession(sessionId, sessionInfo)),
-    };
-  }
-)(GoalSelector);
+export default connect(null, (dispatch) => {
+  return {
+    createSession: (userId, goal) => dispatch(createSession(userId, goal)),
+    updateSession: (sessionId, sessionInfo) =>
+      dispatch(updateSession(sessionId, sessionInfo)),
+  };
+})(GoalSelector);

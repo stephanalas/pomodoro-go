@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { TextField, makeStyles, Grid } from '@material-ui/core';
+import { SessionContext } from './CreateSession';
+
 const useStyles = makeStyles(() => ({
   input: {
     width: '100%',
@@ -8,55 +10,59 @@ const useStyles = makeStyles(() => ({
 
 const TimerInput = (props) => {
   const classes = useStyles();
+  const { goal, sessionTime, setSessionTime } = useContext(SessionContext);
   // timer may need local state
   const [inputError, setInputError] = useState(false);
-  const [input , setInput] = useState('')
+  const [input, setInput] = useState('');
+  const { label } = props;
 
   const hasError = (ev) => {
+    const { value } = ev.target;
     setInputError(false);
     //checking for errors
-    const i = parseInt(ev.target.value);
+    const i = parseInt(value);
     if (i + '' === 'NaN') return true;
 
-    const hasChar = ev.target.value
-      .split('')
-      .some((item) => parseInt(item) === NaN);
-    if (props.label === 'Hours') {
-    }
-    if (hasChar) return true;
-    if (props.label === 'Hours' &&  i > 23) return true;
-    if (i > 59) return true;
-    setInput(ev.target.value)
-    return false
+    const hasChar = value.split('').some((item) => parseInt(item) === NaN);
 
+    if (hasChar) return true;
+
+    if (label === 'Hours' && i > 23) return true;
+
+    if (i > 59) return true;
+
+    setInput(value);
+
+    return false;
   };
   const handleChange = (ev) => {
+    const { value } = ev.target;
     if (hasError(ev)) {
       setInputError(true);
       return;
     }
-    console.log(input)
     // change the session time bases on input
-    if (props.label.toLowerCase() === 'hours') {
-      const previous = (input ? parseInt(input) : 0) * 3600000
-      const hours = parseInt(ev.target.value) * 3600000;
-      props.setSessionTime((props.sessionTime - previous ) + hours );
-    } else if (props.label.toLowerCase() === 'minutes') {
-      const previous = (input ? parseInt(input) : 0) * 60000
-      const minutes = parseInt(ev.target.value) * 60000
-      props.setSessionTime((props.sessionTime - previous) + minutes );
-    } else {
-      const previous = (input ? parseInt(input) : 0) * 1000
+    if (label === 'Hours') {
+      const previous = (input ? parseInt(input) : 0) * 3600000;
+      const hours = parseInt(value) * 3600000;
 
-      const seconds = parseInt(ev.target.value) * 1000
-      props.setSessionTime((props.sessionTime  - previous) + seconds);
-    
+      setSessionTime(sessionTime - previous + hours);
+    } else if (label === 'Minutes') {
+      const previous = (input ? parseInt(input) : 0) * 60000;
+      const minutes = parseInt(value) * 60000;
+
+      setSessionTime(sessionTime - previous + minutes);
+    } else {
+      const previous = (input ? parseInt(input) : 0) * 1000;
+      const seconds = parseInt(value) * 1000;
+
+      setSessionTime(sessionTime - previous + seconds);
+    }
   };
-  }
   return (
     <Grid item xs={4}>
       <TextField
-        label={props.label}
+        label={label}
         InputLabelProps={{
           shrink: true,
         }}
@@ -66,10 +72,9 @@ const TimerInput = (props) => {
         error={inputError ? true : false}
         helperText={inputError ? 'input error' : null}
         onChange={handleChange}
-        disabled={props.goal ? false : true}
+        disabled={goal ? false : true}
         multiline
-        inputProps={{ maxLength: 2}}
-
+        inputProps={{ maxLength: 2 }}
       ></TextField>
     </Grid>
   );
