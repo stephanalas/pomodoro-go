@@ -56,8 +56,6 @@ const updateSessionActionCreator = (session) => {
 };
 const updateSession = (sessionId, sessionInfo) => async (dispatch) => {
   try {
-    const { sessionTime } = sessionInfo;
-    console.log(sessionTime);
     const response = await axios.put(`/api/sessions/${sessionId}`, sessionInfo);
     const { data } = response;
     dispatch(updateSessionActionCreator(data));
