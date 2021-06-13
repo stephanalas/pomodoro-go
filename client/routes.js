@@ -30,7 +30,6 @@ class Routes extends Component {
             <Route path="/dashboard" component={Dashboard} />
             {/* <Redirect to="/home" /> */}
             <Route path="/timer" exact component={CreateSession} />
-
             <Route exact path="/uhoh" component={BlockError} />
             <Route exact path="/blocksites" component={BlockSites} />
             {/* <Route exact path="/callback" component={Player} /> */}
