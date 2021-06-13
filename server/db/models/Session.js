@@ -107,11 +107,12 @@ const calcExpectedEndTime = (session) => {
   // console.log(session.expectedEndTime);
 };
 
-Session.beforeCreate((session) => {
-  // if (session.sessionTime) {
-  //   calcStartTime(session);
-  //   calcExpectedEndTime(session);
-  // }
+Session.afterCreate((session) => {
+  if (session.sessionTime) {
+    calcStartTime(session);
+
+    calcExpectedEndTime(session);
+  }
 });
 Session.beforeUpdate((session) => {
   if (!session.startTime && session.sessionTime) {
