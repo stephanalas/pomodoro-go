@@ -32,27 +32,8 @@ const Timer = (props) => {
   const currentSession = useSelector((state) => state.currentSession);
   const { setCountDown, sessionTime, countDown, setSessionTime } =
     useContext(SessionContext);
-  // the value for timer will come from the timer config component
   const { updateSession } = props;
-  const handlePlay = (ev) => {
-    // handlePlay 'starts' the session but does not create the session.
-    // the session gets created when a goal is selected. Then a user will be able to input the session time and create task to complete
-    // handlePlay would just update the  and should enable the block site feature
 
-    // this would start the session
-    if (!currentSession.sessionTime) {
-      updateSession(currentSession.id, { sessionTime });
-    }
-    // data for session model
-    // start countdown
-    setCountDown(true);
-    toggleTimer(ev);
-  };
-  const handlePause = (ev) => {
-    // handlePause should
-    setCountDown(false);
-    toggleTimer(ev);
-  };
   const msToHMS = (ms) => {
     let seconds = ms / 1000;
 
@@ -74,11 +55,16 @@ const Timer = (props) => {
   const toggleTimer = (ev) => {
     const button = ev.target.innerText;
     if (button === 'PLAY') {
+      if (!currentSession.sessionTime) {
+        updateSession(currentSession.id, { sessionTime });
+      }
+      setCountDown(true);
       window.timer = setInterval(() => {
         setSessionTime((sessionTime) => sessionTime - 1000);
       }, 1000);
     }
     if (button === 'STOP' || button === 'PAUSE') {
+      setCountDown(false);
       clearInterval(timer);
     }
   };
@@ -89,13 +75,13 @@ const Timer = (props) => {
       </div>
       <div className={classes.buttons}>
         {countDown ? (
-          <Button onClick={handlePause}>pause</Button>
+          <Button onClick={toggleTimer}>pause</Button>
         ) : (
-          <Button onClick={handlePlay} disabled={sessionTime ? false : true}>
+          <Button onClick={toggleTimer} disabled={sessionTime ? false : true}>
             Play
           </Button>
         )}
-        {countDown ? <StopButton /> : null}
+        {countDown ? <StopButton toggleTimer={toggleTimer} /> : null}
       </div>
     </section>
   );
