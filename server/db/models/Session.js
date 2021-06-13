@@ -28,8 +28,13 @@ const Session = db.define('session', {
   actualEndTime: {
     type: DataTypes.DATE,
   },
+  status: {
+    type: DataTypes.ENUM(['Not Started', 'Ongoing', 'Done']),
+    defaultValue: 'Not Started',
+  },
   successful: {
     type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
   goal: {
     type: DataTypes.ENUM(['Work', 'Study', 'Read', 'Meditate']),
@@ -39,9 +44,11 @@ const Session = db.define('session', {
 /**
  * instanceMethods
  */
-Session.prototype.end = async function ({ successful }) {
+Session.prototype.end = async function ({ successful, status }) {
   this.successful = successful;
+  this.status = status;
   this.actualEndTime = Date.now();
+  return this;
 };
 /**
  * classMethods
@@ -101,7 +108,6 @@ const calcExpectedEndTime = (session) => {
 };
 
 Session.beforeCreate((session) => {
-  session.successful = false;
   // if (session.sessionTime) {
   //   calcStartTime(session);
   //   calcExpectedEndTime(session);
@@ -113,6 +119,7 @@ Session.beforeUpdate((session) => {
   }
   if (session.startTime) {
     calcExpectedEndTime(session);
+    session.status = 'Ongoing';
   }
 });
 
