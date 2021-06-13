@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { deleteTask, updateTask } from '../store/sessions';
+import { deleteTask, updateTask } from '../../store/sessions';
 
 const useStyles = makeStyles(() => ({
   task: {

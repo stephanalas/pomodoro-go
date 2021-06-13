@@ -72,13 +72,14 @@ class Nav extends Component {
             // path="/google"
             render={() => this.ifUserSignedIn(GoogleInfo)}
           />
-          {isLoggedIn ? (
+          {isLoggedIn || this.state.isSignedIn ? (
             <div>
               {/* The navbar will show these links after you log in */}
               <Link to="/home">Home</Link>
               <a href="#" onClick={handleClick}>
                 Logout
               </a>
+              <Link to="/timer">Timer</Link>
             </div>
           ) : (
             <div>
