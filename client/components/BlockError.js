@@ -32,7 +32,7 @@ const BlockError = () => {
       <Typography variant="h5" gutterBottom>
         Looks like you are getting distracted...
       </Typography>
-      <img src="https://github.com/2101-Warriors/pomodoro-go/blob/create-blocklist-component/public/assets/Kapture%202021-05-31%20at%2015.38.20.gif?raw=true" />
+      <img src="https://pomodoro-go.s3.us-east-2.amazonaws.com/Kapture+2021-05-31+at+15.38.20.gif" />
       <Typography variant="body1">
         Are you sure you want to break out of focus mode?
         <br />

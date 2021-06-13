@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { getCurrPlayback } from '../store/spotify/getCurrPlayback';
 import { getRecentTrack } from '../store/spotify/getRecentTrack';
+import { resetQueue } from '../store/spotify/addToQueue';
 import { extractQueries } from '../../utils/helper';
 
 // everything material-ui
@@ -18,6 +19,7 @@ import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
+import Badge from '@material-ui/core/Badge';
 
 //import other components
 import PlayerPlaylist from './PlayerPlaylist';
@@ -77,6 +79,7 @@ const SpotifyConnectButton = withStyles(() => ({
 }))(Button);
 
 const Player = (props) => {
+  console.log(props);
   const classes = useStyles();
   const theme = useTheme();
 
@@ -140,6 +143,7 @@ const Player = (props) => {
       }
     );
     props.getCurrPlayback(window.localStorage.getItem('spotify_access_token'));
+    props.resetQueue();
   };
 
   useEffect(() => {
@@ -164,13 +168,17 @@ const Player = (props) => {
       );
       props.getRecentTrack(window.localStorage.getItem('spotify_access_token'));
     }
+    console.log('state duration - initial state', props.trackDuration);
   }, []);
 
   useEffect(() => {
-    props.getCurrPlayback(window.localStorage.getItem('spotify_access_token'));
-  }, [window.localStorage.getItem('spotify_current_track')]);
-
-  console.log(props.currPlayback);
+    setTimeout(() => {
+      props.getCurrPlayback(
+        window.localStorage.getItem('spotify_access_token')
+      );
+    }, props.trackDuration);
+    console.log('update playback after designated delay', props.currPlayback);
+  }, [props]);
 
   return (
     <div id="player">
@@ -212,13 +220,25 @@ const Player = (props) => {
                       <PauseIcon className={classes.playIcon} />
                     )}
                   </IconButton>
-                  <IconButton aria-label="next" onClick={() => playNext()}>
-                    {theme.direction === 'rtl' ? (
-                      <SkipPreviousIcon />
-                    ) : (
-                      <SkipNextIcon />
-                    )}
-                  </IconButton>
+                  {props.newlyAddedTrack !== '' ? (
+                    <Badge color="secondary" variant="dot" overlap="circle">
+                      <IconButton aria-label="next" onClick={() => playNext()}>
+                        {theme.direction === 'rtl' ? (
+                          <SkipPreviousIcon />
+                        ) : (
+                          <SkipNextIcon />
+                        )}
+                      </IconButton>
+                    </Badge>
+                  ) : (
+                    <IconButton aria-label="next" onClick={() => playNext()}>
+                      {theme.direction === 'rtl' ? (
+                        <SkipPreviousIcon />
+                      ) : (
+                        <SkipNextIcon />
+                      )}
+                    </IconButton>
+                  )}
                 </div>
               </div>
               <CardMedia
@@ -252,6 +272,8 @@ const mapStateToProps = (state) => {
   return {
     currPlayback: state.currPlayback,
     recentTrack: state.recentTrack,
+    trackDuration: state.currPlayback?.item?.duration_ms,
+    newlyAddedTrack: state.newlyAddedTrack,
   };
 };
 
@@ -262,6 +284,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getRecentTrack: (accessToken) => {
       return dispatch(getRecentTrack(accessToken));
+    },
+    resetQueue: () => {
+      return dispatch(resetQueue());
     },
   };
 };
