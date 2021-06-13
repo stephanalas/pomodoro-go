@@ -44,17 +44,24 @@ router.get('/:sessionId', async (req, res, next) => {
 
 router.put('/:sessionId', async (req, res, next) => {
   try {
-    const { sessionTime, goal } = req.body;
+    const { sessionTime, goal, status, successful } = req.body;
     const { sessionId } = req.params;
-    const session = await Session.findByPk(sessionId);
+    let session = await Session.findByPk(sessionId, {
+      include: [User, Task],
+    });
+
+    if (status === 'Done' && !successful) {
+      return res.send(await session.end({ successful, status }));
+    }
+
     session.goal = goal;
+
     if (sessionTime) {
       session.sessionTime = sessionTime;
     }
+    session.status = status;
     await session.save();
-    res
-      .status(200)
-      .send(await Session.findByPk(sessionId, { include: [User, Task] }));
+    res.status(200).send(session);
   } catch (error) {
     next(error);
   }
@@ -113,21 +120,6 @@ router.delete('/:sessionId/tasks/:taskId', async (req, res, next) => {
     });
     console.log(session);
     res.send(session);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.put('/:sessionId/tasks/:taskId', async (req, res, next) => {
-  try {
-    const { taskId } = req.params;
-    const { name } = req.body;
-    const updateTask = await Task.update({ name });
-    const session = await Session.findOne({
-      where: { id: sessionId },
-      include: [User, Task],
-    });
-    res.status(204).send(session);
   } catch (error) {
     next(error);
   }
