@@ -8,16 +8,14 @@ a {
 
 #navBar * {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   margin: 1em;
 }
 
-#GoogleContainer * {
-  display: inline;
-  margin: 1em;
-}
-#login-button {
-  width: 500px;
+.Google-button {
+  /* width: 20px;
+  height: 45px; */
+  margin: 0 auto;
 }
 
 #app,

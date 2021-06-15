@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Navbar from './components/Navbar';
+import Navbar from './components/Nav';
 import Routes from './routes';
 import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(() => ({
