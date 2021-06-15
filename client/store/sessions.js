@@ -10,7 +10,7 @@ const loadSessionsActionCreator = (sessions) => {
 const loadSessions = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('http://localhost:8080/api/sessions');
+      const response = await axios.get(`${process.env.API_URL}/api/sessions`);
       const sessions = response.data;
       dispatch(loadSessionsActionCreator(sessions));
     } catch (error) {
@@ -37,7 +37,7 @@ const createSessionActionCreator = (session) => {
 };
 const createSession = (userId, goal) => async (dispatch) => {
   try {
-    const response = await axios.post('/api/sessions', { userId, goal });
+    const response = await axios.post(`${process.env.API_URL}/api/sessions`, { userId, goal });
     const { data } = response;
     dispatch(createSessionActionCreator(data));
   } catch (error) {
@@ -56,7 +56,7 @@ const updateSessionActionCreator = (session) => {
 };
 const updateSession = (sessionId, sessionInfo) => async (dispatch) => {
   try {
-    const response = await axios.put(`/api/sessions/${sessionId}`, sessionInfo);
+    const response = await axios.put(`${process.env.API_URL}/api/sessions/${sessionId}`, sessionInfo);
     const { data } = response;
     dispatch(updateSessionActionCreator(data));
   } catch (error) {
@@ -76,7 +76,7 @@ const addTaskCreator = (session) => {
 
 const addTask = (task, sessionId) => {
   return async (dispatch) => {
-    const response = await axios.post(`/api/sessions/${sessionId}/tasks`, {
+    const response = await axios.post(`${process.env.API_URL}/api/sessions/${sessionId}/tasks`, {
       task,
     });
     const updatedSession = response.data;
@@ -95,7 +95,7 @@ const deleteTaskCreator = (session) => {
 
 const deleteTask = (id, sessionId) => {
   return async (dispatch) => {
-    const res = await axios.delete(`/api/sessions/${sessionId}/tasks/${id}`);
+    const res = await axios.delete(`${process.env.API_URL}/api/sessions/${sessionId}/tasks/${id}`);
     console.log(res.data);
     dispatch(deleteTaskCreator(res.data));
   };
@@ -112,7 +112,7 @@ const updateTaskActionCreator = (session) => {
 
 const updateTask = (taskId, sessionId) => async (dispatch) => {
   try {
-    const res = await axios.put(`/api/sessions/${sessionId}/tasks/${taskId}`);
+    const res = await axios.put(`${process.env.API_URL}/api/sessions/${sessionId}/tasks/${taskId}`);
     dispatch(updateTaskActionCreator(res.data));
   } catch (error) {
     console.log('error with updateTask');

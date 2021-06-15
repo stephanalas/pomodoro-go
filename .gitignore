@@ -7,4 +7,4 @@ npm-debug.log
 yarn-error.log
 .eslintcache
 .env
-client/components/home.js
+.env.development
