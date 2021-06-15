@@ -10,7 +10,6 @@ import {
   IconButton,
   Typography,
   MenuItem,
-  Button,
   Menu,
 } from '@material-ui/core';
 import { MenuIcon } from '@material-ui/icons';
@@ -31,7 +30,32 @@ class Navbar extends Component {
       authInstance: {},
     };
   }
+  initializeGoogleSignIn() {
+    window.gapi.load('auth2', () => {
+      window.gapi.auth2
+        .init({
+          // apiKey: API_KEY,
+          client_id:
+            '67500047765-oj928l0bem24tr3vc71m8gmlp5ij0bre.apps.googleusercontent.com',
+        })
+        .then(() => {
+          const authInstance = window.gapi.auth2.getAuthInstance();
+          this.setState({ ...this.state, authInstance });
+          const isSignedIn = authInstance.isSignedIn.get();
+          this.setState({ isSignedIn });
 
+          authInstance.isSignedIn.listen((isSignedIn) => {
+            this.setState({ isSignedIn });
+          });
+        });
+    });
+  }
+  // componentDidMount() {
+  //   const script = document.createElement('script');
+  //   script.src = 'https://apis.google.com/js/platform.js';
+  //   script.onload = () => this.initializeGoogleSignIn();
+  //   document.body.appendChild(script);
+  // }
   render() {
     const { isLoggedIn, handleClick, classes } = this.props;
     const { isGoogleLOgedIn, anchorE1 } = this.state;
@@ -45,34 +69,40 @@ class Navbar extends Component {
                 aria-haspopup="true"
                 onClick={() => this.setState({ anchorE1: true })}
               >
-                <Menu
-                  id="menu"
-                  // anchorE1={anchorE1}
-                  keepMounted
-                  open={Boolean(anchorE1)}
-                  onClose={() => this.setState({ anchorE1: null })}
-                >
-                  {isLoggedIn ? (
-                    <>
-                      <MenuItem containerElement={<Link to="/home" />}>
-                        Home
-                      </MenuItem>{' '}
-                      <MenuItem containerElement={<Link to="/timer" />}>
-                        Timer
-                      </MenuItem>
-                      <MenuItem onClick={handleClick}>Logout</MenuItem>
-                    </>
-                  ) : (
-                    <>
-                      <MenuItem containerElement={<Link to="/login" />}>
-                        Login
-                      </MenuItem>
-                      <MenuItem containerElement={<Link to="/signup" />}>
-                        Sign Up
-                      </MenuItem>
-                    </>
-                  )}
-                </Menu>
+                {isLoggedIn || this.state.isGoogleLOgedIn ? (
+                  <Menu
+                    id="menu"
+                    anchorE1={anchorE1}
+                    keepMounted
+                    open={Boolean(anchorE1)}
+                    onClose={() => this.setState({ anchorE1: null })}
+                  >
+                    <MenuItem key="Home" component={Link} to="/home">
+                      Home
+                    </MenuItem>
+                    <MenuItem onClick={handleClick} href="#">
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                ) : (
+                  <Menu
+                    id="menu"
+                    anchorE1={anchorE1}
+                    keepMounted
+                    open={Boolean(anchorE1)}
+                    onClose={() => this.setState({ anchorE1: null })}
+                  >
+                    <MenuItem key="Login" component={Link} to="/login">
+                      Login
+                    </MenuItem>
+                    <MenuItem key="SignUp" component={Link} to="/signup">
+                      Sign Up
+                    </MenuItem>
+                    <MenuItem key="Timer" component={Link} to="/timer">
+                      Timer
+                    </MenuItem>
+                  </Menu>
+                )}
               </IconButton>
               <Typography variant="h4">Pomodoro,go!</Typography>
               {isGoogleLOgedIn ? <GLogout /> : <GLogin />}

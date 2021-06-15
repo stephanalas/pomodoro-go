@@ -18,7 +18,6 @@ function GLogin() {
     console.log('Login failed: res:', res);
   };
 
-  // const inStyle = { width: '100px', height: '50px' };
   return (
     <div className={'Google-button'}>
       <GoogleLogin
@@ -39,8 +38,6 @@ function GLogin() {
         //   height: '5px',
         //   position: 'center',
         // }}
-        // style={inStyle}
-        isSignedIn={true}
         isGoogleLOgedIn={true}
       />
     </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import {
   Grid,
   Select,
@@ -22,7 +22,7 @@ const GoalSelector = (props) => {
 
   const handleChange = (ev) => {
     if (!props.currentSession.id) {
-      props.createSession(props.auth.id)
+      props.createSession(props.auth.id);
     }
     setGoal(ev.target.value);
   };
@@ -46,14 +46,17 @@ const GoalSelector = (props) => {
   );
 };
 
-export default connect(state => {
-  const { currentSession, auth } = state
-  return {
-    currentSession,
-    auth
+export default connect(
+  (state) => {
+    const { currentSession, auth } = state;
+    return {
+      currentSession,
+      auth,
+    };
+  },
+  (dispatch) => {
+    return {
+      createSession: (userId) => dispatch(createSession(userId)),
+    };
   }
-}, dispatch => {
-  return {
-    createSession: (userId) => dispatch(createSession(userId))
-  }
-})(GoalSelector);
+)(GoalSelector);

@@ -1,5 +1,7 @@
 body {
   font-family: sans-serif;
+  background-color: rgb(66, 66, 66);
+  color: white;
 }
 
 a {
@@ -8,14 +10,8 @@ a {
 
 #navBar * {
   display: flex;
-  /* justify-content: space-between; */
-  margin: 1em;
-}
-
-.Google-button {
-  /* width: 20px;
-  height: 45px; */
-  margin: 0 auto;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 #app,

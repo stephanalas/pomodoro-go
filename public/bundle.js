@@ -26910,8 +26910,7 @@ function GLogin() {
 
   const onFailure = res => {
     console.log('Login failed: res:', res);
-  }; // const inStyle = { width: '100px', height: '50px' };
-
+  };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: 'Google-button'
@@ -26930,9 +26929,7 @@ function GLogin() {
     //   height: '5px',
     //   position: 'center',
     // }}
-    // style={inStyle}
     ,
-    isSignedIn: true,
     isGoogleLOgedIn: true
   }));
 }
@@ -27104,6 +27101,35 @@ class Navbar extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     };
   }
 
+  initializeGoogleSignIn() {
+    window.gapi.load('auth2', () => {
+      window.gapi.auth2.init({
+        // apiKey: API_KEY,
+        client_id: '67500047765-oj928l0bem24tr3vc71m8gmlp5ij0bre.apps.googleusercontent.com'
+      }).then(() => {
+        const authInstance = window.gapi.auth2.getAuthInstance();
+        this.setState({ ...this.state,
+          authInstance
+        });
+        const isSignedIn = authInstance.isSignedIn.get();
+        this.setState({
+          isSignedIn
+        });
+        authInstance.isSignedIn.listen(isSignedIn => {
+          this.setState({
+            isSignedIn
+          });
+        });
+      });
+    });
+  } // componentDidMount() {
+  //   const script = document.createElement('script');
+  //   script.src = 'https://apis.google.com/js/platform.js';
+  //   script.onload = () => this.initializeGoogleSignIn();
+  //   document.body.appendChild(script);
+  // }
+
+
   render() {
     const {
       isLoggedIn,
@@ -27125,33 +27151,42 @@ class Navbar extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       onClick: () => this.setState({
         anchorE1: true
       })
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default, {
-      id: "menu" // anchorE1={anchorE1}
-      ,
+    }, isLoggedIn || this.state.isGoogleLOgedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default, {
+      id: "menu",
+      anchorE1: anchorE1,
       keepMounted: true,
       open: Boolean(anchorE1),
       onClose: () => this.setState({
         anchorE1: null
       })
-    }, isLoggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
-      containerElement: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Link, {
-        to: "/home"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
+      key: "Home",
+      component: react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Link,
+      to: "/home"
+    }, "Home"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
+      onClick: handleClick,
+      href: "#"
+    }, "Logout")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default, {
+      id: "menu",
+      anchorE1: anchorE1,
+      keepMounted: true,
+      open: Boolean(anchorE1),
+      onClose: () => this.setState({
+        anchorE1: null
       })
-    }, "Home"), ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
-      containerElement: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Link, {
-        to: "/timer"
-      })
-    }, "Timer"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
-      onClick: handleClick
-    }, "Logout")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
-      containerElement: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Link, {
-        to: "/login"
-      })
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
+      key: "Login",
+      component: react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Link,
+      to: "/login"
     }, "Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
-      containerElement: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Link, {
-        to: "/signup"
-      })
-    }, "Sign Up")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_12__.default, {
+      key: "SignUp",
+      component: react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Link,
+      to: "/signup"
+    }, "Sign Up"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, {
+      key: "Timer",
+      component: react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Link,
+      to: "/timer"
+    }, "Timer"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_12__.default, {
       variant: "h4"
     }, "Pomodoro,go!"), isGoogleLOgedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_GoogleOauth_GoogleLogOut__WEBPACK_IMPORTED_MODULE_4__.default, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_GoogleOauth_GoogleLogIn__WEBPACK_IMPORTED_MODULE_3__.default, null)))));
   }
