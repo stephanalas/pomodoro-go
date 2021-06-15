@@ -54,14 +54,22 @@ class Navbar extends Component {
                 >
                   {isLoggedIn ? (
                     <>
-                      <MenuItem to="/home">Home</MenuItem>{' '}
-                      <MenuItem to="/timer">Timer</MenuItem>
+                      <MenuItem containerElement={<Link to="/home" />}>
+                        Home
+                      </MenuItem>{' '}
+                      <MenuItem containerElement={<Link to="/timer" />}>
+                        Timer
+                      </MenuItem>
                       <MenuItem onClick={handleClick}>Logout</MenuItem>
                     </>
                   ) : (
                     <>
-                      <MenuItem to="/login">Login</MenuItem>
-                      <MenuItem to="/signup">Sign Up</MenuItem>
+                      <MenuItem containerElement={<Link to="/login" />}>
+                        Login
+                      </MenuItem>
+                      <MenuItem containerElement={<Link to="/signup" />}>
+                        Sign Up
+                      </MenuItem>
                     </>
                   )}
                 </Menu>
