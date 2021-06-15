@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
-import { connect } from 'react-redux'
-import { updateSession } from '../store/sessions';
+import { connect, useSelector } from 'react-redux';
+import { updateSession } from '../../store/sessions';
+import StopButton from './StopButton';
+import { SessionContext } from './CreateSession';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
@@ -23,32 +25,15 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
   },
 }));
+
 const Timer = (props) => {
-  // the value for timer will come from the timer config component
-  const [countDown, setCountDown] = useState(false);
   const classes = useStyles();
-  const {
-    sessionTime,
-    setSessionTime,
-    updateSession
-  } = props;
-  const handlePlay = (ev) => {
-    // handlePlay 'starts' the session but does not create the session.
-    // the session gets created when a goal is selected. Then a user will be able to input the session time and create task to complete
-    // handlePlay would just update the  and should enable the block site feature
-    
-    // this would start the session
-    if (!props.currentSession.sessionTime) updateSession(props.currentSession.id, sessionTime)
-    // data for session model
-    // start countdown
-    setCountDown(true);
-    toggleTimer(ev);
-  };
-  const handlePause = (ev) => {
-    // handlePause should
-    setCountDown(false);
-    toggleTimer(ev);
-  };
+
+  const currentSession = useSelector((state) => state.currentSession);
+  const { setCountDown, sessionTime, countDown, setSessionTime } =
+    useContext(SessionContext);
+  const { updateSession } = props;
+
   const msToHMS = (ms) => {
     let seconds = ms / 1000;
 
@@ -60,7 +45,9 @@ const Timer = (props) => {
 
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
+    seconds = seconds < 10 ? (seconds >= 0 ? '0' + seconds : '00') : seconds;
+    //Ding:I added seconds>=0? '0' + seconds:'00'
+    //But the play button may also need to be modified...
 
     return hours + ':' + minutes + ':' + seconds;
   };
@@ -68,12 +55,16 @@ const Timer = (props) => {
   const toggleTimer = (ev) => {
     const button = ev.target.innerText;
     if (button === 'PLAY') {
+      if (!currentSession.sessionTime) {
+        updateSession(currentSession.id, { sessionTime });
+      }
+      setCountDown(true);
       window.timer = setInterval(() => {
         setSessionTime((sessionTime) => sessionTime - 1000);
       }, 1000);
     }
     if (button === 'STOP' || button === 'PAUSE') {
-      console.log('im here');
+      setCountDown(false);
       clearInterval(timer);
     }
   };
@@ -84,19 +75,20 @@ const Timer = (props) => {
       </div>
       <div className={classes.buttons}>
         {countDown ? (
-          <Button onClick={handlePause}>pause</Button>
+          <Button onClick={toggleTimer}>pause</Button>
         ) : (
-          <Button onClick={handlePlay} disabled={sessionTime ? false : true}>
+          <Button onClick={toggleTimer} disabled={sessionTime ? false : true}>
             Play
           </Button>
         )}
-        {sessionTime ? <Button onClick={toggleTimer}>stop</Button> : null}
+        {countDown ? <StopButton toggleTimer={toggleTimer} /> : null}
       </div>
     </section>
   );
 };
-export default connect(({ currentSession }) => ({ currentSession }), (dispatch) => {
+export default connect(null, (dispatch) => {
   return {
-    updateSession: (sessionId, sessionTime) => dispatch(updateSession(sessionId, sessionTime))
-  }
+    updateSession: (sessionId, sessionTime) =>
+      dispatch(updateSession(sessionId, sessionTime)),
+  };
 })(Timer);

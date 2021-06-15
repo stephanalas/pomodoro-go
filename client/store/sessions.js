@@ -28,7 +28,6 @@ const sessionsReducer = (state = [], action) => {
 };
 
 const CREATE_SESSION = 'CREATE_SESSION';
-const UPDATE_SESSION = 'UPDATE_SESSION';
 
 const createSessionActionCreator = (session) => {
   return {
@@ -36,9 +35,9 @@ const createSessionActionCreator = (session) => {
     session,
   };
 };
-const createSession = (userId) => async (dispatch) => {
+const createSession = (userId, goal) => async (dispatch) => {
   try {
-    const response = await axios.post('/api/sessions', { userId });
+    const response = await axios.post('/api/sessions', { userId, goal });
     const { data } = response;
     dispatch(createSessionActionCreator(data));
   } catch (error) {
@@ -46,17 +45,18 @@ const createSession = (userId) => async (dispatch) => {
     console.log(error);
   }
 };
+
+const UPDATE_SESSION = 'UPDATE_SESSION';
+
 const updateSessionActionCreator = (session) => {
   return {
     type: UPDATE_SESSION,
     session,
   };
 };
-const updateSession = (sessionId, sessionTime) => async (dispatch) => {
+const updateSession = (sessionId, sessionInfo) => async (dispatch) => {
   try {
-    const response = await axios.put(`/api/sessions/${sessionId}`, {
-      sessionTime,
-    });
+    const response = await axios.put(`/api/sessions/${sessionId}`, sessionInfo);
     const { data } = response;
     dispatch(updateSessionActionCreator(data));
   } catch (error) {
@@ -65,8 +65,69 @@ const updateSession = (sessionId, sessionTime) => async (dispatch) => {
   }
 };
 
+const ADD_TASK = 'ADD_TASK';
+
+const addTaskCreator = (session) => {
+  return {
+    type: ADD_TASK,
+    session,
+  };
+};
+
+const addTask = (task, sessionId) => {
+  return async (dispatch) => {
+    const response = await axios.post(`/api/sessions/${sessionId}/tasks`, {
+      task,
+    });
+    const updatedSession = response.data;
+    dispatch(addTaskCreator(updatedSession));
+  };
+};
+
+const DELETE_TASK = 'DELETE_TASK';
+
+const deleteTaskCreator = (session) => {
+  return {
+    type: DELETE_TASK,
+    session,
+  };
+};
+
+const deleteTask = (id, sessionId) => {
+  return async (dispatch) => {
+    const res = await axios.delete(`/api/sessions/${sessionId}/tasks/${id}`);
+    console.log(res.data);
+    dispatch(deleteTaskCreator(res.data));
+  };
+};
+
+const UPDATE_TASK = 'UPDATE_TASK';
+
+const updateTaskActionCreator = (session) => {
+  return {
+    type: UPDATE_TASK,
+    session,
+  };
+};
+
+const updateTask = (taskId, sessionId) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/sessions/${sessionId}/tasks/${taskId}`);
+    dispatch(updateTaskActionCreator(res.data));
+  } catch (error) {
+    console.log('error with updateTask');
+    console.log(error);
+  }
+};
+
 const currentSessionReducer = (state = {}, action) => {
-  if (action.type === CREATE_SESSION || action.type === UPDATE_SESSION) {
+  if (
+    action.type === CREATE_SESSION ||
+    action.type === UPDATE_SESSION ||
+    action.type === ADD_TASK ||
+    action.type === DELETE_TASK ||
+    action.type === UPDATE_TASK
+  ) {
     state = action.session;
   }
   return state;
@@ -76,6 +137,9 @@ export {
   loadSessions,
   sessionsReducer,
   currentSessionReducer,
+  addTask,
+  updateTask,
+  deleteTask,
   createSession,
   updateSession,
 };

@@ -1,9 +1,13 @@
-const { UUID } = require('sequelize');
 const Sequelize = require('sequelize');
 const { DataTypes } = Sequelize;
 const db = require('../db');
 const faker = require('faker');
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 const Session = db.define('session', {
   id: {
     type: DataTypes.UUID,
@@ -24,8 +28,13 @@ const Session = db.define('session', {
   actualEndTime: {
     type: DataTypes.DATE,
   },
+  status: {
+    type: DataTypes.ENUM(['Not Started', 'Ongoing', 'Done']),
+    defaultValue: 'Not Started',
+  },
   successful: {
     type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
   goal: {
     type: DataTypes.ENUM(['Work', 'Study', 'Read', 'Meditate']),
@@ -35,9 +44,11 @@ const Session = db.define('session', {
 /**
  * instanceMethods
  */
-Session.prototype.end = async function ({ successful }) {
+Session.prototype.end = async function ({ successful, status }) {
   this.successful = successful;
+  this.status = status;
   this.actualEndTime = Date.now();
+  return this;
 };
 /**
  * classMethods
@@ -88,15 +99,28 @@ const calcStartTime = (session) => {
 };
 
 const calcExpectedEndTime = (session) => {
-  const date = Date.parse(session.startTime);
-  session.expectedEndTime = date + session.sessionTime * 1000;
+  // const date = Date.parse(session.startTime);
+  const { startTime, sessionTime } = session;
+  const startDate = new Date(startTime);
+  session.expectedEndTime = startDate.setMilliseconds(sessionTime);
+  // session.expectedEndTime = date + session.sessionTime * 1000;
+  // console.log(session.expectedEndTime);
 };
 
-Session.beforeCreate((session) => {
-  session.successful = false;
+Session.afterCreate((session) => {
   if (session.sessionTime) {
     calcStartTime(session);
+
     calcExpectedEndTime(session);
+  }
+});
+Session.beforeUpdate((session) => {
+  if (!session.startTime && session.sessionTime) {
+    session.startTime = new Date();
+  }
+  if (session.startTime) {
+    calcExpectedEndTime(session);
+    session.status = 'Ongoing';
   }
 });
 
