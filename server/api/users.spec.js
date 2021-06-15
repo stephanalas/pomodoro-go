@@ -1,5 +1,3 @@
-/* global describe beforeEach it */
-
 const { expect } = require('chai');
 const request = require('supertest');
 const {
@@ -10,7 +8,7 @@ const seed = require('../../script/seed');
 const app = require('../app');
 
 describe('User routes', () => {
-  before(async() => {
+  before(async () => {
     await seed();
   });
 
@@ -19,7 +17,7 @@ describe('User routes', () => {
       const res = await request(app).get('/api/users').expect(200);
 
       expect(res.body).to.be.an('array');
-      expect(res.body.length).to.equal(6);
+      expect(res.body.length).to.equal(7);
     });
 
     it('only returns id, username and email', async () => {

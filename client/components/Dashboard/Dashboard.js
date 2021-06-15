@@ -110,7 +110,7 @@ const Dashboard = () => {
         <Grid item>
           <Typography variant="overline">Dashboard</Typography>
           <Typography variant="h6">
-            Good Morning{capitalized ? `, ${capitalized}` : ''}
+            Good Afternoon{capitalized ? `, ${capitalized}` : ''}
             <br />
           </Typography>
           <Typography variant="subtitle2">Here is your latest data.</Typography>
