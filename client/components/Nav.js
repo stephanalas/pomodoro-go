@@ -1,4 +1,3 @@
-/* global gapi */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -9,13 +8,15 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  MakeStyles,
   Typography,
-  makeStyles,
+  MenuItem,
+  Button,
+  Menu,
 } from '@material-ui/core';
-import { Menu } from '@material-ui/icons';
+import { MenuIcon } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
+
 // https://stackoverflow.com/questions/56432167/how-to-style-components-using-makestyles-and-still-have-lifecycle-methods-in-mat
 const styles = (theme) => ({
   header: { color: 'white' },
@@ -26,33 +27,50 @@ class Navbar extends Component {
     super(props);
     this.state = {
       isGoogleLOgedIn: null,
+      anchorE1: null,
       authInstance: {},
     };
   }
 
   render() {
     const { isLoggedIn, handleClick, classes } = this.props;
-    const { isGoogleLOgedIn } = this.state;
+    const { isGoogleLOgedIn, anchorE1 } = this.state;
     return (
       <div>
         <nav id="navBar">
           <AppBar position="sticky" className={classes.header}>
             <Toolbar>
-              <IconButton>
-                <Menu />
-                {/* {isLoggedIn ?<Link to="/home">Home</Link>
-                  <a href="#" onClick={handleClick}>
-                    Logout
-                  </a>: <Link to="/login">Login</Link>
-                  <Link to="/signup">Sign Up</Link>
-                  <Link to="/timer">Timer</Link> */}
+              <IconButton
+                aria-label="menu"
+                aria-haspopup="true"
+                onClick={() => this.setState({ anchorE1: true })}
+              >
+                <Menu
+                  id="menu"
+                  // anchorE1={anchorE1}
+                  keepMounted
+                  open={Boolean(anchorE1)}
+                  onClose={() => this.setState({ anchorE1: null })}
+                >
+                  {isLoggedIn ? (
+                    <>
+                      <MenuItem to="/home">Home</MenuItem>{' '}
+                      <MenuItem to="/timer">Timer</MenuItem>
+                      <MenuItem onClick={handleClick}>Logout</MenuItem>
+                    </>
+                  ) : (
+                    <>
+                      <MenuItem to="/login">Login</MenuItem>
+                      <MenuItem to="/signup">Sign Up</MenuItem>
+                    </>
+                  )}
+                </Menu>
               </IconButton>
               <Typography variant="h4">Pomodoro,go!</Typography>
               {isGoogleLOgedIn ? <GLogout /> : <GLogin />}
             </Toolbar>
           </AppBar>
         </nav>
-        <hr />
       </div>
     );
   }
