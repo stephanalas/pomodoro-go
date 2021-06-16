@@ -10,7 +10,7 @@ const loadSessionsActionCreator = (sessions) => {
 const loadSessions = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('/api/sessions');
+      const response = await axios.get('http://localhost:8080/api/sessions');
       const sessions = response.data;
       dispatch(loadSessionsActionCreator(sessions));
     } catch (error) {
