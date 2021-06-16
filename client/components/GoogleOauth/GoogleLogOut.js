@@ -7,16 +7,17 @@ const clientId =
 function GLogout() {
   const onSuccess = () => {
     console.log('Logout successfully');
-    alert('Logout successfully');
+    alert('Logout!');
   };
 
   return (
-    <div Google-button>
+    <div>
       <GoogleLogout
         clientId={clientId}
         buttonText="Logout"
         onLogoutSuccess={onSuccess}
-      />
+        isGoogleLogedIn={false}
+      ></GoogleLogout>
     </div>
   );
 }

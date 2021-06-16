@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoogleLogin } from 'react-google-login';
-import GoogleButton from 'react-google-button';
+// import GoogleButton from 'react-google-button';
 // refresh token
 import { refreshTokenSetup } from './RefreshToken';
 
@@ -10,7 +10,7 @@ const clientId =
 function GLogin() {
   const onSuccess = (res) => {
     console.log('Login Success! CurrentUser:', res.profileObj);
-    alert(`Logged in successfully with Gmail! Welcome,${res.profileObj.name}`);
+    alert(`Logged in with Gmail! Welcome,${res.profileObj.name}`);
     refreshTokenSetup(res);
   };
 
@@ -26,19 +26,14 @@ function GLogin() {
         onSuccess={onSuccess}
         onFailure={onFailure}
         cookiePolicy={'single_host_origin'}
-        render={(renderProps) => (
-          <GoogleButton
-            onClick={renderProps.onClick}
-            disabled={renderProps.disabled}
-          />
-        )}
-        // style={{
-        //   marginTop: '10px',
-        //   width: '10px',
-        //   height: '5px',
-        //   position: 'center',
-        // }}
-        isGoogleLOgedIn={true}
+        // render={(renderProps) => (
+        //   <GoogleButton
+        //     id="googleButton"
+        //     onClick={renderProps.onClick}
+        //     disabled={renderProps.disabled}
+        //   />
+        // )}
+        isGoogleLogedIn={true}
       />
     </div>
   );

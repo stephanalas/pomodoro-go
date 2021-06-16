@@ -12,6 +12,25 @@ a {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  z-index: 0;
+}
+#navBar .home {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  z-index: 0;
+}
+#navBar .account {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  z-index: 0;
+}
+#navBar .home {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  z-index: 0;
 }
 
 #app,
