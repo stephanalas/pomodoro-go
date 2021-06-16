@@ -31,9 +31,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 8,
     paddingBottom: 0,
   },
-  formControlCheckboxes: {
-    margin: theme.spacing(3),
-  },
+  formControlCheckboxes: {},
   formControlSelect: {
     minWidth: 100,
     marginRight: 10,
@@ -134,7 +132,13 @@ const Dashboard = () => {
 
   return (
     <div className={classes.dashboardContain}>
-      <Grid container direction="row" justify="space-between" spacing={3}>
+      <Grid
+        container
+        direction="row"
+        justify="space-between"
+        alignItems="flex-start"
+        spacing={3}
+      >
         <Grid item xs={3}>
           <Typography variant="overline">Dashboard</Typography>
           <Typography variant="h6">
