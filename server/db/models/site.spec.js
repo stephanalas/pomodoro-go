@@ -26,4 +26,8 @@ describe('Site Model', function () {
     expect(sites).to.be.a('array');
     expect(sites.length).to.be.greaterThan(0);
   });
+  it('Site should have a `visits` attribute that is a number', async () => {
+    const site = await Site.findOne();
+    expect(site.visits).to.be.a('number');
+  });
 });

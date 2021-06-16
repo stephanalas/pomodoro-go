@@ -39,11 +39,11 @@ const Dashboard = () => {
   const classes = useStyles();
   let sessions = useSelector((state) => state.sessions);
   const auth = useSelector((state) => state.auth);
-  console.log('auth:', auth);
+  console.log('chrome:', chrome);
+
   if (auth) {
     sessions = sessions.filter((session) => session.userId === auth.id);
   }
-
   let goals = sessions.map((session) => {
     return session.goal;
   });
