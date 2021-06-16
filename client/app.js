@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Navbar from './components/Nav';
+import Nav from './components/Nav';
 import Routes from './routes';
 import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(() => ({
@@ -13,7 +13,7 @@ const App = () => {
   const classes = useStyles();
   return (
     <div className={classes.main}>
-      <Navbar />
+      <Nav />
       <Routes />
     </div>
   );

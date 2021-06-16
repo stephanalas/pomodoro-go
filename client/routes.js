@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
-import CreateSession from './components/CreateSession';
+import CreateSession from './components/Timer/CreateSession';
 import Home from './components/Home';
 import Dashboard from './components/Dashboard/Dashboard';
 import { me } from './store';
@@ -30,7 +30,6 @@ class Routes extends Component {
             <Route path="/dashboard" component={Dashboard} />
             {/* <Redirect to="/home" /> */}
             <Route path="/timer" exact component={CreateSession} />
-
             <Route exact path="/uhoh" component={BlockError} />
             <Route exact path="/blocksites" component={BlockSites} />
             {/* <Route exact path="/callback" component={Player} /> */}

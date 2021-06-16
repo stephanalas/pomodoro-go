@@ -1,125 +1,96 @@
+/* global gapi */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import { logout } from '../store';
-import GLogin from './GoogleOauth/GoogleLogIn';
-import GLogout from './GoogleOauth/GoogleLogOut';
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  MenuItem,
-  Menu,
-} from '@material-ui/core';
-import { MenuIcon, AccountBox, HomeOutlined } from '@material-ui/icons';
-import { withStyles } from '@material-ui/styles';
-import PropTypes from 'prop-types';
+import { GoogleLogIn, GoogleInfo } from './GoogleLogIn';
+// import API_KEY from '../secret';
+// https://github.com/intricatecloud/bookface-demo/blob/master/src/App.js?fbclid=IwAR1fyP0714chJ3O0OPJ4330BjJERsvyKLxvXXOjU0dMfGXfO6k_V3UhABMw
 
-// https://stackoverflow.com/questions/56432167/how-to-style-components-using-makestyles-and-still-have-lifecycle-methods-in-mat
-const styles = (theme) => ({
-  header: { color: 'white' },
-});
-
-class Navbar extends Component {
+class Nav extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isGoogleLogedIn: false,
-      anchorEl: null,
+      isSignedIn: null,
       authInstance: {},
     };
-    this.handleLogOut = this.handleLogOut.bind(this);
   }
-  handleLogOut() {
-    this.setState({ anchorEl: null });
-    this.props.handleClick();
+
+  initializeGoogleSignIn() {
+    window.gapi.load('auth2', () => {
+      window.gapi.auth2
+        .init({
+          // apiKey: API_KEY,
+          client_id:
+            '67500047765-oj928l0bem24tr3vc71m8gmlp5ij0bre.apps.googleusercontent.com',
+        })
+        .then(() => {
+          const authInstance = window.gapi.auth2.getAuthInstance();
+          this.setState({ ...this.state, authInstance });
+          const isSignedIn = authInstance.isSignedIn.get();
+          this.setState({ isSignedIn });
+
+          authInstance.isSignedIn.listen((isSignedIn) => {
+            this.setState({ isSignedIn });
+          });
+        });
+      // .grantOfflineAccess();
+      //About grantOfflineAccess:
+      // https://developers.google.com/identity/sign-in/web/reference
+      console.log('Api inited');
+      // window.gapi.load('signin2', () => {
+      //   const params = {
+      //     onsuccess: () => {
+      //       console.log('User has finished signing in!');
+      //     },
+      //   };
+      //   window.gapi.signin2.render('loginButton', params);
+      // });
+    });
+  }
+
+  // https://developers.google.com/identity/sign-in/web/reference
+  componentDidMount() {
+    const script = document.createElement('script');
+    script.src = 'https://apis.google.com/js/platform.js';
+    script.onload = () => this.initializeGoogleSignIn();
+    document.body.appendChild(script);
+  }
+  ifUserSignedIn(G) {
+    if (this.state.isSignedIn === null) {
+      return <h1>Checking if you are signed in with Google Account...</h1>;
+    }
+    return this.state.isSignedIn ? <G /> : <GoogleLogIn />;
   }
   render() {
-    const { isLoggedIn, classes } = this.props;
-    const { isGoogleLogedIn, anchorEl } = this.state;
-    if (!!isGoogleLogedIn) {
-      return <GLogout />;
-    }
-
+    const { isLoggedIn, handleClick } = this.props;
     return (
       <div>
+        <h1>Pomodoro,Go!</h1>
         <nav id="navBar">
-          <AppBar position="relative" className={classes.header}>
-            <Toolbar>
-              <IconButton
-                id="home"
-                aria-label="home"
-                edge="start"
-                size="medium"
-                component={Link}
-                to="/home"
-              >
-                <HomeOutlined />
-              </IconButton>
-              <IconButton
-                id="account"
-                aria-label="menu"
-                aria-haspopup="true"
-                edge="start"
-                size="medium"
-                onClick={(ev) => this.setState({ anchorEl: ev.currentTarget })}
-                // ref={anchorRef}
-              >
-                <AccountBox />
-              </IconButton>
-              {/* || this.state.isGoogleLogedIn  */}
-              {isLoggedIn ? (
-                <Menu
-                  id="menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  aria-haspopup="true"
-                  onClose={() => this.setState({ anchorEl: null })}
-                >
-                  <MenuItem
-                    onClick={this.handleLogOut}
-                    component={Link}
-                    to="/timer"
-                  >
-                    Timer
-                  </MenuItem>
-                  <MenuItem onClick={this.handleLogOut}>Logout</MenuItem>
-                </Menu>
-              ) : (
-                <Menu
-                  id="menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  aria-haspopup="true"
-                  onClose={() => this.setState({ anchorEl: null })}
-                >
-                  <MenuItem
-                    key="Login"
-                    component={Link}
-                    onClick={() => this.setState({ anchorEl: null })}
-                    to="/login"
-                  >
-                    Login
-                  </MenuItem>
-                  <MenuItem
-                    key="SignUp"
-                    onClick={() => this.setState({ anchorEl: null })}
-                    component={Link}
-                    to="/signup"
-                  >
-                    Sign Up
-                  </MenuItem>
-                </Menu>
-              )}
-
-              <Typography variant="h4">Pomodoro,go!</Typography>
-              {isGoogleLogedIn ? <GLogout /> : <GLogin />}
-            </Toolbar>
-          </AppBar>
+          <Route
+            // path="/google"
+            render={() => this.ifUserSignedIn(GoogleInfo)}
+          />
+          {isLoggedIn || this.state.isSignedIn ? (
+            <div>
+              {/* The navbar will show these links after you log in */}
+              <Link to="/home">Home</Link>
+              <a href="#" onClick={handleClick}>
+                Logout
+              </a>
+              <Link to="/timer">Timer</Link>
+            </div>
+          ) : (
+            <div>
+              {/* The navbar will show these links before you log in */}
+              <Link to="/login">Login</Link>
+              <Link to="/signup">Sign Up</Link>
+              <Link to="/timer">Timer</Link>
+            </div>
+          )}
         </nav>
+        <hr />
       </div>
     );
   }
@@ -141,7 +112,5 @@ const mapDispatch = (dispatch) => {
     },
   };
 };
-Navbar.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-export default connect(mapState, mapDispatch)(withStyles(styles)(Navbar));
+
+export default connect(mapState, mapDispatch)(Nav);

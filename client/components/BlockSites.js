@@ -111,7 +111,7 @@ const BlockSites = (props) => {
 
   const submitNewUrl = () => {
     props.addSite(urlInput, props.auth.id);
-  }
+  };
 
   //block functionalities - chrome API
   const blockIt = () => {

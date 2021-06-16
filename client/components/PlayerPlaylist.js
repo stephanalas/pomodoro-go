@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: 400,
     backgroundColor: theme.palette.background.paper,
+    height: 250,
+    overflow: 'scroll',
   },
   playlist: {
     borderBottom: '1px solid #e57373',
@@ -36,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PlayerPlaylist = (props) => {
+  console.log(props);
   const classes = useStyles();
   const accessToken = window.localStorage.getItem('spotify_access_token');
 
@@ -44,28 +47,18 @@ const PlayerPlaylist = (props) => {
     'rec-playlist': false,
   });
 
-  console.log(open);
   const handleClick = (target) => {
     setOpen({
       ...open,
       [target]: !open[target],
     });
   };
-  let allPlaylists;
-  let recPlaylists;
   let tracks = props.currPlaylist.items;
 
   useEffect(() => {
     props.getPlaylists(accessToken);
     props.getRecPlaylists(accessToken);
-    // if (props.allPlaylists) {
-    //   allPlaylists = props.allPlaylists.items;
-    // }
-    // if (props.recPlaylists) {
-    //   recPlaylists = props.recPlaylists.items;
-    // }
   }, []);
-
 
   return (
     <div id="all-playlists">
@@ -99,65 +92,69 @@ const PlayerPlaylist = (props) => {
         </List>
       ) : (
         <>
-          {props.allPlaylists !== undefined && props.recPlaylists !== undefined ? (
-            <List
-              subheader={<ListSubheader>Playlists</ListSubheader>}
-              className={classes.playLists}
-            >
-              <ListItem button onClick={() => handleClick('my-playlist')}>
-                <ListItemText primary="My playlists" />
-                {open['my-playlist'] ? <ExpandLess /> : <ExpandMore />}
-              </ListItem>
-              <Collapse in={open['my-playlist']} timeout="auto" unmountOnExit>
-                {props.allPlaylists.items && props.allPlaylists.items.length > 0 && props.allPlaylists.items.map((each) => {
-                  return (
-                    <ListItem key={each.id} className={classes.playlist}>
-                      <ListItemText id="playlist-name" primary={each.name} />
-                      <ListItemSecondaryAction>
-                        <PlaylistPlayIcon
-                          onClick={() =>
-                            props.getCurrPlaylist(
-                              each.id,
-                              window.localStorage.getItem(
-                                'spotify_access_token'
+          {props.allPlaylists !== undefined &&
+          props.recPlaylists !== undefined ? (
+              <List
+                subheader={<ListSubheader>Playlists</ListSubheader>}
+                className={classes.playLists}
+              >
+                <ListItem button onClick={() => handleClick('my-playlist')}>
+                  <ListItemText primary="My playlists" />
+                  {open['my-playlist'] ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse in={open['my-playlist']} timeout="auto" unmountOnExit>
+                  {props.allPlaylists.items &&
+                  props.allPlaylists.items.length > 0 &&
+                  props.allPlaylists.items.map((each) => {
+                    return (
+                      <ListItem key={each.id} className={classes.playlist}>
+                        <ListItemText id="playlist-name" primary={each.name} />
+                        <ListItemSecondaryAction>
+                          <PlaylistPlayIcon
+                            onClick={() =>
+                              props.getCurrPlaylist(
+                                each.id,
+                                window.localStorage.getItem(
+                                  'spotify_access_token'
+                                )
                               )
-                            )
-                          }
-                        />
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  );
-                })}
-              </Collapse>
-              <ListItem button onClick={() => handleClick('rec-playlist')}>
-                <ListItemText primary="Our recommendation" />
-                {open['rec-playlist'] ? <ExpandLess /> : <ExpandMore />}
-              </ListItem>
-              <Collapse in={open['rec-playlist']} timeout="auto" unmountOnExit>
-                {props.recPlaylists.items.length > 0 && props.recPlaylists.items.map((each) => {
-                  return (
-                    <ListItem key={each.id} className={classes.playlist}>
-                      <ListItemText id="playlist-name" primary={each.name} />
-                      <ListItemSecondaryAction>
-                        <PlaylistPlayIcon
-                          onClick={() =>
-                            props.getCurrPlaylist(
-                              each.id,
-                              window.localStorage.getItem(
-                                'spotify_access_token'
+                            }
+                          />
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    );
+                  })}
+                </Collapse>
+                <ListItem button onClick={() => handleClick('rec-playlist')}>
+                  <ListItemText primary="Our recommendation" />
+                  {open['rec-playlist'] ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse in={open['rec-playlist']} timeout="auto" unmountOnExit>
+                  {props.recPlaylists.items.length > 0 &&
+                  props.recPlaylists.items.map((each) => {
+                    return (
+                      <ListItem key={each.id} className={classes.playlist}>
+                        <ListItemText id="playlist-name" primary={each.name} />
+                        <ListItemSecondaryAction>
+                          <PlaylistPlayIcon
+                            onClick={() =>
+                              props.getCurrPlaylist(
+                                each.id,
+                                window.localStorage.getItem(
+                                  'spotify_access_token'
+                                )
                               )
-                            )
-                          }
-                        />
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  );
-                })}
-              </Collapse>
-            </List>
-          ) : (
-            <div>Cannot load playlists info</div>
-          )}
+                            }
+                          />
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    );
+                  })}
+                </Collapse>
+              </List>
+            ) : (
+              <div>Cannot load playlists info</div>
+            )}
         </>
       )}
     </div>

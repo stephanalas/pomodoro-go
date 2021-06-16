@@ -28,11 +28,10 @@ const useStyles = makeStyles((theme) => ({
 
 const PlayerDevices = (props) => {
   const classes = useStyles();
-  const theme = useTheme();
+  // const theme = useTheme();
 
   console.log(props);
   // const [devices, setDevices] = useState('');
-  const localDevice = useRef({});
 
   const transferDevice = async (deviceId) => {
     const args = window.localStorage.getItem('spotify_access_token');
@@ -71,6 +70,7 @@ const PlayerDevices = (props) => {
           console.log(state);
           if (state) {
             window.localStorage.setItem('spotify_current_track', state.track_window.current_track.id);
+            props.getCurrPlayback(window.localStorage.getItem('spotify_access_token'));
           }
         });
 
@@ -78,8 +78,9 @@ const PlayerDevices = (props) => {
         player.addListener('ready', ({ device_id }) => {
           console.log('Ready with Device ID', device_id);
           window.localStorage.setItem('new-spotify-device', device_id);
-          localDevice.current = {device: device_id};
+          // localDevice.current = {device: device_id};
           props.getDevices(window.localStorage.getItem('spotify_access_token'));
+          transferDevice(device_id);
         });
 
         // Not Ready
