@@ -18,14 +18,15 @@ const useStyles = makeStyles({
   },
 });
 
-const LastSession = () => {
+const LastSession = (props) => {
   const classes = useStyles();
-  const sessions = useSelector((state) => state.sessions);
+  const { sessions } = props;
 
   let lastSession;
   if (sessions.length) {
     lastSession = sessions[sessions.length - 1];
   }
+  console.log('lastSession:', lastSession);
 
   let startTime;
   let expectedEndTime;
