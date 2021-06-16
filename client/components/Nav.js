@@ -76,10 +76,11 @@ class Nav extends Component {
             <div>
               {/* The navbar will show these links after you log in */}
               <Link to="/home">Home</Link>
+              <Link to="/timer">Timer</Link>
+              <Link to="/dashboard">Insights</Link>
               <a href="#" onClick={handleClick}>
                 Logout
               </a>
-              <Link to="/timer">Timer</Link>
             </div>
           ) : (
             <div>

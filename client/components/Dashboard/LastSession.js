@@ -49,7 +49,7 @@ const LastSession = (props) => {
             Length
           </Typography>
           <Typography variant="h5">
-            {lastSession ? `${lastSession.sessionTime / 60}min` : ''}
+            {lastSession ? `${lastSession.sessionTime / 60000}min` : ''}
           </Typography>
         </Grid>
         <Grid item className={classes.lsItem} xs={6}>

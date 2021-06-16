@@ -7,6 +7,11 @@ import {
   MenuItem,
   InputLabel,
   Typography,
+  FormLabel,
+  FormGroup,
+  FormControlLabel,
+  FormHelperText,
+  Checkbox,
 } from '@material-ui/core';
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import LastSession from './LastSession';
@@ -14,8 +19,9 @@ import TotalSessions from './TotalSessions';
 import AverageSession from './AverageSession';
 import ChartLeft from './ChartLeft';
 import ChartRight from './ChartRight';
+import Checkboxes from './Checkboxes';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   contain: {
     padding: 10,
     minWidth: 100,
@@ -25,7 +31,10 @@ const useStyles = makeStyles({
     padding: 8,
     paddingBottom: 0,
   },
-  formControl: {
+  formControlCheckboxes: {
+    margin: theme.spacing(3),
+  },
+  formControlSelect: {
     minWidth: 100,
     marginRight: 10,
   },
@@ -33,7 +42,7 @@ const useStyles = makeStyles({
     paddingLeft: 15,
     paddingRight: 15,
   },
-});
+}));
 
 const Dashboard = () => {
   const classes = useStyles();
@@ -56,6 +65,26 @@ const Dashboard = () => {
 
   const [timeFrame, setTimeFrame] = useState('');
   const [goal, setGoal] = useState('');
+  const [state, setState] = useState({
+    lastSession: true,
+    totalSessions: true,
+    averageSession: true,
+    sessionDistribution: true,
+    sessionFrequency: true,
+  });
+
+  const {
+    lastSession,
+    totalSessions,
+    averageSession,
+    sessionDistribution,
+    sessionFrequency,
+  } = state;
+
+  const handleCheckboxChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
   const handleTimeFrameChange = (event) => {
     setTimeFrame(event.target.value);
   };
@@ -106,7 +135,7 @@ const Dashboard = () => {
   return (
     <div className={classes.dashboardContain}>
       <Grid container direction="row" justify="space-between" spacing={3}>
-        <Grid item>
+        <Grid item xs={3}>
           <Typography variant="overline">Dashboard</Typography>
           <Typography variant="h6">
             Good Afternoon{capitalized ? `, ${capitalized}` : ''}
@@ -114,57 +143,125 @@ const Dashboard = () => {
           </Typography>
           <Typography variant="subtitle2">Here is your latest data.</Typography>
         </Grid>
-        <Grid item>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="time-frame-label">Period</InputLabel>
-            <Select
-              labelId="time-frame-label"
-              value={timeFrame}
-              onChange={handleTimeFrameChange}
+        <Grid item container xs={9} justify="flex-end" alignItems="flex-start">
+          <Grid item xs={8}>
+            <FormControl
+              component="fieldset"
+              className={classes.formControlCheckboxes}
             >
-              <MenuItem value={'All'}>All</MenuItem>
-              <MenuItem value={'Week'}>Week</MenuItem>
-              <MenuItem value={'Month'}>Month</MenuItem>
-              <MenuItem value={'Quarter'}>Quarter</MenuItem>
-              <MenuItem value={'Year'}>Year</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="goal-label">Goal</InputLabel>
-            <Select
-              labelId="goal-label"
-              value={goal}
-              onChange={handleGoalChange}
-            >
-              <MenuItem value={'All'}>All</MenuItem>
-              {goalOptions.map((goal, idx) => {
-                return (
-                  <MenuItem key={idx} value={goal}>
-                    {goal}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+              <FormLabel component="legend">Display</FormLabel>
+              <FormGroup row={true}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="primary"
+                      checked={lastSession}
+                      onChange={handleCheckboxChange}
+                      name="lastSession"
+                    />
+                  }
+                  label="Last Session"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="primary"
+                      checked={totalSessions}
+                      onChange={handleCheckboxChange}
+                      name="totalSessions"
+                    />
+                  }
+                  label="Total Sessions"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="primary"
+                      checked={averageSession}
+                      onChange={handleCheckboxChange}
+                      name="averageSession"
+                    />
+                  }
+                  label="Average Session"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="primary"
+                      checked={sessionDistribution}
+                      onChange={handleCheckboxChange}
+                      name="sessionDistribution"
+                    />
+                  }
+                  label="Session Distribution"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="primary"
+                      checked={sessionFrequency}
+                      onChange={handleCheckboxChange}
+                      name="sessionFrequency"
+                    />
+                  }
+                  label="Session Frequency"
+                />
+              </FormGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2}>
+            <FormControl className={classes.formControlSelect}>
+              <InputLabel id="time-frame-label">Period</InputLabel>
+              <Select
+                labelId="time-frame-label"
+                value={timeFrame}
+                onChange={handleTimeFrameChange}
+              >
+                <MenuItem value={'All'}>All</MenuItem>
+                <MenuItem value={'Week'}>Week</MenuItem>
+                <MenuItem value={'Month'}>Month</MenuItem>
+                <MenuItem value={'Quarter'}>Quarter</MenuItem>
+                <MenuItem value={'Year'}>Year</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl className={classes.formControlSelect}>
+              <InputLabel id="goal-label">Goal</InputLabel>
+              <Select
+                labelId="goal-label"
+                value={goal}
+                onChange={handleGoalChange}
+              >
+                <MenuItem value={'All'}>All</MenuItem>
+                {goalOptions.map((goal, idx) => {
+                  return (
+                    <MenuItem key={idx} value={goal}>
+                      {goal}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </Grid>
         </Grid>
       </Grid>
+
       <Grid container spacing={3}>
         <Grid item xs={4}>
-          <LastSession sessions={sessions} />
+          {lastSession ? <LastSession sessions={sessions} /> : ''}
         </Grid>
         <Grid item xs={4}>
-          <TotalSessions sessions={sessions} />
+          {totalSessions ? <TotalSessions sessions={sessions} /> : ''}
         </Grid>
         <Grid item xs={4}>
-          <AverageSession sessions={sessions} />
+          {averageSession ? <AverageSession sessions={sessions} /> : ''}
         </Grid>
       </Grid>
       <Grid container spacing={3}>
         <Grid item xs={6}>
-          <ChartLeft sessions={sessions} />
+          {sessionDistribution ? <ChartLeft sessions={sessions} /> : ''}
         </Grid>
         <Grid item xs={6}>
-          <ChartRight sessions={sessions} />
+          {sessionFrequency ? <ChartRight sessions={sessions} /> : ''}
         </Grid>
       </Grid>
     </div>

@@ -64,7 +64,7 @@ Session.start = async function ({ userId, sessionTime, goal }) {
 Session.seed = async function (users, goals) {
   const randomUserIndex = Math.floor(Math.random() * users.length);
   const randomGoalIndex = Math.floor(Math.random() * goals.length);
-  const sessionTimes = [1800, 2100, 2700, 3000, 3300, 3600];
+  const sessionTimes = [1800000, 2100000, 2700000, 3000000, 3300000, 3600000];
   const sessionVariances = [-120, -360, -540, 0, 180, 300, 480];
   const booleans = [true, false];
   const randomSessionTime =
@@ -102,6 +102,7 @@ const calcExpectedEndTime = (session) => {
   // const date = Date.parse(session.startTime);
   const { startTime, sessionTime } = session;
   const startDate = new Date(startTime);
+
   session.expectedEndTime = startDate.setMilliseconds(sessionTime);
   // session.expectedEndTime = date + session.sessionTime * 1000;
   // console.log(session.expectedEndTime);
