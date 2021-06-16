@@ -19,7 +19,6 @@ import TotalSessions from './TotalSessions';
 import AverageSession from './AverageSession';
 import ChartLeft from './ChartLeft';
 import ChartRight from './ChartRight';
-import Checkboxes from './Checkboxes';
 
 const useStyles = makeStyles((theme) => ({
   contain: {
