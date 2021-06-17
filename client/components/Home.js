@@ -6,7 +6,7 @@ import DomainDisabledIcon from '@material-ui/icons/DomainDisabled';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 import Player from './Player';
-import CreateSession from './CreateSession';
+import CreateSession from './Timer/CreateSession';
 
 /**
  * COMPONENT
