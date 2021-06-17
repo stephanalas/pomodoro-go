@@ -3,6 +3,7 @@
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
   console.log(tabId);
   const url = changeInfo.pendingUrl || changeInfo.url;
+
   if (!url || !url.startsWith('http')) {
     return;
   }
@@ -13,6 +14,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
 
   chrome.storage.local.get(['blocked'], function (local) {
     const { blocked } = local;
+    console.log('blocked:', blocked);
     if (
       Array.isArray(blocked) &&
       blocked.find((domain) => {
