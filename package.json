@@ -4,8 +4,8 @@
   "description": "Some boilerplate code to get you started - get shakin'!",
   "main": "index.js",
   "scripts": {
-    "build": "INLINE_RUNTIME_CHUNK=false webpack",
-    "build:dev": "npm run build -- --watch --mode=development",
+    "build": "INLINE_RUNTIME_CHUNK=false NODE_ENV=production webpack --config webpack.config.js",
+    "build:dev": "INLINE_RUNTIME_CHUNK=false NODE_ENV=development webpack -- --watch --mode=development --config webpack.config.js",
     "seed": "node script/seed.js",
     "start": "NODE_ENV=production npm run seed && node server",
     "start:dev": "NODE_ENV=development npm run build:dev & npm run start-server",
@@ -34,6 +34,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.16.4",
     "faker": "^5.5.3",
+    "fs": "^0.0.1-security",
     "generate-password": "^1.6.0",
     "google-auth-library": "^7.1.0",
     "history": "^4.9.0",
