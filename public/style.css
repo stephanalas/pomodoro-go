@@ -1,5 +1,7 @@
 body {
   font-family: sans-serif;
+  /* background-color: rgb(66, 66, 66); */
+  color: white;
 }
 
 a {
@@ -9,15 +11,26 @@ a {
 #navBar * {
   display: flex;
   justify-content: space-between;
-  margin: 1em;
+  flex-wrap: wrap;
+  z-index: 0;
 }
-
-#GoogleContainer * {
-  display: inline;
-  margin: 1em;
+#navBar .home {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  z-index: 0;
 }
-#login-button {
-  width: 500px;
+#navBar .account {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  z-index: 0;
+}
+#navBar .home {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  z-index: 0;
 }
 
 #main {
