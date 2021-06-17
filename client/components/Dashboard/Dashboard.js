@@ -10,10 +10,9 @@ import {
   FormLabel,
   FormGroup,
   FormControlLabel,
-  FormHelperText,
   Checkbox,
 } from '@material-ui/core';
-import { alpha, makeStyles } from '@material-ui/core/styles';
+import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import LastSession from './LastSession';
 import TotalSessions from './TotalSessions';
 import AverageSession from './AverageSession';
