@@ -1,5 +1,7 @@
 'use strict';
 
+const sessions = localStorage.getItem('test');
+console.log(sessions);
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
   console.log(tabId);
   const url = changeInfo.pendingUrl || changeInfo.url;
