@@ -23,10 +23,20 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn, sites, update, auth, blackList } = this.props;
-    console.log('this.props:', this.props);
+
     if (auth) {
       chrome.storage.local.set({ auth: auth });
     }
+    if (blackList) {
+      chrome.storage.local.set({ blackList: blackList });
+    }
+    chrome.storage.onChanged.addListener((changes, areaName) => {
+      if (changes.updatedBlackList) {
+        const { newValue } = changes.updatedBlackList;
+        update(newValue.id, newValue);
+      }
+    });
+
     // this adds all sites in db to chrome.storage
     if (sites) {
       const stringSites = JSON.stringify(sites);

@@ -20,6 +20,27 @@ const loadBlackList = () => {
   };
 };
 
+const UPDATE_SITE = 'UPDATE_SITE';
+
+const updateSiteActionCreator = (site) => {
+  return {
+    type: UPDATE_SITE,
+    site,
+  };
+};
+
+const updateSite = (siteId, siteInfo) => {
+  return async (dispatch) => {
+    const response = await axios.put(
+      `http://localhost:8080/api/sites/${siteId}`,
+      siteInfo
+    );
+
+    const { data } = response;
+    dispatch(updateSiteActionCreator(data));
+  };
+};
+
 const blackListReducer = (state = [], action) => {
   if (action.type === LOAD_BLACKLIST) {
     state = action.blackList;

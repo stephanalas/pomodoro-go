@@ -28,16 +28,14 @@ const updateSiteActionCreator = (site) => {
     site,
   };
 };
-//fix this to match my updateUser from Grace Shopper
+
 const updateSite = (siteId, siteInfo) => {
   return async (dispatch) => {
-    console.log('siteId:', siteId);
-    console.log('siteInfo:', siteInfo);
     const response = await axios.put(
       `http://localhost:8080/api/sites/${siteId}`,
       siteInfo
     );
-    console.log('response in updateSite:', response);
+
     const { data } = response;
     dispatch(updateSiteActionCreator(data));
   };

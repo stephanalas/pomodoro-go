@@ -1,11 +1,6 @@
 'use strict';
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
-  chrome.storage.local.get(null, function (items) {
-    var allEntries = Object.entries(items);
-    console.log('allEntries:', allEntries);
-  });
-
   console.log(tabId);
   const url = changeInfo.pendingUrl || changeInfo.url;
 
@@ -35,17 +30,22 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
 
 // increment blocks in Blacklist table
 chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
-  chrome.storage.local.get(['auth'], function (result) {
-    console.log('result:', result);
+  chrome.storage.local.get(['auth', 'blackList'], function (result) {
+    const { auth, blackList } = result;
+    const blackListAuth = blackList.filter((entry) => {
+      return entry.userId === auth.id;
+    });
+    console.log('blackListAuth:', blackListAuth);
     const url = changeInfo.pendingUrl || changeInfo.url;
-
     if (url) {
-      const matchingSite = sites.find((site) => {
-        return site.siteUrl === url;
+      const matchingSite = blackListAuth.find((entry) => {
+        return entry.site.siteUrl === url;
       });
+
       if (matchingSite) {
-        matchingSite.visits++;
-        chrome.storage.local.set({ updatedSite: matchingSite });
+        matchingSite.blocks++;
+        console.log('matchingSite after increment', matchingSite);
+        chrome.storage.local.set({ updatedBlackList: matchingSite });
       }
     }
   });
