@@ -43,16 +43,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
   const classes = useStyles();
-  let sessions = useSelector((state) => state.sessions);
+  // let sessions = useSelector((state) => state.sessions);
   const auth = useSelector((state) => state.auth);
   const stringSessions = JSON.stringify(sessions);
-  console.log('stringSessions:', stringSessions);
   window.localStorage.setItem('sessions', stringSessions);
   const test = window.localStorage.getItem('sessions');
-  console.log('test sessions:', test);
+
   const jsonifiedSessions = JSON.parse(test);
-  console.log('jsonified:', jsonifiedSessions);
-  console.log('localStorage:', window.localStorage);
+
   if (auth) {
     sessions = sessions.filter((session) => session.userId === auth.id);
   }

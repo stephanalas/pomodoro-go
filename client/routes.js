@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import CreateSession from './components/Timer/CreateSession';
@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Dashboard from './components/Dashboard/Dashboard';
 import { me } from './store';
 import { loadSessions } from './store/sessions';
+import { loadSites, updateSite } from './store/sites';
 import BlockError from './components/BlockError';
 import BlockSites from './components/BlockSites';
 import Player from './components/Player';
@@ -15,13 +16,26 @@ import Player from './components/Player';
  * COMPONENT
  */
 class Routes extends Component {
-  componentDidMount() {
-    this.props.loadInitialData();
+  async componentDidMount() {
+    await this.props.loadInitialData();
   }
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, sites, update } = this.props;
 
+    if (sites) {
+      const stringSites = JSON.stringify(sites);
+      chrome.storage.local.set({ sites: stringSites });
+    }
+    console.log('chrome.storage.local', chrome.storage.local);
+
+    chrome.storage.onChanged.addListener((changes, areaName) => {
+      if (changes.updatedSite) {
+        const { newValue } = changes.updatedSite;
+        console.log('newValue.id:', newValue.id);
+        update(newValue.id, newValue);
+      }
+    });
     return (
       <div style={{ height: '100%' }}>
         {isLoggedIn ? (
@@ -55,6 +69,7 @@ const mapState = (state) => {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
     isLoggedIn: !!state.auth.id,
+    sites: state.sites,
   };
 };
 
@@ -63,6 +78,10 @@ const mapDispatch = (dispatch) => {
     loadInitialData() {
       dispatch(me());
       dispatch(loadSessions());
+      dispatch(loadSites());
+    },
+    update: (siteId, siteInfo) => {
+      return dispatch(updateSite(siteId, siteInfo));
     },
   };
 };
@@ -70,3 +89,7 @@ const mapDispatch = (dispatch) => {
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
 export default withRouter(connect(mapState, mapDispatch)(Routes));
+
+// update: (user) => {
+//   return dispatch(updateUser(user, history));
+// },
