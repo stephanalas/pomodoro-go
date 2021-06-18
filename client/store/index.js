@@ -14,6 +14,9 @@ import devicesReducer from './spotify/getDevices';
 import recPlaylistsReducer from './spotify/getRecPlaylists';
 import addToQueueReducer from './spotify/addToQueue';
 import recentTrackReducer from './spotify/getRecentTrack';
+import { myRequestReducer, requestToMeReducer } from './getFriends';
+import allUsersReducer from './getAllUsers';
+import { newFriendRequestReducer } from './addFriend';
 
 const reducer = combineReducers({
   auth,
@@ -29,6 +32,10 @@ const reducer = combineReducers({
   newlyAddedTrack: addToQueueReducer,
   devices: devicesReducer,
   recentTrack: recentTrackReducer,
+  myRequests: myRequestReducer,
+  requestsToMe: requestToMeReducer,
+  allUsers: allUsersReducer,
+  newFriendRequest: newFriendRequestReducer,
 });
 
 const middleware = composeWithDevTools(

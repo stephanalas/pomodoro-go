@@ -12,4 +12,31 @@ const extractQueries = (path) => {
   return result;
 };
 
-export { extractQueries };
+const existingRequest = (currUsername, friend) => {
+  if (friend.requestee.length > 0) {
+    for (let i = 0; i < friend.requestee.length; i++) {
+      if (friend.requestee[i].username === currUsername) {
+        if (friend.requestee[i]?.friendship.requestStatus !== 'approved') {
+          return 'Already sent a request';
+        } else {
+          return 'Already in your friend list!';
+        }
+      }
+    }
+  }
+
+  if (friend.requester.length > 0) {
+    for (let i = 0; i < friend.requester.length; i++) {
+      if (friend.requester[i].username === currUsername) {
+        if (friend.requester[i]?.friendship.requestStatus !== 'approved') {
+          return 'You have a friend request from them';
+        } else {
+          return 'Already in your friend list!';
+        }
+      }
+    }
+  }
+  return false;
+};
+
+export { extractQueries, existingRequest };

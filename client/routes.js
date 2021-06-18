@@ -12,6 +12,7 @@ import { loadSites, updateSite } from './store/sites';
 import BlockError from './components/BlockError';
 import BlockSites from './components/BlockSites';
 import Player from './components/Player';
+import Friends from './components/Friends/Friends';
 
 /**
  * COMPONENT
@@ -55,7 +56,7 @@ class Routes extends Component {
             {/* <Redirect to="/home" /> */}
             <Route path="/timer" exact component={CreateSession} />
             <Route exact path="/blocksites" component={BlockSites} />
-            {/* <Route exact path="/callback" component={Player} /> */}
+            <Route exact path="/friends" component={Friends} />
           </Switch>
         ) : (
           <Switch>

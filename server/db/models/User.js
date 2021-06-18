@@ -38,6 +38,11 @@ const User = db.define('user', {
     type: BOOLEAN,
     defaultValue: false,
   },
+  profilePic: {
+    type: STRING,
+    defaultValue:
+      'https://flyinryanhawks.org/wp-content/uploads/2016/08/profile-placeholder.png',
+  },
 });
 
 module.exports = User;
