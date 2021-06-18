@@ -12,6 +12,10 @@ Site.belongsToMany(User, {
   through: BlackList,
 });
 User.belongsToMany(Site, { through: BlackList });
+Site.hasMany(BlackList);
+BlackList.belongsTo(Site);
+User.hasMany(BlackList);
+BlackList.belongsTo(User);
 //associations could go here!
 Session.belongsTo(User);
 User.hasMany(Session);

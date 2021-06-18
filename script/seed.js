@@ -30,6 +30,7 @@ async function seed() {
 
   const cody = users[0];
   const murphy = users[1];
+  const jen = users[2];
 
   // Creating admin Users
   const [felicity, russel, stephan, ding] = await Promise.all(
@@ -101,6 +102,8 @@ async function seed() {
     BlackList.create({ siteId: facebook.id, userId: murphy.id }),
     BlackList.create({ siteId: netflix.id, userId: murphy.id }),
     BlackList.create({ siteId: hulu.id, userId: murphy.id }),
+    BlackList.create({ siteId: twitter.id, userId: jen.id }),
+    BlackList.create({ siteId: facebook.id, userId: jen.id }),
   ]);
 
   //console.log(`seeded ${blockedSites.length} blacklisted sites`)
