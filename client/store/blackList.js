@@ -20,24 +20,24 @@ const loadBlackList = () => {
   };
 };
 
-const UPDATE_SITE = 'UPDATE_SITE';
+const UPDATE_BLACKLIST = 'UPDATE_BLACKLIST';
 
-const updateSiteActionCreator = (site) => {
+const updateBlackListActionCreator = (blackList) => {
   return {
-    type: UPDATE_SITE,
-    site,
+    type: UPDATE_BLACKLIST,
+    blackList,
   };
 };
 
-const updateSite = (siteId, siteInfo) => {
+const updateBlackList = (blackListId, blackListInfo) => {
   return async (dispatch) => {
     const response = await axios.put(
-      `http://localhost:8080/api/sites/${siteId}`,
-      siteInfo
+      `http://localhost:8080/api/blackList/${blackListId}`,
+      blackListInfo
     );
 
     const { data } = response;
-    dispatch(updateSiteActionCreator(data));
+    dispatch(updateblackListActionCreator(data));
   };
 };
 
@@ -45,7 +45,16 @@ const blackListReducer = (state = [], action) => {
   if (action.type === LOAD_BLACKLIST) {
     state = action.blackList;
   }
+  if (action.type === UPDATE_BLACKLIST) {
+    const blackLists = state.map((blackList) => {
+      if (blackList.id === action.blackList.id) {
+        return action.blackList;
+      }
+      return blackList;
+    });
+    state = blackLists;
+  }
   return state;
 };
 
-export { loadBlackList, blackListReducer };
+export { loadBlackList, updateBlackList, blackListReducer };

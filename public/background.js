@@ -38,33 +38,33 @@ chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
     console.log('blackListAuth:', blackListAuth);
     const url = changeInfo.pendingUrl || changeInfo.url;
     if (url) {
-      const matchingSite = blackListAuth.find((entry) => {
+      const matchingBlackList = blackListAuth.find((entry) => {
         return entry.site.siteUrl === url;
       });
 
-      if (matchingSite) {
-        matchingSite.blocks++;
-        console.log('matchingSite after increment', matchingSite);
-        chrome.storage.local.set({ updatedBlackList: matchingSite });
+      if (matchingBlackList) {
+        matchingBlackList.blocks++;
+        console.log('matchingBlackList after increment', matchingBlackList);
+        chrome.storage.local.set({ updatedBlackList: matchingBlackList });
       }
     }
   });
 });
 
 //Russel's test
-chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
-  chrome.storage.local.get(['sites'], function (result) {
-    const sites = JSON.parse(result.sites);
+// chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
+//   chrome.storage.local.get(['sites'], function (result) {
+//     const sites = JSON.parse(result.sites);
 
-    const url = changeInfo.pendingUrl || changeInfo.url;
-    if (url) {
-      const matchingSite = sites.find((site) => {
-        return site.siteUrl === url;
-      });
-      if (matchingSite) {
-        matchingSite.visits++;
-        chrome.storage.local.set({ updatedSite: matchingSite });
-      }
-    }
-  });
-});
+//     const url = changeInfo.pendingUrl || changeInfo.url;
+//     if (url) {
+//       const matchingSite = sites.find((site) => {
+//         return site.siteUrl === url;
+//       });
+//       if (matchingSite) {
+//         matchingSite.visits++;
+//         chrome.storage.local.set({ updatedSite: matchingSite });
+//       }
+//     }
+//   });
+// });

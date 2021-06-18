@@ -7,7 +7,7 @@ import Home from './components/Home';
 import Dashboard from './components/Dashboard/Dashboard';
 import { me } from './store';
 import { loadSessions } from './store/sessions';
-import { loadBlackList } from './store/blackList';
+import { loadBlackList, updateBlacklist } from './store/blackList';
 import { loadSites, updateSite } from './store/sites';
 import BlockError from './components/BlockError';
 import BlockSites from './components/BlockSites';
@@ -22,7 +22,7 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn, sites, update, auth, blackList } = this.props;
+    const { isLoggedIn, sites, updateS, updateB, auth, blackList } = this.props;
 
     if (auth) {
       chrome.storage.local.set({ auth: auth });
@@ -31,27 +31,28 @@ class Routes extends Component {
       chrome.storage.local.set({ blackList: blackList });
     }
     chrome.storage.onChanged.addListener((changes, areaName) => {
+      console.log('changes:', changes);
       if (changes.updatedBlackList) {
         const { newValue } = changes.updatedBlackList;
-        update(newValue.id, newValue);
+        updateB(newValue.id, newValue);
       }
     });
 
     // this adds all sites in db to chrome.storage
-    if (sites) {
-      const stringSites = JSON.stringify(sites);
-      chrome.storage.local.set({ sites: stringSites });
-    }
+    // if (sites) {
+    //   const stringSites = JSON.stringify(sites);
+    //   chrome.storage.local.set({ sites: stringSites });
+    // }
 
-    // this listens for updates to one of the sites in chrome.storage and if
-    // there is an update, it makes a put request to api/sites in order to
-    // increment the site's 'visits' attribute by one.
-    chrome.storage.onChanged.addListener((changes, areaName) => {
-      if (changes.updatedSite) {
-        const { newValue } = changes.updatedSite;
-        update(newValue.id, newValue);
-      }
-    });
+    // // this listens for updates to one of the sites in chrome.storage and if
+    // // there is an update, it makes a put request to api/sites in order to
+    // // increment the site's 'visits' attribute by one.
+    // chrome.storage.onChanged.addListener((changes, areaName) => {
+    //   if (changes.updatedSite) {
+    //     const { newValue } = changes.updatedSite;
+    //     updateS(newValue.id, newValue);
+    //   }
+    // });
 
     return (
       <div style={{ height: '100%' }}>
@@ -100,8 +101,11 @@ const mapDispatch = (dispatch) => {
       dispatch(loadSites());
       dispatch(loadBlackList());
     },
-    update: (siteId, siteInfo) => {
+    updateS: (siteId, siteInfo) => {
       return dispatch(updateSite(siteId, siteInfo));
+    },
+    updateB: (blackListId, blackListInfo) => {
+      return dispatch(updateBlackList(blackListId, blackListInfo));
     },
   };
 };
