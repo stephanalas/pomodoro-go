@@ -32,20 +32,23 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
 chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
   chrome.storage.local.get(['auth', 'blackList'], function (result) {
     const { auth, blackList } = result;
-    const blackListAuth = blackList.filter((entry) => {
-      return entry.userId === auth.id;
-    });
-    console.log('blackListAuth:', blackListAuth);
-    const url = changeInfo.pendingUrl || changeInfo.url;
-    if (url) {
-      const matchingBlackList = blackListAuth.find((entry) => {
-        return entry.site.siteUrl === url;
+    if (blackList) {
+      const blackListAuth = blackList.filter((entry) => {
+        return entry.userId === auth.id;
       });
+      console.log('blackListAuth:', blackListAuth);
+      const url = changeInfo.pendingUrl || changeInfo.url;
+      if (url) {
+        const matchingBlackList = blackListAuth.find((entry) => {
+          return entry.site.siteUrl === url;
+        });
 
-      if (matchingBlackList) {
-        matchingBlackList.blocks++;
-        console.log('matchingBlackList after increment', matchingBlackList);
-        chrome.storage.local.set({ updatedBlackList: matchingBlackList });
+        if (matchingBlackList) {
+          console.log('matchingBlackList before increment', matchingBlackList);
+          matchingBlackList.blocks++;
+          console.log('matchingBlackList after increment', matchingBlackList);
+          chrome.storage.local.set({ updatedBlackList: matchingBlackList });
+        }
       }
     }
   });

@@ -7,7 +7,7 @@ import Home from './components/Home';
 import Dashboard from './components/Dashboard/Dashboard';
 import { me } from './store';
 import { loadSessions } from './store/sessions';
-import { loadBlackList, updateBlacklist } from './store/blackList';
+import { loadBlackList, updateBlackList } from './store/blackList';
 import { loadSites, updateSite } from './store/sites';
 import BlockError from './components/BlockError';
 import BlockSites from './components/BlockSites';
@@ -22,7 +22,8 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn, sites, updateS, updateB, auth, blackList } = this.props;
+    const { isLoggedIn, sites, updateS, updateB, loadB, auth, blackList } =
+      this.props;
 
     if (auth) {
       chrome.storage.local.set({ auth: auth });
@@ -30,11 +31,12 @@ class Routes extends Component {
     if (blackList) {
       chrome.storage.local.set({ blackList: blackList });
     }
-    chrome.storage.onChanged.addListener((changes, areaName) => {
-      console.log('changes:', changes);
+    chrome.storage.onChanged.addListener(async (changes, areaName) => {
       if (changes.updatedBlackList) {
         const { newValue } = changes.updatedBlackList;
-        updateB(newValue.id, newValue);
+        console.log('newValue in BlackList:', newValue);
+        await updateB(newValue.id, newValue);
+        // loadB();
       }
     });
 
@@ -100,6 +102,9 @@ const mapDispatch = (dispatch) => {
       dispatch(loadSessions());
       dispatch(loadSites());
       dispatch(loadBlackList());
+    },
+    loadB: () => {
+      return dispatch(loadBlackList());
     },
     updateS: (siteId, siteInfo) => {
       return dispatch(updateSite(siteId, siteInfo));

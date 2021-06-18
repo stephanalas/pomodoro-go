@@ -30,6 +30,7 @@ const updateBlackListActionCreator = (blackList) => {
 };
 
 const updateBlackList = (blackListId, blackListInfo) => {
+  console.log('blackListInfo:', blackListInfo);
   return async (dispatch) => {
     const response = await axios.put(
       `http://localhost:8080/api/blackList/${blackListId}`,
@@ -37,7 +38,7 @@ const updateBlackList = (blackListId, blackListInfo) => {
     );
 
     const { data } = response;
-    dispatch(updateblackListActionCreator(data));
+    dispatch(updateBlackListActionCreator(data));
   };
 };
 
