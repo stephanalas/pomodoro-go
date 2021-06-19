@@ -36,25 +36,8 @@ class Routes extends Component {
         const { newValue } = changes.updatedBlackList;
         console.log('newValue in BlackList:', newValue);
         await updateB(newValue.id, newValue);
-        // loadB();
       }
     });
-
-    // this adds all sites in db to chrome.storage
-    // if (sites) {
-    //   const stringSites = JSON.stringify(sites);
-    //   chrome.storage.local.set({ sites: stringSites });
-    // }
-
-    // // this listens for updates to one of the sites in chrome.storage and if
-    // // there is an update, it makes a put request to api/sites in order to
-    // // increment the site's 'visits' attribute by one.
-    // chrome.storage.onChanged.addListener((changes, areaName) => {
-    //   if (changes.updatedSite) {
-    //     const { newValue } = changes.updatedSite;
-    //     updateS(newValue.id, newValue);
-    //   }
-    // });
 
     return (
       <div style={{ height: '100%' }}>
@@ -103,12 +86,7 @@ const mapDispatch = (dispatch) => {
       dispatch(loadSites());
       dispatch(loadBlackList());
     },
-    loadB: () => {
-      return dispatch(loadBlackList());
-    },
-    updateS: (siteId, siteInfo) => {
-      return dispatch(updateSite(siteId, siteInfo));
-    },
+
     updateB: (blackListId, blackListInfo) => {
       return dispatch(updateBlackList(blackListId, blackListInfo));
     },

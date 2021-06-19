@@ -53,21 +53,3 @@ chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
     }
   });
 });
-
-//Russel's test
-// chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
-//   chrome.storage.local.get(['sites'], function (result) {
-//     const sites = JSON.parse(result.sites);
-
-//     const url = changeInfo.pendingUrl || changeInfo.url;
-//     if (url) {
-//       const matchingSite = sites.find((site) => {
-//         return site.siteUrl === url;
-//       });
-//       if (matchingSite) {
-//         matchingSite.visits++;
-//         chrome.storage.local.set({ updatedSite: matchingSite });
-//       }
-//     }
-//   });
-// });
