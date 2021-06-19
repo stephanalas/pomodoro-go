@@ -2,7 +2,6 @@ import React from 'react';
 import Chart from 'react-apexcharts';
 
 const BlocksDonut = (props) => {
-  console.log('props:', props);
   const { blackList } = props;
   const blocks = blackList.map((entry) => entry.blocks);
   const sites = blackList.map((entry) => entry.site.siteUrl);

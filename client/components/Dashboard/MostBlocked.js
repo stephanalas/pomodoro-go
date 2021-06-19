@@ -20,7 +20,6 @@ const useStyles = makeStyles({
 
 const MostBlocked = (props) => {
   const classes = useStyles();
-  console.log('props in MostBlocked:', props);
   const { blackList } = props;
   const blocks = blackList.map((entry) => entry.blocks);
   const maxBlocks = Math.max(...blocks) * 1;
@@ -64,11 +63,9 @@ const MostBlocked = (props) => {
             <Typography variant="h5">
               {blackList
                 .filter((entry) => {
-                  console.log('entry:', entry);
                   return entry.site.siteUrl === 'https://www.netflix.com/';
                 })
                 .map((entry) => {
-                  console.log('entry in map:', entry);
                   return entry.blocks;
                 })}
             </Typography>
