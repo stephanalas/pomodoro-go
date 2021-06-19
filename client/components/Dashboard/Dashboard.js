@@ -16,6 +16,7 @@ import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import LastSession from './LastSession';
 import TotalSessions from './TotalSessions';
 import AverageSession from './AverageSession';
+import MostBlocked from './MostBlocked';
 import ChartLeft from './ChartLeft';
 import ChartRight from './ChartRight';
 
@@ -47,9 +48,11 @@ const Dashboard = () => {
   const classes = useStyles();
   let sessions = useSelector((state) => state.sessions);
   const auth = useSelector((state) => state.auth);
+  let blackList = useSelector((state) => state.blackList);
 
   if (auth) {
     sessions = sessions.filter((session) => session.userId === auth.id);
+    blackList = blackList.filter((entry) => entry.userId === auth.id);
   }
   let goals = sessions.map((session) => {
     return session.goal;
@@ -260,14 +263,17 @@ const Dashboard = () => {
       </Grid>
 
       <Grid container spacing={3}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           {lastSession ? <LastSession sessions={sessions} /> : ''}
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           {totalSessions ? <TotalSessions sessions={sessions} /> : ''}
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           {averageSession ? <AverageSession sessions={sessions} /> : ''}
+        </Grid>
+        <Grid item xs={3}>
+          {<MostBlocked sessions={sessions} blackList={blackList} />}
         </Grid>
       </Grid>
       <Grid container spacing={3}>
