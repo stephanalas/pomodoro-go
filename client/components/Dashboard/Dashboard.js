@@ -10,7 +10,6 @@ import {
   FormLabel,
   FormGroup,
   FormControlLabel,
-  FormHelperText,
   Checkbox,
 } from '@material-ui/core';
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';

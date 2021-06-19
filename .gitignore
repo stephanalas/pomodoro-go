@@ -6,5 +6,3 @@ public/bundle.js.map
 npm-debug.log
 yarn-error.log
 .eslintcache
-.env
-client/components/home.js

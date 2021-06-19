@@ -23,7 +23,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
       })
     ) {
       // chrome.tabs.remove(tabId);
-      chrome.tabs.update(tabId, { url: 'http://localhost:8080/uhoh' });
+      chrome.tabs.update(tabId, { url: 'https://pomodoro-russ.herokuapp.com/uhoh' }); // hard-code it to production url atm instead of 'http://localhost:8080/uhoh'
     }
   });
 });
