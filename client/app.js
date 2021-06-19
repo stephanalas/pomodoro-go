@@ -14,9 +14,11 @@ const App = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   useEffect(() => {
-    chrome.runtime.sendMessage('app-starting', (response) => {
-      console.log('message from chrome', response);
-    });
+    if (chrome.runtime) {
+      chrome.runtime.sendMessage('app-starting', (response) => {
+        console.log('message from chrome', response);
+      });
+    }
   }, [dispatch]);
   return (
     <div className={classes.main}>

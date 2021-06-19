@@ -13,6 +13,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         timerOn: false,
         currentSession: null,
         alarmCreated: false,
+        sessionComplete: false,
       });
     }
   } catch (error) {
@@ -21,14 +22,13 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 });
 
 storage.onChanged.addListener(async function (changes, namespace) {
+  let state = {};
+  chrome.storage.sync.get(null, (results) => {
+    for (const i in results) {
+      state[i] = results[i];
+    }
+  });
   try {
-    let state = {};
-    chrome.storage.sync.get(null, (results) => {
-      for (const i in results) {
-        state[i] = results[i];
-      }
-    });
-
     if (
       changes.currentSession &&
       changes.currentSession.newValue.startTime &&
@@ -39,19 +39,19 @@ storage.onChanged.addListener(async function (changes, namespace) {
       });
       chrome.storage.sync.set({ alarmCreated: true });
     }
-
-    // logging out the changes in storage
-
-    for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-      console.log(
-        `Storage key "${key}" in namespace "${namespace}" changed.`,
-        `Old value was "${JSON.stringify(
-          oldValue
-        )}", new value is "${JSON.stringify(newValue)}".`
-      );
-    }
   } catch (error) {
-    console.log(error);
+    console.log('alarm not created');
+  }
+
+  // logging out the changes in storage
+
+  for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+    console.log(
+      `Storage key "${key}" in namespace "${namespace}" changed.`,
+      `Old value was "${JSON.stringify(
+        oldValue
+      )}", new value is "${JSON.stringify(newValue)}".`
+    );
   }
 });
 
@@ -81,5 +81,30 @@ tabs.onUpdated.addListener(function (tabId, changeInfo) {
 });
 
 chrome.alarms.onAlarm.addListener(function (alarm) {
-  console.log('got an alarm!', alarm);
+  chrome.notifications.create(undefined, {
+    type: 'basic',
+    title: 'Pomodoro-Go',
+    message: 'Time has elasped, head back to Pomorodo-Go to review',
+    iconUrl: 'https://img.icons8.com/android/24/000000/timer.png',
+    buttons: [{ title: 'Go to dashboard' }],
+  });
+  chrome.storage.sync.set({
+    alarmCreated: false,
+    currentSession: null,
+    timerOn: false,
+    sessionTime: 0,
+    sessionComplete: true,
+  });
 });
+
+chrome.notifications.onButtonClicked.addListener(
+  async (notificationId, buttonIdx) => {
+    let tab = await getCurrentTab();
+    chrome.tabs.update(tab.id, { url: 'http://localhost:8080/dashboard' });
+  }
+);
+async function getCurrentTab() {
+  let queryOptions = { active: true, currentWindow: true };
+  let [tab] = await chrome.tabs.query(queryOptions);
+  return tab;
+}

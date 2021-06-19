@@ -36,30 +36,37 @@ const TimerInput = (props) => {
   };
   const handleChange = (ev) => {
     const { value } = ev.target;
+
     if (hasError(ev)) {
       setInputError(true);
+
       return;
     }
+
     const { sync } = chrome.storage;
 
     // change the session time bases on input
     if (label === 'Hours') {
       const previous = (input ? parseInt(input) : 0) * 3600000;
       const hours = parseInt(value) * 3600000;
+
       setSessionTime(sessionTime - previous + hours);
-      sync.set({ sessionTime: sessionTime - previous + hours });
+
+      if (sync) sync.set({ sessionTime: sessionTime - previous + hours });
     } else if (label === 'Minutes') {
       const previous = (input ? parseInt(input) : 0) * 60000;
       const minutes = parseInt(value) * 60000;
 
       setSessionTime(sessionTime - previous + minutes);
-      sync.set({ sessionTime: sessionTime - previous + minutes });
+
+      if (sync) sync.set({ sessionTime: sessionTime - previous + minutes });
     } else {
       const previous = (input ? parseInt(input) : 0) * 1000;
       const seconds = parseInt(value) * 1000;
 
       setSessionTime(sessionTime - previous + seconds);
-      sync.set({ sessionTime: sessionTime - previous + seconds });
+
+      if (sync) sync.set({ sessionTime: sessionTime - previous + seconds });
     }
   };
   return (
