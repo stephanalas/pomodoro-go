@@ -11,7 +11,6 @@ const useStyles = makeStyles(() => ({
 const TimerInput = (props) => {
   const classes = useStyles();
   const { goal, sessionTime, setSessionTime } = useContext(SessionContext);
-  // timer may need local state
   const [inputError, setInputError] = useState(false);
   const [input, setInput] = useState('');
   const { label } = props;
@@ -41,22 +40,26 @@ const TimerInput = (props) => {
       setInputError(true);
       return;
     }
+    const { sync } = chrome.storage;
+
     // change the session time bases on input
     if (label === 'Hours') {
       const previous = (input ? parseInt(input) : 0) * 3600000;
       const hours = parseInt(value) * 3600000;
-
       setSessionTime(sessionTime - previous + hours);
+      sync.set({ sessionTime: sessionTime - previous + hours });
     } else if (label === 'Minutes') {
       const previous = (input ? parseInt(input) : 0) * 60000;
       const minutes = parseInt(value) * 60000;
 
       setSessionTime(sessionTime - previous + minutes);
+      sync.set({ sessionTime: sessionTime - previous + minutes });
     } else {
       const previous = (input ? parseInt(input) : 0) * 1000;
       const seconds = parseInt(value) * 1000;
 
       setSessionTime(sessionTime - previous + seconds);
+      sync.set({ sessionTime: sessionTime - previous + seconds });
     }
   };
   return (
