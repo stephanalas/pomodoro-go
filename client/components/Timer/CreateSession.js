@@ -31,9 +31,7 @@ const CreateSession = (props) => {
   const [sessionTime, setSessionTime] = useState(0);
   const [goal, setGoal] = useState('');
   const [countDown, setCountDown] = useState(false);
-  useEffect(() => {
-    localStorage.setItem('sessionTime', sessionTime);
-  }, [sessionTime]);
+
   return (
     <SessionContext.Provider
       value={{ goal, setGoal, sessionTime, setSessionTime }}
