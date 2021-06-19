@@ -79,7 +79,7 @@ const SpotifyConnectButton = withStyles(() => ({
 }))(Button);
 
 const Player = (props) => {
-  console.log(props);
+  console.log(process.env.API_URL); //reads env correctly
   const classes = useStyles();
   const theme = useTheme();
 
@@ -166,7 +166,7 @@ const Player = (props) => {
       props.getCurrPlayback(
         window.localStorage.getItem('spotify_access_token')
       );
-      props.getRecentTrack(window.localStorage.getItem('spotify_access_token'));
+      // props.getRecentTrack(window.localStorage.getItem('spotify_access_token'));
     }
     console.log('state duration - initial state', props.trackDuration);
   }, []);
@@ -220,7 +220,7 @@ const Player = (props) => {
                       <PauseIcon className={classes.playIcon} />
                     )}
                   </IconButton>
-                  {props.newlyAddedTrack !== '' ? (
+                  {props.newlyAddedTrack && props.newlyAddedTrack !== '' ? (
                     <Badge color="secondary" variant="dot" overlap="circle">
                       <IconButton aria-label="next" onClick={() => playNext()}>
                         {theme.direction === 'rtl' ? (
@@ -243,11 +243,7 @@ const Player = (props) => {
               </div>
               <CardMedia
                 className={classes.cover}
-                image={`${
-                  props.currPlayback.item
-                    ? props.currPlayback.item.album.images[0].url
-                    : undefined
-                }`}
+                image={`${props.currPlayback.item?.album?.images[0]?.url}`}
                 title="album cover"
               />
             </Card>
@@ -256,7 +252,7 @@ const Player = (props) => {
           <PlayerPlaylist />
         </>
       ) : (
-        <a href="http://localhost:8080/spotifyconnect">
+        <a href={`${process.env.API_URL}/spotifyconnect`}>
           <Card className={classes.root}>
             <CardContent className={classes.spotifyConnect}>
               <SpotifyConnectButton>Connect to Spotify</SpotifyConnectButton>

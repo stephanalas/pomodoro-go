@@ -68,6 +68,7 @@ tabs.onUpdated.addListener(function (tabId, changeInfo) {
 
   storage.local.get(['blocked'], function (local) {
     const { blocked } = local;
+    console.log('blocked:', blocked);
     if (
       Array.isArray(blocked) &&
       blocked.find((domain) => {
@@ -75,7 +76,10 @@ tabs.onUpdated.addListener(function (tabId, changeInfo) {
         return domain.includes(hostname);
       })
     ) {
-      tabs.update(tabId, { url: 'http://localhost:8080/uhoh' });
+      // chrome.tabs.remove(tabId);
+      chrome.tabs.update(tabId, {
+        url: 'https://pomodoro-russ.herokuapp.com/uhoh',
+      }); // hard-code it to production url atm instead of 'http://localhost:8080/uhoh'
     }
   });
 });

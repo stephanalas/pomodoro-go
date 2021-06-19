@@ -20,6 +20,10 @@ const Site = db.define('site', {
       notEmpty: true,
     },
   },
+  visits: {
+    type: INTEGER,
+    defaultValue: 0,
+  },
 });
 
 //need to make site unique, and add a beforecreate hook to check if the new url exists, if yes, add user to the site instead of creating a new site

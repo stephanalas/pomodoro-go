@@ -61,7 +61,12 @@ const PlayerDevices = (props) => {
 
         // Error handling
         player.addListener('initialization_error', ({ message }) => { console.error(message); });
-        player.addListener('authentication_error', ({ message }) => { console.error(message); });
+        player.addListener('authentication_error', ({ message }) => {
+          console.error(message);
+          window.localStorage.removeItem('spotify_access_token');
+          window.localStorage.removeItem('spotify_refresh_token');
+          window.localStorage.removeItem('new-spotify-device');
+        });
         player.addListener('account_error', ({ message }) => { console.error(message); });
         player.addListener('playback_error', ({ message }) => { console.error(message); });
 

@@ -6,14 +6,22 @@ const GET_DEVICES = 'GET_DEVICES';
 export const getDevices = (accessToken) => {
   return async(dispatch) => {
     try {
-      let devices = (
+      let response = (
         await axios.get('https://api.spotify.com/v1/me/player/devices', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         })
-      ).data;
-      dispatch(_getDevices(devices));
+      );
+      if (response.status === 200) {
+        const devices = response.data;
+        dispatch(_getDevices(devices));
+      } else {
+        window.localStorage.removeItem('spotify_access_token');
+        window.localStorage.removeItem('spotify_refresh_token');
+        window.localStorage.removeItem('new-spotify-device');
+        history.push('/home');
+      }
     } catch(err) {
       console.log(err);
     }
