@@ -22,15 +22,17 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn, sites, updateS, updateB, loadB, auth, blackList } =
-      this.props;
-
+    const { isLoggedIn, auth, blackList, updateB } = this.props;
+    //this enters auth and blackList into chrome.storage so it can be accessed
+    //in background.js file
     if (auth) {
       chrome.storage.local.set({ auth: auth });
     }
     if (blackList) {
       chrome.storage.local.set({ blackList: blackList });
     }
+    //this listens for changes in chrome.storage so that it can update the database
+    // with the updated blacklist info
     chrome.storage.onChanged.addListener(async (changes, areaName) => {
       if (changes.updatedBlackList) {
         const { newValue } = changes.updatedBlackList;

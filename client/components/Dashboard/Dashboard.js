@@ -38,17 +38,15 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 15,
     paddingRight: 15,
   },
+  formControlLabel: {
+    color: '#000000',
+  },
 }));
 
 const Dashboard = () => {
   const classes = useStyles();
-  // let sessions = useSelector((state) => state.sessions);
+  let sessions = useSelector((state) => state.sessions);
   const auth = useSelector((state) => state.auth);
-  const stringSessions = JSON.stringify(sessions);
-  window.localStorage.setItem('sessions', stringSessions);
-  const test = window.localStorage.getItem('sessions');
-
-  const jsonifiedSessions = JSON.parse(test);
 
   if (auth) {
     sessions = sessions.filter((session) => session.userId === auth.id);
@@ -143,12 +141,16 @@ const Dashboard = () => {
         spacing={3}
       >
         <Grid item xs={3}>
-          <Typography variant="overline">Dashboard</Typography>
-          <Typography variant="h6">
+          <Typography variant="overline" color="primary">
+            Dashboard
+          </Typography>
+          <Typography variant="h6" color="primary">
             Good Afternoon{capitalized ? `, ${capitalized}` : ''}
             <br />
           </Typography>
-          <Typography variant="subtitle2">Here is your latest data.</Typography>
+          <Typography variant="subtitle2" color="primary">
+            Here is your latest data.
+          </Typography>
         </Grid>
         <Grid item container xs={9} justify="flex-end" alignItems="flex-start">
           <Grid item xs={8}>
@@ -168,6 +170,7 @@ const Dashboard = () => {
                     />
                   }
                   label="Last Session"
+                  className={classes.formControlLabel}
                 />
                 <FormControlLabel
                   control={
@@ -179,6 +182,7 @@ const Dashboard = () => {
                     />
                   }
                   label="Total Sessions"
+                  className={classes.formControlLabel}
                 />
                 <FormControlLabel
                   control={
@@ -190,6 +194,7 @@ const Dashboard = () => {
                     />
                   }
                   label="Average Session"
+                  className={classes.formControlLabel}
                 />
                 <FormControlLabel
                   control={
@@ -201,6 +206,7 @@ const Dashboard = () => {
                     />
                   }
                   label="Session Distribution"
+                  className={classes.formControlLabel}
                 />
                 <FormControlLabel
                   control={
@@ -212,6 +218,7 @@ const Dashboard = () => {
                     />
                   }
                   label="Session Frequency"
+                  className={classes.formControlLabel}
                 />
               </FormGroup>
             </FormControl>
