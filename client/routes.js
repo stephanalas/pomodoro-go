@@ -35,9 +35,14 @@ class Routes extends Component {
     // with the updated blacklist info
     chrome.storage.onChanged.addListener(async (changes, areaName) => {
       if (changes.updatedBlackList) {
-        const { newValue } = changes.updatedBlackList;
-        console.log('newValue in BlackList:', newValue);
-        await updateB(newValue.id, newValue);
+        const {
+          updatedBlackList: { oldValue, newValue },
+        } = changes;
+        if (!oldValue) {
+          updateB(newValue.id, newValue);
+        } else if (oldValue.blocks !== newValue.blocks) {
+          updateB(newValue.id, newValue);
+        }
       }
     });
 

@@ -38,7 +38,6 @@ chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
       const blackListAuth = blackList.filter((entry) => {
         return entry.userId === auth.id;
       });
-      console.log('blackListAuth:', blackListAuth);
       const url = changeInfo.pendingUrl || changeInfo.url;
       if (url) {
         const matchingBlackList = blackListAuth.find((entry) => {
@@ -46,9 +45,8 @@ chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
         });
 
         if (matchingBlackList) {
-          console.log('matchingBlackList before increment', matchingBlackList);
           matchingBlackList.blocks++;
-          console.log('matchingBlackList after increment', matchingBlackList);
+          console.log('matchingBlackList:', matchingBlackList);
           chrome.storage.local.set({ updatedBlackList: matchingBlackList });
         }
       }
