@@ -38,7 +38,7 @@ class Navbar extends Component {
   render() {
     const { isLoggedIn, classes } = this.props;
     const { isGoogleLogedIn, anchorEl } = this.state;
-    if (!!isGoogleLogedIn) {
+    if (isGoogleLogedIn) {
       return <GLogout />;
     }
 
@@ -96,6 +96,13 @@ class Navbar extends Component {
                   aria-haspopup="true"
                   onClose={() => this.setState({ anchorEl: null })}
                 >
+                  <MenuItem
+                    // onClick={this.handleLogOut}
+                    component={Link}
+                    to="/timer"
+                  >
+                    Timer
+                  </MenuItem>
                   <MenuItem
                     key="Login"
                     component={Link}
