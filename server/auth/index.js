@@ -28,7 +28,11 @@ router.post('/signup', async (req, res, next) => {
 
 router.get('/me', async (req, res, next) => {
   try {
-    res.send(await User.findByToken(req.headers.authorization));
+    const { method } = req.body;
+
+    res.send(
+      await User.findByToken(req.headers.authorization, method ? method : null)
+    );
   } catch (ex) {
     next(ex);
   }
@@ -36,19 +40,22 @@ router.get('/me', async (req, res, next) => {
 
 router.post('/google', async (req, res, next) => {
   try {
-    console.log('starting google authentication');
+    console.log(req.body);
     const { email } = req.body;
-    let user = await User.findOne({ where: { email } });
-    if (user) {
-      res.send({ token: await User.authenticate(user, 'google') });
-    } else {
-      const password = generator.generate({
-        length: 10,
-        numbers: true,
-      });
-      user = await User.create({ email, password });
-      res.send({ token: await user.generateToken() });
-    }
+
+    const token = req.headers.authorization;
+
+    if (token) {
+      let user = await User.findByGoogleToken(token);
+      if (!user) {
+        const password = generator.generate({
+          length: 10,
+          numbers: true,
+        });
+        user = await User.create({ email, password, googleToken: token });
+      }
+      res.send(user);
+    } else throw Error('No google Token');
   } catch (error) {
     next(error);
   }

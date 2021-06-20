@@ -2,6 +2,7 @@ import React from 'react';
 import { GoogleLogin } from 'react-google-login';
 // import GoogleButton from 'react-google-button';
 // refresh token
+import { Button } from '@material-ui/core';
 import { refreshTokenSetup } from './RefreshToken';
 
 const clientId =
@@ -17,10 +18,16 @@ function GLogin() {
   const onFailure = (res) => {
     console.log('Login failed: res:', res);
   };
-
+  const handleClick = () => {
+    if (chrome.identity) {
+      chrome.identity.getAuthToken({ interactive: true }, function (token) {
+        chrome.storage.sync.set({ googleAuthToken: token });
+      });
+    }
+  };
   return (
     <div className={'Google-button'}>
-      <GoogleLogin
+      {/* <GoogleLogin
         clientId={clientId}
         buttonText="Login"
         onSuccess={onSuccess}
@@ -34,7 +41,8 @@ function GLogin() {
         //   />
         // )}
         isGoogleLogedIn={true}
-      />
+      /> */}
+      <Button onClick={handleClick}>Login</Button>
     </div>
   );
 }
