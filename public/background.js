@@ -1,5 +1,4 @@
 'use strict';
-
 const { storage, tabs } = chrome;
 
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
@@ -21,6 +20,10 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   }
 });
 
+// chrome.identity.onSignInChange.addListener((account, signedIn) => {
+//   console.log(account, signedIn);
+// });
+
 storage.onChanged.addListener(async function (changes, namespace) {
   let state = {};
   chrome.storage.sync.get(null, (results) => {
@@ -28,6 +31,8 @@ storage.onChanged.addListener(async function (changes, namespace) {
       state[i] = results[i];
     }
   });
+
+  // creates a new alarm
   try {
     if (
       changes.currentSession &&
@@ -45,14 +50,14 @@ storage.onChanged.addListener(async function (changes, namespace) {
 
   // logging out the changes in storage
 
-  for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-    console.log(
-      `Storage key "${key}" in namespace "${namespace}" changed.`,
-      `Old value was "${JSON.stringify(
-        oldValue
-      )}", new value is "${JSON.stringify(newValue)}".`
-    );
-  }
+  // for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+  //   console.log(
+  //     `Storage key "${key}" in namespace "${namespace}" changed.`,
+  //     `Old value was "${JSON.stringify(
+  //       oldValue
+  //     )}", new value is "${JSON.stringify(newValue)}".`
+  //   );
+  // }
 });
 
 tabs.onUpdated.addListener(function (tabId, changeInfo) {
@@ -85,6 +90,7 @@ tabs.onUpdated.addListener(function (tabId, changeInfo) {
 });
 
 chrome.alarms.onAlarm.addListener(function (alarm) {
+  // notifies the user when the session is over
   chrome.notifications.create(undefined, {
     type: 'basic',
     title: 'Pomodoro-Go',
@@ -103,6 +109,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
 
 chrome.notifications.onButtonClicked.addListener(
   async (notificationId, buttonIdx) => {
+    // redirects to dashboard after session is complete
     let tab = await getCurrentTab();
     chrome.tabs.update(tab.id, { url: 'http://localhost:8080/dashboard' });
   }
