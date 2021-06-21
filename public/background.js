@@ -26,57 +26,80 @@ const background = {
     let [tab] = await chrome.tabs.query(queryOptions);
     return tab;
   },
-  init: function () {
-    runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-      try {
-        // CLEARS STORAGE AND ALARMS WHEN EXTENSION TAB STARTS (RUNS ONCE)
-        if (message === 'app-starting') {
-          // SENDS RESPONSE TO CHROME CONSOLE
-          sendResponse('clearing alarms and storage');
-          // CLEAR STORAGE
-          await storage.sync.clear();
-          // CLEAR ALARMS
-          await alarms.clearAll();
-          // SETTING DATA IN STORAGE SYNC
-          storage.sync.set({
-            sessionTime: 0,
-            timerOn: false,
-            currentSession: null,
-            alarmCreated: false,
-            sessionComplete: false,
-          });
-        }
-        // AFTER CLICKING LOGIN FOR GOOGLE
-        if (message === 'login') {
-          sendResponse('attempting to log in');
-          // GETS ALL DATA FROM STORAGE
-          storage.sync.get(null, (results) => {
-            // REQUEST TO SERVER
-            fetch('http://localhost:8080/auth/google', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                authorization: results.authToken,
-              },
-              body: JSON.stringify(results),
-            })
-              .then((response) => response.json())
-              .then((user) => {
-                // SETS USER TO THE BACKGROUND.USER OBJECT
-                this.setUser(user);
-                storage.sync.set({ user });
-              })
-              .catch((error) => console.log('issue with fetch', error));
-          });
-        }
-        // MUST RETURN TRUE TO KEEP MESSAGE PORT OPEN
-        return true;
-      } catch (error) {
-        console.log(error);
-      }
+  init() {
+    this.listenToMessages();
+    this.listenToStorage();
+    this.listenToTabs();
+    this.listenForAlarm();
+    this.listenForBlackListIncrement();
+    this.listenForDashboardRedirect();
+  },
+  createAlarm() {
+    chrome.alarms.create('timer', {
+      when: Date.now() + changes.currentSession.newValue.sessionTime,
     });
+    this.alarmCreated = true;
+    const { alarmCreated } = this;
+    chrome.storage.sync.set({ alarmCreated });
+  },
+  resetStorage() {
+    storage.sync.set({
+      sessionTime: 0,
+      timerOn: false,
+      currentSession: null,
+      alarmCreated: false,
+      sessionComplete: false,
+    });
+  },
 
-    storage.onChanged.addListener(async function (changes, namespace) {
+  listenToMessages() {
+    return runtime.onMessage.addListener(
+      async (message, sender, sendResponse) => {
+        try {
+          // CLEARS STORAGE AND ALARMS WHEN EXTENSION TAB STARTS (RUNS ONCE)
+          if (message === 'app-starting') {
+            // SENDS RESPONSE TO CHROME CONSOLE
+            sendResponse('clearing alarms and storage');
+            // CLEAR STORAGE
+            await storage.sync.clear();
+            // CLEAR ALARMS
+            await alarms.clearAll();
+            // SETTING DATA IN STORAGE SYNC
+            this.resetStorage();
+          }
+          // AFTER CLICKING LOGIN FOR GOOGLE
+          if (message === 'login') {
+            // GETS ALL DATA FROM STORAGE
+            storage.sync.get(null, (results) => {
+              // REQUEST TO SERVER
+              fetch('http://localhost:8080/auth/google', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  authorization: results.authToken,
+                },
+                body: JSON.stringify(results),
+              })
+                .then((response) => response.json())
+                .then((user) => {
+                  // SETS USER TO THE BACKGROUND.USER OBJECT
+                  this.setUser(user);
+                  sendResponse(this.user);
+                  storage.sync.set({ user });
+                })
+                .catch((error) => console.log('issue with fetch', error));
+            });
+            // MUST RETURN TRUE  TO KEEP MESSAGE PORT OPEN
+            return true;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    );
+  },
+  listenToStorage() {
+    return storage.onChanged.addListener(async function (changes, namespace) {
       if (changes.user) {
         // IF THE A USER LOGINS IN AND SET IN STORAGE LOG MESSAGE
         if (!changes.user.oldValue && changes.user.newValue) {
@@ -92,12 +115,7 @@ const background = {
           changes.currentSession.newValue.startTime &&
           !this.alarmCreated
         ) {
-          chrome.alarms.create('timer', {
-            when: Date.now() + changes.currentSession.newValue.sessionTime,
-          });
-          this.alarmCreated = true;
-          const { alarmCreated } = this;
-          chrome.storage.sync.set({ alarmCreated });
+          this.createAlarm();
         }
       } catch (error) {
         console.log('alarm not created');
@@ -106,17 +124,18 @@ const background = {
       // logging out the changes in storage
       // THIS CODE IS FOR DEV PURPOSES
       // YOU WILL HAVE ALOT OF LOGS IN CONSOLE
-      for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-        console.log(
-          `Storage key "${key}" in namespace "${namespace}" changed.`,
-          `Old value was "${JSON.stringify(
-            oldValue
-          )}", new value is "${JSON.stringify(newValue)}".`
-        );
-      }
+      // for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+      //   console.log(
+      //     `Storage key "${key}" in namespace "${namespace}" changed.`,
+      //     `Old value was "${JSON.stringify(
+      //       oldValue
+      //     )}", new value is "${JSON.stringify(newValue)}".`
+      //   );
+      // }
     });
-
-    tabs.onUpdated.addListener(function (tabId, changeInfo) {
+  },
+  listenToTabs() {
+    return tabs.onUpdated.addListener(function (tabId, changeInfo) {
       const url = changeInfo.pendingUrl || changeInfo.url;
 
       if (!url || !url.startsWith('http')) {
@@ -144,8 +163,11 @@ const background = {
         }
       });
     });
+  },
+  listenForBlackListIncrement() {
     // increment blocks in Blacklist table when a blacklisted site is blocked
-    chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
+
+    return chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
       chrome.storage.local.get(['auth', 'blackList'], function (result) {
         const { auth, blackList } = result;
         if (blackList) {
@@ -167,7 +189,9 @@ const background = {
         }
       });
     });
-    chrome.alarms.onAlarm.addListener(function (alarm) {
+  },
+  listenForAlarm() {
+    return chrome.alarms.onAlarm.addListener(function (alarm) {
       // notifies the user when the session is over
       chrome.notifications.create(undefined, {
         type: 'basic',
@@ -184,8 +208,10 @@ const background = {
         sessionComplete: true,
       });
     });
+  },
+  listenForDashboardRedirect() {
     // THIS BUTTON WORKS BUT DASHBOARD DOES NOT LOAD
-    chrome.notifications.onButtonClicked.addListener(
+    return chrome.notifications.onButtonClicked.addListener(
       async (notificationId, buttonIdx) => {
         // redirects to dashboard after session is complete
         let tab = await this.getCurrentTab();
@@ -196,4 +222,3 @@ const background = {
 };
 
 background.init();
-
