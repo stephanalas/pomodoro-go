@@ -10,7 +10,7 @@ const loadSitesActionCreator = (sites) => {
 const loadSites = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('http://localhost:8080/api/sites');
+      const response = await axios.get(`${process.env.API_URL}/api/sites`);
       const sites = response.data;
       dispatch(loadSitesActionCreator(sites));
     } catch (error) {
@@ -32,7 +32,7 @@ const updateSiteActionCreator = (site) => {
 const updateSite = (siteId, siteInfo) => {
   return async (dispatch) => {
     const response = await axios.put(
-      `http://localhost:8080/api/sites/${siteId}`,
+      `${process.env.API_URL}/api/sites/${siteId}`,
       siteInfo
     );
 

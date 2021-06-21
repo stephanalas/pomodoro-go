@@ -10,7 +10,7 @@ const loadBlackListActionCreator = (blackList) => {
 const loadBlackList = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('http://localhost:8080/api/blackList');
+      const response = await axios.get(`${process.env.API_URL}/api/blackList`);
       const blackList = response.data;
       dispatch(loadBlackListActionCreator(blackList));
     } catch (error) {
@@ -33,7 +33,7 @@ const updateBlackList = (blackListId, blackListInfo) => {
   console.log('blackListInfo:', blackListInfo);
   return async (dispatch) => {
     const response = await axios.put(
-      `http://localhost:8080/api/blackList/${blackListId}`,
+      `${process.env.API_URL}/api/blackList/${blackListId}`,
       blackListInfo
     );
 
