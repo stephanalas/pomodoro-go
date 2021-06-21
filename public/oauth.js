@@ -1,34 +1,39 @@
 window.onload = () => {
-  document.querySelector('button').addEventListener('click', () => {
+  document.querySelector('.login').addEventListener('click', async () => {
     const {
       storage: { sync },
       identity: { getAuthToken, getProfileUserInfo },
     } = chrome;
-    getAuthToken({ interactive: true }, function (token) {
+    getAuthToken({ interactive: true }, async function (token) {
       sync.set({ authToken: token });
     });
     getProfileUserInfo({ accountStatus: 'ANY' }, (userInfo) => {
-      sync.set({ email: userInfo.email });
+      sync.set(userInfo);
     });
-    sync.get(null, (result) => {
-      const token = result.authToken;
-      console.log(token);
 
-      fetch('http://localhost:8080/auth/google', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          authorization: token,
-        },
-        body: JSON.stringify({
-          email: result.email,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          sync.set({ user: data });
-        })
-        .catch((error) => console.log('Error:', error));
+    chrome.runtime.sendMessage('login', (response) => {
+      console.log('after log in', response);
     });
+    // sync.get(null, (result) => {
+    //   const token = result.authToken;
+    //   const email = result.email;
+    //   console.log(result.email);
+    //   console.log(result.token);
+    //   fetch('http://localhost:8080/auth/google', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       authorization: token,
+    //     },
+    //     body: JSON.stringify(result),
+    //   })
+    //     .then((response) => {
+    //       console.log('after fetch', response);
+    //     })
+    //     .then((data) => {
+    //       sync.set({ user: data });
+    //     })
+    //     .catch((error) => console.log('Error:', error));
+    // });
   });
 };
