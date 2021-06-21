@@ -4,6 +4,8 @@ import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import auth from './auth';
 import { sessionsReducer, currentSessionReducer } from './sessions';
+import { sitesReducer } from './sites';
+import { blackListReducer } from './blackList';
 import blockedSitesReducer from './blockSites';
 import playlistsReducer from './spotify/getPlaylists';
 import currPlaylistReducer from './spotify/getCurrPlaylist';
@@ -17,6 +19,8 @@ const reducer = combineReducers({
   auth,
   blockedSites: blockedSitesReducer,
   sessions: sessionsReducer,
+  sites: sitesReducer,
+  blackList: blackListReducer,
   currentSession: currentSessionReducer,
   allPlaylists: playlistsReducer,
   currPlaylist: currPlaylistReducer,

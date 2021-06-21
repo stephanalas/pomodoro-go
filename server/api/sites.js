@@ -69,3 +69,14 @@ router.delete('/:userId/:siteId', async (req, res, next) => {
     next(err);
   }
 });
+
+router.put('/:siteId', async (req, res, next) => {
+  try {
+    const site = await Site.findByPk(req.params.siteId);
+    const updated = await site.update(req.body);
+    res.status(200).send(updated);
+  } catch (error) {
+    console.log('error in sites put route');
+    next(error);
+  }
+});

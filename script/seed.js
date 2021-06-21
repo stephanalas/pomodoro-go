@@ -30,6 +30,7 @@ async function seed() {
 
   const cody = users[0];
   const murphy = users[1];
+  const jen = users[2];
 
   // Creating admin Users
   const [felicity, russel, stephan, ding] = await Promise.all(
@@ -95,12 +96,17 @@ async function seed() {
 
   // Creating site and user associations
   await Promise.all([
-    BlackList.create({ siteId: twitter.id, userId: cody.id }),
-    BlackList.create({ siteId: twitter.id, userId: murphy.id }),
-    BlackList.create({ siteId: instagram.id, userId: cody.id }),
-    BlackList.create({ siteId: facebook.id, userId: murphy.id }),
-    BlackList.create({ siteId: netflix.id, userId: murphy.id }),
-    BlackList.create({ siteId: hulu.id, userId: murphy.id }),
+    BlackList.create({ siteId: twitter.id, userId: cody.id, blocks: 78 }),
+    BlackList.create({ siteId: instagram.id, userId: cody.id, blocks: 24 }),
+    BlackList.create({ siteId: facebook.id, userId: cody.id, blocks: 59 }),
+    BlackList.create({ siteId: netflix.id, userId: cody.id, blocks: 33 }),
+    BlackList.create({ siteId: hulu.id, userId: cody.id, blocks: 19 }),
+    BlackList.create({ siteId: twitter.id, userId: murphy.id, blocks: 43 }),
+    BlackList.create({ siteId: facebook.id, userId: murphy.id, blocks: 142 }),
+    BlackList.create({ siteId: netflix.id, userId: murphy.id, blocks: 39 }),
+    BlackList.create({ siteId: hulu.id, userId: murphy.id, blocks: 21 }),
+    BlackList.create({ siteId: twitter.id, userId: jen.id, blocks: 116 }),
+    BlackList.create({ siteId: facebook.id, userId: jen.id, blocks: 65 }),
   ]);
 
   //console.log(`seeded ${blockedSites.length} blacklisted sites`)

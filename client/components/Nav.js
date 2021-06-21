@@ -85,6 +85,7 @@ class Navbar extends Component {
                   >
                     Timer
                   </MenuItem>
+
                   <MenuItem onClick={this.handleLogOut}>Logout</MenuItem>
                 </Menu>
               ) : (
