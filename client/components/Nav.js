@@ -31,6 +31,14 @@ class Navbar extends Component {
       authInstance: {},
     };
     this.handleLogOut = this.handleLogOut.bind(this);
+    this.handleLogIn = this.handleLogIn.bind(this);
+  }
+  handleLogIn() {
+    if (chrome.storage) {
+      chrome.storage.sync.get(['user'], (result) => {
+        console.log('onClick handler', result);
+      });
+    }
   }
   handleLogOut() {
     this.setState({ anchorEl: null });
@@ -119,7 +127,13 @@ class Navbar extends Component {
 
               <Typography variant="h4">Pomodoro,go!</Typography>
               {/* {isGoogleLogedIn ? <GLogout /> : <GLogin />} */}
-              <Button className="login">LogIn</Button>
+              {this.props.isLoggedIn ? (
+                <Button>Sign Out</Button>
+              ) : (
+                <Button className="login" onClick={this.handleLogIn}>
+                  Log In
+                </Button>
+              )}
             </Toolbar>
           </AppBar>
         </nav>
