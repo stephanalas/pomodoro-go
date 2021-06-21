@@ -13,8 +13,14 @@ const useStyles = makeStyles(() => ({
 const App = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (chrome.runtime) {
+      chrome.storage.sync.get(['user'], (result) => {
+        if (result.user) {
+          console.log('user in sync');
+        }
+      });
       chrome.runtime.sendMessage('app-starting', (response) => {
         console.log('message from chrome', response);
       });
