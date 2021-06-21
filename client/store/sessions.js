@@ -11,6 +11,7 @@ const loadSessions = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${process.env.API_URL}/api/sessions`);
+      console.log(response);
       const sessions = response.data;
       dispatch(loadSessionsActionCreator(sessions));
     } catch (error) {
@@ -164,13 +165,6 @@ const currentSessionReducer = (state = {}, action) => {
     action.type === UPDATE_TASK
   ) {
     state = action.session;
-  }
-  return state;
-};
-
-const sessionsReducer = (state = [], action) => {
-  if (action.type === LOAD_SESSIONS) {
-    state = action.sessions;
   }
   return state;
 };
