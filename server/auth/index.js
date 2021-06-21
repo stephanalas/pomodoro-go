@@ -40,7 +40,6 @@ router.get('/me', async (req, res, next) => {
 
 router.post('/google', async (req, res, next) => {
   try {
-    console.log(req.body);
     const { email } = req.body;
 
     const token = req.headers.authorization;
@@ -54,6 +53,7 @@ router.post('/google', async (req, res, next) => {
         });
         user = await User.create({ email, password, googleToken: token });
       }
+      console.log(user);
       res.send(user);
     } else throw Error('No google Token');
   } catch (error) {
