@@ -67,10 +67,10 @@ const Alert = (props) => {
 
 //Start of component
 const BlockSites = (props) => {
-  console.log(props)
+  console.log(props);
   //states
   const [toggleStatus, setToggleStatus] = useState({});
-  console.log(toggleStatus)
+  console.log(toggleStatus);
   const [urlInput, setUrlInput] = useState({
     siteUrl: '',
     category: '',
@@ -116,7 +116,7 @@ const BlockSites = (props) => {
   //block functionalities - chrome API
   const blockIt = () => {
     const blocked = props.blockedSites.filter((each) => {
-      return toggleStatus[`item${each.id}`] === true
+      return toggleStatus[`item${each.id}`] === true;
     }).map((site) => {
       return site.siteUrl;
     });

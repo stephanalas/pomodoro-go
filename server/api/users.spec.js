@@ -17,7 +17,7 @@ describe('User routes', () => {
       const res = await request(app).get('/api/users').expect(200);
 
       expect(res.body).to.be.an('array');
-      expect(res.body.length).to.equal(7);
+      expect(res.body.length).to.equal(9);
     });
 
     it('only returns id, username and email', async () => {

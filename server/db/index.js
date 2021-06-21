@@ -7,6 +7,7 @@ const Session = require('./models/Session');
 const Site = require('./models/Site');
 const BlackList = require('./models/BlackList');
 const Task = require('./models/Task');
+const Friendship = require('./models/Friendship');
 
 Site.belongsToMany(User, {
   through: BlackList,
@@ -21,6 +22,16 @@ Session.belongsTo(User);
 User.hasMany(Session);
 Task.belongsTo(Session);
 Session.hasMany(Task);
+User.belongsToMany(User, {
+  through: Friendship,
+  foreignKey: 'requesteeId',
+  as: 'requestee',
+});
+User.belongsToMany(User, {
+  through: Friendship,
+  foreignKey: 'requesterId',
+  as: 'requester',
+});
 
 module.exports = {
   db,
@@ -30,5 +41,6 @@ module.exports = {
     Task,
     Site,
     BlackList,
+    Friendship,
   },
 };

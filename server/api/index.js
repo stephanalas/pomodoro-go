@@ -5,6 +5,7 @@ router.use('/users', require('./users'));
 router.use('/sessions', require('./sessions'));
 router.use('/sites', require('./sites'));
 router.use('/blackList', require('./blackList'));
+router.use('/friendship', require('./friendship'));
 
 router.use((req, res, next) => {
   const error = new Error('Not Found');
