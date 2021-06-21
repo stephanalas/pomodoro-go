@@ -168,6 +168,13 @@ const currentSessionReducer = (state = {}, action) => {
   return state;
 };
 
+const sessionsReducer = (state = [], action) => {
+  if (action.type === LOAD_SESSIONS) {
+    state = action.sessions;
+  }
+  return state;
+};
+
 export {
   loadSession,
   loadSessions,

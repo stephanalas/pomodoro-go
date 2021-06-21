@@ -16,6 +16,7 @@ import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import LastSession from './LastSession';
 import TotalSessions from './TotalSessions';
 import AverageSession from './AverageSession';
+import MostBlocked from './MostBlocked';
 import ChartLeft from './ChartLeft';
 import ChartRight from './ChartRight';
 
@@ -38,15 +39,20 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 15,
     paddingRight: 15,
   },
+  formControlLabel: {
+    color: '#000000',
+  },
 }));
 
 const Dashboard = () => {
   const classes = useStyles();
   let sessions = useSelector((state) => state.sessions);
   const auth = useSelector((state) => state.auth);
+  let blackList = useSelector((state) => state.blackList);
 
   if (auth) {
     sessions = sessions.filter((session) => session.userId === auth.id);
+    blackList = blackList.filter((entry) => entry.userId === auth.id);
   }
   let goals = sessions.map((session) => {
     return session.goal;
@@ -138,12 +144,16 @@ const Dashboard = () => {
         spacing={3}
       >
         <Grid item xs={3}>
-          <Typography variant="overline">Dashboard</Typography>
-          <Typography variant="h6">
+          <Typography variant="overline" color="primary">
+            Dashboard
+          </Typography>
+          <Typography variant="h6" color="primary">
             Good Afternoon{capitalized ? `, ${capitalized}` : ''}
             <br />
           </Typography>
-          <Typography variant="subtitle2">Here is your latest data.</Typography>
+          <Typography variant="subtitle2" color="primary">
+            Here is your latest data.
+          </Typography>
         </Grid>
         <Grid item container xs={9} justify="flex-end" alignItems="flex-start">
           <Grid item xs={8}>
@@ -163,6 +173,7 @@ const Dashboard = () => {
                     />
                   }
                   label="Last Session"
+                  className={classes.formControlLabel}
                 />
                 <FormControlLabel
                   control={
@@ -174,6 +185,7 @@ const Dashboard = () => {
                     />
                   }
                   label="Total Sessions"
+                  className={classes.formControlLabel}
                 />
                 <FormControlLabel
                   control={
@@ -185,6 +197,7 @@ const Dashboard = () => {
                     />
                   }
                   label="Average Session"
+                  className={classes.formControlLabel}
                 />
                 <FormControlLabel
                   control={
@@ -196,6 +209,7 @@ const Dashboard = () => {
                     />
                   }
                   label="Session Distribution"
+                  className={classes.formControlLabel}
                 />
                 <FormControlLabel
                   control={
@@ -207,6 +221,7 @@ const Dashboard = () => {
                     />
                   }
                   label="Session Frequency"
+                  className={classes.formControlLabel}
                 />
               </FormGroup>
             </FormControl>
@@ -248,14 +263,17 @@ const Dashboard = () => {
       </Grid>
 
       <Grid container spacing={3}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           {lastSession ? <LastSession sessions={sessions} /> : ''}
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           {totalSessions ? <TotalSessions sessions={sessions} /> : ''}
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           {averageSession ? <AverageSession sessions={sessions} /> : ''}
+        </Grid>
+        <Grid item xs={3}>
+          {<MostBlocked sessions={sessions} blackList={blackList} />}
         </Grid>
       </Grid>
       <Grid container spacing={3}>

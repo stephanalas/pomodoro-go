@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Session, Site, Task, BlackList },
+  models: { User, Session, Site, Task, BlackList, Friendship },
 } = require('../server/db');
 
 /**
@@ -26,10 +26,23 @@ async function seed() {
       password: '123',
       email: 'jenmiller2102@gmail.com',
     }),
+    User.create({
+      username: 'jack',
+      password: '123',
+      email: 'jack@mail.com',
+    }),
+    User.create({
+      username: 'lisa',
+      password: '123',
+      email: 'lisa@mail.com',
+    }),
   ]);
 
   const cody = users[0];
   const murphy = users[1];
+  const jen = users[2];
+  const jack = users[3];
+  const lisa = users[4];
 
   // Creating admin Users
   const [felicity, russel, stephan, ding] = await Promise.all(
@@ -56,15 +69,12 @@ async function seed() {
   }
 
   const sessions = await Promise.all(sessionSeeds);
-  // console.log(`seeded ${sessions.length} sessions`);
 
   const tasks = await Promise.all([
     Task.create({ name: 'User model' }),
     Task.create({ name: 'All Users route' }),
     Task.create({ name: 'Single User route' }),
   ]);
-
-  //console.log(`seeded ${goals.length} general goals`)
 
   // Creating sites
   const sites = await Promise.all([
@@ -95,19 +105,48 @@ async function seed() {
 
   // Creating site and user associations
   await Promise.all([
-    BlackList.create({ siteId: twitter.id, userId: cody.id }),
-    BlackList.create({ siteId: twitter.id, userId: murphy.id }),
-    BlackList.create({ siteId: instagram.id, userId: cody.id }),
-    BlackList.create({ siteId: facebook.id, userId: murphy.id }),
-    BlackList.create({ siteId: netflix.id, userId: murphy.id }),
-    BlackList.create({ siteId: hulu.id, userId: murphy.id }),
+    BlackList.create({ siteId: twitter.id, userId: cody.id, blocks: 78 }),
+    BlackList.create({ siteId: instagram.id, userId: cody.id, blocks: 24 }),
+    BlackList.create({ siteId: facebook.id, userId: cody.id, blocks: 59 }),
+    BlackList.create({ siteId: netflix.id, userId: cody.id, blocks: 33 }),
+    BlackList.create({ siteId: hulu.id, userId: cody.id, blocks: 19 }),
+    BlackList.create({ siteId: twitter.id, userId: murphy.id, blocks: 43 }),
+    BlackList.create({ siteId: facebook.id, userId: murphy.id, blocks: 142 }),
+    BlackList.create({ siteId: netflix.id, userId: murphy.id, blocks: 39 }),
+    BlackList.create({ siteId: hulu.id, userId: murphy.id, blocks: 21 }),
+    BlackList.create({ siteId: twitter.id, userId: jen.id, blocks: 116 }),
+    BlackList.create({ siteId: facebook.id, userId: jen.id, blocks: 65 }),
   ]);
 
-  //console.log(`seeded ${blockedSites.length} blacklisted sites`)
+  // Creating friendship
+  await Promise.all([
+    Friendship.create({
+      requesteeId: murphy.id,
+      requesterId: cody.id,
+      requestStatus: 'approved',
+    }),
+    Friendship.create({
+      requesteeId: murphy.id,
+      requesterId: jen.id,
+      requestStatus: 'pending',
+    }),
+    Friendship.create({
+      requesteeId: murphy.id,
+      requesterId: jack.id,
+      requestStatus: 'pending',
+    }),
+    Friendship.create({
+      requesteeId: cody.id,
+      requesterId: lisa.id,
+      requestStatus: 'approved',
+    }),
+    Friendship.create({
+      requesteeId: felicity.id,
+      requesterId: murphy.id,
+      requestStatus: 'approved',
+    }),
+  ]);
 
-  // Creating some tasks
-
-  //console.log(`seeded everything successfully`);
   return {
     users: {
       cody: cody,
