@@ -1,7 +1,6 @@
 body {
   font-family: sans-serif;
-  /* background-color: rgb(66, 66, 66); */
-  /* color: white; */
+  background-color: #e4ddee;
 }
 
 a {
@@ -12,26 +11,32 @@ a {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  z-index: 0;
+  /* z-index: 0; */
+  /* background-color: #4d2a4e; */
+  margin: 0;
+  padding: 0px,0;
 }
 #navBar .home {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  z-index: 0;
+  /* z-index: 200; */
 }
 #navBar .account {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  z-index: 0;
+  /* z-index: 200; */
 }
-#navBar .home {
+ #Intro{
   display: flex;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  z-index: 0;
-}
+  padding: 50px;
+  margin:100px;
+   background-color: #4d2a4e;
+   color:white;
+   line-height: 30px;
+   font-size: larger;
+ }
 
 #main {
   width: 90%;
