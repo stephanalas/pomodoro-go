@@ -12,7 +12,9 @@
     "alarms",
     "notifications",
     "identity",
-    "identity.email"
+    "identity.email",
+    "<all_urls>",
+    "unlimitedStorage"
   ],
   "background": {
     "service_worker": "background.js"
