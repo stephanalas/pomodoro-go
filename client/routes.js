@@ -27,25 +27,26 @@ class Routes extends Component {
     //this enters auth and blackList into chrome.storage so it can be accessed
     //in background.js file
     if (auth) {
-      chrome.storage.local.set({ auth: auth });
+      if (chrome.storage) chrome.storage.local.set({ auth: auth });
     }
     if (blackList) {
-      chrome.storage.local.set({ blackList: blackList });
+      if (chrome.storage) chrome.storage.local.set({ blackList: blackList });
     }
     //this listens for changes in chrome.storage so that it can update the database
     // with the updated blacklist info
-    chrome.storage.onChanged.addListener(async (changes, areaName) => {
-      if (changes.updatedBlackList) {
-        const {
-          updatedBlackList: { oldValue, newValue },
-        } = changes;
-        if (!oldValue) {
-          updateB(newValue.id, newValue);
-        } else if (oldValue.blocks !== newValue.blocks) {
-          updateB(newValue.id, newValue);
+    if (chrome.storage)
+      chrome.storage.onChanged.addListener(async (changes, areaName) => {
+        if (changes.updatedBlackList) {
+          const {
+            updatedBlackList: { oldValue, newValue },
+          } = changes;
+          if (!oldValue) {
+            updateB(newValue.id, newValue);
+          } else if (oldValue.blocks !== newValue.blocks) {
+            updateB(newValue.id, newValue);
+          }
         }
-      }
-    });
+      });
 
     return (
       <div style={{ height: '100%' }}>
