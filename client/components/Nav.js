@@ -11,6 +11,7 @@ import {
   Typography,
   MenuItem,
   Menu,
+  Button,
 } from '@material-ui/core';
 import { MenuIcon, AccountBox, HomeOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
@@ -38,7 +39,7 @@ class Navbar extends Component {
   render() {
     const { isLoggedIn, classes } = this.props;
     const { isGoogleLogedIn, anchorEl } = this.state;
-    if (isGoogleLogedIn) {
+    if (!!isGoogleLogedIn) {
       return <GLogout />;
     }
 
@@ -97,13 +98,6 @@ class Navbar extends Component {
                   onClose={() => this.setState({ anchorEl: null })}
                 >
                   <MenuItem
-                    // onClick={this.handleLogOut}
-                    component={Link}
-                    to="/timer"
-                  >
-                    Timer
-                  </MenuItem>
-                  <MenuItem
                     key="Login"
                     component={Link}
                     onClick={() => this.setState({ anchorEl: null })}
@@ -123,7 +117,8 @@ class Navbar extends Component {
               )}
 
               <Typography variant="h4">Pomodoro,go!</Typography>
-              {isGoogleLogedIn ? <GLogout /> : <GLogin />}
+              {/* {isGoogleLogedIn ? <GLogout /> : <GLogin />} */}
+              <Button className="login">LogIn</Button>
             </Toolbar>
           </AppBar>
         </nav>
