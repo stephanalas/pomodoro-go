@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import socketIOClient from 'socket.io-client';
+
 import RequestsToMe from './RequestsToMe';
 import RequestsToOthers from './RequestsToOthers';
 import AddFriends from './AddFriends';
 import FriendsSession from './FriendsSession';
+import { socket } from '../../store/auth';
 
 //material-ui
 import { makeStyles } from '@material-ui/core/styles';
@@ -50,6 +53,7 @@ const Friends = (props) => {
   const [currentTab, setCurrentTab] = useState('my-friends');
   const [currentFriend, setCurrentFriend] = useState('Add friend');
   const [pendingCategory, setPendingCategory] = useState('From others to me');
+  const [loggedInUsers, setLoggedInUsers] = useState({});
 
   const approvedFriends = (all) => {
     let result = all.filter((each) => {
@@ -63,42 +67,66 @@ const Friends = (props) => {
     ...approvedFriends(props.requestsToMe),
   ];
 
+  const isOnline = (user) => {
+    for (let key in loggedInUsers) {
+      if (loggedInUsers[key] === user.id) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    socket.emit('get all loggedin users');
+  },[]);
+
+  socket.on('other login', (data) => {
+    console.log('someome else', data);
+  });
+
+  socket.on('send all logged in users', (data) => {
+    // console.log('all logged in users', data);
+    setLoggedInUsers({...data});
+  });
+
+  console.log(loggedInUsers);
+
   return (
     <>
       <Paper className={classes.root}>
         <Tabs
           value={currentTab}
           centered
-          indicatorColor="primary"
-          textColor="primary"
+          indicatorColor='primary'
+          textColor='primary'
           className={classes.tabs}
         >
           <Tab
-            label="Friends"
-            value="my-friends"
+            label='Friends'
+            value='my-friends'
             onClick={() => setCurrentTab('my-friends')}
           />
           <Tab
-            label="Pending requests"
-            value="pending-requests"
+            label='Pending requests'
+            value='pending-requests'
             onClick={() => setCurrentTab('pending-requests')}
           />
         </Tabs>
         <div
-          id="friend-list"
+          id='friend-list'
           className={
             currentTab === 'my-friends' ? classes.tabFlex : classes.tabDisplay
           }
         >
           <Tabs
-            orientation="vertical"
-            variant="scrollable"
+            orientation='vertical'
+            variant='scrollable'
             value={currentFriend}
             className={classes.verticalTabs}
           >
             <Tab
-              value="Add friend"
-              label="✨ Add friend"
+              value='Add friend'
+              label='✨ Add friend'
               onClick={() => setCurrentFriend('Add friend')}
             />
             {allApprovedFriends.map((each, idx) => {
@@ -113,9 +141,9 @@ const Friends = (props) => {
             })}
             ;
           </Tabs>
-          <div id="friend-detail" className={classes.tabDetail}>
+          <div id='friend-detail' className={classes.tabDetail}>
             <AddFriends
-              value="Add friend"
+              value='Add friend'
               className={
                 currentFriend === 'Add friend' ? undefined : classes.tabDisplay
               }
@@ -132,14 +160,15 @@ const Friends = (props) => {
                       : classes.tabDisplay
                   }
                 >
-                  <FriendsSession friend={each} />
+                  {/* <p>{isOnline(each) ? 'online':'offline'}</p> */}
+                  <FriendsSession friend={each} onlineStatus={isOnline(each)} />
                 </div>
               );
             })}
           </div>
         </div>
         <div
-          id="pending-requests"
+          id='pending-requests'
           className={
             currentTab === 'pending-requests'
               ? classes.tabFlex
@@ -147,23 +176,23 @@ const Friends = (props) => {
           }
         >
           <Tabs
-            orientation="vertical"
-            variant="scrollable"
+            orientation='vertical'
+            variant='scrollable'
             value={pendingCategory}
             className={classes.verticalTabs}
           >
             <Tab
-              value="From others to me"
-              label="From others to me"
+              value='From others to me'
+              label='From others to me'
               onClick={() => setPendingCategory('From others to me')}
             />
             <Tab
-              value="From me to others"
-              label="From me to others"
+              value='From me to others'
+              label='From me to others'
               onClick={() => setPendingCategory('From me to others')}
             />
           </Tabs>
-          <div id="request-detail" className={classes.tabDetail}>
+          <div id='request-detail' className={classes.tabDetail}>
             <RequestsToMe
               auth={props.auth}
               className={

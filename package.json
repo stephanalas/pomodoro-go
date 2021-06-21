@@ -49,6 +49,8 @@
     "react-google-login": "^5.2.2",
     "request": "^2.88.2",
     "sequelize": "^6.3.5",
+    "socket.io": "^4.1.2",
+    "socket.io-client": "^4.1.2",
     "webpack": "^5.38.1",
     "webpack-cli": "^4.3.1"
   },
