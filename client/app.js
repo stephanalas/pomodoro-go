@@ -18,7 +18,8 @@ const App = () => {
     if (chrome.runtime) {
       chrome.storage.sync.get(['user'], (result) => {
         if (result.user) {
-          console.log('user in sync');
+          console.log('user in sync', result.user);
+          dispatch({ type: 'SET_AUTH', auth: result.user });
         }
       });
       chrome.runtime.sendMessage('app-starting', (response) => {
