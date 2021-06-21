@@ -33,7 +33,6 @@ const Timer = (props) => {
   const { setCountDown, sessionTime, countDown, setSessionTime } =
     useContext(SessionContext);
   const { updateSession } = props;
-
   const msToHMS = (ms) => {
     let seconds = ms / 1000;
 
@@ -58,12 +57,14 @@ const Timer = (props) => {
       if (!currentSession.sessionTime) {
         updateSession(currentSession.id, { sessionTime });
       }
+      chrome.storage.sync.set({ timerOn: true });
       setCountDown(true);
       window.timer = setInterval(() => {
         setSessionTime((sessionTime) => sessionTime - 1000);
       }, 1000);
     }
     if (button === 'STOP' || button === 'PAUSE') {
+      chrome.storage.sync.set({ timerOn: false });
       setCountDown(false);
       clearInterval(timer);
     }

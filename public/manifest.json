@@ -1,13 +1,29 @@
 {
-  "name": "test",
+  "name": "Pomdoro-Go",
   "description": "Build an Extension!",
   "version": "1.0",
   "manifest_version": 3,
-  "chrome_url_overrides" : {
+  "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "permissions": ["storage", "tabs"],
+  "permissions": [
+    "storage",
+    "tabs",
+    "alarms",
+    "notifications",
+    "identity",
+    "identity.email",
+    "<all_urls>",
+    "unlimitedStorage"
+  ],
   "background": {
     "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "oauth2": {
+    "client_id": "811227993938-bdnup0onkbhf33rejoirhia20j2kf51r.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/userinfo.email"]
   }
 }

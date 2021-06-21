@@ -3,7 +3,6 @@ const db = require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const axios = require('axios');
-
 const SALT_ROUNDS = 5;
 
 const User = db.define('user', {
@@ -37,6 +36,10 @@ const User = db.define('user', {
   admin: {
     type: BOOLEAN,
     defaultValue: false,
+  },
+  googleToken: {
+    type: STRING,
+    defaultValue: null,
   },
   profilePic: {
     type: STRING,
@@ -77,7 +80,11 @@ User.authenticate = async function (userObj, method = null) {
   return user.generateToken();
 };
 
-User.findByToken = async function (token) {
+User.findByGoogleToken = (token) => {
+  return User.findOne({ where: { googleToken: token } });
+};
+
+User.findByToken = async function (token, method = null) {
   try {
     const { id } = await jwt.verify(token, process.env.JWT);
     const user = User.findByPk(id);

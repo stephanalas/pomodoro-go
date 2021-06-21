@@ -20,6 +20,34 @@ const loadSessions = () => {
   };
 };
 
+const LOAD_SESSION = 'LOAD_SESSION';
+
+const loadSessionActionCreator = (session) => {
+  return {
+    type: LOAD_SESSION,
+    session,
+  };
+};
+
+const loadSession = (sessionId) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:8080/api/sessions/${sessionId}`
+    );
+    dispatch(loadSessionActionCreator(res.data));
+  } catch (error) {
+    console.log('error in loadSession thunk');
+    console.log(error);
+  }
+};
+
+const sessionsReducer = (state = [], action) => {
+  if (action.type === LOAD_SESSIONS) {
+    state = action.sessions;
+  }
+  return state;
+};
+
 const CREATE_SESSION = 'CREATE_SESSION';
 
 const createSessionActionCreator = (session) => {
@@ -30,7 +58,10 @@ const createSessionActionCreator = (session) => {
 };
 const createSession = (userId, goal) => async (dispatch) => {
   try {
-    const response = await axios.post(`${process.env.API_URL}/api/sessions`, { userId, goal });
+    const response = await axios.post(`${process.env.API_URL}/api/sessions`, {
+      userId,
+      goal,
+    });
     const { data } = response;
     dispatch(createSessionActionCreator(data));
   } catch (error) {
@@ -49,8 +80,12 @@ const updateSessionActionCreator = (session) => {
 };
 const updateSession = (sessionId, sessionInfo) => async (dispatch) => {
   try {
-    const response = await axios.put(`${process.env.API_URL}/api/sessions/${sessionId}`, sessionInfo);
+    const response = await axios.put(
+      `${process.env.API_URL}/api/sessions/${sessionId}`,
+      sessionInfo
+    );
     const { data } = response;
+    chrome.storage.sync.set({ currentSession: data });
     dispatch(updateSessionActionCreator(data));
   } catch (error) {
     console.log('error in updateSession thunk');
@@ -69,9 +104,12 @@ const addTaskCreator = (session) => {
 
 const addTask = (task, sessionId) => {
   return async (dispatch) => {
-    const response = await axios.post(`${process.env.API_URL}/api/sessions/${sessionId}/tasks`, {
-      task,
-    });
+    const response = await axios.post(
+      `${process.env.API_URL}/api/sessions/${sessionId}/tasks`,
+      {
+        task,
+      }
+    );
     const updatedSession = response.data;
     dispatch(addTaskCreator(updatedSession));
   };
@@ -88,7 +126,9 @@ const deleteTaskCreator = (session) => {
 
 const deleteTask = (id, sessionId) => {
   return async (dispatch) => {
-    const res = await axios.delete(`${process.env.API_URL}/api/sessions/${sessionId}/tasks/${id}`);
+    const res = await axios.delete(
+      `${process.env.API_URL}/api/sessions/${sessionId}/tasks/${id}`
+    );
     console.log(res.data);
     dispatch(deleteTaskCreator(res.data));
   };
@@ -105,7 +145,9 @@ const updateTaskActionCreator = (session) => {
 
 const updateTask = (taskId, sessionId) => async (dispatch) => {
   try {
-    const res = await axios.put(`${process.env.API_URL}/api/sessions/${sessionId}/tasks/${taskId}`);
+    const res = await axios.put(
+      `${process.env.API_URL}/api/sessions/${sessionId}/tasks/${taskId}`
+    );
     dispatch(updateTaskActionCreator(res.data));
   } catch (error) {
     console.log('error with updateTask');
@@ -134,6 +176,7 @@ const sessionsReducer = (state = [], action) => {
 };
 
 export {
+  loadSession,
   loadSessions,
   sessionsReducer,
   currentSessionReducer,

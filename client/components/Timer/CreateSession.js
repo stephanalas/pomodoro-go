@@ -1,7 +1,9 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect, useRef } from 'react';
 import { makeStyles, Container, Paper } from '@material-ui/core';
 import Timer from './Timer';
 import FocusConfig from './FocusConfig';
+import { connect, useSelector } from 'react-redux';
+import { loadSession } from '../../store/sessions';
 export const SessionContext = createContext();
 
 const useStyles = makeStyles(() => ({
@@ -23,9 +25,9 @@ const useStyles = makeStyles(() => ({
     height: '100%',
   },
 }));
-const CreateSession = () => {
+const CreateSession = (props) => {
   const classes = useStyles();
-
+  const currentSession = useSelector((state) => state.currentSession);
   const [sessionTime, setSessionTime] = useState(0);
   const [goal, setGoal] = useState('');
   const [countDown, setCountDown] = useState(false);
@@ -51,4 +53,8 @@ const CreateSession = () => {
     </SessionContext.Provider>
   );
 };
-export default CreateSession;
+export default connect(null, (dispatch) => {
+  return {
+    fetchCurrentSession: (sessionId) => dispatch(loadSession(sessionId)),
+  };
+})(CreateSession);

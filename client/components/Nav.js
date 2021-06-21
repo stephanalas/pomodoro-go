@@ -11,6 +11,7 @@ import {
   Typography,
   MenuItem,
   Menu,
+  Button,
 } from '@material-ui/core';
 import { MenuIcon, AccountBox, HomeOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
@@ -117,7 +118,8 @@ class Navbar extends Component {
               )}
 
               <Typography variant="h4">Pomodoro,go!</Typography>
-              {isGoogleLogedIn ? <GLogout /> : <GLogin />}
+              {/* {isGoogleLogedIn ? <GLogout /> : <GLogin />} */}
+              <Button className="login">LogIn</Button>
             </Toolbar>
           </AppBar>
         </nav>
