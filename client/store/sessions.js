@@ -42,6 +42,13 @@ const loadSession = (sessionId) => async (dispatch) => {
   }
 };
 
+const sessionsReducer = (state = [], action) => {
+  if (action.type === LOAD_SESSIONS) {
+    state = action.sessions;
+  }
+  return state;
+};
+
 const CREATE_SESSION = 'CREATE_SESSION';
 
 const createSessionActionCreator = (session) => {
