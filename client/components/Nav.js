@@ -129,13 +129,16 @@ class Navbar extends Component {
               <span />
               <div id="extension-login">
                 {this.props.isLoggedIn ? (
-                  <Button variant="outlined" style={{ color: '#e0e2e4' }}>
+                  <Button
+                    variant="outlined"
+                    style={{ color: '#e0e2e4', backgroundColor: '#e0e2e4' }}
+                  >
                     Sign Out
                   </Button>
                 ) : (
                   <Button
                     variant="outlined"
-                    style={{ color: '#e0e2e4', backgroundColor: '#303F9F' }}
+                    style={{ color: '#303F9F', backgroundColor: '#e0e2e4' }}
                     className="login"
                     onClick={this.handleLogIn}
                   >
