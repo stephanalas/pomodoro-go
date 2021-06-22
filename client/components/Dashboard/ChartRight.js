@@ -364,7 +364,6 @@ const ChartRight = (props) => {
       },
 
       grid: {
-        // borderColor: '#90A4AE',
         xaxis: {
           lines: {
             show: true,
@@ -377,7 +376,34 @@ const ChartRight = (props) => {
           },
         },
       },
+      tooltip: {
+        enabled: true,
 
+        y: {
+          title: {
+            formatter: function (val, index) {
+              if (val) {
+                return `${val}:00`;
+              }
+            },
+          },
+          formatter: function (val, index) {
+            if (val) {
+              if (val === 0) {
+                return ' 0 sessions';
+              }
+              if (val === 1) {
+                return ' 1 session';
+              } else {
+                return ` ${val} sessions`;
+              }
+            }
+          },
+        },
+        z: {
+          formatter: undefined,
+        },
+      },
       xaxis: {
         labels: {
           style: {

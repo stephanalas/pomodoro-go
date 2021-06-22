@@ -17,7 +17,7 @@ describe('Session routes', () => {
       const res = await request(app).get('/api/sessions').expect(200);
 
       expect(res.body).to.be.an('array');
-      expect(res.body.length).to.equal(100);
+      expect(res.body.length).to.equal(200);
     });
 
     it('Include user model', async () => {
