@@ -7,14 +7,15 @@ const init = async () => {
   try {
     await db.sync();
     // start listening (and create a 'server' object representing our server)
-    const server = app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`));
+    const server = app.listen(PORT, () =>
+      console.log(`Mixing it up on port ${PORT}`)
+    );
     const socketServer = new io.Server(server);
 
     //sockets
     let sockets = [];
-    let usersTracking  = {};
+    let usersTracking = {};
     socketServer.on('connection', (socket) => {
-
       sockets.push(socket.id);
       console.log('a socket started!', sockets.length);
       console.log('new socket', socket.id, 'all sockets', sockets);
@@ -22,23 +23,25 @@ const init = async () => {
       socket.on('login', (data) => {
         console.log('user ' + data.userId + ' connected');
         // socket.join(data.userId);
-        const socketId = socket.id+'';
+        const socketId = socket.id + '';
         if (socketId in usersTracking) {
           console.log('user already has socket open');
         } else {
           usersTracking[socketId] = data.userId;
         }
         // console.log(usersTracking);
-        socket.broadcast.emit('other login', {msg: 'user ' + data.userId + ' is now online'});
+        socket.broadcast.emit('other login', {
+          msg: 'user ' + data.userId + ' is now online',
+        });
         socket.broadcast.emit('send all logged in users', {
-          ...usersTracking
+          ...usersTracking,
         });
       });
 
       socket.on('get all loggedin users', () => {
         console.log(usersTracking);
         socketServer.to(socket.id).emit('send all logged in users', {
-          ...usersTracking
+          ...usersTracking,
         });
       });
 
@@ -54,12 +57,11 @@ const init = async () => {
           }
         }
         socket.broadcast.emit('send all logged in users', {
-          ...usersTracking
+          ...usersTracking,
         });
         console.log(usersTracking, sockets.length);
       });
     });
-
   } catch (ex) {
     console.log(ex);
   }

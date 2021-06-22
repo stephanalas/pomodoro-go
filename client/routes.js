@@ -13,6 +13,7 @@ import BlockError from './components/BlockError';
 import BlockSites from './components/BlockSites';
 import Player from './components/Player';
 import Friends from './components/Friends/Friends';
+import Intro from './components/Intro';
 
 /**
  * COMPONENT
@@ -61,6 +62,7 @@ class Routes extends Component {
           </Switch>
         ) : (
           <Switch>
+            <Route path="/home" component={Intro} />
             <Route path="/" exact component={Login} />
             <Route path="/timer" exact component={CreateSession} />
             <Route path="/login" component={Login} />

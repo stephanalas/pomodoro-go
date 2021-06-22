@@ -12,6 +12,7 @@ import {
   MenuItem,
   Menu,
   Button,
+  createMuiTheme
 } from '@material-ui/core';
 import { MenuIcon, AccountBox, HomeOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
@@ -54,7 +55,7 @@ class Navbar extends Component {
     return (
       <div>
         <nav id="navBar">
-          <AppBar position="relative" className={classes.header}>
+          <AppBar position="static" className={classes.header}>
             <Toolbar>
               <IconButton
                 id="home"

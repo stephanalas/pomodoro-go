@@ -35,10 +35,11 @@ export const me = () => async (dispatch) => {
   }
 };
 
-export const authenticateGoogle = (email) => async dispatch => {
+export const authenticateGoogle = (email) => async (dispatch) => {
   try {
-
-    const res = await axios.post(`${process.env.API_URL}/auth/google`, { email });
+    const res = await axios.post(`${process.env.API_URL}/auth/google`, {
+      email,
+    });
     window.localStorage.setItem(TOKEN, res.data.token);
     dispatch(me());
   } catch (error) {
@@ -47,15 +48,21 @@ export const authenticateGoogle = (email) => async dispatch => {
   }
 };
 
-export const authenticate = (username, email, password, method) => async dispatch => {
-  try {
-    const res = await axios.post(`${process.env.API_URL}/auth/${method}`, method === 'signup' ? {username, email, password} : { email, password});
-    window.localStorage.setItem(TOKEN, res.data.token);
-    dispatch(me());
-  } catch (authError) {
-    return dispatch(setAuth({error: authError}));
-  }
-};
+export const authenticate =
+  (username, email, password, method) => async (dispatch) => {
+    try {
+      const res = await axios.post(
+        `${process.env.API_URL}/auth/${method}`,
+        method === 'signup'
+          ? { username, email, password }
+          : { email, password }
+      );
+      window.localStorage.setItem(TOKEN, res.data.token);
+      dispatch(me());
+    } catch (authError) {
+      return dispatch(setAuth({ error: authError }));
+    }
+  };
 
 export const logout = () => {
   window.localStorage.removeItem(TOKEN);
@@ -76,9 +83,9 @@ export default function (state = {}, action) {
   switch (action.type) {
   case SET_AUTH:
     if (action.auth.id) {
-      socket.emit('login',{userId:action.auth.id});
+      socket.emit('login', { userId: action.auth.id });
     } else {
-      socket.emit('logout',{userId:state.id});
+      socket.emit('logout', { userId: state.id });
     }
     return action.auth;
   default:

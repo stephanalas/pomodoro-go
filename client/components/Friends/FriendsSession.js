@@ -59,16 +59,16 @@ const FriendsSession = (props) => {
   }
 
   return (
-    <div id='friends-stats' className={classes.contain}>
+    <div id="friends-stats" className={classes.contain}>
       {props.onlineStatus ? (
-        <Tooltip title='Online' placement='right'>
+        <Tooltip title="Online" placement="right">
           <StyledBadge
-            overlap='circle'
+            overlap="circle"
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'right',
             }}
-            variant='dot'
+            variant="dot"
           >
             <Avatar className={classes.avatar}>
               <FaceIcon />
