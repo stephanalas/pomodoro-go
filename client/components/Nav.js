@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store';
-import GLogin from './GoogleOauth/GoogleLogIn';
-import GLogout from './GoogleOauth/GoogleLogOut';
+// import GLogin from './GoogleOauth/GoogleLogIn';
+// import GLogout from './GoogleOauth/GoogleLogOut';
 import {
   AppBar,
   Toolbar,
@@ -12,9 +12,8 @@ import {
   MenuItem,
   Menu,
   Button,
-  createMuiTheme
 } from '@material-ui/core';
-import { MenuIcon, AccountBox, HomeOutlined } from '@material-ui/icons';
+import { AccountBox, HomeOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 
@@ -27,13 +26,14 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isGoogleLogedIn: false,
+      // isGoogleLogedIn: false,
       anchorEl: null,
       authInstance: {},
     };
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
   }
+
   handleLogIn() {
     if (chrome.storage) {
       chrome.storage.sync.get(['user'], (result) => {
@@ -48,14 +48,18 @@ class Navbar extends Component {
   render() {
     const { isLoggedIn, classes } = this.props;
     const { isGoogleLogedIn, anchorEl } = this.state;
-    if (!!isGoogleLogedIn) {
-      return <GLogout />;
-    }
+    // if (!!isGoogleLogedIn) {
+    //   return <GLogout />;
+    // }
 
     return (
       <div>
         <nav id="navBar">
-          <AppBar position="static" className={classes.header}>
+          <AppBar
+            position="static"
+            className={classes.header}
+            style={{ backgroundColor: '#5051a9' }}
+          >
             <Toolbar>
               <IconButton
                 id="home"
@@ -65,7 +69,7 @@ class Navbar extends Component {
                 component={Link}
                 to="/home"
               >
-                <HomeOutlined />
+                <HomeOutlined style={{ color: '#e0e2e4', fontSize: 34 }} />
               </IconButton>
               <IconButton
                 id="account"
@@ -76,7 +80,7 @@ class Navbar extends Component {
                 onClick={(ev) => this.setState({ anchorEl: ev.currentTarget })}
                 // ref={anchorRef}
               >
-                <AccountBox />
+                <AccountBox style={{ color: '#e0e2e4', fontSize: 30 }} />
               </IconButton>
               {/* || this.state.isGoogleLogedIn  */}
               {isLoggedIn ? (
@@ -88,14 +92,6 @@ class Navbar extends Component {
                   aria-haspopup="true"
                   onClose={() => this.setState({ anchorEl: null })}
                 >
-                  <MenuItem
-                    onClick={this.handleLogOut}
-                    component={Link}
-                    to="/timer"
-                  >
-                    Timer
-                  </MenuItem>
-
                   <MenuItem onClick={this.handleLogOut}>Logout</MenuItem>
                 </Menu>
               ) : (
@@ -126,15 +122,27 @@ class Navbar extends Component {
                 </Menu>
               )}
 
-              <Typography variant="h4">Pomodoro,go!</Typography>
+              <Typography id="pomo-go" variant="h4">
+                Pomodoro,go!
+              </Typography>
               {/* {isGoogleLogedIn ? <GLogout /> : <GLogin />} */}
-              {this.props.isLoggedIn ? (
-                <Button>Sign Out</Button>
-              ) : (
-                <Button className="login" onClick={this.handleLogIn}>
-                  Log In
-                </Button>
-              )}
+              <span />
+              <div id="extension-login">
+                {this.props.isLoggedIn ? (
+                  <Button variant="outlined" style={{ color: '#e0e2e4' }}>
+                    Sign Out
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    style={{ color: '#e0e2e4', backgroundColor: '#303F9F' }}
+                    className="login"
+                    onClick={this.handleLogIn}
+                  >
+                    Log In
+                  </Button>
+                )}
+              </div>
             </Toolbar>
           </AppBar>
         </nav>

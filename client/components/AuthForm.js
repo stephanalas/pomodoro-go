@@ -1,41 +1,63 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { authenticate } from '../store';
-// import {Grid} from '@material-ui/core'
+import { TextField, Button } from '@material-ui/core';
+
 /**
  * COMPONENT
  */
 const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
-  // https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/?fbclid=IwAR35rEtHBMba3V9KIiFiGhTltoYectdaDdkKTSx7YnP8aN-SeWqCFFuvaW8
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
-    <div>
+    <div style={{ margin: '0px auto' }}>
       {/* script for google OAuth */}
-      {/* <script src="https://accounts.google.com/gsi/client" async defer></script> */}
       <form onSubmit={handleSubmit} name={name}>
         {name === 'signup' ? (
           <div>
-            <label htmlFor="username">
-              <small>Username</small>
-            </label>
-            <input name="username" type="text" />
+            <TextField
+              id="username"
+              label="Username"
+              name="username"
+              value={username}
+              margin="normal"
+            />
+            {/* onChange={(e)=>setUsername(e)}inputProps={username} */}
           </div>
         ) : null}
         <div>
-          <label htmlFor="email">
-            <small>E-mail</small>
-          </label>
-          <input name="email" type="email" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
+          <TextField
+            id="email"
+            label="E-mail"
+            name="email"
+            value={email}
+            margin="normal"
+          />
+          {/* ??value?inputProps?onChange={(e)=>{setEmail(e)}} */}
+          <br />
+          <TextField
+            id="password"
+            label="Password"
+            name="password"
+            value={password}
+            margin="normal"
+          />
+          {/*onChange={(e)=>{setPassword(e)}} inputProps={password}*/}
+          <br />
+          <Button
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+            id="submit"
+            variant="contained"
+            type="submit"
+            style={{ backgroundColor: '#5061a9', color: 'white' }}
+          >
+            {displayName}
+          </Button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
@@ -73,7 +95,6 @@ const mapDispatch = (dispatch) => {
       const formName = evt.target.name;
       let username = null;
       if (formName === 'signup') username = evt.target.username.value;
-
       const email = evt.target.email.value;
       const password = evt.target.password.value;
       dispatch(authenticate(username, email, password, formName));

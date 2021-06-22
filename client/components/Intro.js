@@ -7,10 +7,12 @@ export default class Intro extends Component {
       <div id="Intro">
         <Typical
           steps={[
-            'Hi,this is the App that helps boots your work effecientcy by blocking time-wasting websites and bringing in your favorite music.Come set the goal,hit the road!',
-            800,
+            'Hello!',
+            1000,
+            'This is the App that helps boots your work effecientcy by blocking time-wasting websites and bringing in your favorite music.Come set the goal,hit the road!',
+            600,
           ]}
-          loop={Infinity}
+          //   loop={Infinity}
           wrapper="b"
         />
       </div>
