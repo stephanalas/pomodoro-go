@@ -4,6 +4,7 @@ const path = require('path');
 const morgan = require('morgan');
 const app = express();
 const cors = require('cors');
+
 module.exports = app;
 
 // logging middleware

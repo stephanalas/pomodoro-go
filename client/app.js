@@ -4,6 +4,7 @@ import Nav from './components/Nav';
 import Routes from './routes';
 import { makeStyles } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
+
 const useStyles = makeStyles(() => ({
   main: {
     height: '100%',
@@ -27,6 +28,7 @@ const App = () => {
       });
     }
   }, [dispatch]);
+
   return (
     <div className={classes.main}>
       <Nav />
