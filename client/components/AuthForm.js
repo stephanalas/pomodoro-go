@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { authenticate } from '../store';
-
+// import {Grid} from '@material-ui/core'
 /**
  * COMPONENT
  */
 const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
+  // https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/?fbclid=IwAR35rEtHBMba3V9KIiFiGhTltoYectdaDdkKTSx7YnP8aN-SeWqCFFuvaW8
 
   return (
     <div>
@@ -38,21 +39,6 @@ const AuthForm = (props) => {
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
-      {/* <div
-        id="g_id_onload"
-        data-client_id="YOUR_GOOGLE_CLIENT_ID"
-        data-login_uri="https://your.domain/your_login_endpoint"
-        data-auto_prompt="false"
-      ></div>
-      <div
-        className="g_id_signin"
-        data-type="standard"
-        data-size="large"
-        data-theme="outline"
-        data-text="sign_in_with"
-        data-shape="rectangular"
-        data-logo_alignment="left"
-      ></div> */}
     </div>
   );
 };
