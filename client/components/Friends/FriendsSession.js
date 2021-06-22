@@ -1,11 +1,40 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { Avatar, Badge, Tooltip } from '@material-ui/core';
 import FaceIcon from '@material-ui/icons/Face';
 import LastSession from '../Dashboard/LastSession';
 import TotalSessions from '../Dashboard/TotalSessions';
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: '$ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '',
+    },
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0,
+    },
+  },
+}))(Badge);
 
 const useStyles = makeStyles((theme) => ({
   contain: {
@@ -30,10 +59,27 @@ const FriendsSession = (props) => {
   }
 
   return (
-    <div id="friends-stats" className={classes.contain}>
-      <Avatar className={classes.avatar}>
-        <FaceIcon />
-      </Avatar>
+    <div id='friends-stats' className={classes.contain}>
+      {props.onlineStatus ? (
+        <Tooltip title='Online' placement='right'>
+          <StyledBadge
+            overlap='circle'
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            variant='dot'
+          >
+            <Avatar className={classes.avatar}>
+              <FaceIcon />
+            </Avatar>
+          </StyledBadge>
+        </Tooltip>
+      ) : (
+        <Avatar className={classes.avatar}>
+          <FaceIcon />
+        </Avatar>
+      )}
       <h4>Email | {props.friend.email}</h4>
       <Grid container spacing={3}>
         <Grid item xs={5}>
