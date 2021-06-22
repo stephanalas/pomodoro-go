@@ -22,7 +22,13 @@ const MostBlocked = (props) => {
   const classes = useStyles();
   const { blackList } = props;
   console.log('blackList:', blackList);
-  const blocks = blackList.map((entry) => entry.blocks);
+  function compareBlocks(a, b) {
+    return b.blocks - a.blocks;
+  }
+  const sorted = blackList.sort(compareBlocks);
+  console.log('sorted:', sorted);
+  const blocks = sorted.map((entry) => entry.blocks);
+  console.log(blocks);
   const maxBlocks = Math.max(...blocks) * 1;
   const mostBlocked = blackList.find((entry) => {
     return entry.blocks === maxBlocks;
@@ -73,7 +79,7 @@ const MostBlocked = (props) => {
           </Grid>
         </Grid>
         <Grid item xs={6}>
-          <BlocksDonut blackList={blackList} />
+          <BlocksDonut sortedBlackList={sorted} />
         </Grid>
       </Grid>
     </Paper>
