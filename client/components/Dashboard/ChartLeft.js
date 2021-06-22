@@ -66,11 +66,7 @@ const ChartLeft = (props) => {
   }
 
   const data = {
-    series: [
-      {
-        data: valsArr,
-      },
-    ],
+    series: [{ name: 'Sessions', data: valsArr }],
     categories: daysArr,
   };
 
@@ -121,9 +117,6 @@ const ChartLeft = (props) => {
         width: 2,
       },
       theme: {
-        mode: theme.palette.mode,
-      },
-      tooltip: {
         mode: theme.palette.mode,
       },
       xaxis: {
@@ -198,13 +191,9 @@ const ChartLeft = (props) => {
   for (const [key, val] of Object.entries(distHours)) {
     hourValsArr.push(val);
   }
-
+  console.log(hourValsArr);
   const hourData = {
-    series: [
-      {
-        data: hourValsArr,
-      },
-    ],
+    series: [{ name: 'Sessions', data: hourValsArr }],
     categories: hoursArr,
   };
 
@@ -257,15 +246,19 @@ const ChartLeft = (props) => {
       theme: {
         mode: theme.palette.mode,
       },
-      tooltip: {
-        mode: theme.palette.mode,
-      },
+
       xaxis: {
         axisBorder: {
           show: false,
         },
         axisTicks: {
           show: false,
+        },
+
+        labels: {
+          style: {
+            colors: theme.palette.text.secondary,
+          },
         },
         categories: [
           '12:00 AM',
@@ -293,11 +286,6 @@ const ChartLeft = (props) => {
           '10:00 PM',
           '11:00 PM',
         ],
-        labels: {
-          style: {
-            colors: theme.palette.text.secondary,
-          },
-        },
       },
       yaxis: {
         labels: {
@@ -305,11 +293,118 @@ const ChartLeft = (props) => {
           style: {
             colors: theme.palette.text.secondary,
           },
+          formatter: function (val, index) {
+            return val.toFixed(0);
+          },
         },
       },
     },
     series: hourData.series,
   };
+
+  // const hourChart = {
+  //   options: {
+  //     chart: {
+  //       background: 'transparent',
+  //       stacked: true,
+  //       toolbar: {
+  //         show: true,
+  //       },
+  //     },
+  //     colors: ['#3C4693', '#7783DB', '#7783DB'],
+  //     dataLabels: {
+  //       enabled: false,
+  //     },
+  //     grid: {
+  //       borderColor: theme.palette.divider,
+  //       xaxis: {
+  //         lines: {
+  //           show: true,
+  //         },
+  //       },
+  //       yaxis: {
+  //         lines: {
+  //           show: true,
+  //         },
+  //       },
+  //     },
+  //     states: {
+  //       active: {
+  //         filter: {
+  //           type: 'none',
+  //         },
+  //       },
+  //       hover: {
+  //         filter: {
+  //           type: 'none',
+  //         },
+  //       },
+  //     },
+  //     legend: {
+  //       show: false,
+  //     },
+  //     stroke: {
+  //       colors: ['transparent'],
+  //       show: true,
+  //       width: 2,
+  //     },
+  //     // theme: {
+  //     //   mode: theme.palette.mode,
+  //     // },
+  //     tooltip: {
+  //       mode: theme.palette.mode,
+  //     },
+  //     xaxis: {
+  //       axisBorder: {
+  //         show: false,
+  //       },
+  //       axisTicks: {
+  //         show: false,
+  //       },
+  //       categories: [
+  //         '12:00 AM',
+  //         '1:00 AM',
+  //         '2:00 AM',
+  //         '3:00 AM',
+  //         '4:00 AM',
+  //         '5:00 AM',
+  //         '6:00 AM',
+  //         '7:00 AM',
+  //         '8:00 AM',
+  //         '9:00 AM',
+  //         '10:00 AM',
+  //         '11:00 AM',
+  //         '12:00 PM',
+  //         '1:00 PM',
+  //         '2:00 PM',
+  //         '3:00 PM',
+  //         '4:00 PM',
+  //         '5:00 PM',
+  //         '6:00 PM',
+  //         '7:00 PM',
+  //         '8:00 PM',
+  //         '9:00 PM',
+  //         '10:00 PM',
+  //         '11:00 PM',
+  //       ],
+  //       labels: {
+  //         style: {
+  //           colors: theme.palette.text.secondary,
+  //         },
+  //       },
+  //     },
+  //     yaxis: {
+  //       // decimalsInFloat: 0,
+  //       labels: {
+  //         offsetX: -12,
+  //         style: {
+  //           colors: theme.palette.text.secondary,
+  //         },
+  //       },
+  //     },
+  //   },
+  //   series: hourData.series,
+  // };
 
   //Distribution By Goals Chart
   const sessionGoals = sessions.map((session) => {

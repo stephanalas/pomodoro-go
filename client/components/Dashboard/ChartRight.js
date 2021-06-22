@@ -31,6 +31,7 @@ const useStyles = makeStyles({
 // depending on what is selected from the dropdown menu
 const ChartRight = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
   const { sessions } = props;
   const [rightChart, setRightChart] = useState('Frequency');
 
@@ -375,6 +376,26 @@ const ChartRight = (props) => {
           },
         },
       },
+
+      xaxis: {
+        labels: {
+          style: {
+            colors: theme.palette.text.secondary,
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: theme.palette.text.secondary,
+          },
+          formatter: function (val, index) {
+            if (val) {
+              return `${val}:00`;
+            }
+          },
+        },
+      },
     },
     series: distHours,
   };
@@ -454,6 +475,21 @@ const ChartRight = (props) => {
         'Nov',
         'Dec',
       ],
+      labels: {
+        style: {
+          colors: theme.palette.text.secondary,
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: theme.palette.text.secondary,
+        },
+        formatter: function (val, index) {
+          return val.toFixed(0);
+        },
+      },
     },
   };
   const series = monthData.series;
