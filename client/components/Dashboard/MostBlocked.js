@@ -21,6 +21,7 @@ const useStyles = makeStyles({
 const MostBlocked = (props) => {
   const classes = useStyles();
   const { blackList } = props;
+  console.log('blackList:', blackList);
   const blocks = blackList.map((entry) => entry.blocks);
   const maxBlocks = Math.max(...blocks) * 1;
   const mostBlocked = blackList.find((entry) => {

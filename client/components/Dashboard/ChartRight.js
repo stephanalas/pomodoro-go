@@ -364,13 +364,14 @@ const ChartRight = (props) => {
       },
 
       grid: {
+        // borderColor: '#90A4AE',
         xaxis: {
           lines: {
             show: true,
           },
         },
         yaxis: {
-          show: false,
+          show: true,
           lines: {
             show: true,
           },
