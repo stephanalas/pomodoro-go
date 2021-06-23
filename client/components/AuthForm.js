@@ -1,42 +1,86 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { authenticate } from '../store';
-// import {Grid} from '@material-ui/core'
+import { TextField, Button } from '@material-ui/core';
+
 /**
  * COMPONENT
  */
 const AuthForm = (props) => {
-  const { name, displayName, handleSubmit, error } = props;
-  // https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/?fbclid=IwAR35rEtHBMba3V9KIiFiGhTltoYectdaDdkKTSx7YnP8aN-SeWqCFFuvaW8
+  const { name, displayName, error, value } = props;
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+
+  const onChange = (ev) => {
+    if (ev.target.name === 'username') {
+      setUsername(ev.target.value);
+    } else if (ev.target.name === 'email') {
+      setEmail(ev.target.value);
+    } else if (ev.target.name === 'password') {
+      setPassword(ev.target.value);
+    }
+  };
+
+  const handleSubmit = (ev) => {
+    ev.preventDefault();
+
+    let formName = 'signup';
+    if (!username) {
+      formName = 'login';
+    }
+    console.log('formName:', formName);
+    // let username = null;
+    // if (formName === 'signup') username = username;
+    dispatch(authenticate(username, email, password, formName));
+  };
 
   return (
     <div>
       {/* script for google OAuth */}
-      {/* <script src="https://accounts.google.com/gsi/client" async defer></script> */}
-      <form onSubmit={handleSubmit} name={name}>
+      <form onSubmit={handleSubmit} name={name} value={value}>
         {name === 'signup' ? (
           <div>
-            <label htmlFor="username">
-              <small>Username</small>
-            </label>
-            <input name="username" type="text" />
+            <TextField
+              id="username"
+              label="Username"
+              name="username"
+              value={username}
+              margin="normal"
+              onChange={onChange}
+            />
           </div>
         ) : null}
-        <div>
-          <label htmlFor="email">
-            <small>E-mail</small>
-          </label>
-          <input name="email" type="email" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
+        <TextField
+          id="email"
+          label="E-mail"
+          name="email"
+          value={email}
+          margin="normal"
+          onChange={onChange}
+        />
+        {/* ??value?inputProps? */}
+
+        <TextField
+          id="password"
+          label="Password"
+          name="password"
+          value={password}
+          margin="normal"
+          onChange={onChange}
+        />
+
+        <Button
+          onClick={handleSubmit}
+          id="submit"
+          variant="contained"
+          type="submit"
+          value={value}
+          style={{ backgroundColor: '#5061a9', color: 'white' }}
+        >
+          {displayName}
+        </Button>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
     </div>
@@ -66,20 +110,5 @@ const mapSignup = (state) => {
   };
 };
 
-const mapDispatch = (dispatch) => {
-  return {
-    handleSubmit(evt) {
-      evt.preventDefault();
-      const formName = evt.target.name;
-      let username = null;
-      if (formName === 'signup') username = evt.target.username.value;
-
-      const email = evt.target.email.value;
-      const password = evt.target.password.value;
-      dispatch(authenticate(username, email, password, formName));
-    },
-  };
-};
-
-export const Login = connect(mapLogin, mapDispatch)(AuthForm);
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm);
+export const Login = connect(mapLogin)(AuthForm);
+export const Signup = connect(mapSignup)(AuthForm);

@@ -51,6 +51,11 @@ export const authenticateGoogle = (email) => async (dispatch) => {
 export const authenticate =
   (username, email, password, method) => async (dispatch) => {
     try {
+      console.log('username', username);
+      console.log('email', email);
+      console.log('password', password);
+      console.log('method', method);
+
       const res = await axios.post(
         `${process.env.API_URL}/auth/${method}`,
         method === 'signup'

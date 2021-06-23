@@ -86,7 +86,6 @@ const Dashboard = () => {
   } = state;
 
   const handleCheckboxChange = (event) => {
-    console.log('!!', event);
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
