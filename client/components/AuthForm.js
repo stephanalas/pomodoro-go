@@ -25,14 +25,10 @@ const AuthForm = (props) => {
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-
     let formName = 'signup';
     if (!username) {
       formName = 'login';
     }
-    console.log('formName:', formName);
-    // let username = null;
-    // if (formName === 'signup') username = username;
     dispatch(authenticate(username, email, password, formName));
   };
 
