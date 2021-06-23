@@ -7,15 +7,15 @@ import { TextField, Button } from '@material-ui/core';
  * COMPONENT
  */
 const AuthForm = (props) => {
-  const { name, displayName, handleSubmit, error } = props;
+  const { name, displayName, handleSubmit, error, value } = props;
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   return (
-    <div style={{ margin: '0px auto' }}>
+    <div>
       {/* script for google OAuth */}
-      <form onSubmit={handleSubmit} name={name}>
+      <form onSubmit={handleSubmit} name={name} value={value}>
         {name === 'signup' ? (
           <div>
             <TextField
@@ -24,6 +24,9 @@ const AuthForm = (props) => {
               name="username"
               value={username}
               margin="normal"
+              onChange={(e) =>
+                setUsername({ ...username, username: e.target.value })
+              }
             />
             {/* onChange={(e)=>setUsername(e)}inputProps={username} */}
           </div>
@@ -35,6 +38,7 @@ const AuthForm = (props) => {
             name="email"
             value={email}
             margin="normal"
+            onChange={(e) => setEmail({ ...email, email: e.target.value })}
           />
           {/* ??value?inputProps?onChange={(e)=>{setEmail(e)}} */}
           <br />
@@ -44,8 +48,11 @@ const AuthForm = (props) => {
             name="password"
             value={password}
             margin="normal"
+            onChange={(e) => {
+              setPassword({ ...password, password: e.target.value });
+            }}
           />
-          {/*onChange={(e)=>{setPassword(e)}} inputProps={password}*/}
+          {/* inputProps={password}*/}
           <br />
           <Button
             onClick={(e) => {
@@ -54,6 +61,7 @@ const AuthForm = (props) => {
             id="submit"
             variant="contained"
             type="submit"
+            // value={value}
             style={{ backgroundColor: '#5061a9', color: 'white' }}
           >
             {displayName}
