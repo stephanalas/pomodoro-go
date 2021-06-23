@@ -48,7 +48,7 @@ const TotalSessions = (props) => {
 
   return (
     <Paper className={classes.contain}>
-      <Typography className={classes.lsItem} variant="h5" color="primary">
+      <Typography className={classes.lsItem} variant="h5" color="textPrimary">
         Total Sessions
       </Typography>
       <Grid container>

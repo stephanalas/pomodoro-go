@@ -64,7 +64,7 @@ async function seed() {
   //Creating sessions
   const sessionSeeds = [];
   const goals = ['Study', 'Work', 'Read', 'Meditate'];
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 1000; i++) {
     sessionSeeds.push(Session.seed(users, goals));
   }
 

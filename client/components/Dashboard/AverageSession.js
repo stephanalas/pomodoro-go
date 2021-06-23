@@ -142,7 +142,7 @@ const AverageSession = (props) => {
 
   return (
     <Paper className={classes.contain}>
-      <Typography className={classes.lsItem} variant="h5" color="primary">
+      <Typography className={classes.lsItem} variant="h5" color="textPrimary">
         Average Session
       </Typography>
       <Grid container direction="row">
@@ -151,7 +151,7 @@ const AverageSession = (props) => {
             <Typography
               className={classes.lsItem}
               variant="body1"
-              color="primary"
+              color="textPrimary"
             >
               Successful
             </Typography>
@@ -160,7 +160,7 @@ const AverageSession = (props) => {
             <Typography
               className={classes.failed}
               variant="body1"
-              color="primary"
+              color="textPrimary"
             >
               Failed
             </Typography>

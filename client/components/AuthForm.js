@@ -16,9 +16,9 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
     minWidth: 100,
     flexGrow: 1,
-    width: '30vw',
+    width: '20vw',
     position: 'fixed',
-    right: '35vw',
+    right: '39vw',
     top: '30vh',
   },
   item: {
@@ -63,7 +63,7 @@ const AuthForm = (props) => {
         {name === 'signup' ? (
           <Paper className={classes.login}>
             <Grid container direction="column" alignItems="center">
-              <Typography style={{ color: '#808080' }}>
+              <Typography color="primaryContrast">
                 Sign Up for an Account
               </Typography>
               <TextField
@@ -110,8 +110,8 @@ const AuthForm = (props) => {
                   variant="contained"
                   type="submit"
                   value={value}
+                  color="primary"
                   style={{
-                    backgroundColor: '#5061a9',
                     color: 'white',
                     margin: '10px',
                   }}
@@ -122,7 +122,7 @@ const AuthForm = (props) => {
               </Grid>
               <Grid item>
                 <Grid item>
-                  <Typography variant="caption" style={{ color: '#808080' }}>
+                  <Typography variant="caption" color="primaryContrast">
                     Already have an account?
                     {`
               `}
@@ -135,7 +135,7 @@ const AuthForm = (props) => {
         ) : (
           <Paper className={classes.login}>
             <Grid container direction="column" alignItems="center">
-              <Typography style={{ color: '#808080' }}>
+              <Typography color="primaryContrast">
                 Log In to Your Account
               </Typography>
               <Grid item>
@@ -171,8 +171,9 @@ const AuthForm = (props) => {
                   variant="contained"
                   type="submit"
                   value={value}
+                  color="primary"
                   style={{
-                    backgroundColor: '#5061a9',
+                    // backgroundColor: '#5061a9',
                     color: 'white',
                     margin: '10px',
                   }}
@@ -183,7 +184,7 @@ const AuthForm = (props) => {
               </Grid>
               <Grid item>
                 <Grid item>
-                  <Typography variant="caption" style={{ color: '#808080' }}>
+                  <Typography variant="caption" color="primaryContrast">
                     Need an account?
                     {`
             `}

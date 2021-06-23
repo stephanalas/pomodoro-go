@@ -38,12 +38,12 @@ const LastSession = (props) => {
 
   return (
     <Paper className={classes.contain}>
-      <Typography className={classes.lsItem} variant="h5" color="primary">
+      <Typography className={classes.lsItem} variant="h5" color="textPrimary">
         Last Session
       </Typography>
       <Grid container>
         <Grid item className={classes.lsItem} xs={6}>
-          <Typography variant="caption" color="textSecondary">
+          <Typography variant="caption" color="textPrimary">
             Length
           </Typography>
           <Typography variant="h5">

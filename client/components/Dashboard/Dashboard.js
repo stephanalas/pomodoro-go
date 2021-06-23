@@ -146,14 +146,14 @@ const Dashboard = () => {
         spacing={3}
       >
         <Grid item xs={3}>
-          <Typography variant="overline" color="primary">
+          <Typography variant="overline" color="textPrimary">
             Dashboard
           </Typography>
-          <Typography variant="h6" color="primary">
+          <Typography variant="h6" color="textPrimary">
             Good Afternoon{capitalized ? `, ${capitalized}` : ''}
             <br />
           </Typography>
-          <Typography variant="subtitle2" color="primary">
+          <Typography variant="subtitle2" color="textPrimary">
             Here is your latest data.
           </Typography>
         </Grid>
@@ -242,8 +242,11 @@ const Dashboard = () => {
           </Grid>
           <Grid item xs={2}>
             <FormControl className={classes.formControlSelect}>
-              <InputLabel id="time-frame-label">Period</InputLabel>
+              <InputLabel id="time-frame-label" color="primary">
+                Period
+              </InputLabel>
               <Select
+                color="primary"
                 labelId="time-frame-label"
                 value={timeFrame}
                 onChange={handleTimeFrameChange}

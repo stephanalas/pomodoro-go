@@ -38,6 +38,7 @@ const ChartLeft = (props) => {
   const theme = useTheme();
   const { sessions } = props;
   const [distribution, setDistribution] = useState('Day of Week');
+  const primaryColor = '#261689';
 
   const handleDistributionChange = (event) => {
     setDistribution(event.target.value);
@@ -79,7 +80,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: ['#3C4693', '#7783DB', '#7783DB'],
+      colors: [primaryColor, '#7783DB', '#7783DB'],
       dataLabels: {
         enabled: false,
       },
@@ -206,7 +207,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: ['#3C4693', '#7783DB', '#7783DB'],
+      colors: [primaryColor, '#7783DB', '#7783DB'],
       dataLabels: {
         enabled: false,
       },
@@ -339,7 +340,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: ['#3C4693', '#7783DB', '#7783DB'],
+      colors: [primaryColor, '#7783DB', '#7783DB'],
       dataLabels: {
         enabled: false,
       },
@@ -416,7 +417,11 @@ const ChartLeft = (props) => {
     <Card className={classes.contain} {...props}>
       <Grid container direction="row" justify="space-between">
         <Grid item>
-          <Typography className={classes.lsItem} variant="h5" color="primary">
+          <Typography
+            className={classes.lsItem}
+            variant="h5"
+            color="textPrimary"
+          >
             Session Distribution
           </Typography>
           <Typography

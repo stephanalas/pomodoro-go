@@ -34,6 +34,11 @@ const ChartRight = (props) => {
   const theme = useTheme();
   const { sessions } = props;
   const [rightChart, setRightChart] = useState('Frequency');
+  const primaryColor = '#261689';
+  const secondaryColor = '#5c4fa8';
+  const tertiaryColor = '#9671a2';
+  const fourthColor = '#e4ddee';
+  const redColor = '#a83942';
 
   const handleRightChartChange = (event) => {
     setRightChart(event.target.value);
@@ -358,7 +363,7 @@ const ChartRight = (props) => {
           show: true,
         },
       },
-      colors: ['#3C4693'],
+      colors: [primaryColor],
       dataLabels: {
         enabled: false,
       },
@@ -480,7 +485,7 @@ const ChartRight = (props) => {
   };
 
   const options = {
-    colors: ['#3C4693', '#FF1654'],
+    colors: [primaryColor, redColor],
     chart: {
       id: 'basic-line',
     },
@@ -525,7 +530,11 @@ const ChartRight = (props) => {
     <Card className={classes.contain} {...props}>
       <Grid container direction="row" justify="space-between">
         <Grid item>
-          <Typography className={classes.lsItem} variant="h5" color="primary">
+          <Typography
+            className={classes.lsItem}
+            variant="h5"
+            color="textPrimary"
+          >
             {rightChart === 'Frequency' ? 'Session Frequency' : ''}
             {rightChart === 'History' ? 'Session History' : ''}
           </Typography>

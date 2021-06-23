@@ -13,7 +13,7 @@ const BlocksDonut = (props) => {
   const chart = {
     options: {
       dataLabels: { enabled: false },
-      colors: ['#233096', '#3C4693', '#7783DB', '#636996', '#7a90fa'],
+      colors: ['#261689', '#5c4fa8', '#9671a2', '#4d2a4e', '#e4ddee'],
       labels: sites,
       legend: { show: false, position: 'bottom' },
       chart: {

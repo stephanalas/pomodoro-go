@@ -12,7 +12,7 @@ import {
   MenuItem,
   Menu,
   Button,
-  createMuiTheme
+  createMuiTheme,
 } from '@material-ui/core';
 import { MenuIcon, AccountBox, HomeOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
@@ -21,6 +21,8 @@ import PropTypes from 'prop-types';
 // https://stackoverflow.com/questions/56432167/how-to-style-components-using-makestyles-and-still-have-lifecycle-methods-in-mat
 const styles = (theme) => ({
   header: { color: 'white' },
+  icons: { color: 'primary' },
+  login: { color: '#9671a2' },
 });
 
 class Navbar extends Component {
@@ -58,6 +60,7 @@ class Navbar extends Component {
           <AppBar position="static" className={classes.header}>
             <Toolbar>
               <IconButton
+                className={classes.icons}
                 id="home"
                 aria-label="home"
                 edge="start"
@@ -68,6 +71,7 @@ class Navbar extends Component {
                 <HomeOutlined />
               </IconButton>
               <IconButton
+                className={classes.icons}
                 id="account"
                 aria-label="menu"
                 aria-haspopup="true"
@@ -129,9 +133,9 @@ class Navbar extends Component {
               <Typography variant="h4">Pomodoro,go!</Typography>
               {/* {isGoogleLogedIn ? <GLogout /> : <GLogin />} */}
               {this.props.isLoggedIn ? (
-                <Button>Sign Out</Button>
+                <Button className={classes.login}>Sign Out</Button>
               ) : (
-                <Button className="login" onClick={this.handleLogIn}>
+                <Button className={classes.login} onClick={this.handleLogIn}>
                   Log In
                 </Button>
               )}
