@@ -18,31 +18,24 @@ export const Home = (props) => {
     <div id="main">
       <div id="container">
         <h3>Welcome, {username}</h3>
+        <div id="controls">
+          <Link to="/blocksites">
+            <button>
+              <DomainDisabledIcon />
+              <br />
+              Block sites
+            </button>
+          </Link>
+          <Link to="/friends">
+            <button>
+              <PeopleAltIcon />
+              <br />
+              Friends
+            </button>
+          </Link>
+        </div>
         <CreateSession />
         <Player />
-      </div>
-      <div id="controls">
-        <Link to="/dashboard">
-          <button>
-            <AssessmentIcon />
-            <br />
-            Dashboard
-          </button>
-        </Link>
-        <Link to="/blocksites">
-          <button>
-            <DomainDisabledIcon />
-            <br />
-            Block sites
-          </button>
-        </Link>
-        <Link to="/friends">
-          <button>
-            <PeopleAltIcon />
-            <br />
-            Friends
-          </button>
-        </Link>
       </div>
     </div>
   );

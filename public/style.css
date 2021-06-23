@@ -1,6 +1,6 @@
 body {
   font-family: sans-serif;
-  /* background-color: #bbc0da; */
+  background-color: #e0e2e4;
 }
 
 a {
@@ -39,6 +39,20 @@ a {
   font-size: larger;
   text-shadow: 3px 3px 2px rgb(99, 98, 98);
   box-shadow: 3px 3px 5px gray;
+}
+
+form * {
+  display: flex;
+  justify-content: fcenter;
+  padding: 5px;
+  margin: 1px 0;
+}
+
+#login-signin-button {
+  background-color: #5061a9;
+  color: white;
+  font-size: medium;
+  font-weight: bold;
 }
 
 #main {

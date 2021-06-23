@@ -1,71 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { authenticate } from '../store';
-import { TextField, Button } from '@material-ui/core';
 
 /**
  * COMPONENT
  */
 const AuthForm = (props) => {
-  const { name, displayName, handleSubmit, error, value } = props;
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { name, displayName, handleSubmit, error } = props;
 
-  const onChange = (ev) => {
-    if (ev.target.name === 'username') {
-      setUsername(ev.target.value);
-    } else if (ev.target.name === 'email') {
-      setEmail(ev.target.value);
-    } else if (ev.target.name === 'password') {
-      setPassword(ev.target.value);
-    }
-  };
   return (
     <div>
       {/* script for google OAuth */}
-      <form onSubmit={handleSubmit} name={name} value={value}>
+      <form onSubmit={handleSubmit} name={name}>
         {name === 'signup' ? (
           <div>
-            <TextField
-              id="username"
-              label="Username"
-              name="username"
-              value={username}
-              margin="normal"
-              onChange={onChange}
-            />
+            <input name="username" placeholder="Username" type="text" />
           </div>
         ) : null}
-        <TextField
-          id="email"
-          label="E-mail"
-          name="email"
-          value={email}
-          margin="normal"
-          onChange={onChange}
-        />
-        {/* ??value?inputProps? */}
-
-        <TextField
-          id="password"
-          label="Password"
-          name="password"
-          value={password}
-          margin="normal"
-          onChange={onChange}
-        />
-
-        <Button
-          onClick={handleSubmit}
-          id="submit"
-          variant="contained"
-          type="submit"
-          value={value}
-          style={{ backgroundColor: '#5061a9', color: 'white' }}
-        >
-          {displayName}
-        </Button>
+        <div>
+          <input name="email" type="email" placeholder="E-mail" />
+        </div>
+        <div>
+          <input name="password" type="password" placeholder="Password" />
+        </div>
+        <div>
+          <button id="login-signin-button" type="submit">
+            {displayName}
+          </button>
+        </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
     </div>
@@ -99,13 +61,13 @@ const mapDispatch = (dispatch) => {
   return {
     handleSubmit(evt) {
       evt.preventDefault();
-      console.log('!!!!!', password.value);
       const formName = evt.target.name;
       let username = null;
-      if (formName === 'signup') username = evt.username.value;
-      const email = evt.email.value;
-      const password = evt.password.value;
-      dispatch(authenticate(username, email.value, password.value, formName));
+      if (formName === 'signup') username = evt.target.username.value;
+
+      const email = evt.target.email.value;
+      const password = evt.target.password.value;
+      dispatch(authenticate(username, email, password, formName));
     },
   };
 };

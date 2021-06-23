@@ -92,6 +92,14 @@ class Navbar extends Component {
                   aria-haspopup="true"
                   onClose={() => this.setState({ anchorEl: null })}
                 >
+                  <MenuItem
+                    key="Login"
+                    component={Link}
+                    onClick={() => this.setState({ anchorEl: null })}
+                    to="/dashboard"
+                  >
+                    Dashboard
+                  </MenuItem>
                   <MenuItem onClick={this.handleLogOut}>Logout</MenuItem>
                 </Menu>
               ) : (
@@ -131,7 +139,7 @@ class Navbar extends Component {
                 {this.props.isLoggedIn ? (
                   <Button
                     variant="outlined"
-                    style={{ color: '#e0e2e4', backgroundColor: '#e0e2e4' }}
+                    style={{ color: '#303F9F', backgroundColor: '#e0e2e4' }}
                   >
                     Sign Out
                   </Button>

@@ -24,7 +24,6 @@ const setAuth = (auth) => ({ type: SET_AUTH, auth });
  * THUNK CREATORS
  */
 export const me = () => async (dispatch) => {
-  console.log('!!!AUTH/ME', token);
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
     const res = await axios.get(`${process.env.API_URL}/auth/me`, {
