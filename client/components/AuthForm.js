@@ -61,77 +61,139 @@ const AuthForm = (props) => {
       {/* script for google OAuth */}
       <form onSubmit={handleSubmit} name={name} value={value}>
         {name === 'signup' ? (
-          <div>
-            <TextField
-              id="username"
-              label="Username"
-              name="username"
-              value={username}
-              margin="normal"
-              onChange={onChange}
-            />
-          </div>
-        ) : null}
-        <Paper className={classes.login}>
-          <Grid container direction="column" alignItems="center">
-            <Typography style={{ color: '#808080' }}>
-              Log In to Your Account
-            </Typography>
-            <Grid item>
+          <Paper className={classes.login}>
+            <Grid container direction="column" alignItems="center">
+              <Typography style={{ color: '#808080' }}>
+                Sign Up for an Account
+              </Typography>
               <TextField
-                id="email"
-                label="E-mail"
-                name="email"
-                value={email}
+                id="username"
+                label="Username"
+                name="username"
+                value={username}
                 margin="normal"
                 onChange={onChange}
                 variant="outlined"
                 className={classes.item}
                 size="small"
               />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="password"
-                label="Password"
-                name="password"
-                value={password}
-                margin="normal"
-                onChange={onChange}
-                variant="outlined"
-                className={classes.item}
-                size="small"
-              />
-            </Grid>
-            <Grid item>
-              <Button
-                onClick={handleSubmit}
-                id="submit"
-                variant="contained"
-                type="submit"
-                value={value}
-                style={{
-                  backgroundColor: '#5061a9',
-                  color: 'white',
-                  margin: '10px',
-                }}
-                className={classes.item}
-              >
-                {displayName}
-              </Button>
-            </Grid>
-            <Grid item>
               <Grid item>
-                <Typography variant="caption" style={{ color: '#808080' }}>
-                  Need an account?
-                  {`
+                <TextField
+                  id="email"
+                  label="E-mail"
+                  name="email"
+                  value={email}
+                  margin="normal"
+                  onChange={onChange}
+                  variant="outlined"
+                  className={classes.item}
+                  size="small"
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="password"
+                  label="Password"
+                  name="password"
+                  value={password}
+                  margin="normal"
+                  onChange={onChange}
+                  variant="outlined"
+                  className={classes.item}
+                  size="small"
+                />
+              </Grid>
+              <Grid item>
+                <Button
+                  onClick={handleSubmit}
+                  id="submit"
+                  variant="contained"
+                  type="submit"
+                  value={value}
+                  style={{
+                    backgroundColor: '#5061a9',
+                    color: 'white',
+                    margin: '10px',
+                  }}
+                  className={classes.item}
+                >
+                  {displayName}
+                </Button>
+              </Grid>
+              <Grid item>
+                <Grid item>
+                  <Typography variant="caption" style={{ color: '#808080' }}>
+                    Already have an account?
+                    {`
               `}
-                  <Link href="http://localhost:8080/signup">Sign up</Link>
-                </Typography>
+                    <Link href={`${process.env.API_URL}/login`}>Log in</Link>
+                  </Typography>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
+        ) : (
+          <Paper className={classes.login}>
+            <Grid container direction="column" alignItems="center">
+              <Typography style={{ color: '#808080' }}>
+                Log In to Your Account
+              </Typography>
+              <Grid item>
+                <TextField
+                  id="email"
+                  label="E-mail"
+                  name="email"
+                  value={email}
+                  margin="normal"
+                  onChange={onChange}
+                  variant="outlined"
+                  className={classes.item}
+                  size="small"
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="password"
+                  label="Password"
+                  name="password"
+                  value={password}
+                  margin="normal"
+                  onChange={onChange}
+                  variant="outlined"
+                  className={classes.item}
+                  size="small"
+                />
+              </Grid>
+              <Grid item>
+                <Button
+                  onClick={handleSubmit}
+                  id="submit"
+                  variant="contained"
+                  type="submit"
+                  value={value}
+                  style={{
+                    backgroundColor: '#5061a9',
+                    color: 'white',
+                    margin: '10px',
+                  }}
+                  className={classes.item}
+                >
+                  {displayName}
+                </Button>
+              </Grid>
+              <Grid item>
+                <Grid item>
+                  <Typography variant="caption" style={{ color: '#808080' }}>
+                    Need an account?
+                    {`
+            `}
+                    <Link href={`${process.env.API_URL}/signup`}>Sign up</Link>
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Paper>
+        )}
         {error && error.response && <div> {error.response.data} </div>}
       </form>
     </div>
