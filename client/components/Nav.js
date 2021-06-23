@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store';
-// import GLogin from './GoogleOauth/GoogleLogIn';
-// import GLogout from './GoogleOauth/GoogleLogOut';
+// import {FcGoogle} from 'react-icons';
 import {
   AppBar,
   Toolbar,
@@ -16,9 +15,10 @@ import {
 import { AccountBox, HomeOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
+import GoogleButton from 'react-google-button';
 
 // https://stackoverflow.com/questions/56432167/how-to-style-components-using-makestyles-and-still-have-lifecycle-methods-in-mat
-const styles = (theme) => ({
+const styles = () => ({
   header: { color: 'white' },
 });
 
@@ -32,6 +32,7 @@ class Navbar extends Component {
     };
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
+    this.GLogin = this.GLogin.bind(this);
   }
 
   handleLogIn() {
@@ -45,12 +46,10 @@ class Navbar extends Component {
     this.setState({ anchorEl: null });
     this.props.handleClick();
   }
+
   render() {
     const { isLoggedIn, classes } = this.props;
-    const { isGoogleLogedIn, anchorEl } = this.state;
-    // if (!!isGoogleLogedIn) {
-    //   return <GLogout />;
-    // }
+    const { anchorEl } = this.state;
 
     return (
       <div>
@@ -117,7 +116,7 @@ class Navbar extends Component {
                     onClick={() => this.setState({ anchorEl: null })}
                     to="/login"
                   >
-                    Login
+                    Log In
                   </MenuItem>
                   <MenuItem
                     key="SignUp"
@@ -138,20 +137,22 @@ class Navbar extends Component {
               <div id="extension-login">
                 {this.props.isLoggedIn ? (
                   <Button
-                    variant="outlined"
-                    style={{ color: '#5061a9', backgroundColor: '#e0e2e4' }}
+                    style={{
+                      textTransform: 'none',
+                      textAlign: 'center',
+                      color: '#ffffff',
+                      backgroundColor: '#4285F4',
+                    }}
                   >
-                    Sign Out
+                    Sign Out with Google
                   </Button>
                 ) : (
-                  <Button
-                    variant="outlined"
-                    style={{ color: '#5061a9', backgroundColor: '#e0e2e4' }}
-                    className="login"
+                  <GoogleButton
+                    style={{ borderRadius: '3px', hight: '20px' }}
                     onClick={this.handleLogIn}
                   >
                     Log In
-                  </Button>
+                  </GoogleButton>
                 )}
               </div>
             </Toolbar>
