@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store';
-import GLogin from './GoogleOauth/GoogleLogIn';
-import GLogout from './GoogleOauth/GoogleLogOut';
+// import {FcGoogle} from 'react-icons';
 import {
   AppBar,
   Toolbar,
@@ -12,14 +11,14 @@ import {
   MenuItem,
   Menu,
   Button,
-  createMuiTheme
 } from '@material-ui/core';
-import { MenuIcon, AccountBox, HomeOutlined } from '@material-ui/icons';
+import { AccountBox, HomeOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
+import GoogleButton from 'react-google-button';
 
 // https://stackoverflow.com/questions/56432167/how-to-style-components-using-makestyles-and-still-have-lifecycle-methods-in-mat
-const styles = (theme) => ({
+const styles = () => ({
   header: { color: 'white' },
 });
 
@@ -27,13 +26,15 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isGoogleLogedIn: false,
+      // isGoogleLogedIn: false,
       anchorEl: null,
       authInstance: {},
     };
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
+    this.GLogin = this.GLogin.bind(this);
   }
+
   handleLogIn() {
     if (chrome.storage) {
       chrome.storage.sync.get(['user'], (result) => {
@@ -45,17 +46,19 @@ class Navbar extends Component {
     this.setState({ anchorEl: null });
     this.props.handleClick();
   }
+
   render() {
     const { isLoggedIn, classes } = this.props;
-    const { isGoogleLogedIn, anchorEl } = this.state;
-    if (!!isGoogleLogedIn) {
-      return <GLogout />;
-    }
+    const { anchorEl } = this.state;
 
     return (
       <div>
         <nav id="navBar">
-          <AppBar position="static" className={classes.header}>
+          <AppBar
+            position="static"
+            className={classes.header}
+            style={{ backgroundColor: '#5061a9' }}
+          >
             <Toolbar>
               <IconButton
                 id="home"
@@ -65,7 +68,7 @@ class Navbar extends Component {
                 component={Link}
                 to="/home"
               >
-                <HomeOutlined />
+                <HomeOutlined style={{ color: '#e0e2e4', fontSize: 34 }} />
               </IconButton>
               <IconButton
                 id="account"
@@ -76,7 +79,7 @@ class Navbar extends Component {
                 onClick={(ev) => this.setState({ anchorEl: ev.currentTarget })}
                 // ref={anchorRef}
               >
-                <AccountBox />
+                <AccountBox style={{ color: '#e0e2e4', fontSize: 30 }} />
               </IconButton>
               {/* || this.state.isGoogleLogedIn  */}
               {isLoggedIn ? (
@@ -89,13 +92,13 @@ class Navbar extends Component {
                   onClose={() => this.setState({ anchorEl: null })}
                 >
                   <MenuItem
-                    onClick={this.handleLogOut}
+                    key="Login"
                     component={Link}
-                    to="/timer"
+                    onClick={() => this.setState({ anchorEl: null })}
+                    to="/dashboard"
                   >
-                    Timer
+                    Dashboard
                   </MenuItem>
-
                   <MenuItem onClick={this.handleLogOut}>Logout</MenuItem>
                 </Menu>
               ) : (
@@ -113,7 +116,7 @@ class Navbar extends Component {
                     onClick={() => this.setState({ anchorEl: null })}
                     to="/login"
                   >
-                    Login
+                    Log In
                   </MenuItem>
                   <MenuItem
                     key="SignUp"
@@ -126,15 +129,32 @@ class Navbar extends Component {
                 </Menu>
               )}
 
-              <Typography variant="h4">Pomodoro,go!</Typography>
+              <Typography id="pomo-go" variant="h4">
+                Pomodoro,go!
+              </Typography>
               {/* {isGoogleLogedIn ? <GLogout /> : <GLogin />} */}
-              {this.props.isLoggedIn ? (
-                <Button>Sign Out</Button>
-              ) : (
-                <Button className="login" onClick={this.handleLogIn}>
-                  Log In
-                </Button>
-              )}
+              <span />
+              <div id="extension-login">
+                {this.props.isLoggedIn ? (
+                  <Button
+                    style={{
+                      textTransform: 'none',
+                      textAlign: 'center',
+                      color: '#ffffff',
+                      backgroundColor: '#4285F4',
+                    }}
+                  >
+                    Sign Out with Google
+                  </Button>
+                ) : (
+                  <GoogleButton
+                    style={{ borderRadius: '3px', hight: '20px' }}
+                    onClick={this.handleLogIn}
+                  >
+                    Log In
+                  </GoogleButton>
+                )}
+              </div>
             </Toolbar>
           </AppBar>
         </nav>

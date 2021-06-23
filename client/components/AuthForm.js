@@ -1,44 +1,46 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { authenticate } from '../store';
-// import {Grid} from '@material-ui/core'
-/**
- * COMPONENT
- */
+import { TextField, Button, Paper, Grid } from '@material-ui/core';
+// import {AccountBoxIcon,EmailIcon,LockIcon} from '@material-ui/icons';
+
+// COMPONENT
+
 const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
-  // https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/?fbclid=IwAR35rEtHBMba3V9KIiFiGhTltoYectdaDdkKTSx7YnP8aN-SeWqCFFuvaW8
-
+  const paperStyle = {
+    padding: 20,
+    height: '32vh',
+    width: 180,
+    margin: '30px auto',
+    backgroundColor: '#e0e2e4',
+  };
   return (
     <div>
-      {/* script for google OAuth */}
-      {/* <script src="https://accounts.google.com/gsi/client" async defer></script> */}
-      <form onSubmit={handleSubmit} name={name}>
-        {name === 'signup' ? (
-          <div>
-            <label htmlFor="username">
-              <small>Username</small>
-            </label>
-            <input name="username" type="text" />
-          </div>
-        ) : null}
-        <div>
-          <label htmlFor="email">
-            <small>E-mail</small>
-          </label>
-          <input name="email" type="email" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
+      <Grid>
+        <Paper elevation={10} style={paperStyle}>
+          {/* script for google OAuth */}
+          <form onSubmit={handleSubmit} name={name}>
+            {name === 'signup' ? (
+              <div>
+                <input name="username" placeholder="Username" type="text" />
+              </div>
+            ) : null}
+            <div>
+              <input name="email" type="email" placeholder="E-mail" />
+            </div>
+            <div>
+              <input name="password" type="password" placeholder="Password" />
+            </div>
+            <div>
+              <button id="login-signin-button" type="submit">
+                {displayName}
+              </button>
+            </div>
+            {error && error.response && <div> {error.response.data} </div>}
+          </form>
+        </Paper>
+      </Grid>
     </div>
   );
 };
@@ -53,7 +55,7 @@ const AuthForm = (props) => {
 const mapLogin = (state) => {
   return {
     name: 'login',
-    displayName: 'Login',
+    displayName: 'Log In',
     error: state.auth.error,
   };
 };
