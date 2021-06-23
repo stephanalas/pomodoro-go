@@ -326,11 +326,7 @@ const ChartLeft = (props) => {
   }
 
   const goalData = {
-    series: [
-      {
-        data: goalValsArr,
-      },
-    ],
+    series: [{ name: 'Sessions', data: goalValsArr }],
     categories: goalsArr,
   };
 
@@ -408,6 +404,9 @@ const ChartLeft = (props) => {
             colors: theme.palette.text.secondary,
           },
         },
+        // formatter: function (val, index) {
+        //   return val.toFixed(0);
+        // },
       },
     },
     series: goalData.series,

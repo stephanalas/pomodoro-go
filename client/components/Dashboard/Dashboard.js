@@ -73,6 +73,7 @@ const Dashboard = () => {
     averageSession: true,
     sessionDistribution: true,
     sessionFrequency: true,
+    mostBlocked: true,
   });
 
   const {
@@ -81,9 +82,11 @@ const Dashboard = () => {
     averageSession,
     sessionDistribution,
     sessionFrequency,
+    mostBlocked,
   } = state;
 
   const handleCheckboxChange = (event) => {
+    console.log('!!', event);
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
@@ -156,7 +159,7 @@ const Dashboard = () => {
           </Typography>
         </Grid>
         <Grid item container xs={9} justify="flex-end" alignItems="flex-start">
-          <Grid item xs={8}>
+          <Grid item xs={9}>
             <FormControl
               component="fieldset"
               className={classes.formControlCheckboxes}
@@ -223,6 +226,18 @@ const Dashboard = () => {
                   label="Session Frequency"
                   className={classes.formControlLabel}
                 />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="primary"
+                      checked={mostBlocked}
+                      onChange={handleCheckboxChange}
+                      name="mostBlocked"
+                    />
+                  }
+                  label="Most Blocked"
+                  className={classes.formControlLabel}
+                />
               </FormGroup>
             </FormControl>
           </Grid>
@@ -273,7 +288,11 @@ const Dashboard = () => {
           {averageSession ? <AverageSession sessions={sessions} /> : ''}
         </Grid>
         <Grid item xs={3}>
-          {<MostBlocked sessions={sessions} blackList={blackList} />}
+          {mostBlocked ? (
+            <MostBlocked sessions={sessions} blackList={blackList} />
+          ) : (
+            ''
+          )}
         </Grid>
       </Grid>
       <Grid container spacing={3}>
