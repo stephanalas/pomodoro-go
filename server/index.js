@@ -10,7 +10,12 @@ const init = async () => {
     const server = app.listen(PORT, () =>
       console.log(`Mixing it up on port ${PORT}`)
     );
-    const socketServer = new io.Server(server);
+    const socketServer = new io.Server(server, {
+      cors: {
+        origin: '*',
+        methods: ['GET', 'POST']
+      }
+    });
 
     //sockets
     let sockets = [];
