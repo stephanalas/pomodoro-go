@@ -1,12 +1,36 @@
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { authenticate } from '../store';
-import { TextField, Button } from '@material-ui/core';
+import {
+  TextField,
+  Button,
+  Grid,
+  Paper,
+  Typography,
+  Link,
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  login: {
+    padding: 10,
+    minWidth: 100,
+    flexGrow: 1,
+    width: '30vw',
+    position: 'fixed',
+    right: '35vw',
+    top: '30vh',
+  },
+  item: {
+    width: 200,
+  },
+}));
 
 /**
  * COMPONENT
  */
 const AuthForm = (props) => {
+  const classes = useStyles();
   const { name, displayName, error, value } = props;
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -48,35 +72,66 @@ const AuthForm = (props) => {
             />
           </div>
         ) : null}
-        <TextField
-          id="email"
-          label="E-mail"
-          name="email"
-          value={email}
-          margin="normal"
-          onChange={onChange}
-        />
-        {/* ??value?inputProps? */}
-
-        <TextField
-          id="password"
-          label="Password"
-          name="password"
-          value={password}
-          margin="normal"
-          onChange={onChange}
-        />
-
-        <Button
-          onClick={handleSubmit}
-          id="submit"
-          variant="contained"
-          type="submit"
-          value={value}
-          style={{ backgroundColor: '#5061a9', color: 'white' }}
-        >
-          {displayName}
-        </Button>
+        <Paper className={classes.login}>
+          <Grid container direction="column" alignItems="center">
+            <Typography style={{ color: '#808080' }}>
+              Log In to Your Account
+            </Typography>
+            <Grid item>
+              <TextField
+                id="email"
+                label="E-mail"
+                name="email"
+                value={email}
+                margin="normal"
+                onChange={onChange}
+                variant="outlined"
+                className={classes.item}
+                size="small"
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                id="password"
+                label="Password"
+                name="password"
+                value={password}
+                margin="normal"
+                onChange={onChange}
+                variant="outlined"
+                className={classes.item}
+                size="small"
+              />
+            </Grid>
+            <Grid item>
+              <Button
+                onClick={handleSubmit}
+                id="submit"
+                variant="contained"
+                type="submit"
+                value={value}
+                style={{
+                  backgroundColor: '#5061a9',
+                  color: 'white',
+                  margin: '10px',
+                }}
+                className={classes.item}
+              >
+                {displayName}
+              </Button>
+            </Grid>
+            <Grid item>
+              <Grid item>
+                <Typography variant="caption" style={{ color: '#808080' }}>
+                  Need an account?
+                  {`
+              `}
+                  <Link href="http://localhost:8080/signup">Sign up</Link>
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Paper>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
     </div>
