@@ -12,6 +12,15 @@ const AuthForm = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const onChange = (ev) => {
+    if (ev.target.name === 'username') {
+      setUsername(ev.target.value);
+    } else if (ev.target.name === 'email') {
+      setEmail(ev.target.value);
+    } else if (ev.target.name === 'password') {
+      setPassword(ev.target.value);
+    }
+  };
   return (
     <div>
       {/* script for google OAuth */}
@@ -24,49 +33,39 @@ const AuthForm = (props) => {
               name="username"
               value={username}
               margin="normal"
-              onChange={(e) =>
-                setUsername({ ...username, username: e.target.value })
-              }
+              onChange={onChange}
             />
-            {/* onChange={(e)=>setUsername(e)}inputProps={username} */}
           </div>
         ) : null}
-        <div>
-          <TextField
-            id="email"
-            label="E-mail"
-            name="email"
-            value={email}
-            margin="normal"
-            onChange={(e) => setEmail({ ...email, email: e.target.value })}
-          />
-          {/* ??value?inputProps?onChange={(e)=>{setEmail(e)}} */}
-          <br />
-          <TextField
-            id="password"
-            label="Password"
-            name="password"
-            value={password}
-            margin="normal"
-            onChange={(e) => {
-              setPassword({ ...password, password: e.target.value });
-            }}
-          />
-          {/* inputProps={password}*/}
-          <br />
-          <Button
-            onClick={(e) => {
-              handleSubmit(e);
-            }}
-            id="submit"
-            variant="contained"
-            type="submit"
-            // value={value}
-            style={{ backgroundColor: '#5061a9', color: 'white' }}
-          >
-            {displayName}
-          </Button>
-        </div>
+        <TextField
+          id="email"
+          label="E-mail"
+          name="email"
+          value={email}
+          margin="normal"
+          onChange={onChange}
+        />
+        {/* ??value?inputProps? */}
+
+        <TextField
+          id="password"
+          label="Password"
+          name="password"
+          value={password}
+          margin="normal"
+          onChange={onChange}
+        />
+
+        <Button
+          onClick={handleSubmit}
+          id="submit"
+          variant="contained"
+          type="submit"
+          value={value}
+          style={{ backgroundColor: '#5061a9', color: 'white' }}
+        >
+          {displayName}
+        </Button>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
     </div>
@@ -100,12 +99,13 @@ const mapDispatch = (dispatch) => {
   return {
     handleSubmit(evt) {
       evt.preventDefault();
+      console.log('!!!!!', password.value);
       const formName = evt.target.name;
       let username = null;
-      if (formName === 'signup') username = evt.target.username.value;
-      const email = evt.target.email.value;
-      const password = evt.target.password.value;
-      dispatch(authenticate(username, email, password, formName));
+      if (formName === 'signup') username = evt.username.value;
+      const email = evt.email.value;
+      const password = evt.password.value;
+      dispatch(authenticate(username, email.value, password.value, formName));
     },
   };
 };
