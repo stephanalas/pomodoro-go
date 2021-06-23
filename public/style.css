@@ -1,6 +1,5 @@
 body {
   font-family: sans-serif;
-  background-color: #e0e2e4;
 }
 
 a {
@@ -33,7 +32,7 @@ a {
   display: flex;
   padding: 50px;
   margin: 100px;
-  background-color: #5051a9;
+  background-color: #5061a9;
   color: white;
   line-height: 30px;
   font-size: larger;
@@ -46,13 +45,17 @@ form * {
   justify-content: fcenter;
   padding: 5px;
   margin: 1px 0;
+  border: none;
 }
 
 #login-signin-button {
+  width: 155px;
   background-color: #5061a9;
   color: white;
   font-size: medium;
   font-weight: bold;
+  border-radius: 3px;
+  box-shadow: 0 4px 3px gray;
 }
 
 #main {

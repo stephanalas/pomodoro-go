@@ -58,7 +58,7 @@ class Navbar extends Component {
           <AppBar
             position="static"
             className={classes.header}
-            style={{ backgroundColor: '#5051a9' }}
+            style={{ backgroundColor: '#5061a9' }}
           >
             <Toolbar>
               <IconButton
@@ -139,14 +139,14 @@ class Navbar extends Component {
                 {this.props.isLoggedIn ? (
                   <Button
                     variant="outlined"
-                    style={{ color: '#303F9F', backgroundColor: '#e0e2e4' }}
+                    style={{ color: '#5061a9', backgroundColor: '#e0e2e4' }}
                   >
                     Sign Out
                   </Button>
                 ) : (
                   <Button
                     variant="outlined"
-                    style={{ color: '#303F9F', backgroundColor: '#e0e2e4' }}
+                    style={{ color: '#5061a9', backgroundColor: '#e0e2e4' }}
                     className="login"
                     onClick={this.handleLogIn}
                   >
