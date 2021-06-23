@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store';
 // import {FcGoogle} from 'react-icons';
+// https://react-icons.github.io/react-icons/search?q=googl
 import {
   AppBar,
   Toolbar,
@@ -32,7 +33,6 @@ class Navbar extends Component {
     };
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
-    this.GLogin = this.GLogin.bind(this);
   }
 
   handleLogIn() {
