@@ -12,6 +12,8 @@ const Intro = () => {
     color: 'white',
     lineHeight: '30px',
     fontSize: 'larger',
+    display: 'flex',
+    justfyContent: 'center',
   };
   return (
     <div id="Intro">

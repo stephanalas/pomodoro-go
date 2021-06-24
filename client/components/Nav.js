@@ -71,6 +71,7 @@ class Navbar extends Component {
               >
                 <HomeOutlined style={{ color: '#e0e2e4', fontSize: 34 }} />
               </IconButton>
+
               <IconButton
                 id="account"
                 aria-label="menu"
@@ -82,6 +83,9 @@ class Navbar extends Component {
               >
                 <AccountBox style={{ color: '#e0e2e4', fontSize: 30 }} />
               </IconButton>
+              <Typography id="pomo-go" variant="h4">
+                Pomodoro,go!
+              </Typography>
               {isLoggedIn ? (
                 <>
                   <Menu
@@ -94,6 +98,9 @@ class Navbar extends Component {
                     onClose={() => this.setState({ anchorEl: null })}
                   >
                     <MenuItem onClick={this.handleLogOut}>Logout</MenuItem>
+                    {/* <MenuItem onClick={this.handleLogOut}>Dashboard</MenuItem>
+                  <MenuItem onClick={this.handleLogOut}>Block Sites</MenuItem>
+                  <MenuItem onClick={this.handleLogOut}>Friends</MenuItem> */}
                   </Menu>
                   <IconButton
                     id="dashboard"
@@ -103,14 +110,16 @@ class Navbar extends Component {
                     size="medium"
                     component={Link}
                     to="/dashboard"
-                    onClick={(ev) =>
-                      this.setState({ anchorEl: ev.currentTarget })
-                    }
-                    // ref={anchorRef}
+                    style={{
+                      color: 'white',
+                      fontSize: 15,
+                      flexDirection: 'column',
+                    }}
                   >
                     <AssessmentIcon
                       style={{ color: '#e0e2e4', fontSize: 30 }}
                     />
+                    Dashboard
                   </IconButton>
                   <IconButton
                     id="blocksites"
@@ -119,13 +128,16 @@ class Navbar extends Component {
                     size="medium"
                     component={Link}
                     to="/blocksites"
-                    onClick={(ev) =>
-                      this.setState({ anchorEl: ev.currentTarget })
-                    }
+                    style={{
+                      color: 'white',
+                      fontSize: 15,
+                      flexDirection: 'column',
+                    }}
                   >
                     <DomainDisabledIcon
                       style={{ color: '#e0e2e4', fontSize: 30 }}
                     />
+                    Block Sites
                   </IconButton>
                   <IconButton
                     id="friends"
@@ -134,11 +146,14 @@ class Navbar extends Component {
                     size="medium"
                     component={Link}
                     to="/friends"
-                    onClick={(ev) =>
-                      this.setState({ anchorEl: ev.currentTarget })
-                    }
+                    style={{
+                      color: 'white',
+                      fontSize: 15,
+                      flexDirection: 'column',
+                    }}
                   >
                     <PeopleAltIcon style={{ color: '#e0e2e4', fontSize: 30 }} />
+                    Friends
                   </IconButton>
                 </>
               ) : (
@@ -168,50 +183,6 @@ class Navbar extends Component {
                   </MenuItem>
                 </Menu>
               )}
-              {/* <div>
-              {isLoggedIn?(
-                <>
-                <IconButton 
-                id="dashboard"
-                // aria-label="menu"
-                // aria-haspopup="true"
-                edge="start"
-                size="medium"
-                component={Link}
-                to="/dashboard"
-                onClick={(ev) => this.setState({ anchorEl: ev.currentTarget })}
-                // ref={anchorRef}
-                 >
-                <AssessmentIcon style={{ color: '#e0e2e4', fontSize: 30 }} />
-                </IconButton>
-                <IconButton 
-                id="blocksites"
-                // aria-label="menu"
-                edge="start"
-                size="medium"
-                component={Link}
-                to="/blocksites"
-                onClick={(ev) => this.setState({ anchorEl: ev.currentTarget })}
-              >
-                <DomainDisabledIcon style={{ color: '#e0e2e4', fontSize: 30 }} />
-                </IconButton>
-                <IconButton 
-                id="friends"
-                // aria-label="menu"
-                edge="start"
-                size="medium"
-                component={Link}
-                to="/friends"
-                onClick={(ev) => this.setState({ anchorEl: ev.currentTarget })}
-              >
-                <PeopleAltIcon style={{ color: '#e0e2e4', fontSize: 30 }} />
-                </IconButton>
-                </>
-                ):(null)} */}
-              {/* </div> */}
-              <Typography id="pomo-go" variant="h4">
-                Pomodoro,go!
-              </Typography>
               <div id="extension-login">
                 {this.props.isLoggedIn ? (
                   <Button
