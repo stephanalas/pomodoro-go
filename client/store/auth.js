@@ -36,16 +36,18 @@ export const me = () => async (dispatch) => {
 };
 export const authenticateGoogle =
   (data = {}) =>
-    async (dispatch) => {
-      try {
-        await axios.post('/auth/google', data, {
-          headers: { authorization: data.accessToken },
-        });
-        dispatch(me());
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  async (dispatch) => {
+    try {
+      const response = await axios.post('/auth/google', data, {
+        headers: { authorization: data.tokenId },
+      });
+      console.log(response.data);
+      window.localStorage.setItem('token', response.data.token);
+      dispatch(me());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 export const authenticate =
   (username, email, password, method) => async (dispatch) => {
@@ -80,14 +82,14 @@ export const logout = () => {
  */
 export default function (state = {}, action) {
   switch (action.type) {
-  case SET_AUTH:
-    if (action.auth.id) {
-      socket.emit('login', { userId: action.auth.id });
-    } else {
-      socket.emit('logout', { userId: state.id });
-    }
-    return action.auth;
-  default:
-    return state;
+    case SET_AUTH:
+      if (action.auth.id) {
+        socket.emit('login', { userId: action.auth.id });
+      } else {
+        socket.emit('logout', { userId: state.id });
+      }
+      return action.auth;
+    default:
+      return state;
   }
 }
