@@ -1,36 +1,26 @@
-window.onload = () => {
-  console.log('running from localStorage');
-  console.log('sessionTime', localStorage.getItem('sessionTime'));
-  const sessionTime = localStorage.getItem('sessionTime');
-  console.log('typeof sessionTime', typeof sessionTime);
-  if (sessionTime >= 0 && sessionTime !== 'null') {
-    console.log('sessionTime is greater than 0');
-    chrome.storage.sync.set({ sessionTime: sessionTime });
-    chrome.storage.sync.get(['sessionTime'], (results) => {
-      console.log('chrome SessionTime', results);
-      if (results.sessionTime) {
-        chrome.runtime.sendMessage('startTimer', () => {
-          console.log('timer has been created');
-        });
-      }
-    });
-  }
-};
+// window.onload = () => {
+//   const sessionTime = localStorage.getItem('sessionTime');
+//   console.log('typeof sessionTime', typeof sessionTime);
+//   if (sessionTime >= 0 && sessionTime !== 'null') {
+//     chrome.storage.sync.set({ sessionTime: sessionTime });
+//     chrome.storage.sync.get(['sessionTime'], (results) => {
+//       if (results.sessionTime) {
+//         chrome.runtime.sendMessage('startTimer', () => {
+//           console.log('timer has been created');
+//         });
+//       }
+//     });
+//   }
+// };
 
-window.onbeforeunload = () => {
-  console.log('leaving the website');
+window.onload = async () => {
   const sessionTime = localStorage.getItem('sessionTime');
-  console.log('typeof sessionTime', typeof sessionTime);
+  console.log('windowONload sessiontime,', sessionTime);
   if (sessionTime >= 0 && sessionTime) {
-    console.log('sessionTime is greater than 0');
-    chrome.storage.sync.set({ sessionTime: sessionTime });
+    chrome.storage.sync.set({ sessionTime: Number(sessionTime) });
     chrome.storage.sync.get(['sessionTime'], (results) => {
-      console.log('chrome SessionTime', results);
-      if (results.sessionTime) {
-        chrome.runtime.sendMessage('startTimer', () => {
-          console.log('timer has been created');
-        });
-      }
+      console.log('grabbed sessionTime from chromeStorage', results);
     });
   }
+  cons;
 };

@@ -146,7 +146,7 @@ const Navbar = (props) => {
               <div id="extension-login">
                 {props.isLoggedIn ? (
                   <GoogleLogout
-                    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                    clientId="811227993938-nd59os35t80qtuqgmul58232c54sbmsm.apps.googleusercontent.com"
                     buttonText="Logout"
                     onLogoutSuccess={handleLogOut}
                     isSignedIn={props.isLoggedIn}

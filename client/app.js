@@ -14,7 +14,6 @@ const useStyles = makeStyles(() => ({
 const App = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (chrome.runtime) {
       chrome.storage.sync.get(['user'], (result) => {

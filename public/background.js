@@ -136,8 +136,6 @@ const background = {
             ? previous
             : current;
         });
-        console.log('found previous tab now executing script');
-        console.log('currentTab', tabId, '  previousTab', tab.id);
       });
       const hostname = new URL(url).hostname;
       console.log('hostname:', hostname);

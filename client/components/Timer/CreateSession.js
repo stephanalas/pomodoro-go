@@ -5,7 +5,6 @@ import FocusConfig from './FocusConfig';
 import { connect, useSelector } from 'react-redux';
 import { loadSession } from '../../store/sessions';
 export const SessionContext = createContext();
-
 const useStyles = makeStyles(() => ({
   main: {
     display: 'flex',
@@ -34,7 +33,6 @@ const CreateSession = (props) => {
 
   return (
     <SessionContext.Provider
-      value={{ goal, setGoal, sessionTime, setSessionTime }}
       value={{
         sessionTime,
         setSessionTime,
@@ -46,8 +44,10 @@ const CreateSession = (props) => {
     >
       <Container className={classes.main}>
         <Paper className={classes.paper}>
+          <div>
+            <FocusConfig />
+          </div>
           <Timer />
-          <FocusConfig />
         </Paper>
       </Container>
     </SessionContext.Provider>
