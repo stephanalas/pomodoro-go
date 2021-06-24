@@ -113,6 +113,7 @@ const AuthForm = (props) => {
                   value={value}
                   color="primary"
                   style={{
+                    backgroundColor: '#5061a9',
                     color: 'white',
                     marginTop: '10px',
                   }}
@@ -172,7 +173,7 @@ const AuthForm = (props) => {
                   value={value}
                   color="primary"
                   style={{
-                    // backgroundColor: '#5061a9',
+                    backgroundColor: '#5061a9',
                     color: 'white',
                     marginTop: '10px',
                   }}
