@@ -381,6 +381,10 @@ const ChartRight = (props) => {
           },
         },
       },
+      theme: {
+        palette: theme.pallete
+
+      },
       tooltip: {
         enabled: true,
 
