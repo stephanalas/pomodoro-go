@@ -65,7 +65,7 @@ Session.seed = async function (users, goals) {
   const randomUserIndex = Math.floor(Math.random() * users.length);
   const randomGoalIndex = Math.floor(Math.random() * goals.length);
   const sessionTimes = [1800000, 2100000, 2700000, 3000000, 3300000, 3600000];
-  const sessionVariances = [-120, -360, -540, 0, 180, 300, 480];
+  const sessionVariances = [-120, -240, -360, -540, 0, 180, 300];
   const booleans = [true, false];
   const randomSessionTime =
     sessionTimes[Math.floor(Math.random() * sessionTimes.length)];

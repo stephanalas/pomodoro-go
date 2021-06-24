@@ -64,7 +64,7 @@ async function seed() {
   //Creating sessions
   const sessionSeeds = [];
   const goals = ['Study', 'Work', 'Read', 'Meditate'];
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 200; i++) {
     sessionSeeds.push(Session.seed(users, goals));
   }
 
@@ -78,20 +78,28 @@ async function seed() {
 
   // Creating sites
   const sites = await Promise.all([
-    Site.create({ siteUrl: 'https://twitter.com/', category: 'Social Media' }),
     Site.create({
+      name: 'Twitter',
+      siteUrl: 'https://twitter.com/',
+      category: 'Social Media',
+    }),
+    Site.create({
+      name: 'Instagram',
       siteUrl: 'https://www.instagram.com/',
       category: 'Social Media',
     }),
     Site.create({
+      name: 'Facebook',
       siteUrl: 'https://www.facebook.com/',
       category: 'Social Media',
     }),
     Site.create({
+      name: 'Netflix',
       siteUrl: 'https://www.netflix.com/',
       category: 'Entertainment',
     }),
     Site.create({
+      name: 'Hulu',
       siteUrl: 'https://www.hulu.com/',
       category: 'Entertainment',
     }),

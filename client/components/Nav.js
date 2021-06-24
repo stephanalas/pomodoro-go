@@ -14,16 +14,20 @@ import {
   MenuItem,
   Menu,
   Button,
+  createMuiTheme,
 } from '@material-ui/core';
 import { AccountBox, HomeOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
-import GoogleButton from 'react-google-button';
-import axios from 'axios';
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import DomainDisabledIcon from '@material-ui/icons/DomainDisabled';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 // https://stackoverflow.com/questions/56432167/how-to-style-components-using-makestyles-and-still-have-lifecycle-methods-in-mat
 const styles = () => ({
   header: { color: 'white' },
+  icons: { color: '#9671a2' },
+  login: { color: '#9671a2' },
 });
 
 const responseGoogle = (response) => {
@@ -71,6 +75,7 @@ const Navbar = (props) => {
           >
             <Toolbar>
               <IconButton
+                className={classes.icons}
                 id="home"
                 aria-label="home"
                 edge="start"
@@ -80,7 +85,9 @@ const Navbar = (props) => {
               >
                 <HomeOutlined style={{ color: '#e0e2e4', fontSize: 34 }} />
               </IconButton>
+
               <IconButton
+                className={classes.icons}
                 id="account"
                 aria-label="menu"
                 aria-haspopup="true"
@@ -91,26 +98,79 @@ const Navbar = (props) => {
               >
                 <AccountBox style={{ color: '#e0e2e4', fontSize: 30 }} />
               </IconButton>
-              {/* || state.isGoogleLogedIn  */}
+              <Typography id="pomo-go" variant="h4">
+                Pomodoro,go!
+              </Typography>
               {isLoggedIn ? (
-                <Menu
-                  id="menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  aria-haspopup="true"
-                  onClose={() => setAnchorEl(null)}
-                >
-                  <MenuItem
-                    key="Login"
-                    component={Link}
-                    onClick={() => setAnchorEl(null)}
-                    to="/dashboard"
+                <>
+                  <Menu
+                    id="menu"
+                    aria-label="menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    aria-haspopup="true"
+                    onClose={() => setAnchorEl(null)}
                   >
+                    <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+                    {/* <MenuItem onClick={this.handleLogOut}>Dashboard</MenuItem>
+                  <MenuItem onClick={this.handleLogOut}>Block Sites</MenuItem>
+                  <MenuItem onClick={this.handleLogOut}>Friends</MenuItem> */}
+                  </Menu>
+                  <IconButton
+                    id="dashboard"
+                    // aria-label="menu"
+                    // aria-haspopup="true"
+                    edge="start"
+                    size="medium"
+                    component={Link}
+                    to="/dashboard"
+                    style={{
+                      color: 'white',
+                      fontSize: 15,
+                      flexDirection: 'column',
+                    }}
+                  >
+                    <AssessmentIcon
+                      style={{ color: '#e0e2e4', fontSize: 30 }}
+                    />
                     Dashboard
-                  </MenuItem>
-                  <MenuItem onClick={handleLogOut}>Logout</MenuItem>
-                </Menu>
+                  </IconButton>
+                  <IconButton
+                    id="blocksites"
+                    // aria-label="menu"
+                    edge="start"
+                    size="medium"
+                    component={Link}
+                    to="/blocksites"
+                    style={{
+                      color: 'white',
+                      fontSize: 15,
+                      flexDirection: 'column',
+                    }}
+                  >
+                    <DomainDisabledIcon
+                      style={{ color: '#e0e2e4', fontSize: 30 }}
+                    />
+                    Block Sites
+                  </IconButton>
+                  <IconButton
+                    id="friends"
+                    // aria-label="menu"
+                    edge="start"
+                    size="medium"
+                    component={Link}
+                    to="/friends"
+                    style={{
+                      color: 'white',
+                      fontSize: 15,
+                      flexDirection: 'column',
+                    }}
+                  >
+                    <PeopleAltIcon style={{ color: '#e0e2e4', fontSize: 30 }} />
+                    Friends
+                  </IconButton>
+                </>
               ) : (
                 <Menu
                   id="menu"
@@ -138,11 +198,6 @@ const Navbar = (props) => {
                   </MenuItem>
                 </Menu>
               )}
-
-              <Typography id="pomo-go" variant="h4">
-                Pomodoro,go!
-              </Typography>
-              <span />
               <div id="extension-login">
                 {props.isLoggedIn ? (
                   <GoogleLogout

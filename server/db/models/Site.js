@@ -8,6 +8,7 @@ const Site = db.define('site', {
     defaultValue: UUIDV4,
     primaryKey: true,
   },
+  name: { type: STRING },
   siteUrl: {
     type: STRING,
     validate: {
