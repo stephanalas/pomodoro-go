@@ -11,7 +11,6 @@ const loadSessions = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${process.env.API_URL}/api/sessions`);
-      console.log(response);
       const sessions = response.data;
       dispatch(loadSessionsActionCreator(sessions));
     } catch (error) {
@@ -86,7 +85,6 @@ const updateSession = (sessionId, sessionInfo) => async (dispatch) => {
       sessionInfo
     );
     const { data } = response;
-    chrome.storage.sync.set({ currentSession: data });
     dispatch(updateSessionActionCreator(data));
   } catch (error) {
     console.log('error in updateSession thunk');
@@ -130,7 +128,6 @@ const deleteTask = (id, sessionId) => {
     const res = await axios.delete(
       `${process.env.API_URL}/api/sessions/${sessionId}/tasks/${id}`
     );
-    console.log(res.data);
     dispatch(deleteTaskCreator(res.data));
   };
 };
@@ -162,7 +159,8 @@ const currentSessionReducer = (state = {}, action) => {
     action.type === UPDATE_SESSION ||
     action.type === ADD_TASK ||
     action.type === DELETE_TASK ||
-    action.type === UPDATE_TASK
+    action.type === UPDATE_TASK ||
+    action.type === LOAD_SESSION
   ) {
     state = action.session;
   }
