@@ -1,8 +1,13 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
+import { useTheme} from '@material-ui/core/styles';
 
 const TotalDonut = (props) => {
   const { sessions } = props;
+  const theme = useTheme();
+  const backgroundPaper = theme.palette.background.paper;
+  const primaryColor = theme.palette.primary.main;
+  const secondaryColor = theme.palette.secondary.main;
 
   let totalExpectedSessionLength;
   if (sessions.length) {
@@ -32,9 +37,13 @@ const TotalDonut = (props) => {
   const chart = {
     options: {
       dataLabels: { enabled: false },
-      colors: ['#261689', '#5c4fa8'],
+      colors: [primaryColor, secondaryColor],
       labels: ['Successful', 'Failed'],
       legend: { show: false, position: 'bottom' },
+      stroke: {
+        show: true,
+        colors: [backgroundPaper],
+      },
       chart: {
         toolbar: {
           show: false,

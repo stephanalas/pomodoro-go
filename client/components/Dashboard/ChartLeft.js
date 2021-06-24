@@ -38,7 +38,8 @@ const ChartLeft = (props) => {
   const theme = useTheme();
   const { sessions } = props;
   const [distribution, setDistribution] = useState('Day of Week');
-  const primaryColor = '#261689';
+  const primaryColor = theme.palette.primary.main;
+
 
   const handleDistributionChange = (event) => {
     setDistribution(event.target.value);
@@ -80,7 +81,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: [primaryColor, '#7783DB', '#7783DB'],
+      colors: [primaryColor],
       dataLabels: {
         enabled: false,
       },
@@ -207,7 +208,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: [primaryColor, '#7783DB', '#7783DB'],
+      colors: [primaryColor],
       dataLabels: {
         enabled: false,
       },
@@ -340,7 +341,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: [primaryColor, '#7783DB', '#7783DB'],
+      colors: [primaryColor],
       dataLabels: {
         enabled: false,
       },

@@ -3,7 +3,7 @@ import Chart from 'react-apexcharts';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
-import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
 import {
   Box,
   Card,
@@ -35,12 +35,10 @@ const ChartRight = (props) => {
   const { sessions } = props;
   const [rightChart, setRightChart] = useState('Frequency');
   //set colors so that the charts are connected to the Mui theme
-  const primaryColor = '#261689';
-  const secondaryColor = '#5c4fa8';
-  const tertiaryColor = '#9671a2';
-  const fourthColor = '#e4ddee';
-  const redColor = '#a83942';
-  const backgroundPaper = theme.palette.background.paper
+  const primaryColor = theme.palette.primary.main;
+  const errorColor = theme.palette.error.main;
+
+  const backgroundPaper = theme.palette.background.paper;
 
   const handleRightChartChange = (event) => {
     setRightChart(event.target.value);
@@ -360,8 +358,11 @@ const ChartRight = (props) => {
 
   const chart = {
     options: {
+      legend: {
+        show: false
+      },
       chart: {
-        background: backgroundPaper,
+        background: 'transparent',
         toolbar: {
           show: true,
         },
@@ -372,7 +373,7 @@ const ChartRight = (props) => {
       },
 
       grid: {
-        borderColor: backgroundPaper,
+        // borderColor: backgroundPaper,
         position: 'front',
         xaxis: {
           lines: {
@@ -523,13 +524,15 @@ const ChartRight = (props) => {
   };
 
   const options = {
-    colors: [primaryColor, redColor],
+    colors: [primaryColor, errorColor],
     chart: {
       id: 'basic-line',
     },
     stroke: {
       curve: 'smooth',
+      width: 1.5,
     },
+
     xaxis: {
       categories: [
         'Jan',
@@ -582,7 +585,7 @@ const ChartRight = (props) => {
             color="textSecondary"
           >
             {rightChart === 'Frequency' ? 'Time of Week' : ''}
-            {rightChart === 'History' ? 'Month' : ''}
+            {rightChart === 'History' ? 'Monthly' : ''}
           </Typography>
         </Grid>
         <Grid item>

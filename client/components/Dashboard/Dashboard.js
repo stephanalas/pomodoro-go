@@ -12,7 +12,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@material-ui/core';
-import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
 import LastSession from './LastSession';
 import TotalSessions from './TotalSessions';
 import AverageSession from './AverageSession';
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 15,
   },
   formControlLabel: {
-    color: '#000000',
+    color: theme.palette.text.primary,
   },
 }));
 

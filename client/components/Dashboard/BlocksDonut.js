@@ -1,8 +1,17 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
+import { useTheme} from '@material-ui/core/styles';
+
 
 const BlocksDonut = (props) => {
   const { sortedBlackList } = props;
+  const theme = useTheme();
+  const backgroundPaper = theme.palette.background.paper;
+  const primaryColor = theme.palette.primary.main;
+  const secondaryColor = theme.palette.secondary.main;
+  const textPrimary = theme.palette.text.primary;
+  const textSecondary = theme.palette.text.secondary;
+  const infoColor = theme.palette.info.main;
 
   const topFive = sortedBlackList.filter((entry, idx) => {
     return idx < 5;
@@ -13,7 +22,7 @@ const BlocksDonut = (props) => {
   const chart = {
     options: {
       dataLabels: { enabled: false },
-      colors: ['#261689', '#5c4fa8', '#9671a2', '#4d2a4e', '#e4ddee'],
+      colors: [primaryColor, secondaryColor, textSecondary, textPrimary, infoColor],
       labels: sites,
       legend: { show: false, position: 'bottom' },
       chart: {
@@ -22,6 +31,10 @@ const BlocksDonut = (props) => {
         },
         offsetX: -70,
         offsetY: -40,
+      },
+      stroke: {
+        show: true,
+        colors: [backgroundPaper],
       },
     },
 
