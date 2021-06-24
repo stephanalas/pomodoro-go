@@ -31,8 +31,14 @@ const useStyles = makeStyles({
 // depending on what is selected from the dropdown menu
 const ChartRight = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
   const { sessions } = props;
   const [rightChart, setRightChart] = useState('Frequency');
+  const primaryColor = '#261689';
+  const secondaryColor = '#5c4fa8';
+  const tertiaryColor = '#9671a2';
+  const fourthColor = '#e4ddee';
+  const redColor = '#a83942';
 
   const handleRightChartChange = (event) => {
     setRightChart(event.target.value);
@@ -357,7 +363,7 @@ const ChartRight = (props) => {
           show: true,
         },
       },
-      colors: ['#3C4693'],
+      colors: [primaryColor],
       dataLabels: {
         enabled: false,
       },
@@ -369,9 +375,56 @@ const ChartRight = (props) => {
           },
         },
         yaxis: {
-          show: false,
+          show: true,
           lines: {
             show: true,
+          },
+        },
+      },
+      tooltip: {
+        enabled: true,
+
+        y: {
+          title: {
+            formatter: function (val, index) {
+              if (val) {
+                return `${val}:00`;
+              }
+            },
+          },
+          formatter: function (val, index) {
+            if (val) {
+              if (val === 0) {
+                return ' 0 sessions';
+              }
+              if (val === 1) {
+                return ' 1 session';
+              } else {
+                return ` ${val} sessions`;
+              }
+            }
+          },
+        },
+        z: {
+          formatter: undefined,
+        },
+      },
+      xaxis: {
+        labels: {
+          style: {
+            colors: theme.palette.text.secondary,
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: theme.palette.text.secondary,
+          },
+          formatter: function (val, index) {
+            if (val) {
+              return `${val}:00`;
+            }
           },
         },
       },
@@ -432,7 +485,7 @@ const ChartRight = (props) => {
   };
 
   const options = {
-    colors: ['#3C4693', '#FF1654'],
+    colors: [primaryColor, redColor],
     chart: {
       id: 'basic-line',
     },
@@ -454,6 +507,21 @@ const ChartRight = (props) => {
         'Nov',
         'Dec',
       ],
+      labels: {
+        style: {
+          colors: theme.palette.text.secondary,
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: theme.palette.text.secondary,
+        },
+        formatter: function (val, index) {
+          return val.toFixed(0);
+        },
+      },
     },
   };
   const series = monthData.series;
@@ -462,7 +530,11 @@ const ChartRight = (props) => {
     <Card className={classes.contain} {...props}>
       <Grid container direction="row" justify="space-between">
         <Grid item>
-          <Typography className={classes.lsItem} variant="h5" color="primary">
+          <Typography
+            className={classes.lsItem}
+            variant="h5"
+            color="textPrimary"
+          >
             {rightChart === 'Frequency' ? 'Session Frequency' : ''}
             {rightChart === 'History' ? 'Session History' : ''}
           </Typography>

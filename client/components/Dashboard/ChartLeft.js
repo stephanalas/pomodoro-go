@@ -38,6 +38,7 @@ const ChartLeft = (props) => {
   const theme = useTheme();
   const { sessions } = props;
   const [distribution, setDistribution] = useState('Day of Week');
+  const primaryColor = '#261689';
 
   const handleDistributionChange = (event) => {
     setDistribution(event.target.value);
@@ -66,11 +67,7 @@ const ChartLeft = (props) => {
   }
 
   const data = {
-    series: [
-      {
-        data: valsArr,
-      },
-    ],
+    series: [{ name: 'Sessions', data: valsArr }],
     categories: daysArr,
   };
 
@@ -83,7 +80,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: ['#3C4693', '#7783DB', '#7783DB'],
+      colors: [primaryColor, '#7783DB', '#7783DB'],
       dataLabels: {
         enabled: false,
       },
@@ -121,9 +118,6 @@ const ChartLeft = (props) => {
         width: 2,
       },
       theme: {
-        mode: theme.palette.mode,
-      },
-      tooltip: {
         mode: theme.palette.mode,
       },
       xaxis: {
@@ -200,11 +194,7 @@ const ChartLeft = (props) => {
   }
 
   const hourData = {
-    series: [
-      {
-        data: hourValsArr,
-      },
-    ],
+    series: [{ name: 'Sessions', data: hourValsArr }],
     categories: hoursArr,
   };
 
@@ -217,7 +207,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: ['#3C4693', '#7783DB', '#7783DB'],
+      colors: [primaryColor, '#7783DB', '#7783DB'],
       dataLabels: {
         enabled: false,
       },
@@ -257,15 +247,19 @@ const ChartLeft = (props) => {
       theme: {
         mode: theme.palette.mode,
       },
-      tooltip: {
-        mode: theme.palette.mode,
-      },
+
       xaxis: {
         axisBorder: {
           show: false,
         },
         axisTicks: {
           show: false,
+        },
+
+        labels: {
+          style: {
+            colors: theme.palette.text.secondary,
+          },
         },
         categories: [
           '12:00 AM',
@@ -293,17 +287,15 @@ const ChartLeft = (props) => {
           '10:00 PM',
           '11:00 PM',
         ],
-        labels: {
-          style: {
-            colors: theme.palette.text.secondary,
-          },
-        },
       },
       yaxis: {
         labels: {
           offsetX: -12,
           style: {
             colors: theme.palette.text.secondary,
+          },
+          formatter: function (val, index) {
+            return val.toFixed(0);
           },
         },
       },
@@ -335,11 +327,7 @@ const ChartLeft = (props) => {
   }
 
   const goalData = {
-    series: [
-      {
-        data: goalValsArr,
-      },
-    ],
+    series: [{ name: 'Sessions', data: goalValsArr }],
     categories: goalsArr,
   };
 
@@ -352,7 +340,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: ['#3C4693', '#7783DB', '#7783DB'],
+      colors: [primaryColor, '#7783DB', '#7783DB'],
       dataLabels: {
         enabled: false,
       },
@@ -417,6 +405,9 @@ const ChartLeft = (props) => {
             colors: theme.palette.text.secondary,
           },
         },
+        // formatter: function (val, index) {
+        //   return val.toFixed(0);
+        // },
       },
     },
     series: goalData.series,
@@ -426,7 +417,11 @@ const ChartLeft = (props) => {
     <Card className={classes.contain} {...props}>
       <Grid container direction="row" justify="space-between">
         <Grid item>
-          <Typography className={classes.lsItem} variant="h5" color="primary">
+          <Typography
+            className={classes.lsItem}
+            variant="h5"
+            color="textPrimary"
+          >
             Session Distribution
           </Typography>
           <Typography

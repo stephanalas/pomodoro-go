@@ -28,6 +28,7 @@ router.post('/signup', async (req, res, next) => {
 
 router.get('/me', async (req, res, next) => {
   try {
+    console.log('req.body', req.body);
     const { method } = req.body;
 
     res.send(

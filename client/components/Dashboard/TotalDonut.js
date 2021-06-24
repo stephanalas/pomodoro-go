@@ -32,7 +32,7 @@ const TotalDonut = (props) => {
   const chart = {
     options: {
       dataLabels: { enabled: false },
-      colors: ['#3C4693', '#7783DB'],
+      colors: ['#261689', '#5c4fa8'],
       labels: ['Successful', 'Failed'],
       legend: { show: false, position: 'bottom' },
       chart: {

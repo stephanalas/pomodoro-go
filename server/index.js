@@ -10,7 +10,12 @@ const init = async () => {
     const server = app.listen(PORT, () =>
       console.log(`Mixing it up on port ${PORT}`)
     );
-    const socketServer = new io.Server(server);
+    const socketServer = new io.Server(server, {
+      cors: {
+        origin: '*',
+        methods: ['GET', 'POST']
+      }
+    });
 
     //sockets
     let sockets = [];
@@ -48,9 +53,6 @@ const init = async () => {
       socket.on('logout', (data) => {
         console.log('user ' + data.userId + ' left');
         delete usersTracking[socket.id];
-        // sockets.filter((each) => {
-        //   return each !== socket.id+'';
-        // });
         for (let key in usersTracking) {
           if (usersTracking[key] === data.userId) {
             delete usersTracking[key];

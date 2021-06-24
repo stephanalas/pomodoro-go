@@ -59,6 +59,7 @@ class Routes extends Component {
             <Route path="/timer" exact component={CreateSession} />
             <Route exact path="/blocksites" component={BlockSites} />
             <Route exact path="/friends" component={Friends} />
+            <Route exact path="/uhoh" component={BlockError} />
           </Switch>
         ) : (
           <Switch>

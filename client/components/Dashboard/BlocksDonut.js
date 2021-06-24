@@ -2,14 +2,18 @@ import React from 'react';
 import Chart from 'react-apexcharts';
 
 const BlocksDonut = (props) => {
-  const { blackList } = props;
-  const blocks = blackList.map((entry) => entry.blocks);
-  const sites = blackList.map((entry) => entry.site.siteUrl);
+  const { sortedBlackList } = props;
+
+  const topFive = sortedBlackList.filter((entry, idx) => {
+    return idx < 5;
+  });
+  const sites = topFive.map((entry) => entry.site.name);
+  const blocks = topFive.map((entry) => entry.blocks);
 
   const chart = {
     options: {
       dataLabels: { enabled: false },
-      colors: ['#233096', '#3C4693', '#7783DB', '#636996', '#7a90fa'],
+      colors: ['#261689', '#5c4fa8', '#9671a2', '#4d2a4e', '#e4ddee'],
       labels: sites,
       legend: { show: false, position: 'bottom' },
       chart: {
@@ -26,12 +30,16 @@ const BlocksDonut = (props) => {
 
   return (
     <div className="donut">
-      <Chart
-        options={chart.options}
-        series={chart.series}
-        type="donut"
-        width="290"
-      />
+      {sortedBlackList.length ? (
+        <Chart
+          options={chart.options}
+          series={chart.series}
+          type="donut"
+          width="290"
+        />
+      ) : (
+        ''
+      )}
     </div>
   );
 };
