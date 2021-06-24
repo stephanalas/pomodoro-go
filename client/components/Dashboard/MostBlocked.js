@@ -21,58 +21,42 @@ const useStyles = makeStyles({
 const MostBlocked = (props) => {
   const classes = useStyles();
   const { blackList } = props;
-  const blocks = blackList.map((entry) => entry.blocks);
+
+  function compareBlocks(a, b) {
+    return b.blocks - a.blocks;
+  }
+  const sorted = blackList.sort(compareBlocks);
+
+  const blocks = sorted.map((entry, idx) => entry.blocks);
+
   const maxBlocks = Math.max(...blocks) * 1;
   const mostBlocked = blackList.find((entry) => {
     return entry.blocks === maxBlocks;
   });
 
+  const topThree = sorted.filter((entry, idx) => {
+    return idx < 3;
+  });
   return (
     <Paper className={classes.contain}>
-      <Typography className={classes.lsItem} variant="h5" color="primary">
+      <Typography className={classes.lsItem} variant="h5" color="textPrimary">
         Most Blocked
       </Typography>
       <Grid container>
         <Grid container item direction="column" xs={6}>
-          <Grid item className={classes.lsItem} xs={4}>
-            <Typography variant="caption" color="textSecondary">
-              Twitter
-            </Typography>
-            <Typography variant="h5">
-              {mostBlocked ? mostBlocked.blocks : ''}
-            </Typography>
-          </Grid>
-          <Grid item className={classes.lsItem} xs={4}>
-            <Typography variant="caption" color="textSecondary">
-              Facebook
-            </Typography>
-            <Typography variant="h5">
-              {blackList
-                .filter((entry) => {
-                  return entry.site.siteUrl === 'https://www.facebook.com/';
-                })
-                .map((entry) => {
-                  return entry.blocks;
-                })}
-            </Typography>
-          </Grid>
-          <Grid item className={classes.lsItem} xs={4}>
-            <Typography variant="caption" color="textSecondary">
-              Netflix
-            </Typography>
-            <Typography variant="h5">
-              {blackList
-                .filter((entry) => {
-                  return entry.site.siteUrl === 'https://www.netflix.com/';
-                })
-                .map((entry) => {
-                  return entry.blocks;
-                })}
-            </Typography>
-          </Grid>
+          {topThree.map((entry, idx) => {
+            return (
+              <Grid item key={idx} className={classes.lsItem} xs={4}>
+                <Typography variant="caption" color="textSecondary">
+                  {entry.site.name}
+                </Typography>
+                <Typography variant="h5">{entry.blocks}</Typography>
+              </Grid>
+            );
+          })}
         </Grid>
         <Grid item xs={6}>
-          <BlocksDonut blackList={blackList} />
+          <BlocksDonut sortedBlackList={sorted} />
         </Grid>
       </Grid>
     </Paper>

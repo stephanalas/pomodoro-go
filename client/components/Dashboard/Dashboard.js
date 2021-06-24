@@ -49,6 +49,7 @@ const Dashboard = () => {
   let sessions = useSelector((state) => state.sessions);
   const auth = useSelector((state) => state.auth);
   let blackList = useSelector((state) => state.blackList);
+  const theme = useTheme();
 
   if (auth) {
     sessions = sessions.filter((session) => session.userId === auth.id);
@@ -73,6 +74,7 @@ const Dashboard = () => {
     averageSession: true,
     sessionDistribution: true,
     sessionFrequency: true,
+    mostBlocked: true,
   });
 
   const {
@@ -81,6 +83,7 @@ const Dashboard = () => {
     averageSession,
     sessionDistribution,
     sessionFrequency,
+    mostBlocked,
   } = state;
 
   const handleCheckboxChange = (event) => {
@@ -135,7 +138,10 @@ const Dashboard = () => {
   }
 
   return (
-    <div className={classes.dashboardContain}>
+    <div
+      className={classes.dashboardContain}
+      style={{ backgroundColor: theme.palette.background.default }}
+    >
       <Grid
         container
         direction="row"
@@ -144,26 +150,32 @@ const Dashboard = () => {
         spacing={3}
       >
         <Grid item xs={3}>
-          <Typography variant="overline" color="primary">
+          <Typography variant="overline" color="textPrimary">
             Dashboard
           </Typography>
-          <Typography variant="h6" color="primary">
+          <Typography variant="h6" color="textPrimary">
             Good Afternoon{capitalized ? `, ${capitalized}` : ''}
             <br />
           </Typography>
-          <Typography variant="subtitle2" color="primary">
+          <Typography variant="subtitle2" color="textPrimary">
             Here is your latest data.
           </Typography>
         </Grid>
-        <Grid item container xs={9} justify="flex-end" alignItems="flex-start">
-          <Grid item xs={8}>
+        <Grid item container xs={9} justify="flex-end" alignItems="flex-end">
+          <Grid item xs={9}>
             <FormControl
               component="fieldset"
               className={classes.formControlCheckboxes}
             >
-              <FormLabel component="legend">Display</FormLabel>
+              {/* <FormLabel
+                style={{ color: theme.palette.text.primary }}
+                component="legend"
+              >
+                Display
+              </FormLabel> */}
               <FormGroup row={true}>
                 <FormControlLabel
+                  style={{ color: theme.palette.text.primary }}
                   control={
                     <Checkbox
                       color="primary"
@@ -176,6 +188,7 @@ const Dashboard = () => {
                   className={classes.formControlLabel}
                 />
                 <FormControlLabel
+                  style={{ color: theme.palette.text.primary }}
                   control={
                     <Checkbox
                       color="primary"
@@ -188,6 +201,7 @@ const Dashboard = () => {
                   className={classes.formControlLabel}
                 />
                 <FormControlLabel
+                  style={{ color: theme.palette.text.primary }}
                   control={
                     <Checkbox
                       color="primary"
@@ -200,6 +214,7 @@ const Dashboard = () => {
                   className={classes.formControlLabel}
                 />
                 <FormControlLabel
+                  style={{ color: theme.palette.text.primary }}
                   control={
                     <Checkbox
                       color="primary"
@@ -212,6 +227,7 @@ const Dashboard = () => {
                   className={classes.formControlLabel}
                 />
                 <FormControlLabel
+                  style={{ color: theme.palette.text.primary }}
                   control={
                     <Checkbox
                       color="primary"
@@ -223,13 +239,29 @@ const Dashboard = () => {
                   label="Session Frequency"
                   className={classes.formControlLabel}
                 />
+                <FormControlLabel
+                  style={{ color: theme.palette.text.primary }}
+                  control={
+                    <Checkbox
+                      color="primary"
+                      checked={mostBlocked}
+                      onChange={handleCheckboxChange}
+                      name="mostBlocked"
+                    />
+                  }
+                  label="Most Blocked"
+                  className={classes.formControlLabel}
+                />
               </FormGroup>
             </FormControl>
           </Grid>
           <Grid item xs={2}>
             <FormControl className={classes.formControlSelect}>
-              <InputLabel id="time-frame-label">Period</InputLabel>
+              <InputLabel id="time-frame-label" color="primary">
+                Period
+              </InputLabel>
               <Select
+                color="primary"
                 labelId="time-frame-label"
                 value={timeFrame}
                 onChange={handleTimeFrameChange}
@@ -273,7 +305,11 @@ const Dashboard = () => {
           {averageSession ? <AverageSession sessions={sessions} /> : ''}
         </Grid>
         <Grid item xs={3}>
-          {<MostBlocked sessions={sessions} blackList={blackList} />}
+          {mostBlocked ? (
+            <MostBlocked sessions={sessions} blackList={blackList} />
+          ) : (
+            ''
+          )}
         </Grid>
       </Grid>
       <Grid container spacing={3}>

@@ -12,6 +12,7 @@ import {
   MenuItem,
   Menu,
   Button,
+  createMuiTheme,
 } from '@material-ui/core';
 import { AccountBox, HomeOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
@@ -21,6 +22,8 @@ import GoogleButton from 'react-google-button';
 // https://stackoverflow.com/questions/56432167/how-to-style-components-using-makestyles-and-still-have-lifecycle-methods-in-mat
 const styles = () => ({
   header: { color: 'white' },
+  icons: { color: '#9671a2' },
+  login: { color: '#9671a2' },
 });
 
 class Navbar extends Component {
@@ -61,6 +64,7 @@ class Navbar extends Component {
           >
             <Toolbar>
               <IconButton
+                className={classes.icons}
                 id="home"
                 aria-label="home"
                 edge="start"
@@ -71,6 +75,7 @@ class Navbar extends Component {
                 <HomeOutlined style={{ color: '#e0e2e4', fontSize: 34 }} />
               </IconButton>
               <IconButton
+                className={classes.icons}
                 id="account"
                 aria-label="menu"
                 aria-haspopup="true"
