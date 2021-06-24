@@ -5,9 +5,7 @@ import { useTheme} from '@material-ui/core/styles';
 const TotalDonut = (props) => {
   const { sessions } = props;
   const theme = useTheme();
-  const backgroundPaper = theme.palette.background.paper;
-  const primaryColor = theme.palette.primary.main;
-  const secondaryColor = theme.palette.secondary.main;
+  const {background, primary, secondary} = theme.palette;
 
   let totalExpectedSessionLength;
   if (sessions.length) {
@@ -37,12 +35,12 @@ const TotalDonut = (props) => {
   const chart = {
     options: {
       dataLabels: { enabled: false },
-      colors: [primaryColor, secondaryColor],
+      colors: [primary.main, secondary.main],
       labels: ['Successful', 'Failed'],
       legend: { show: false, position: 'bottom' },
       stroke: {
         show: true,
-        colors: [backgroundPaper],
+        colors: [background.paper],
       },
       chart: {
         toolbar: {

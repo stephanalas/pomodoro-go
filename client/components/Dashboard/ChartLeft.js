@@ -14,6 +14,8 @@ import {
   InputLabel,
   MenuItem,
   Grid,
+  FormControlLabel,
+  Checkbox
 } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -31,18 +33,25 @@ const useStyles = makeStyles({
   },
 });
 
+
+
 //This component displays either the 'By Day of Week' bar chart or the 'By Goal'
 //bar chart depending on what is selected from the dropdown menu
 const ChartLeft = (props) => {
   const classes = useStyles();
-  const theme = useTheme();
   const { sessions } = props;
   const [distribution, setDistribution] = useState('Day of Week');
-  const primaryColor = theme.palette.primary.main;
+  const [stacked, setStacked] = useState(false);
 
+  const theme = useTheme();
+  const {primary, error, secondary} = theme.palette;
 
   const handleDistributionChange = (event) => {
     setDistribution(event.target.value);
+  };
+
+  const handleStackedChange = (event) => {
+    setStacked(event.target.checked);
   };
 
   //Distribution By Days Chart
@@ -67,9 +76,70 @@ const ChartLeft = (props) => {
     valsArr.push(val);
   }
 
+
   const data = {
     series: [{ name: 'Sessions', data: valsArr }],
     categories: daysArr,
+  };
+
+ //Successful Sessions for Stacked Distribution View
+  const sessionsSuccessful = sessions.filter(session => {
+    return session.successful === true;
+  });
+  const sessionDaysSuccessful = sessionsSuccessful.map((session) => {
+    const dayOfWeek = dayjs(session.startTime).format('ddd');
+    return dayOfWeek;
+  });
+
+  console.log('sessionsSuccessful', sessionsSuccessful);
+  const distDaysSuccessful = { Sun: 0, Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0 };
+  if (sessionsSuccessful.length) {
+    for (let i = 0; i < sessionDaysSuccessful.length; i++) {
+      distDaysSuccessful[sessionDaysSuccessful[i]]++;
+    }
+  }
+  console.log('distDaysSuccessful', distDaysSuccessful);
+
+  let valsArrSuccessful = [];
+  for (const [key, val] of Object.entries(distDaysSuccessful)) {
+    valsArrSuccessful.push(val);
+  }
+
+  //Failed Sessions for Stacked Distribution View
+  const sessionsFailed = sessions.filter(session => {
+    return session.successful === false;
+  });
+  const sessionDaysFailed = sessionsFailed.map((session) => {
+    const dayOfWeek = dayjs(session.startTime).format('ddd');
+    return dayOfWeek;
+  });
+
+  console.log('sessionsFailed', sessionsFailed);
+  const distDaysFailed = { Sun: 0, Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0 };
+  if (sessionsFailed.length) {
+    for (let i = 0; i < sessionDaysFailed.length; i++) {
+      distDaysFailed[sessionDaysFailed[i]]++;
+    }
+  }
+  console.log('distDaysFailed', distDaysFailed);
+
+  let valsArrFailed = [];
+  for (const [key, val] of Object.entries(distDaysFailed)) {
+    valsArrFailed.push(val);
+  }
+
+  const stackedData = {
+    series: [
+      {
+        name: 'Failed',
+        data: valsArrFailed,
+      },
+      {
+        name: 'Successful',
+        data: valsArrSuccessful,
+      },
+
+    ],
   };
 
   const chart = {
@@ -81,7 +151,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: [primaryColor],
+      colors: stacked ? [error.main, primary.main ]: [primary.main],
       dataLabels: {
         enabled: false,
       },
@@ -144,7 +214,7 @@ const ChartLeft = (props) => {
         },
       },
     },
-    series: data.series,
+    series: stacked ? stackedData.series : data.series,
   };
 
   //Distribution By Hours Chart
@@ -208,7 +278,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: [primaryColor],
+      colors: [primary.main],
       dataLabels: {
         enabled: false,
       },
@@ -341,7 +411,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: [primaryColor],
+      colors: [primary.main],
       dataLabels: {
         enabled: false,
       },
@@ -432,6 +502,21 @@ const ChartLeft = (props) => {
           >
             Sessions by {distribution}
           </Typography>
+        </Grid>
+        <Grid item>
+          <FormControlLabel
+            style={{ color: theme.palette.text.primary }}
+            control={
+              <Checkbox
+                color="primary"
+                checked={stacked}
+                onChange={handleStackedChange}
+                name="stacked"
+              />
+            }
+            label="Stacked View"
+            className={classes.formControlLabel}
+          />
         </Grid>
         <Grid item>
           <FormControl className={classes.formControl}>
