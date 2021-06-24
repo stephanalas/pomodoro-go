@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useState } from 'react';
 import { makeStyles, Container, Paper } from '@material-ui/core';
 import Timer from './Timer';
 import FocusConfig from './FocusConfig';
