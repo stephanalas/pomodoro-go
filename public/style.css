@@ -15,21 +15,17 @@ a {
   margin: 0;
   padding: 0px, 0;
 }
-#navBar .home {
+/* #navBar .home {
   justify-content: start;
   flex-wrap: wrap;
-  /* z-index: 200; */
-}
+  z-index: 200;
+} */
 #navBar .account {
   justify-content: start;
   flex-wrap: wrap;
   /* z-index: 200; */
 }
-#navBar .extension-login {
-  justify-content: end;
-}
-
-#Intro {
+*/ #Intro {
   display: flex;
   padding: 50px;
   margin: 100px;
@@ -59,6 +55,10 @@ form * {
   box-shadow: 0 4px 3px gray;
 }
 
+#navBar .extension-login {
+  justify-content: end;
+}
+/* Ding:for some unknown reason I could set the Button props inside the div ,will try to do some clean up later */
 #googleSignOut {
   color: rgb(66, 133, 244);
   background-color: rgb(255, 255, 255);
@@ -67,7 +67,7 @@ form * {
   border: none;
   text-align: left;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
-  font-size: 18px;
+  font-size: 16px;
   /* line-height: 48px;  */
   display: block;
   border-radius: 3px;
@@ -84,7 +84,7 @@ form * {
   border: none;
   text-align: left;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
-  font-size: 18px;
+  font-size: 16px;
   /* line-height: 48px;  */
   display: block;
   border-radius: 3px;
@@ -99,6 +99,11 @@ form * {
   padding: 0;
   margin: 0 0 0 0;
   vertical-align: text-top;
+}
+
+#blockList {
+  display: flex;
+  position: center;
 }
 #main {
   width: 90%;
@@ -149,4 +154,6 @@ img {
   width: 100px;
   height: 100px;
   margin: 10px;
+  padding: 1rem;
+  left: 0;
 }
