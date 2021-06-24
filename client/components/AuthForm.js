@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { authenticate } from '../store';
-import { TextField, Button, Paper, Grid } from '@material-ui/core';
-// import {AccountBoxIcon,EmailIcon,LockIcon} from '@material-ui/icons';
+import { Paper, Grid } from '@material-ui/core';
 
 // COMPONENT
 

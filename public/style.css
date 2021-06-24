@@ -59,6 +59,47 @@ form * {
   box-shadow: 0 4px 3px gray;
 }
 
+#googleSignOut {
+  color: rgb(66, 133, 244);
+  background-color: rgb(255, 255, 255);
+  height: 45px;
+  width: 220px;
+  border: none;
+  text-align: left;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
+  font-size: 18px;
+  /* line-height: 48px;  */
+  display: block;
+  border-radius: 3px;
+  font-family: Roboto, arial, sans-serif;
+  cursor: pointer;
+  user-select: none;
+}
+
+#googleSignIn {
+  color: rgb(66, 133, 244);
+  background-color: rgb(255, 255, 255);
+  height: 45px;
+  width: 220px;
+  border: none;
+  text-align: left;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
+  font-size: 18px;
+  /* line-height: 48px;  */
+  display: block;
+  border-radius: 3px;
+  font-family: Roboto, arial, sans-serif;
+  cursor: pointer;
+  user-select: none;
+}
+#googleIcon {
+  height: 36px;
+  width: 36px;
+  background-color: white;
+  padding: 0;
+  margin: 0 0 0 0;
+  vertical-align: text-top;
+}
 #main {
   width: 90%;
   margin: auto;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store';
-// import {FcGoogle} from 'react-icons';
+import { FcGoogle } from 'react-icons/fc';
 // https://react-icons.github.io/react-icons/search?q=googl
 import {
   AppBar,
@@ -137,22 +137,27 @@ class Navbar extends Component {
               <div id="extension-login">
                 {this.props.isLoggedIn ? (
                   <Button
+                    id="googleSignOut"
                     style={{
                       textTransform: 'none',
                       textAlign: 'center',
-                      color: '#ffffff',
-                      backgroundColor: '#4285F4',
                     }}
                   >
+                    <FcGoogle id="googleIcon" />
                     Sign Out with Google
                   </Button>
                 ) : (
-                  <GoogleButton
-                    style={{ borderRadius: '3px', hight: '20px' }}
+                  <Button
+                    id="googleSignIn"
+                    style={{
+                      textTransform: 'none',
+                      textAlign: 'center',
+                    }}
                     onClick={this.handleLogIn}
                   >
-                    Log In
-                  </GoogleButton>
+                    <FcGoogle id="googleIcon" />
+                    Log In with Google
+                  </Button>
                 )}
               </div>
             </Toolbar>
