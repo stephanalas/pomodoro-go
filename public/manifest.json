@@ -13,17 +13,16 @@
     "notifications",
     "identity",
     "identity.email",
+    "unlimitedStorage",
+    "scripting",
     "<all_urls>",
-    "unlimitedStorage"
+    "*//*/"
   ],
+  "host_permissions": ["http://*/", "https://*/"],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
     "default_popup": "popup.html"
-  },
-  "oauth2": {
-    "client_id": "811227993938-bdnup0onkbhf33rejoirhia20j2kf51r.apps.googleusercontent.com",
-    "scopes": ["https://www.googleapis.com/auth/userinfo.email"]
   }
 }
