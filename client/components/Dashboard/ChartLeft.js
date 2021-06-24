@@ -276,7 +276,6 @@ const ChartLeft = (props) => {
     return hour;
   });
 
-  console.log('sessionsSuccessful', sessionsSuccessful);
   const distHoursSuccessful = {
     0: 0,
     1: 0,
@@ -309,7 +308,6 @@ const ChartLeft = (props) => {
       distHoursSuccessful[sessionHoursSuccessful[i]]++;
     }
   }
-  console.log('distHoursSuccessful', distHoursSuccessful);
 
   let hourValsArrSuccessful = [];
   for (const [key, val] of Object.entries(distHoursSuccessful)) {
@@ -354,11 +352,11 @@ const ChartLeft = (props) => {
       distHoursFailed[sessionHoursFailed[i]]++;
     }
   }
-  console.log('distHoursFailed', distHoursFailed);
+
 
   let hourValsArrFailed = [];
   for (const [key, val] of Object.entries(distHoursFailed)) {
-    valsArrFailed.push(val);
+    hourValsArrFailed.push(val);
   }
 
   const stackedDataHours = {
@@ -508,6 +506,71 @@ const ChartLeft = (props) => {
     categories: goalsArr,
   };
 
+  //Goals - Stacked View
+  //Successful
+  const sessionGoalsSuccessful = sessionsSuccessful.map((session) => {
+    const goal = session.goal;
+    return goal;
+  });
+
+  let distGoalsSuccessful = {};
+  sessionGoalsSuccessful.forEach((goal) => {
+    if (distGoalsSuccessful[goal]) distGoalsSuccessful[goal]++;
+    else {
+      distGoalsSuccessful[goal] = 1;
+    }
+  });
+
+  let goalsArrSuccessful = [];
+  for (const [key, val] of Object.entries(distGoalsSuccessful)) {
+    goalsArrSuccessful.push(key);
+  }
+
+  let goalValsArrSuccessful = [];
+  for (const [key, val] of Object.entries(distGoalsSuccessful)) {
+    goalValsArrSuccessful.push(val);
+  }
+
+  //Failed - Goals
+  const sessionGoalsFailed = sessionsFailed.map((session) => {
+    const goal = session.goal;
+    return goal;
+  });
+
+  let distGoalsFailed = {};
+  sessionGoalsFailed.forEach((goal) => {
+    if (distGoalsFailed[goal]) distGoalsFailed[goal]++;
+    else {
+      distGoalsFailed[goal] = 1;
+    }
+  });
+
+  let goalsArrFailed = [];
+  for (const [key, val] of Object.entries(distGoalsFailed)) {
+    goalsArrFailed.push(key);
+  }
+
+  let goalValsArrFailed = [];
+  for (const [key, val] of Object.entries(distGoalsFailed)) {
+    goalValsArrFailed.push(val);
+  }
+
+
+
+  const stackedDataGoals = {
+    series: [
+      {
+        name: 'Failed',
+        data: goalValsArrFailed,
+      },
+      {
+        name: 'Successful',
+        data: goalValsArrSuccessful,
+      },
+
+    ],
+  };
+
   const goalChart = {
     options: {
       chart: {
@@ -517,7 +580,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: [primary.main],
+      colors: stacked ? [error.main, primary.main]: [primary.main],
       dataLabels: {
         enabled: false,
       },
@@ -587,7 +650,7 @@ const ChartLeft = (props) => {
         // },
       },
     },
-    series: goalData.series,
+    series: stacked ? stackedDataGoals.series :goalData.series,
   };
 
   return (
