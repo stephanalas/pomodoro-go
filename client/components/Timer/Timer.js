@@ -1,14 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { updateSession } from '../../store/sessions';
 import StopButton from './StopButton';
 import { SessionContext } from './CreateSession';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
     border: '1px solid black',
-    height: '100%',
+    height: '50%',
     width: '50%',
     borderRadius: '30px',
     display: 'flex',
@@ -28,11 +29,30 @@ const useStyles = makeStyles(() => ({
 
 const Timer = (props) => {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
+  const [storageSessionTime, setStorageSessionTime] = useState(0);
   const currentSession = useSelector((state) => state.currentSession);
   const { setCountDown, sessionTime, countDown, setSessionTime } =
     useContext(SessionContext);
   const { updateSession } = props;
+
+  useEffect(() => {
+    if (sessionTime >= 0) {
+      localStorage.setItem('sessionTime', sessionTime);
+      if (chrome.storage) chrome.storage.local.set({ sessionTime });
+    }
+  });
+  useEffect(() => {
+    if (chrome.storage) {
+      chrome.storage.local.get(['sessionTime'], (results) => {
+        setStorageSessionTime(results.sessionTime);
+        console.log('from timer: ', results);
+      });
+    }
+  });
+  useEffect(() => {
+    console.log('on mount of timer', localStorage.getItem('sessionTime'));
+  }, [dispatch]);
   const msToHMS = (ms) => {
     let seconds = ms / 1000;
 
@@ -56,17 +76,27 @@ const Timer = (props) => {
     if (button === 'PLAY') {
       if (!currentSession.sessionTime) {
         updateSession(currentSession.id, { sessionTime });
+        if (chrome.storage) {
+          chrome.runtime.sendMessage('startTimer');
+          chrome.storage.local.set({ timerOn: true });
+        }
       }
-      chrome.storage.sync.set({ timerOn: true });
       setCountDown(true);
       window.timer = setInterval(() => {
         setSessionTime((sessionTime) => sessionTime - 1000);
       }, 1000);
     }
     if (button === 'STOP' || button === 'PAUSE') {
-      chrome.storage.sync.set({ timerOn: false });
+      chrome.storage.local.set({ timerOn: false });
       setCountDown(false);
       clearInterval(timer);
+    }
+    sendSessionToChrome();
+  };
+  const setChromeStorageTimer = () => {};
+  const sendSessionToChrome = () => {
+    if (chrome.storage) {
+      chrome.storage.local.set({ currentSession });
     }
   };
   return (
@@ -84,6 +114,17 @@ const Timer = (props) => {
         )}
         {countDown ? <StopButton toggleTimer={toggleTimer} /> : null}
       </div>
+      <CountdownCircleTimer
+        isPlaying={countDown ? true : false}
+        duration={sessionTime}
+        colors={[
+          ['#004777', 0.33],
+          ['#F7B801', 0.33],
+          ['#A30000', 0.33],
+        ]}
+      >
+        {({ remainingTime }) => msToHMS(sessionTime)}
+      </CountdownCircleTimer>
     </section>
   );
 };
