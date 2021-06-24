@@ -49,6 +49,8 @@ const Dashboard = () => {
   let sessions = useSelector((state) => state.sessions);
   const auth = useSelector((state) => state.auth);
   let blackList = useSelector((state) => state.blackList);
+  const theme = useTheme();
+  console.log('theme:', theme);
 
   if (auth) {
     sessions = sessions.filter((session) => session.userId === auth.id);
@@ -137,7 +139,10 @@ const Dashboard = () => {
   }
 
   return (
-    <div className={classes.dashboardContain}>
+    <div
+      className={classes.dashboardContain}
+      style={{ backgroundColor: theme.palette.background.default }}
+    >
       <Grid
         container
         direction="row"

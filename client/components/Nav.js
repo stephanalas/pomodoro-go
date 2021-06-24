@@ -21,7 +21,7 @@ import PropTypes from 'prop-types';
 // https://stackoverflow.com/questions/56432167/how-to-style-components-using-makestyles-and-still-have-lifecycle-methods-in-mat
 const styles = (theme) => ({
   header: { color: 'white' },
-  icons: { color: 'primary' },
+  icons: { color: '#9671a2' },
   login: { color: '#9671a2' },
 });
 
