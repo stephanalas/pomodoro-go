@@ -20,6 +20,7 @@ import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import GoogleButton from 'react-google-button';
 import axios from 'axios';
+import Timer from './Timer/Timer';
 
 // https://stackoverflow.com/questions/56432167/how-to-style-components-using-makestyles-and-still-have-lifecycle-methods-in-mat
 const styles = () => ({
@@ -168,6 +169,7 @@ class Navbar extends Component {
                     redirectUri={'http://localhost:8080/home'}
                   />
                 )}
+                <Link to="/timer">Timer</Link>
               </div>
             </Toolbar>
           </AppBar>
