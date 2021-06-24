@@ -161,7 +161,7 @@ const Dashboard = () => {
             Here is your latest data.
           </Typography>
         </Grid>
-        <Grid item container xs={9} justify="flex-end" alignItems="flex-start">
+        <Grid item container xs={9} justify="flex-end" alignItems="flex-end">
           <Grid item xs={9}>
             <FormControl
               component="fieldset"
