@@ -43,7 +43,7 @@ const LastSession = (props) => {
       </Typography>
       <Grid container>
         <Grid item className={classes.lsItem} xs={6}>
-          <Typography variant="caption" color="textPrimary">
+          <Typography variant="caption" color="textSecondary">
             Length
           </Typography>
           <Typography variant="h5">

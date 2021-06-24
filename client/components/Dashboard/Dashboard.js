@@ -50,7 +50,6 @@ const Dashboard = () => {
   const auth = useSelector((state) => state.auth);
   let blackList = useSelector((state) => state.blackList);
   const theme = useTheme();
-  console.log('theme:', theme);
 
   if (auth) {
     sessions = sessions.filter((session) => session.userId === auth.id);
@@ -168,9 +167,15 @@ const Dashboard = () => {
               component="fieldset"
               className={classes.formControlCheckboxes}
             >
-              <FormLabel component="legend">Display</FormLabel>
+              {/* <FormLabel
+                style={{ color: theme.palette.text.primary }}
+                component="legend"
+              >
+                Display
+              </FormLabel> */}
               <FormGroup row={true}>
                 <FormControlLabel
+                  style={{ color: theme.palette.text.primary }}
                   control={
                     <Checkbox
                       color="primary"
@@ -183,6 +188,7 @@ const Dashboard = () => {
                   className={classes.formControlLabel}
                 />
                 <FormControlLabel
+                  style={{ color: theme.palette.text.primary }}
                   control={
                     <Checkbox
                       color="primary"
@@ -195,6 +201,7 @@ const Dashboard = () => {
                   className={classes.formControlLabel}
                 />
                 <FormControlLabel
+                  style={{ color: theme.palette.text.primary }}
                   control={
                     <Checkbox
                       color="primary"
@@ -207,6 +214,7 @@ const Dashboard = () => {
                   className={classes.formControlLabel}
                 />
                 <FormControlLabel
+                  style={{ color: theme.palette.text.primary }}
                   control={
                     <Checkbox
                       color="primary"
@@ -219,6 +227,7 @@ const Dashboard = () => {
                   className={classes.formControlLabel}
                 />
                 <FormControlLabel
+                  style={{ color: theme.palette.text.primary }}
                   control={
                     <Checkbox
                       color="primary"
@@ -231,6 +240,7 @@ const Dashboard = () => {
                   className={classes.formControlLabel}
                 />
                 <FormControlLabel
+                  style={{ color: theme.palette.text.primary }}
                   control={
                     <Checkbox
                       color="primary"
