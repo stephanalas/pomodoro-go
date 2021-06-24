@@ -1,5 +1,9 @@
 import axios from 'axios';
 import history from '../history';
+import socketIOClient from 'socket.io-client';
+
+const ENDPOINT = process.env.API_URL;
+export const socket = socketIOClient(ENDPOINT);
 
 const TOKEN = 'token';
 const SPOTIFY_ACCESS_TOKEN = 'spotify_access_token';
@@ -27,11 +31,23 @@ export const me = () => async (dispatch) => {
         authorization: token,
       },
     });
-
-    window.localStorage.setItem('user', JSON.stringify(res.data));
     return dispatch(setAuth(res.data));
   }
 };
+export const authenticateGoogle =
+  (data = {}) =>
+  async (dispatch) => {
+    try {
+      const response = await axios.post('/auth/google', data, {
+        headers: { authorization: data.tokenId },
+      });
+      console.log(response.data);
+      window.localStorage.setItem('token', response.data.token);
+      dispatch(me());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 export const authenticate =
   (username, email, password, method) => async (dispatch) => {
@@ -68,6 +84,11 @@ export const logout = () => {
 export default function (state = {}, action) {
   switch (action.type) {
     case SET_AUTH:
+      if (action.auth.id) {
+        socket.emit('login', { userId: action.auth.id });
+      } else {
+        socket.emit('logout', { userId: state.id });
+      }
       return action.auth;
     default:
       return state;

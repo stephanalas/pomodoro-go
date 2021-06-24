@@ -16,33 +16,26 @@ export const Home = (props) => {
 
   return (
     <div id="main">
-      <div id="container">
+      <div id="container" display="inline">
         <h3>Welcome, {username}</h3>
-        <CreateSession />
+        <div id="controls">
+          <Link to="/blocksites">
+            <button>
+              <DomainDisabledIcon />
+              <br />
+              Block sites
+            </button>
+          </Link>
+          <Link to="/friends">
+            <button>
+              <PeopleAltIcon />
+              <br />
+              Friends
+            </button>
+          </Link>
+        </div>
+        <CreateSession style={{ display: 'inline' }} />
         <Player />
-      </div>
-      <div id="controls">
-        <Link to="/dashboard">
-          <button>
-            <AssessmentIcon />
-            <br />
-            Dashboard
-          </button>
-        </Link>
-        <Link to="/blocksites">
-          <button>
-            <DomainDisabledIcon />
-            <br />
-            Block sites
-          </button>
-        </Link>
-        <Link to="/friends">
-          <button>
-            <PeopleAltIcon />
-            <br />
-            Friends
-          </button>
-        </Link>
       </div>
     </div>
   );

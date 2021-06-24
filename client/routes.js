@@ -14,6 +14,9 @@ import BlockSites from './components/BlockSites';
 import Player from './components/Player';
 import Friends from './components/Friends/Friends';
 import RedirectToSite from './components/RedirectToSite';
+
+import Intro from './components/Intro';
+
 /**
  * COMPONENT
  */
@@ -62,7 +65,8 @@ class Routes extends Component {
           </Switch>
         ) : (
           <Switch>
-            <Route path="/" exact component={Login} />
+            <Route path="/home" component={Intro} />
+            <Route path="/" exact component={Intro} />
             <Route path="/timer" exact component={CreateSession} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />

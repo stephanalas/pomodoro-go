@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import socketIOClient from 'socket.io-client';
+
 import RequestsToMe from './RequestsToMe';
 import RequestsToOthers from './RequestsToOthers';
 import AddFriends from './AddFriends';
 import FriendsSession from './FriendsSession';
+import { socket } from '../../store/auth';
 
 //material-ui
 import { makeStyles } from '@material-ui/core/styles';
@@ -50,6 +53,7 @@ const Friends = (props) => {
   const [currentTab, setCurrentTab] = useState('my-friends');
   const [currentFriend, setCurrentFriend] = useState('Add friend');
   const [pendingCategory, setPendingCategory] = useState('From others to me');
+  const [loggedInUsers, setLoggedInUsers] = useState({});
 
   const approvedFriends = (all) => {
     let result = all.filter((each) => {
@@ -62,6 +66,30 @@ const Friends = (props) => {
     ...approvedFriends(props.myRequests),
     ...approvedFriends(props.requestsToMe),
   ];
+
+  const isOnline = (user) => {
+    for (let key in loggedInUsers) {
+      if (loggedInUsers[key] === user.id) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    socket.emit('get all loggedin users');
+  }, []);
+
+  socket.on('other login', (data) => {
+    console.log('someome else', data);
+  });
+
+  socket.on('send all logged in users', (data) => {
+    // console.log('all logged in users', data);
+    setLoggedInUsers({ ...data });
+  });
+
+  console.log(loggedInUsers);
 
   return (
     <>
@@ -132,7 +160,8 @@ const Friends = (props) => {
                       : classes.tabDisplay
                   }
                 >
-                  <FriendsSession friend={each} />
+                  {/* <p>{isOnline(each) ? 'online':'offline'}</p> */}
+                  <FriendsSession friend={each} onlineStatus={isOnline(each)} />
                 </div>
               );
             })}

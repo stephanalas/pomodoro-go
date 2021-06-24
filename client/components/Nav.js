@@ -1,9 +1,11 @@
-import React, { Component, useEffect, useState } from 'react';
-import { connect, useSelector } from 'react-redux';
+import React, { Component, useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logout } from '../store';
-import GLogin from './GoogleOauth/GoogleLogIn';
-import GLogout from './GoogleOauth/GoogleLogOut';
+import { authenticateGoogle, logout, me } from '../store';
+import { FcGoogle } from 'react-icons/fc';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
+// https://react-icons.github.io/react-icons/search?q=googl
+
 import {
   AppBar,
   Toolbar,
@@ -13,132 +15,162 @@ import {
   Menu,
   Button,
 } from '@material-ui/core';
-import { MenuIcon, AccountBox, HomeOutlined } from '@material-ui/icons';
+import { AccountBox, HomeOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import GoogleButton from 'react-google-button';
+import axios from 'axios';
+
 // https://stackoverflow.com/questions/56432167/how-to-style-components-using-makestyles-and-still-have-lifecycle-methods-in-mat
-const styles = (theme) => ({
+const styles = () => ({
   header: { color: 'white' },
 });
 
-const Nav = (props) => {
+const responseGoogle = (response) => {
+  console.log(response);
+};
+const Navbar = (props) => {
   const [isGoogleLoggedIn, setIsGoogleLoggedIn] = useState(false);
-  const auth = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [authInstance, setAuthInstance] = useState({});
-  // useEffect(() => {
-  //   window.localStorage.setItem('user', JSON.stringify(auth));
-  // }, [auth]);
-  const handleLogIn = () => {};
+  const handleSuccess = (response) => {
+    console.log(response);
+    props.getMe(response);
+  };
+  const handleFail = (response) => {
+    console.log('sign in failure', response);
+  };
   const handleLogOut = () => {
     setAnchorEl(null);
+    window.localStorage.clear();
     props.handleClick();
-    localStorage.setItem('user', {});
   };
+
   const { isLoggedIn, classes } = props;
-  if (!!isGoogleLoggedIn) {
-    return <GLogout />;
-  } else {
-    return (
-      <div>
-        <nav id="navBar">
-          {chrome.storage ? (
-            <AppBar position="relative" className={classes.header}>
-              <Toolbar>
-                <Typography variant="h4">Pomodoro,go!</Typography>
-              </Toolbar>
-            </AppBar>
-          ) : (
-            <AppBar position="relative" className={classes.header}>
-              <Toolbar>
-                <IconButton
-                  id="home"
-                  aria-label="home"
-                  edge="start"
-                  size="medium"
-                  component={Link}
-                  to="/home"
-                >
-                  <HomeOutlined />
-                </IconButton>
-                <IconButton
-                  id="account"
-                  aria-label="menu"
+
+  return (
+    <div>
+      <nav id="navBar">
+        {chrome.storage ? (
+          <AppBar
+            position="static"
+            className={classes.header}
+            style={{ backgroundColor: '#5061a9' }}
+          >
+            <Toolbar>
+              <Typography id="pomo-go" align="center" variant="h4">
+                Pomodoro,go!
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        ) : (
+          <AppBar
+            position="static"
+            className={classes.header}
+            style={{ backgroundColor: '#5061a9' }}
+          >
+            <Toolbar>
+              <IconButton
+                id="home"
+                aria-label="home"
+                edge="start"
+                size="medium"
+                component={Link}
+                to="/home"
+              >
+                <HomeOutlined style={{ color: '#e0e2e4', fontSize: 34 }} />
+              </IconButton>
+              <IconButton
+                id="account"
+                aria-label="menu"
+                aria-haspopup="true"
+                edge="start"
+                size="medium"
+                onClick={(ev) => setAnchorEl(ev.currentTarget)}
+                // ref={anchorRef}
+              >
+                <AccountBox style={{ color: '#e0e2e4', fontSize: 30 }} />
+              </IconButton>
+              {/* || state.isGoogleLogedIn  */}
+              {isLoggedIn ? (
+                <Menu
+                  id="menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
                   aria-haspopup="true"
-                  edge="start"
-                  size="medium"
-                  onClick={(ev) => setAnchorEl(ev.currentTarget)}
-                  // ref={anchorRef}
+                  onClose={() => setAnchorEl(null)}
                 >
-                  <AccountBox />
-                </IconButton>
-                {/* || this.state.isGoogleLogedIn  */}
-                {isLoggedIn ? (
-                  <Menu
-                    id="menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    aria-haspopup="true"
-                    onClose={() => setAnchorEl(null)}
+                  <MenuItem
+                    key="Login"
+                    component={Link}
+                    onClick={() => setAnchorEl(null)}
+                    to="/dashboard"
                   >
-                    <MenuItem
-                      onClick={handleLogOut}
-                      component={Link}
-                      to="/timer"
-                    >
-                      Timer
-                    </MenuItem>
-
-                    <MenuItem onClick={handleLogOut}>Logout</MenuItem>
-                  </Menu>
-                ) : (
-                  <Menu
-                    id="menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    aria-haspopup="true"
-                    onClose={() => setAnchorEl(null)}
+                    Dashboard
+                  </MenuItem>
+                  <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+                </Menu>
+              ) : (
+                <Menu
+                  id="menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  aria-haspopup="true"
+                  onClose={() => setAnchorEl(null)}
+                >
+                  <MenuItem
+                    key="Login"
+                    component={Link}
+                    onClick={() => setAnchorEl(null)}
+                    to="/login"
                   >
-                    <MenuItem
-                      key="Login"
-                      component={Link}
-                      onClick={() => setAnchorEl(null)}
-                      to="/login"
-                    >
-                      Login
-                    </MenuItem>
-                    <MenuItem
-                      key="SignUp"
-                      onClick={() => setAnchorEl(null)}
-                      component={Link}
-                      to="/signup"
-                    >
-                      Sign Up
-                    </MenuItem>
-                  </Menu>
-                )}
-
-                <Typography variant="h4">Pomodoro,go!</Typography>
-                {/* {isGoogleLogedIn ? <GLogout /> : <GLogin />} */}
-                {isLoggedIn ? (
-                  <Button onClick={handleLogOut}>Sign Out</Button>
-                ) : (
-                  <Button className="login" onClick={handleLogIn}>
                     Log In
-                  </Button>
+                  </MenuItem>
+                  <MenuItem
+                    key="SignUp"
+                    onClick={() => setAnchorEl(null)}
+                    component={Link}
+                    to="/signup"
+                  >
+                    Sign Up
+                  </MenuItem>
+                </Menu>
+              )}
+
+              <Typography id="pomo-go" variant="h4">
+                Pomodoro,go!
+              </Typography>
+              <span />
+              <div id="extension-login">
+                {props.isLoggedIn ? (
+                  <GoogleLogout
+                    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                    buttonText="Logout"
+                    onLogoutSuccess={handleLogOut}
+                    isSignedIn={props.isLoggedIn}
+                  ></GoogleLogout>
+                ) : (
+                  <GoogleLogin
+                    clientId="811227993938-nd59os35t80qtuqgmul58232c54sbmsm.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={handleSuccess}
+                    onFailure={handleFail}
+                    cookiePolicy={'single_host_origin'}
+                    isSignedIn={props.isLoggedIn}
+                    redirectUri={'http://localhost:8080/home'}
+                  />
                 )}
-              </Toolbar>
-            </AppBar>
-          )}
-        </nav>
-      </div>
-    );
-  }
+              </div>
+            </Toolbar>
+          </AppBar>
+        )}
+      </nav>
+    </div>
+  );
 };
+
 /**
  * CONTAINER
  */
@@ -153,9 +185,12 @@ const mapDispatch = (dispatch) => {
     handleClick() {
       dispatch(logout());
     },
+    getMe(data) {
+      dispatch(authenticateGoogle(data));
+    },
   };
 };
-Nav.propTypes = {
+Navbar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-export default connect(mapState, mapDispatch)(withStyles(styles)(Nav));
+export default connect(mapState, mapDispatch)(withStyles(styles)(Navbar));

@@ -47,18 +47,29 @@ const TimerInput = (props) => {
     if (label === 'Hours') {
       const previous = (input ? parseInt(input) : 0) * 3600000;
       const hours = parseInt(value) * 3600000;
-
       setSessionTime(sessionTime - previous + hours);
+      window.localStorage.setItem(
+        'sessionTime',
+        sessionTime - previous + hours
+      );
     } else if (label === 'Minutes') {
       const previous = (input ? parseInt(input) : 0) * 60000;
       const minutes = parseInt(value) * 60000;
 
       setSessionTime(sessionTime - previous + minutes);
+      window.localStorage.setItem(
+        'sessionTime',
+        sessionTime - previous + minutes
+      );
     } else {
       const previous = (input ? parseInt(input) : 0) * 1000;
       const seconds = parseInt(value) * 1000;
 
       setSessionTime(sessionTime - previous + seconds);
+      window.localStorage.setItem(
+        'sessionTime',
+        sessionTime - previous + seconds
+      );
     }
   };
   return (

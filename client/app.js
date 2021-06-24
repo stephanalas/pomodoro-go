@@ -13,6 +13,19 @@ const useStyles = makeStyles(() => ({
 }));
 const App = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (chrome.runtime) {
+      chrome.storage.sync.get(['user'], (result) => {
+        if (result.user) {
+          console.log('user in sync', result.user);
+          dispatch({ type: 'SET_AUTH', auth: result.user });
+        }
+      });
+    }
+  }, [dispatch]);
+
   return (
     <div className={classes.main}>
       <Nav />

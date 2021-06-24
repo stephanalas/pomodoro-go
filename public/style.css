@@ -17,27 +17,96 @@ a {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  z-index: 0;
+  /* z-index: 0; */
+  /* background-color: #4d2a4e; */
+  margin: 0;
+  padding: 0px, 0;
 }
 #navBar .home {
-  display: flex;
-  justify-content: flex-start;
+  justify-content: start;
   flex-wrap: wrap;
-  z-index: 0;
+  /* z-index: 200; */
 }
 #navBar .account {
-  display: flex;
-  justify-content: flex-start;
+  justify-content: start;
   flex-wrap: wrap;
-  z-index: 0;
+  /* z-index: 200; */
 }
-#navBar .home {
-  display: flex;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  z-index: 0;
+#navBar .extension-login {
+  justify-content: end;
 }
 
+#Intro {
+  display: flex;
+  padding: 50px;
+  margin: 100px;
+  background-color: #5061a9;
+  color: white;
+  line-height: 30px;
+  font-size: larger;
+  text-shadow: 3px 3px 2px rgb(99, 98, 98);
+  box-shadow: 3px 3px 5px gray;
+}
+
+form * {
+  display: flex;
+  justify-content: fcenter;
+  padding: 5px;
+  margin: 1px 0;
+  border: none;
+}
+
+#login-signin-button {
+  width: 155px;
+  background-color: #5061a9;
+  color: white;
+  font-size: medium;
+  font-weight: bold;
+  border-radius: 3px;
+  box-shadow: 0 4px 3px gray;
+}
+
+#googleSignOut {
+  color: rgb(66, 133, 244);
+  background-color: rgb(255, 255, 255);
+  height: 45px;
+  width: 220px;
+  border: none;
+  text-align: left;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
+  font-size: 18px;
+  /* line-height: 48px;  */
+  display: block;
+  border-radius: 3px;
+  font-family: Roboto, arial, sans-serif;
+  cursor: pointer;
+  user-select: none;
+}
+
+#googleSignIn {
+  color: rgb(66, 133, 244);
+  background-color: rgb(255, 255, 255);
+  height: 45px;
+  width: 220px;
+  border: none;
+  text-align: left;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
+  font-size: 18px;
+  /* line-height: 48px;  */
+  display: block;
+  border-radius: 3px;
+  font-family: Roboto, arial, sans-serif;
+  cursor: pointer;
+  user-select: none;
+}
+#googleIcon {
+  height: 36px;
+  width: 36px;
+  background-color: white;
+  padding: 0;
+  margin: 0 0 0 0;
+  vertical-align: text-top;
+}
 #main {
   width: 90%;
   margin: auto;

@@ -1,5 +1,5 @@
 'use strict';
-const { storage, tabs, runtime, alarms, scripting, identity } = chrome;
+const { storage, tabs, runtime, alarms, scripting } = chrome;
 
 const background = {
   alarmCreated: false,
@@ -16,7 +16,14 @@ const background = {
     this.listenForBlackListIncrement();
     this.listenForDashboardRedirect();
   },
-  createAlarm(ms) {},
+  createAlarm(ms) {
+    chrome.alarms.create('timer', {
+      when: Date.now() + Number(ms),
+    });
+    this.alarmCreated = true;
+    chrome.storage.sync.set({ alarmCreated: true });
+    console.log('alarm creeated!!!');
+  },
   resetStorage() {
     storage.local.set({
       sessionTime: 0,
@@ -43,18 +50,20 @@ const background = {
             await alarms.clearAll();
             // SETTING DATA IN STORAGE SYNC
             this.resetStorage();
+
+            // MUST RETURN TRUE  TO KEEP MESSAGE PORT OPEN
+            return true;
           }
           if (message === 'startTimer') {
-            storage.local.get(['sessionTime'], (results) => {
-              chrome.alarms.create('timer', {
-                when: Date.now() + results.sessionTime,
-              });
-              this.alarmCreated = true;
-              const { alarmCreated } = this;
-              chrome.storage.local.set({ alarmCreated });
+            chrome.storage.sync.get(['sessionTime'], (results) => {
+              if (!results.sessionTime) {
+                console.log('no time to set');
+              } else {
+                this.createAlarm(results.sessionTime);
+              }
             });
+            sendResponse('starting timer');
           }
-          return true;
         } catch (error) {
           console.log(error);
         }
@@ -97,27 +106,47 @@ const background = {
   },
   listenToTabs() {
     return tabs.onUpdated.addListener(function (tabId, changeInfo) {
+      console.log('listening to tabs');
       const url = changeInfo.pendingUrl || changeInfo.url;
-      if (!url || !url.startsWith('http')) {
-        return;
+      console.log('switched tabs');
+      if (changeInfo.pendingUrl || changeInfo.url) {
+        if (!url || !url.startsWith('http')) {
+          console.log('we are on the chrome extension');
+          return;
+        }
+        if (url.startsWith('http://localhost:8080/')) {
+          console.log('we are on the website');
+          scripting.executeScript(
+            {
+              target: { tabId },
+              files: ['localStorage.js'],
+            },
+            () => {
+              console.log('trying to grabb data from our website');
+            }
+          );
+        }
+        if (url && !url.startsWith('http://localhost:8080/')) {
+          console.log('we are not on the website');
+        }
       }
+      chrome.tabs.query({ active: false }, (tabs) => {
+        let tab = tabs.reduce((previous, current) => {
+          return previous.lastAccessed > current.lastAccessed
+            ? previous
+            : current;
+        });
+        console.log('found previous tab now executing script');
+        console.log('currentTab', tabId, '  previousTab', tab.id);
+      });
       const hostname = new URL(url).hostname;
       console.log('hostname:', hostname);
-      if (hostname === 'localhost' || !hostname) {
-        scripting.executeScript(
-          {
-            target: { tabId },
-            files: ['./localStorage.js'],
-          },
-          () => {
-            console.log('executing load script');
-          }
-        );
-      }
-      storage.local.set({ userAttempt: hostname });
+      // transfer storage
 
-      storage.local.get(['blocked'], function (local) {
-        const { blocked } = local;
+      storage.sync.set({ userAttempt: hostname });
+
+      storage.sync.get(['blocked'], function (sync) {
+        const { blocked } = sync;
         console.log('blocked:', blocked);
         if (
           Array.isArray(blocked) &&
@@ -138,7 +167,7 @@ const background = {
     // increment blocks in Blacklist table when a blacklisted site is blocked
 
     return chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
-      chrome.storage.local.get(['auth', 'blackList'], function (result) {
+      chrome.storage.sync.get(['auth', 'blackList'], function (result) {
         const { auth, blackList } = result;
         if (blackList) {
           const blackListAuth = blackList.filter((entry) => {
@@ -153,7 +182,7 @@ const background = {
             if (matchingBlackList) {
               matchingBlackList.blocks++;
               console.log('matchingBlackList:', matchingBlackList);
-              chrome.storage.local.set({ updatedBlackList: matchingBlackList });
+              chrome.storage.sync.set({ updatedBlackList: matchingBlackList });
             }
           }
         }
