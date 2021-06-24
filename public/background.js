@@ -66,29 +66,7 @@ const background = {
             await alarms.clearAll();
             // SETTING DATA IN STORAGE SYNC
             this.resetStorage();
-          }
-          // AFTER CLICKING LOGIN FOR GOOGLE
-          if (message === 'login') {
-            // GETS ALL DATA FROM STORAGE
-            storage.sync.get(null, (results) => {
-              // REQUEST TO SERVER
-              fetch('http://localhost:8080/auth/google', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  authorization: results.authToken,
-                },
-                body: JSON.stringify(results),
-              })
-                .then((response) => response.json())
-                .then((user) => {
-                  // SETS USER TO THE BACKGROUND.USER OBJECT
-                  this.setUser(user);
-                  sendResponse(this.user);
-                  storage.sync.set({ user });
-                })
-                .catch((error) => console.log('issue with fetch', error));
-            });
+
             // MUST RETURN TRUE  TO KEEP MESSAGE PORT OPEN
             return true;
           }
