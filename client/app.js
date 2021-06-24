@@ -23,9 +23,6 @@ const App = () => {
           dispatch({ type: 'SET_AUTH', auth: result.user });
         }
       });
-      chrome.runtime.sendMessage('app-starting', (response) => {
-        console.log('message from chrome', response);
-      });
     }
   }, [dispatch]);
 
