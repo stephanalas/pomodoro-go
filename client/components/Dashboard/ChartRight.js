@@ -34,11 +34,13 @@ const ChartRight = (props) => {
   const theme = useTheme();
   const { sessions } = props;
   const [rightChart, setRightChart] = useState('Frequency');
+  //set colors so that the charts are connected to the Mui theme
   const primaryColor = '#261689';
   const secondaryColor = '#5c4fa8';
   const tertiaryColor = '#9671a2';
   const fourthColor = '#e4ddee';
   const redColor = '#a83942';
+  const backgroundPaper = theme.palette.background.paper
 
   const handleRightChartChange = (event) => {
     setRightChart(event.target.value);
@@ -359,6 +361,7 @@ const ChartRight = (props) => {
   const chart = {
     options: {
       chart: {
+        background: backgroundPaper,
         toolbar: {
           show: true,
         },
@@ -369,6 +372,8 @@ const ChartRight = (props) => {
       },
 
       grid: {
+        borderColor: backgroundPaper,
+        position: 'front',
         xaxis: {
           lines: {
             show: true,
@@ -381,9 +386,38 @@ const ChartRight = (props) => {
           },
         },
       },
-      theme: {
-        palette: theme.pallete
-
+      // theme: {
+      //   palette: theme.pallete
+      // },
+      plotOptions: {
+        heatmap: {
+          // radius: 2,
+          enableShades: true,
+          shadeIntensity: 0.5,
+          // reverseNegativeShade: true,
+          // distributed: false,
+          // useFillColorAsStroke: false,
+          colorScale: {
+            ranges: [{
+              from: 0,
+              to: 0,
+              color: backgroundPaper,
+              // foreColor: undefined,
+              // name: undefined,
+            }],
+            // inverse: false,
+            // min: undefined,
+            // max: undefined
+          },
+        }
+      },
+      stroke: {
+        show: true,
+        curve: 'smooth',
+        lineCap: 'butt',
+        colors: [backgroundPaper],
+        width: 2,
+        dashArray: 0,
       },
       tooltip: {
         enabled: true,

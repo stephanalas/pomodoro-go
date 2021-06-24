@@ -11,8 +11,8 @@ import App from './app';
 const theme = createMuiTheme({
   palette: {
     background: {
-      default: '#FFFFFF',
-      paper: '#FFFFFF',
+      default: '#ffffff',
+      paper: '#ffffff',
     },
     //   divider: 'rgba(145, 158, 171, 0.24)',
     //   error: {
