@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { authenticateGoogle, logout, me } from '../store';
 import { FcGoogle } from 'react-icons/fc';
-import { GoogleLogin } from 'react-google-login';
-import { useGoogleLogin } from 'react-google-login';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
 // https://react-icons.github.io/react-icons/search?q=googl
 
 import {
@@ -43,11 +42,9 @@ class Navbar extends Component {
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
   }
-  async handleSuccess(response) {
-    console.log('google sign in success');
+  handleSuccess(response) {
     console.log(response);
-    localStorage.setItem('token', response.accessToken);
-    await this.props.getMe(response);
+    this.props.getMe(response);
   }
   handleFail(response) {
     console.log('sign in failure', response);
@@ -61,6 +58,7 @@ class Navbar extends Component {
   }
   handleLogOut() {
     this.setState({ anchorEl: null });
+
     this.props.handleClick();
   }
 
@@ -70,16 +68,6 @@ class Navbar extends Component {
 
     return (
       <div>
-        <GoogleLogin
-          clientId="811227993938-nd59os35t80qtuqgmul58232c54sbmsm.apps.googleusercontent.com"
-          buttonText="Login"
-          onSuccess={this.handleSuccess}
-          onFailure={this.handleFail}
-          cookiePolicy={'single_host_origin'}
-          // isSignedIn={true}
-          redirectUri={'http://localhost:8080/home'}
-        />
-        ,
         <nav id="navBar">
           <AppBar
             position="static"
@@ -163,28 +151,22 @@ class Navbar extends Component {
               <span />
               <div id="extension-login">
                 {this.props.isLoggedIn ? (
-                  <Button
-                    id="googleSignOut"
-                    style={{
-                      textTransform: 'none',
-                      textAlign: 'center',
-                    }}
-                  >
-                    <FcGoogle id="googleIcon" />
-                    Sign Out with Google
-                  </Button>
+                  <GoogleLogout
+                    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                    buttonText="Logout"
+                    onLogoutSuccess={this.handleLogOut}
+                    isSignedIn={this.props.isLoggedIn}
+                  ></GoogleLogout>
                 ) : (
-                  <Button
-                    id="googleSignIn"
-                    style={{
-                      textTransform: 'none',
-                      textAlign: 'center',
-                    }}
-                    onClick={this.handleLogIn}
-                  >
-                    <FcGoogle id="googleIcon" />
-                    Log In with Google
-                  </Button>
+                  <GoogleLogin
+                    clientId="811227993938-nd59os35t80qtuqgmul58232c54sbmsm.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={this.handleSuccess}
+                    onFailure={this.handleFail}
+                    cookiePolicy={'single_host_origin'}
+                    isSignedIn={this.props.isLoggedIn}
+                    redirectUri={'http://localhost:8080/home'}
+                  />
                 )}
               </div>
             </Toolbar>
