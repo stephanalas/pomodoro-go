@@ -18,7 +18,7 @@ export const Home = (props) => {
     <div id="main">
       <div id="container" display="inline">
         <h3>Welcome, {username}</h3>
-        <div id="controls">
+        {/* <div id="controls">
           <Link to="/blocksites">
             <button>
               <DomainDisabledIcon />
@@ -33,7 +33,7 @@ export const Home = (props) => {
               Friends
             </button>
           </Link>
-        </div>
+        </div> */}
         <CreateSession />
         <Player />
       </div>

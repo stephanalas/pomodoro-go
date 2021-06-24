@@ -16,7 +16,9 @@ import {
 import { AccountBox, HomeOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
-import GoogleButton from 'react-google-button';
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import DomainDisabledIcon from '@material-ui/icons/DomainDisabled';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 // https://stackoverflow.com/questions/56432167/how-to-style-components-using-makestyles-and-still-have-lifecycle-methods-in-mat
 const styles = () => ({
@@ -27,7 +29,6 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // isGoogleLogedIn: false,
       anchorEl: null,
       authInstance: {},
     };
@@ -81,26 +82,65 @@ class Navbar extends Component {
               >
                 <AccountBox style={{ color: '#e0e2e4', fontSize: 30 }} />
               </IconButton>
-              {/* || this.state.isGoogleLogedIn  */}
               {isLoggedIn ? (
-                <Menu
-                  id="menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  aria-haspopup="true"
-                  onClose={() => this.setState({ anchorEl: null })}
-                >
-                  <MenuItem
-                    key="Login"
-                    component={Link}
-                    onClick={() => this.setState({ anchorEl: null })}
-                    to="/dashboard"
+                <>
+                  <Menu
+                    id="menu"
+                    aria-label="menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    aria-haspopup="true"
+                    onClose={() => this.setState({ anchorEl: null })}
                   >
-                    Dashboard
-                  </MenuItem>
-                  <MenuItem onClick={this.handleLogOut}>Logout</MenuItem>
-                </Menu>
+                    <MenuItem onClick={this.handleLogOut}>Logout</MenuItem>
+                  </Menu>
+                  <IconButton
+                    id="dashboard"
+                    // aria-label="menu"
+                    // aria-haspopup="true"
+                    edge="start"
+                    size="medium"
+                    component={Link}
+                    to="/dashboard"
+                    onClick={(ev) =>
+                      this.setState({ anchorEl: ev.currentTarget })
+                    }
+                    // ref={anchorRef}
+                  >
+                    <AssessmentIcon
+                      style={{ color: '#e0e2e4', fontSize: 30 }}
+                    />
+                  </IconButton>
+                  <IconButton
+                    id="blocksites"
+                    // aria-label="menu"
+                    edge="start"
+                    size="medium"
+                    component={Link}
+                    to="/blocksites"
+                    onClick={(ev) =>
+                      this.setState({ anchorEl: ev.currentTarget })
+                    }
+                  >
+                    <DomainDisabledIcon
+                      style={{ color: '#e0e2e4', fontSize: 30 }}
+                    />
+                  </IconButton>
+                  <IconButton
+                    id="friends"
+                    // aria-label="menu"
+                    edge="start"
+                    size="medium"
+                    component={Link}
+                    to="/friends"
+                    onClick={(ev) =>
+                      this.setState({ anchorEl: ev.currentTarget })
+                    }
+                  >
+                    <PeopleAltIcon style={{ color: '#e0e2e4', fontSize: 30 }} />
+                  </IconButton>
+                </>
               ) : (
                 <Menu
                   id="menu"
@@ -128,12 +168,50 @@ class Navbar extends Component {
                   </MenuItem>
                 </Menu>
               )}
-
+              {/* <div>
+              {isLoggedIn?(
+                <>
+                <IconButton 
+                id="dashboard"
+                // aria-label="menu"
+                // aria-haspopup="true"
+                edge="start"
+                size="medium"
+                component={Link}
+                to="/dashboard"
+                onClick={(ev) => this.setState({ anchorEl: ev.currentTarget })}
+                // ref={anchorRef}
+                 >
+                <AssessmentIcon style={{ color: '#e0e2e4', fontSize: 30 }} />
+                </IconButton>
+                <IconButton 
+                id="blocksites"
+                // aria-label="menu"
+                edge="start"
+                size="medium"
+                component={Link}
+                to="/blocksites"
+                onClick={(ev) => this.setState({ anchorEl: ev.currentTarget })}
+              >
+                <DomainDisabledIcon style={{ color: '#e0e2e4', fontSize: 30 }} />
+                </IconButton>
+                <IconButton 
+                id="friends"
+                // aria-label="menu"
+                edge="start"
+                size="medium"
+                component={Link}
+                to="/friends"
+                onClick={(ev) => this.setState({ anchorEl: ev.currentTarget })}
+              >
+                <PeopleAltIcon style={{ color: '#e0e2e4', fontSize: 30 }} />
+                </IconButton>
+                </>
+                ):(null)} */}
+              {/* </div> */}
               <Typography id="pomo-go" variant="h4">
                 Pomodoro,go!
               </Typography>
-              {/* {isGoogleLogedIn ? <GLogout /> : <GLogin />} */}
-              <span />
               <div id="extension-login">
                 {this.props.isLoggedIn ? (
                   <Button
@@ -141,7 +219,6 @@ class Navbar extends Component {
                     style={{
                       textTransform: 'none',
                       textAlign: 'center',
-                      color: 'rgb(66, 133, 244)',
                     }}
                   >
                     <FcGoogle id="googleIcon" />
@@ -153,7 +230,6 @@ class Navbar extends Component {
                     style={{
                       textTransform: 'none',
                       textAlign: 'center',
-                      color: 'rgb(66, 133, 244)',
                     }}
                     onClick={this.handleLogIn}
                   >

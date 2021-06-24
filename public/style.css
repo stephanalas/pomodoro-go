@@ -15,18 +15,17 @@ a {
   margin: 0;
   padding: 0px, 0;
 }
-#navBar .home {
+/* #navBar .home {
   justify-content: start;
   flex-wrap: wrap;
-  /* z-index: 200; */
-}
+  z-index: 200;
+} */
 #navBar .account {
   justify-content: start;
   flex-wrap: wrap;
   /* z-index: 200; */
 }
-
-#Intro {
+*/ #Intro {
   display: flex;
   padding: 50px;
   margin: 100px;
