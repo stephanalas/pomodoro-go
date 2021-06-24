@@ -63,7 +63,11 @@ const AuthForm = (props) => {
         {name === 'signup' ? (
           <Paper className={classes.login}>
             <Grid container direction="column" alignItems="center">
-              <Typography color="primaryContrast">
+              <Typography
+                style={{
+                  marginBottom: '10px',
+                }}
+              >
                 Sign Up for an Account
               </Typography>
               <TextField
@@ -71,7 +75,6 @@ const AuthForm = (props) => {
                 label="Username"
                 name="username"
                 value={username}
-                margin="normal"
                 onChange={onChange}
                 variant="outlined"
                 className={classes.item}
@@ -83,7 +86,6 @@ const AuthForm = (props) => {
                   label="E-mail"
                   name="email"
                   value={email}
-                  margin="normal"
                   onChange={onChange}
                   variant="outlined"
                   className={classes.item}
@@ -96,7 +98,6 @@ const AuthForm = (props) => {
                   label="Password"
                   name="password"
                   value={password}
-                  margin="normal"
                   onChange={onChange}
                   variant="outlined"
                   className={classes.item}
@@ -113,7 +114,7 @@ const AuthForm = (props) => {
                   color="primary"
                   style={{
                     color: 'white',
-                    margin: '10px',
+                    marginTop: '10px',
                   }}
                   className={classes.item}
                 >
@@ -122,12 +123,14 @@ const AuthForm = (props) => {
               </Grid>
               <Grid item>
                 <Grid item>
-                  <Typography variant="caption" color="primaryContrast">
+                  <Typography variant="caption">
                     Already have an account?
                     {`
               `}
-                    <Link href={`${process.env.API_URL}/login`}>Log in</Link>
                   </Typography>
+                  <Link variant="caption" href={`${process.env.API_URL}/login`}>
+                    Log in
+                  </Link>
                 </Grid>
               </Grid>
             </Grid>
@@ -135,16 +138,13 @@ const AuthForm = (props) => {
         ) : (
           <Paper className={classes.login}>
             <Grid container direction="column" alignItems="center">
-              <Typography color="primaryContrast">
-                Log In to Your Account
-              </Typography>
+              <Typography>Log In to Your Account</Typography>
               <Grid item>
                 <TextField
                   id="email"
                   label="E-mail"
                   name="email"
                   value={email}
-                  margin="normal"
                   onChange={onChange}
                   variant="outlined"
                   className={classes.item}
@@ -157,7 +157,6 @@ const AuthForm = (props) => {
                   label="Password"
                   name="password"
                   value={password}
-                  margin="normal"
                   onChange={onChange}
                   variant="outlined"
                   className={classes.item}
@@ -175,7 +174,7 @@ const AuthForm = (props) => {
                   style={{
                     // backgroundColor: '#5061a9',
                     color: 'white',
-                    margin: '10px',
+                    marginTop: '10px',
                   }}
                   className={classes.item}
                 >
@@ -184,12 +183,17 @@ const AuthForm = (props) => {
               </Grid>
               <Grid item>
                 <Grid item>
-                  <Typography variant="caption" color="primaryContrast">
+                  <Typography variant="caption">
                     Need an account?
                     {`
             `}
-                    <Link href={`${process.env.API_URL}/signup`}>Sign up</Link>
                   </Typography>
+                  <Link
+                    variant="caption"
+                    href={`${process.env.API_URL}/signup`}
+                  >
+                    Sign up
+                  </Link>
                 </Grid>
               </Grid>
             </Grid>
@@ -211,7 +215,7 @@ const AuthForm = (props) => {
 const mapLogin = (state) => {
   return {
     name: 'login',
-    displayName: 'Login',
+    displayName: 'Log In',
     error: state.auth.error,
   };
 };
