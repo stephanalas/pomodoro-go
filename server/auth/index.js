@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const jwt = require('jsonwebtoken');
 const {
   models: { User },
 } = require('../db');
@@ -28,11 +29,7 @@ router.post('/signup', async (req, res, next) => {
 
 router.get('/me', async (req, res, next) => {
   try {
-    const { method } = req.body;
-
-    res.send(
-      await User.findByToken(req.headers.authorization, method ? method : null)
-    );
+    res.send(await User.findByToken(req.headers.authorization));
   } catch (ex) {
     next(ex);
   }
@@ -40,22 +37,27 @@ router.get('/me', async (req, res, next) => {
 
 router.post('/google', async (req, res, next) => {
   try {
-    const { email } = req.body;
+    const { email, name, imageUrl } = req.body.profileObj;
+    const { tokenId } = req.body;
+    const user = await User.findOne({ where: { googleToken: tokenId } });
+    console.log('found google user', user);
+    if (!user) {
+      var password = generator.generate({
+        length: 10,
+        numbers: true,
+      });
 
-    const token = req.headers.authorization;
-
-    if (token) {
-      let user = await User.findByGoogleToken(token);
-      if (!user) {
-        const password = generator.generate({
-          length: 10,
-          numbers: true,
-        });
-        user = await User.create({ email, password, googleToken: token });
-      }
-      console.log(user);
-      res.send(user);
-    } else throw Error('No google Token');
+      const newUser = await User.create({
+        email,
+        username: name,
+        password,
+        googleToken: req.headers.authorization,
+      });
+      console.log('created new google user', newUser);
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(200);
+    }
   } catch (error) {
     next(error);
   }

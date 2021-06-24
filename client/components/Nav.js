@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logout } from '../store';
+import { authenticateGoogle, logout, me } from '../store';
 import { FcGoogle } from 'react-icons/fc';
+import { GoogleLogin } from 'react-google-login';
+import { useGoogleLogin } from 'react-google-login';
 // https://react-icons.github.io/react-icons/search?q=googl
+
 import {
   AppBar,
   Toolbar,
@@ -17,12 +20,16 @@ import { AccountBox, HomeOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import GoogleButton from 'react-google-button';
+import axios from 'axios';
 
 // https://stackoverflow.com/questions/56432167/how-to-style-components-using-makestyles-and-still-have-lifecycle-methods-in-mat
 const styles = () => ({
   header: { color: 'white' },
 });
 
+const responseGoogle = (response) => {
+  console.log(response);
+};
 class Navbar extends Component {
   constructor(props) {
     super(props);
@@ -31,10 +38,20 @@ class Navbar extends Component {
       anchorEl: null,
       authInstance: {},
     };
+    this.handleSuccess = this.handleSuccess.bind(this);
+    this.handleFail = this.handleFail.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
   }
-
+  async handleSuccess(response) {
+    console.log('google sign in success');
+    console.log(response);
+    localStorage.setItem('token', response.accessToken);
+    await this.props.getMe(response);
+  }
+  handleFail(response) {
+    console.log('sign in failure', response);
+  }
   handleLogIn() {
     if (chrome.storage) {
       chrome.storage.sync.get(['user'], (result) => {
@@ -53,6 +70,16 @@ class Navbar extends Component {
 
     return (
       <div>
+        <GoogleLogin
+          clientId="811227993938-nd59os35t80qtuqgmul58232c54sbmsm.apps.googleusercontent.com"
+          buttonText="Login"
+          onSuccess={this.handleSuccess}
+          onFailure={this.handleFail}
+          cookiePolicy={'single_host_origin'}
+          // isSignedIn={true}
+          redirectUri={'http://localhost:8080/home'}
+        />
+        ,
         <nav id="navBar">
           <AppBar
             position="static"
@@ -181,6 +208,9 @@ const mapDispatch = (dispatch) => {
   return {
     handleClick() {
       dispatch(logout());
+    },
+    getMe(data) {
+      dispatch(authenticateGoogle(data));
     },
   };
 };

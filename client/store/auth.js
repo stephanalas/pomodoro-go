@@ -34,19 +34,18 @@ export const me = () => async (dispatch) => {
     return dispatch(setAuth(res.data));
   }
 };
-
-export const authenticateGoogle = (email) => async (dispatch) => {
-  try {
-    const res = await axios.post(`${process.env.API_URL}/auth/google`, {
-      email,
-    });
-    window.localStorage.setItem(TOKEN, res.data.token);
-    dispatch(me());
-  } catch (error) {
-    console.log('error with authenticate google ');
-    throw error;
-  }
-};
+export const authenticateGoogle =
+  (data = {}) =>
+    async (dispatch) => {
+      try {
+        await axios.post('/auth/google', data, {
+          headers: { authorization: data.accessToken },
+        });
+        dispatch(me());
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
 export const authenticate =
   (username, email, password, method) => async (dispatch) => {
