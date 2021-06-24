@@ -6,7 +6,7 @@ const { db, models: { Block } } = require('../db')
 const seed = require('../../script/seed');
 const app = require('../app')
 
-describe.only('Block routes', () => {
+describe('Block routes', () => {
   before(async() => {
     await seed();
   });
@@ -27,6 +27,13 @@ describe.only('Block routes', () => {
         .expect(200);
 
       expect(res.body[0]).to.have.property('site');
+    });
+    it('Include User model', async () => {
+      const res = await request(app)
+        .get('/api/blocks')
+        .expect(200);
+
+      expect(res.body[0]).to.have.property('user');
     });
 
   });

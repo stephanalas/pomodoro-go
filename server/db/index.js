@@ -35,6 +35,8 @@ User.belongsToMany(User, {
 
 Block.belongsTo(Site);
 Site.hasMany(Block);
+Block.belongsTo(User);
+User.hasMany(Block)
 
 
 module.exports = {
