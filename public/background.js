@@ -1,5 +1,5 @@
 'use strict';
-const { storage, tabs, runtime, alarms } = chrome;
+const { storage, tabs, runtime, alarms, scripting } = chrome;
 
 const background = {
   user: {},
@@ -34,13 +34,13 @@ const background = {
     this.listenForBlackListIncrement();
     this.listenForDashboardRedirect();
   },
-  createAlarm() {
+  createAlarm(ms) {
     chrome.alarms.create('timer', {
-      when: Date.now() + changes.currentSession.newValue.sessionTime,
+      when: Date.now() + Number(ms),
     });
     this.alarmCreated = true;
-    const { alarmCreated } = this;
-    chrome.storage.sync.set({ alarmCreated });
+    chrome.storage.sync.set({ alarmCreated: true });
+    console.log('alarm creeated!!!');
   },
   resetStorage() {
     storage.sync.set({
@@ -69,6 +69,16 @@ const background = {
 
             // MUST RETURN TRUE  TO KEEP MESSAGE PORT OPEN
             return true;
+          }
+          if (message === 'startTimer') {
+            chrome.storage.sync.get(['sessionTime'], (results) => {
+              if (!results.sessionTime) {
+                console.log('no time to set');
+              } else {
+                this.createAlarm(results.sessionTime);
+              }
+            });
+            sendResponse('starting timer');
           }
         } catch (error) {
           console.log(error);
@@ -102,30 +112,59 @@ const background = {
       // logging out the changes in storage
       // THIS CODE IS FOR DEV PURPOSES
       // YOU WILL HAVE ALOT OF LOGS IN CONSOLE
-      // for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-      //   console.log(
-      //     `Storage key "${key}" in namespace "${namespace}" changed.`,
-      //     `Old value was "${JSON.stringify(
-      //       oldValue
-      //     )}", new value is "${JSON.stringify(newValue)}".`
-      //   );
-      // }
+      for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+        console.log(
+          `Storage key "${key}" in namespace "${namespace}" changed.`,
+          `Old value was "${JSON.stringify(
+            oldValue
+          )}", new value is "${JSON.stringify(newValue)}".`
+        );
+      }
     });
   },
   listenToTabs() {
     return tabs.onUpdated.addListener(function (tabId, changeInfo) {
+      console.log('listening to tabs');
       const url = changeInfo.pendingUrl || changeInfo.url;
-
-      if (!url || !url.startsWith('http')) {
-        return;
+      console.log('switched tabs');
+      if (changeInfo.pendingUrl || changeInfo.url) {
+        if (!url || !url.startsWith('http')) {
+          console.log('we are on the chrome extension');
+          return;
+        }
+        if (url.startsWith('http://localhost:8080/')) {
+          console.log('we are on the website');
+          scripting.executeScript(
+            {
+              target: { tabId },
+              files: ['localStorage.js'],
+            },
+            () => {
+              console.log('trying to grabb data from our website');
+            }
+          );
+        }
+        if (url && !url.startsWith('http://localhost:8080/')) {
+          console.log('we are not on the website');
+        }
       }
+      chrome.tabs.query({ active: false }, (tabs) => {
+        let tab = tabs.reduce((previous, current) => {
+          return previous.lastAccessed > current.lastAccessed
+            ? previous
+            : current;
+        });
+        console.log('found previous tab now executing script');
+        console.log('currentTab', tabId, '  previousTab', tab.id);
+      });
       const hostname = new URL(url).hostname;
       console.log('hostname:', hostname);
+      // transfer storage
 
-      storage.local.set({ userAttempt: hostname });
+      storage.sync.set({ userAttempt: hostname });
 
-      storage.local.get(['blocked'], function (local) {
-        const { blocked } = local;
+      storage.sync.get(['blocked'], function (sync) {
+        const { blocked } = sync;
         console.log('blocked:', blocked);
         if (
           Array.isArray(blocked) &&
@@ -146,7 +185,7 @@ const background = {
     // increment blocks in Blacklist table when a blacklisted site is blocked
 
     return chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
-      chrome.storage.local.get(['auth', 'blackList'], function (result) {
+      chrome.storage.sync.get(['auth', 'blackList'], function (result) {
         const { auth, blackList } = result;
         if (blackList) {
           const blackListAuth = blackList.filter((entry) => {
@@ -161,7 +200,7 @@ const background = {
             if (matchingBlackList) {
               matchingBlackList.blocks++;
               console.log('matchingBlackList:', matchingBlackList);
-              chrome.storage.local.set({ updatedBlackList: matchingBlackList });
+              chrome.storage.sync.set({ updatedBlackList: matchingBlackList });
             }
           }
         }
