@@ -1,10 +1,11 @@
 const router = require('express').Router();
-const jwt = require('jsonwebtoken');
+
 const {
   models: { User },
 } = require('../db');
 module.exports = router;
 const generator = require('generate-password');
+const { default: axios } = require('axios');
 
 router.post('/login', async (req, res, next) => {
   try {
@@ -37,10 +38,11 @@ router.get('/me', async (req, res, next) => {
 
 router.post('/google', async (req, res, next) => {
   try {
+    const response = await axios.get(
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.headers.authorization}`
+    );
     const { email, name, imageUrl } = req.body.profileObj;
-    const { tokenId } = req.body;
-    const user = await User.findOne({ where: { googleToken: tokenId } });
-    console.log('found google user', user);
+    const user = await User.findOne({ where: { username: name } });
     if (!user) {
       var password = generator.generate({
         length: 10,
@@ -51,12 +53,12 @@ router.post('/google', async (req, res, next) => {
         email,
         username: name,
         password,
-        googleToken: req.headers.authorization,
       });
-      console.log('created new google user', newUser);
-      res.sendStatus(201);
+      const token = newUser.generateToken();
+      console.log('token after user create', token);
+      res.send({ token });
     } else {
-      res.sendStatus(200);
+      res.send({ token: user.generateToken() });
     }
   } catch (error) {
     next(error);
