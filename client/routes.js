@@ -13,7 +13,7 @@ import BlockError from './components/BlockError';
 import BlockSites from './components/BlockSites';
 import Player from './components/Player';
 import Friends from './components/Friends/Friends';
-
+import RedirectToSite from './components/RedirectToSite';
 /**
  * COMPONENT
  */
@@ -26,12 +26,12 @@ class Routes extends Component {
     const { isLoggedIn, auth, blackList, updateB } = this.props;
     //this enters auth and blackList into chrome.storage so it can be accessed
     //in background.js file
-    if (auth) {
-      if (chrome.storage) chrome.storage.local.set({ auth: auth });
-    }
-    if (blackList) {
-      if (chrome.storage) chrome.storage.local.set({ blackList: blackList });
-    }
+    // if (auth) {
+    //   if (chrome.storage) chrome.storage.local.set({ auth: auth });
+    // }
+    // if (blackList) {
+    //   if (chrome.storage) chrome.storage.local.set({ blackList: blackList });
+    // }
     //this listens for changes in chrome.storage so that it can update the database
     // with the updated blacklist info
     if (chrome.storage)
@@ -50,7 +50,8 @@ class Routes extends Component {
 
     return (
       <div style={{ height: '100%' }}>
-        {isLoggedIn ? (
+        {chrome.storage ? <RedirectToSite /> : null}
+        {isLoggedIn && !chrome.storage ? (
           <Switch>
             <Route path="/home" component={Home} />
             <Route path="/dashboard" component={Dashboard} />
