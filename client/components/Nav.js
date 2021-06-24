@@ -141,6 +141,7 @@ class Navbar extends Component {
                     style={{
                       textTransform: 'none',
                       textAlign: 'center',
+                      color: 'rgb(66, 133, 244)',
                     }}
                   >
                     <FcGoogle id="googleIcon" />
@@ -152,6 +153,7 @@ class Navbar extends Component {
                     style={{
                       textTransform: 'none',
                       textAlign: 'center',
+                      color: 'rgb(66, 133, 244)',
                     }}
                     onClick={this.handleLogIn}
                   >

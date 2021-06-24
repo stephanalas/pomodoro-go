@@ -34,7 +34,7 @@ export const Home = (props) => {
             </button>
           </Link>
         </div>
-        <CreateSession style={{ display: 'inline' }} />
+        <CreateSession />
         <Player />
       </div>
     </div>

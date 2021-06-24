@@ -34,7 +34,7 @@ const CreateSession = (props) => {
 
   return (
     <SessionContext.Provider
-      value={{ goal, setGoal, sessionTime, setSessionTime }}
+      // value={{ goal, setGoal, sessionTime, setSessionTime }}
       value={{
         sessionTime,
         setSessionTime,

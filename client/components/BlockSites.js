@@ -149,7 +149,6 @@ const BlockSites = (props) => {
     padding: 20,
     width: 880,
     margin: '30px auto',
-    // backgroundColor: '#e0e2e4',
   };
 
   return (
