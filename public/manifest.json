@@ -13,8 +13,11 @@
     "notifications",
     "identity",
     "identity.email",
-    "<all_urls>",
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "scripting",
+    "http://*/",
+    "https://*/",
+    "<URL>"
   ],
   "background": {
     "service_worker": "background.js"
@@ -22,6 +25,15 @@
   "action": {
     "default_popup": "popup.html"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["localStorage.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true
+    }
+  ],
   "oauth2": {
     "client_id": "811227993938-bdnup0onkbhf33rejoirhia20j2kf51r.apps.googleusercontent.com",
     "scopes": ["https://www.googleapis.com/auth/userinfo.email"]
