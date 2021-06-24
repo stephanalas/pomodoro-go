@@ -71,7 +71,6 @@ User.authenticate = async function (userObj, method = null) {
   }
   const { email, password } = userObj;
   const user = await this.findOne({ where: { email } });
-  console.log(await user.correctPassword(password));
   if (!user || !(await user.correctPassword(password))) {
     const error = Error('Incorrect username/password');
     error.status = 401;
@@ -80,19 +79,20 @@ User.authenticate = async function (userObj, method = null) {
   return user.generateToken();
 };
 
-User.findByGoogleToken = (token) => {
-  return User.findOne({ where: { googleToken: token } });
-};
-
-User.findByToken = async function (token, method = null) {
+User.findByToken = async function (token) {
   try {
     const { id } = await jwt.verify(token, process.env.JWT);
-    const user = User.findByPk(id);
+    let user = await User.findByPk(id);
     if (!user) {
+      console.log('no user from jwt');
       throw 'nooo';
     }
     return user;
   } catch (ex) {
+    const user = await User.findOne({ where: { googleToken: token } });
+    console.log('checking for google user');
+    console.log(user);
+    if (user) return user;
     const error = Error('bad token');
     error.status = 401;
     throw error;
