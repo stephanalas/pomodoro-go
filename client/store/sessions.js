@@ -86,7 +86,6 @@ const updateSession = (sessionId, sessionInfo) => async (dispatch) => {
       sessionInfo
     );
     const { data } = response;
-    chrome.storage.sync.set({ currentSession: data });
     dispatch(updateSessionActionCreator(data));
   } catch (error) {
     console.log('error in updateSession thunk');
