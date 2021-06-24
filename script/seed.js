@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Session, Site, Task, BlackList, Friendship },
+  models: { User, Session, Site, Task, BlackList, Friendship, Block },
 } = require('../server/db');
 
 /**
@@ -153,6 +153,20 @@ async function seed() {
       requesterId: murphy.id,
       requestStatus: 'approved',
     }),
+  ]);
+
+  // Creating blocks
+  await Promise.all([
+    Block.create({
+      siteId: twitter.id
+    }),
+    Block.create({
+      siteId: facebook.id
+    }),
+    Block.create({
+      siteId: instagram.id
+    }),
+
   ]);
 
   return {
