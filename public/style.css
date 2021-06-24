@@ -67,7 +67,7 @@ form * {
   border: none;
   text-align: left;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
-  font-size: 18px;
+  font-size: 16px;
   /* line-height: 48px;  */
   display: block;
   border-radius: 3px;
@@ -84,7 +84,7 @@ form * {
   border: none;
   text-align: left;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
-  font-size: 18px;
+  font-size: 16px;
   /* line-height: 48px;  */
   display: block;
   border-radius: 3px;
@@ -99,6 +99,11 @@ form * {
   padding: 0;
   margin: 0 0 0 0;
   vertical-align: text-top;
+}
+
+#blockList {
+  display: flex;
+  position: center;
 }
 #main {
   width: 90%;

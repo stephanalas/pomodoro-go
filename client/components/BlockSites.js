@@ -3,25 +3,40 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { lightGreen } from '@material-ui/core/colors';
-import { Typography, FormControlLabel, Switch, Card, CardContent, CardActions, Chip, Button, TextField, Select, FormHelperText, FormControl, InputLabel, MenuItem }  from '@material-ui/core';
+import {
+  Typography,
+  FormControlLabel,
+  Switch,
+  Card,
+  CardContent,
+  CardActions,
+  Chip,
+  Button,
+  TextField,
+  Select,
+  FormHelperText,
+  FormControl,
+  InputLabel,
+  MenuItem,
+} from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
-
+import { Paper } from '@material-ui/core';
 import { getSites, addSite, deleteSite } from '../store/blockSites';
 
 // material-ui style definitions
 const LightGreenSwitch = withStyles({
   switchBase: {
-    color: lightGreen[300],
+    color: '#5061a9',
     '&$checked': {
-      color: lightGreen[500],
+      color: '#9a6781',
     },
     '&$checked + $track': {
-      backgroundColor: lightGreen[500],
+      backgroundColor: '#9a6781',
     },
     '& + $track': {
-      backgroundColor: lightGreen[50],
+      backgroundColor: '#e0e2e4',
       opacity: 1,
       border: 'none',
     },
@@ -32,10 +47,10 @@ const LightGreenSwitch = withStyles({
 
 const LightGreenButton = withStyles((theme) => ({
   root: {
-    color: lightGreen[50],
-    backgroundColor: lightGreen[500],
+    color: 'white',
+    backgroundColor: '#5061a9',
     '&:hover': {
-      backgroundColor: lightGreen[700],
+      backgroundColor: '#9a6781',
     },
   },
 }))(Button);
@@ -53,16 +68,18 @@ const useStyles = makeStyles({
   },
   textfield: {
     width: 350,
+    height: 55,
     marginRight: '10px',
   },
   button: {
     height: 55,
+    marginRight: '30px',
   },
 });
 //
 
 const Alert = (props) => {
-  return <MuiAlert elevation={6} variant='filled' {...props} />;
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
 
 //Start of component
@@ -115,46 +132,62 @@ const BlockSites = (props) => {
 
   //block functionalities - chrome API
   const blockIt = () => {
-    const blocked = props.blockedSites.filter((each) => {
-      return toggleStatus[`item${each.id}`] === true;
-    }).map((site) => {
-      return site.siteUrl;
-    });
+    const blocked = props.blockedSites
+      .filter((each) => {
+        return toggleStatus[`item${each.id}`] === true;
+      })
+      .map((site) => {
+        return site.siteUrl;
+      });
     console.log(blocked);
     chrome.storage.local.set({ blocked }, function () {
       console.log('we shall block', blocked);
     });
   };
 
-  //
+  const paperStyle = {
+    padding: 20,
+    width: 880,
+    margin: '30px auto',
+    // backgroundColor: '#e0e2e4',
+  };
 
   return (
-    <div id='blockList'>
-      {chrome.storage === undefined ? (<Alert severity='warning'>You are not using the extension - functionalities on this page would not work properly!</Alert>) : undefined}
-      <Typography variant='h5' gutterBottom>
+    <Paper elevation={10} style={paperStyle}>
+      {chrome.storage === undefined ? (
+        <Alert severity="warning">
+          You are not using the extension - functionalities on this page would
+          not work properly!
+        </Alert>
+      ) : undefined}
+      <Typography variant="h5" gutterBottom>
         Add sites to block list
       </Typography>
-      <form id='add-site' className={classes.form}>
+      <form id="add-site" className={classes.form}>
         <TextField
-          id='standard-helperText'
+          id="standard-helperText"
           value={urlInput.siteUrl}
-          label='URL'
+          label="URL"
           className={classes.textfield}
-          helperText='Enter URL to block'
-          variant='outlined'
-          onChange={(ev) => setUrlInput({...urlInput, siteUrl: ev.target.value})}
-          name='siteUrl'
+          helperText="Enter URL to block"
+          variant="outlined"
+          onChange={(ev) =>
+            setUrlInput({ ...urlInput, siteUrl: ev.target.value })
+          }
+          name="siteUrl"
         />
-        <FormControl variant='outlined'>
-          <InputLabel id='category-label'>Category</InputLabel>
+        <FormControl variant="outlined">
+          <InputLabel id="category-label">Category</InputLabel>
           <Select
-            labelId='category-label'
-            id='category'
-            name='category'
+            labelId="category-label"
+            id="category"
+            name="category"
             value={urlInput.category}
-            onChange={(ev) => setUrlInput({...urlInput, category: ev.target.value})}
+            onChange={(ev) =>
+              setUrlInput({ ...urlInput, category: ev.target.value })
+            }
           >
-            <MenuItem value=''>
+            <MenuItem value="">
               <em>None</em>
             </MenuItem>
             <MenuItem value={'socialMedia'}>Social Media</MenuItem>
@@ -164,7 +197,7 @@ const BlockSites = (props) => {
           <FormHelperText>Select a category</FormHelperText>
         </FormControl>
         <LightGreenButton
-          variant='contained'
+          variant="contained"
           startIcon={<AddIcon />}
           className={classes.button}
           onClick={submitNewUrl}
@@ -172,47 +205,48 @@ const BlockSites = (props) => {
           Add
         </LightGreenButton>
       </form>
-      <Typography variant='h5' gutterBottom>
+      <Typography variant="h5" gutterBottom>
         Sites you already blocked
       </Typography>
-      <div id='currBlocked'>
-        {props.blockedSites.length > 0 && props.blockedSites.map((each, idx) => {
-          return (
-            <Card className={classes.root} key={each.id} variant='outlined'>
-              <CardContent>
-                <Typography variant='body1'>
-                  Site URL: {each.siteUrl}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Chip label={each.category} variant='outlined' />
-                <FormControlLabel
-                  control={
-                    <LightGreenSwitch
-                      checked={
-                        toggleStatus[`item${each.id}`] !== undefined
-                          ? toggleStatus[`item${each.id}`]
-                          : true
-                      }
-                      onChange={handleChange}
-                      name={`item${each.id}`}
-                    />
-                  }
-                  label='Blocked'
-                />
-                <LightGreenButton
-                  variant='contained'
-                  startIcon={<DeleteIcon />}
-                  onClick={() => props.deleteSite(props.auth.id, each.id)}
-                >
-                  Delete
-                </LightGreenButton>
-              </CardActions>
-            </Card>
-          );
-        })}
+      <div id="currBlocked">
+        {props.blockedSites.length > 0 &&
+          props.blockedSites.map((each, idx) => {
+            return (
+              <Card className={classes.root} key={each.id} variant="outlined">
+                <CardContent>
+                  <Typography variant="body1">
+                    Site URL: {each.siteUrl}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Chip label={each.category} variant="outlined" />
+                  <FormControlLabel
+                    control={
+                      <LightGreenSwitch
+                        checked={
+                          toggleStatus[`item${each.id}`] !== undefined
+                            ? toggleStatus[`item${each.id}`]
+                            : true
+                        }
+                        onChange={handleChange}
+                        name={`item${each.id}`}
+                      />
+                    }
+                    label="Blocked"
+                  />
+                  <LightGreenButton
+                    variant="contained"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => props.deleteSite(props.auth.id, each.id)}
+                  >
+                    Delete
+                  </LightGreenButton>
+                </CardActions>
+              </Card>
+            );
+          })}
       </div>
-    </div>
+    </Paper>
   );
 };
 
@@ -233,7 +267,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     deleteSite: (userId, siteId) => {
       dispatch(deleteSite(userId, siteId));
-    }
+    },
   };
 };
 
