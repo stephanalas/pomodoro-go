@@ -34,19 +34,20 @@ export const me = () => async (dispatch) => {
     return dispatch(setAuth(res.data));
   }
 };
-
-export const authenticateGoogle = (email) => async (dispatch) => {
-  try {
-    const res = await axios.post(`${process.env.API_URL}/auth/google`, {
-      email,
-    });
-    window.localStorage.setItem(TOKEN, res.data.token);
-    dispatch(me());
-  } catch (error) {
-    console.log('error with authenticate google ');
-    throw error;
-  }
-};
+export const authenticateGoogle =
+  (data = {}) =>
+  async (dispatch) => {
+    try {
+      const response = await axios.post('/auth/google', data, {
+        headers: { authorization: data.tokenId },
+      });
+      console.log(response.data);
+      window.localStorage.setItem('token', response.data.token);
+      dispatch(me());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 export const authenticate =
   (username, email, password, method) => async (dispatch) => {
@@ -66,6 +67,7 @@ export const authenticate =
 
 export const logout = () => {
   window.localStorage.removeItem(TOKEN);
+  window.localStorage.removeItem('user');
   window.localStorage.removeItem(SPOTIFY_ACCESS_TOKEN);
   window.localStorage.removeItem(SPOTIFY_REFRESH_TOKEN);
   window.localStorage.removeItem(NEW_SPOTIFY_DEVICE);
@@ -81,14 +83,14 @@ export const logout = () => {
  */
 export default function (state = {}, action) {
   switch (action.type) {
-  case SET_AUTH:
-    if (action.auth.id) {
-      socket.emit('login', { userId: action.auth.id });
-    } else {
-      socket.emit('logout', { userId: state.id });
-    }
-    return action.auth;
-  default:
-    return state;
+    case SET_AUTH:
+      if (action.auth.id) {
+        socket.emit('login', { userId: action.auth.id });
+      } else {
+        socket.emit('logout', { userId: state.id });
+      }
+      return action.auth;
+    default:
+      return state;
   }
 }

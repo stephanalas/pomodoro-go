@@ -1,4 +1,4 @@
-const { UUID, UUIDV4, STRING, INTEGER, BOOLEAN } = require('sequelize');
+const { UUID, UUIDV4, STRING, INTEGER, TEXT, BOOLEAN } = require('sequelize');
 const db = require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -38,7 +38,7 @@ const User = db.define('user', {
     defaultValue: false,
   },
   googleToken: {
-    type: STRING,
+    type: TEXT,
     defaultValue: null,
   },
   profilePic: {
@@ -71,7 +71,6 @@ User.authenticate = async function (userObj, method = null) {
   }
   const { email, password } = userObj;
   const user = await this.findOne({ where: { email } });
-  console.log(await user.correctPassword(password));
   if (!user || !(await user.correctPassword(password))) {
     const error = Error('Incorrect username/password');
     error.status = 401;
@@ -80,15 +79,12 @@ User.authenticate = async function (userObj, method = null) {
   return user.generateToken();
 };
 
-User.findByGoogleToken = (token) => {
-  return User.findOne({ where: { googleToken: token } });
-};
-
 User.findByToken = async function (token, method = null) {
   try {
     const { id } = await jwt.verify(token, process.env.JWT);
-    const user = User.findByPk(id);
+    let user = await User.findByPk(id);
     if (!user) {
+      console.log('no user from jwt');
       throw 'nooo';
     }
     return user;

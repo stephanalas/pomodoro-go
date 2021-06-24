@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logout } from '../store';
+import { authenticateGoogle, logout, me } from '../store';
 import { FcGoogle } from 'react-icons/fc';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
 // https://react-icons.github.io/react-icons/search?q=googl
+
 import {
   AppBar,
   Toolbar,
@@ -28,36 +30,44 @@ const styles = () => ({
   login: { color: '#9671a2' },
 });
 
-class Navbar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      anchorEl: null,
-      authInstance: {},
-    };
-    this.handleLogOut = this.handleLogOut.bind(this);
-    this.handleLogIn = this.handleLogIn.bind(this);
-  }
+const responseGoogle = (response) => {
+  console.log(response);
+};
+const Navbar = (props) => {
+  const [isGoogleLoggedIn, setIsGoogleLoggedIn] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [authInstance, setAuthInstance] = useState({});
+  const handleSuccess = (response) => {
+    console.log(response);
+    props.getMe(response);
+  };
+  const handleFail = (response) => {
+    console.log('sign in failure', response);
+  };
+  const handleLogOut = () => {
+    setAnchorEl(null);
+    window.localStorage.clear();
+    props.handleClick();
+  };
 
-  handleLogIn() {
-    if (chrome.storage) {
-      chrome.storage.sync.get(['user'], (result) => {
-        console.log('onClick handler', result);
-      });
-    }
-  }
-  handleLogOut() {
-    this.setState({ anchorEl: null });
-    this.props.handleClick();
-  }
+  const { isLoggedIn, classes } = props;
 
-  render() {
-    const { isLoggedIn, classes } = this.props;
-    const { anchorEl } = this.state;
-
-    return (
-      <div>
-        <nav id="navBar">
+  return (
+    <div>
+      <nav id="navBar">
+        {chrome.storage ? (
+          <AppBar
+            position="static"
+            className={classes.header}
+            style={{ backgroundColor: '#5061a9' }}
+          >
+            <Toolbar>
+              <Typography id="pomo-go" align="center" variant="h4">
+                Pomodoro,go!
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        ) : (
           <AppBar
             position="static"
             className={classes.header}
@@ -83,7 +93,7 @@ class Navbar extends Component {
                 aria-haspopup="true"
                 edge="start"
                 size="medium"
-                onClick={(ev) => this.setState({ anchorEl: ev.currentTarget })}
+                onClick={(ev) => setAnchorEl(ev.currentTarget)}
                 // ref={anchorRef}
               >
                 <AccountBox style={{ color: '#e0e2e4', fontSize: 30 }} />
@@ -100,9 +110,9 @@ class Navbar extends Component {
                     keepMounted
                     open={Boolean(anchorEl)}
                     aria-haspopup="true"
-                    onClose={() => this.setState({ anchorEl: null })}
+                    onClose={() => setAnchorEl(null)}
                   >
-                    <MenuItem onClick={this.handleLogOut}>Logout</MenuItem>
+                    <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                     {/* <MenuItem onClick={this.handleLogOut}>Dashboard</MenuItem>
                   <MenuItem onClick={this.handleLogOut}>Block Sites</MenuItem>
                   <MenuItem onClick={this.handleLogOut}>Friends</MenuItem> */}
@@ -168,19 +178,19 @@ class Navbar extends Component {
                   keepMounted
                   open={Boolean(anchorEl)}
                   aria-haspopup="true"
-                  onClose={() => this.setState({ anchorEl: null })}
+                  onClose={() => setAnchorEl(null)}
                 >
                   <MenuItem
                     key="Login"
                     component={Link}
-                    onClick={() => this.setState({ anchorEl: null })}
+                    onClick={() => setAnchorEl(null)}
                     to="/login"
                   >
                     Log In
                   </MenuItem>
                   <MenuItem
                     key="SignUp"
-                    onClick={() => this.setState({ anchorEl: null })}
+                    onClick={() => setAnchorEl(null)}
                     component={Link}
                     to="/signup"
                   >
@@ -189,38 +199,32 @@ class Navbar extends Component {
                 </Menu>
               )}
               <div id="extension-login">
-                {this.props.isLoggedIn ? (
-                  <Button
-                    id="googleSignOut"
-                    style={{
-                      textTransform: 'none',
-                      textAlign: 'center',
-                    }}
-                  >
-                    <FcGoogle id="googleIcon" />
-                    Sign Out with Google
-                  </Button>
+                {props.isLoggedIn ? (
+                  <GoogleLogout
+                    clientId="811227993938-nd59os35t80qtuqgmul58232c54sbmsm.apps.googleusercontent.com"
+                    buttonText="Logout"
+                    onLogoutSuccess={handleLogOut}
+                    isSignedIn={props.isLoggedIn}
+                  ></GoogleLogout>
                 ) : (
-                  <Button
-                    id="googleSignIn"
-                    style={{
-                      textTransform: 'none',
-                      textAlign: 'center',
-                    }}
-                    onClick={this.handleLogIn}
-                  >
-                    <FcGoogle id="googleIcon" />
-                    Log In with Google
-                  </Button>
+                  <GoogleLogin
+                    clientId="811227993938-nd59os35t80qtuqgmul58232c54sbmsm.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={handleSuccess}
+                    onFailure={handleFail}
+                    cookiePolicy={'single_host_origin'}
+                    isSignedIn={props.isLoggedIn}
+                    redirectUri={'http://localhost:8080/home'}
+                  />
                 )}
               </div>
             </Toolbar>
           </AppBar>
-        </nav>
-      </div>
-    );
-  }
-}
+        )}
+      </nav>
+    </div>
+  );
+};
 
 /**
  * CONTAINER
@@ -235,6 +239,9 @@ const mapDispatch = (dispatch) => {
   return {
     handleClick() {
       dispatch(logout());
+    },
+    getMe(data) {
+      dispatch(authenticateGoogle(data));
     },
   };
 };

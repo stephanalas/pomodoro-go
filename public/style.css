@@ -1,5 +1,12 @@
-body {
+body,
+html * {
   font-family: sans-serif;
+  /* background-color: rgb(66, 66, 66); */
+  /* color: white; */
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
 }
 
 a {
