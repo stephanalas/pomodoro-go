@@ -1,4 +1,4 @@
-const { UUID, UUIDV4, STRING, INTEGER, BOOLEAN } = require('sequelize');
+const { UUID, UUIDV4, STRING, INTEGER, TEXT, BOOLEAN } = require('sequelize');
 const db = require('../db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -38,7 +38,7 @@ const User = db.define('user', {
     defaultValue: false,
   },
   googleToken: {
-    type: STRING,
+    type: TEXT,
     defaultValue: null,
   },
   profilePic: {
@@ -79,7 +79,7 @@ User.authenticate = async function (userObj, method = null) {
   return user.generateToken();
 };
 
-User.findByToken = async function (token) {
+User.findByToken = async function (token, method = null) {
   try {
     const { id } = await jwt.verify(token, process.env.JWT);
     let user = await User.findByPk(id);
@@ -89,10 +89,6 @@ User.findByToken = async function (token) {
     }
     return user;
   } catch (ex) {
-    const user = await User.findOne({ where: { googleToken: token } });
-    console.log('checking for google user');
-    console.log(user);
-    if (user) return user;
     const error = Error('bad token');
     error.status = 401;
     throw error;
