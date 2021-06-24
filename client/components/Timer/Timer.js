@@ -56,15 +56,19 @@ const Timer = (props) => {
     if (button === 'PLAY') {
       if (!currentSession.sessionTime) {
         updateSession(currentSession.id, { sessionTime });
+        console.log('props', props);
       }
-      chrome.storage.sync.set({ timerOn: true });
+      localStorage.setItem('currentSession', JSON.stringify(currentSession));
       setCountDown(true);
       window.timer = setInterval(() => {
-        setSessionTime((sessionTime) => sessionTime - 1000);
+        setSessionTime((sessionTime) => {
+          const newSessionTime = sessionTime - 1000;
+          localStorage.setItem('sessionTime', newSessionTime);
+          return newSessionTime;
+        });
       }, 1000);
     }
     if (button === 'STOP' || button === 'PAUSE') {
-      chrome.storage.sync.set({ timerOn: false });
       setCountDown(false);
       clearInterval(timer);
     }
@@ -87,9 +91,12 @@ const Timer = (props) => {
     </section>
   );
 };
-export default connect(null, (dispatch) => {
-  return {
-    updateSession: (sessionId, sessionTime) =>
-      dispatch(updateSession(sessionId, sessionTime)),
-  };
-})(Timer);
+export default connect(
+  (state) => state,
+  (dispatch) => {
+    return {
+      updateSession: (sessionId, sessionTime) =>
+        dispatch(updateSession(sessionId, sessionTime)),
+    };
+  }
+)(Timer);
