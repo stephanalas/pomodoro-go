@@ -656,7 +656,7 @@ const ChartLeft = (props) => {
   return (
     <Card className={classes.contain} {...props}>
       <Grid container direction="row" justify="space-between">
-        <Grid item>
+        <Grid item sx={8}>
           <Typography
             className={classes.lsItem}
             variant="h5"
@@ -672,34 +672,36 @@ const ChartLeft = (props) => {
             Sessions by {distribution}
           </Typography>
         </Grid>
-        <Grid item>
-          <FormControlLabel
-            style={{ color: theme.palette.text.primary }}
-            control={
-              <Checkbox
-                color="primary"
-                checked={stacked}
-                onChange={handleStackedChange}
-                name="stacked"
-              />
-            }
-            label="Stacked View"
-            className={classes.formControlLabel}
-          />
-        </Grid>
-        <Grid item>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="distribution-label">Display</InputLabel>
-            <Select
-              labelId="distribution-label"
-              value={distribution}
-              onChange={handleDistributionChange}
-            >
-              <MenuItem value={'Day of Week'}>Day of Week</MenuItem>
-              <MenuItem value={'Hour of Day'}>Hour of Day</MenuItem>
-              <MenuItem value={'Goal'}>Goal</MenuItem>
-            </Select>
-          </FormControl>
+        <Grid container item direction="row" xs={3} justify="flexEnd">
+          <Grid item xs={6}>
+            <FormControlLabel
+              style={{ color: theme.palette.text.primary }}
+              control={
+                <Checkbox
+                  color="primary"
+                  checked={stacked}
+                  onChange={handleStackedChange}
+                  name="stacked"
+                />
+              }
+              label="Stacked View"
+              className={classes.formControlLabel}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="distribution-label">Display</InputLabel>
+              <Select
+                labelId="distribution-label"
+                value={distribution}
+                onChange={handleDistributionChange}
+              >
+                <MenuItem value={'Day of Week'}>Day of Week</MenuItem>
+                <MenuItem value={'Hour of Day'}>Hour of Day</MenuItem>
+                <MenuItem value={'Goal'}>Goal</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
         </Grid>
       </Grid>
       {distribution === 'Day of Week' ? (
