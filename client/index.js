@@ -36,10 +36,6 @@ const theme = createMuiTheme({
       primary: '#4d2a4e',
       secondary: '#9671a2',
     },
-    //   warning: {
-    //     contrastText: '#ffffff',
-    //     main: '#ff9800',
-    //   },
   },
 });
 
