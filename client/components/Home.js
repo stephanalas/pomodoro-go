@@ -16,7 +16,7 @@ export const Home = (props) => {
 
   return (
     <div id="main">
-      <div id="container">
+      <div id="container" display="inline">
         <h3>Welcome, {username}</h3>
         <div id="controls">
           <Link to="/blocksites">
@@ -34,7 +34,7 @@ export const Home = (props) => {
             </button>
           </Link>
         </div>
-        <CreateSession />
+        <CreateSession style={{ display: 'inline' }} />
         <Player />
       </div>
     </div>
