@@ -53,9 +53,6 @@ const init = async () => {
       socket.on('logout', (data) => {
         console.log('user ' + data.userId + ' left');
         delete usersTracking[socket.id];
-        // sockets.filter((each) => {
-        //   return each !== socket.id+'';
-        // });
         for (let key in usersTracking) {
           if (usersTracking[key] === data.userId) {
             delete usersTracking[key];
