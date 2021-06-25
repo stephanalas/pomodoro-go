@@ -9,44 +9,33 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
-    border: '1px solid #b49b8f',
+    // border: '1px solid #b49b8f',
     boxShadow: '0 3px 5px 2px #b49b8f',
     borderRadius: '15px',
     backgroundColor: 'white',
     minHeight: '200px',
-    display: 'flex',
-    flexBasis:'40%',
-    // width:'50%',
+    // display: 'flex',
+    // flexBasis:'40%',
+    minWidth:'800px',
     margin: '10px',
-    flexFlow: 'column',
-    justifyContent: 'center',
-    alignContent: 'center',
-    backgroundImage: 'http://localhost:8080/public/S4_Research.jpg'
+    // flexFlow: 'column',
+    // justifyContent: 'center',
+    // alignContent: 'center',
   },
   timer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    // display: 'flex',
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   TimeDisplay: {
-    display: 'flex',
+    // display: 'flex',
   },
   timerBig: {
     fontSize: '200px',
-    display: 'flex',
-    flexBasis:'40%',
-    width:'50%',
-    margin: '10px',
-    flexFlow: 'column',
-    justifyContent: 'center',
-    alignContent: 'center',
-  },
-  timerHuge: {
-    fontSize: '300px',
     // display: 'flex',
     // flexBasis:'40%',
-    // width:'50%',
-    // margin: '10px',
+    // width:'100%',
+    margin: '10px',
     // flexFlow: 'column',
     // justifyContent: 'center',
     // alignContent: 'center',
@@ -134,29 +123,29 @@ const Timer = (props) => {
       {/* <div className={classes.timer}>
       </div> */}
       <Grid container direction="column" alignItems="center">
-      <Grid item>
-        <Typography variant="h1" className={classes.timerBig}>{msToHMS(sessionTime)} </Typography>
-      </Grid>
-      <div className={classes.buttons}>
-        {countDown ? (
-          <Button onClick={toggleTimer} style={{
-            backgroundColor: '#9a6781',
-            color: 'white',
-            marginLeft:'4px',
-            marginBottom: '10px'
-          }}>pause</Button>
-        ) : (
-          <Button onClick={toggleTimer} disabled={sessionTime ? false : true} style={{
-            backgroundColor: '#9a6781',
-            color: 'white',
-            marginLeft:'4px',
-            marginBottom: '10px'
-          }}>
-            Play
-          </Button>
-        )}
-        {countDown ? <StopButton toggleTimer={toggleTimer} /> : null}
-      </div>
+        <Grid item>
+          <Typography variant="h1" className={classes.timerBig}>{msToHMS(sessionTime)} </Typography>
+        </Grid>
+        <div className={classes.buttons}>
+          {countDown ? (
+            <Button onClick={toggleTimer} style={{
+              backgroundColor: '#9a6781',
+              color: 'white',
+              marginLeft:'4px',
+              marginBottom: '10px'
+            }}>pause</Button>
+          ) : (
+            <Button onClick={toggleTimer} disabled={sessionTime ? false : true} style={{
+              backgroundColor: '#9a6781',
+              color: 'white',
+              marginLeft:'4px',
+              marginBottom: '10px'
+            }}>
+              Play
+            </Button>
+          )}
+          {countDown ? <StopButton toggleTimer={toggleTimer} /> : null}
+        </div>
       </Grid>
       {/* <CountdownCircleTimer
         isPlaying={countDown ? true : false}

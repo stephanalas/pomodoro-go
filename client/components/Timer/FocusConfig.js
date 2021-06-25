@@ -9,26 +9,25 @@ import { SessionContext } from './CreateSession';
 const useStyles = makeStyles(() => {
   return {
     container: {
-      border: '1px solid #b49b8f',
+      // border: '1px solid #b49b8f',
       boxShadow: '0 3px 5px 2px #b49b8f',
       borderRadius: '15px',
       backgroundColor: 'white',
       height: '100%',
-      display:'flex',
-      flexBasis:'40%',
-      width:'50%',
+      // display:'flex',
+      // flexBasis:'40%',
+      width:'780px',
       margin: '10px',
-      justifyContent: 'space-around',
-      
-      
-      
-      
+      // justifyContent: 'space-around',
+      paddingLeft: '10px',
+      paddingRight: '10px',
+      paddingBottom: '10px',
     },
     goal: {
       padding: '1rem',
       margin: '1rem',
-      display: 'flex',
-      justifyContent: 'space-around',
+      // display: 'flex',
+      // justifyContent: 'space-around',
     },
 
     gridInput: {
@@ -61,7 +60,7 @@ const FocusConfig = (props) => {
   const { goal } = useContext(SessionContext);
   const classes = useStyles();
   return (
-    <Paper className={classes.container}>
+    <Paper className={classes.container} elevation={10}>
       <Grid
         justify="center"
         item
@@ -77,24 +76,27 @@ const FocusConfig = (props) => {
             <Typography>Current Session</Typography>
           )}
         </Grid>
-        <Grid item xs={12}>
-          {currentSession.status !== 'Ongoing' ? (
-            <GoalSelector className={classes.goal} />
-          ) : (
-            <Typography>Goal : {goal}</Typography>
-          )}
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          style={{
-            display: currentSession.status === 'Ongoing' ? 'none' : null,
-          }}
-          className={classes.inputContainer}
-        >
-          {[['Hours'], ['Minutes'], ['Seconds']].map((label, idx) => (
-            <TimerInput key={idx * 10} label={label[0]} />
-          ))}
+        <Grid container direction="row" >
+          <Grid item xs={3}>
+            {currentSession.status !== 'Ongoing' ? (
+              <GoalSelector className={classes.goal} />
+            ) : (
+              <Typography>Goal : {goal}</Typography>
+            )}
+          </Grid>
+          <Grid
+            item
+            xs={9}
+            style={{
+              display: currentSession.status === 'Ongoing' ? 'none' : null,
+            }}
+            className={classes.inputContainer}
+
+          >
+            {[['Hours'], ['Minutes'], ['Seconds']].map((label, idx) => (
+              <TimerInput key={idx * 10} label={label[0]} />
+            ))}
+          </Grid>
         </Grid>
       </Grid>
     </Paper>
