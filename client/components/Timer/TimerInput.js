@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(() => ({
   input: {
-    width: '100%',
+    // width: '100%',
+    margin: '10px'
   },
 }));
 
@@ -80,7 +81,7 @@ const TimerInput = (props) => {
     }
   });
   return (
-    <Grid item xs={4}>
+    // <Grid item xs={4}>
       <TextField
         label={label}
         InputLabelProps={{
@@ -94,9 +95,9 @@ const TimerInput = (props) => {
         onChange={handleChange}
         disabled={goal ? false : true}
         multiline
-        inputProps={{ maxLength: 2 }}
+        inputProps={{ maxLength: 2, }}
       ></TextField>
-    </Grid>
+    // </Grid>
   );
 };
 

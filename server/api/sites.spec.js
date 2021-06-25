@@ -6,7 +6,7 @@ const { db, models: { Site } } = require('../db')
 const seed = require('../../script/seed');
 const app = require('../app')
 
-describe('Session routes', () => {
+describe('Site routes', () => {
   before(async() => {
     await seed();
   })
@@ -30,5 +30,5 @@ describe('Session routes', () => {
       expect(res.body[0]).to.have.property('users');
     })
 
-  }) // end describe('/api/sessions')
-}) // end describe('Session routes')
+  })
+})

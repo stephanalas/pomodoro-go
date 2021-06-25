@@ -62,6 +62,7 @@ const useStyles = makeStyles({
   },
   form: {
     maxWidth: 600,
+    marginTop: '10px',
     marginBottom: '5px',
     display: 'flex',
     justifyContent: 'space-around',
@@ -74,6 +75,7 @@ const useStyles = makeStyles({
   button: {
     height: 55,
     marginRight: '30px',
+    marginLeft: '10px'
   },
 });
 //
@@ -154,11 +156,11 @@ const BlockSites = (props) => {
   return (
     <Paper elevation={10} style={paperStyle}>
       {chrome.storage === undefined ? (
-        <Alert severity="warning">
-          You are not using the extension - functionalities on this page would
-          not work properly!
+        <Alert severity="info">
+          Turn on the extension for this feature to work fully 🤞🏻
         </Alert>
       ) : undefined}
+      <br />
       <Typography variant="h5" gutterBottom>
         Add sites to block list
       </Typography>

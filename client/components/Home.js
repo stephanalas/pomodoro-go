@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { useTheme } from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import DomainDisabledIcon from '@material-ui/icons/DomainDisabled';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
@@ -13,30 +15,21 @@ import CreateSession from './Timer/CreateSession';
  */
 export const Home = (props) => {
   const { username } = props;
-
+  const theme = useTheme()
+  const {palette: { text }} = theme;
   return (
     <div id="main">
-      <div id="container" display="inline">
-        <h3>Welcome, {username}</h3>
-        {/* <div id="controls">
-          <Link to="/blocksites">
-            <button>
-              <DomainDisabledIcon />
-              <br />
-              Block sites
-            </button>
-          </Link>
-          <Link to="/friends">
-            <button>
-              <PeopleAltIcon />
-              <br />
-              Friends
-            </button>
-          </Link>
-        </div> */}
-        <CreateSession />
-        <Player />
-      </div>
+      <h3 style={{color: text.primary}}>Welcome, {username}!</h3>
+
+        <Grid container direction="row" justify="center" alignItems="flex-start">
+          <Grid item xs={8}>
+            <CreateSession />
+          </Grid>
+          <Grid item xs={4}>
+            <Player />
+          </Grid>
+        </Grid>
+
     </div>
   );
 };

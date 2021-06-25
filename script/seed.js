@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Session, Site, Task, BlackList, Friendship },
+  models: { User, Session, Site, Task, BlackList, Friendship, Block },
 } = require('../server/db');
 
 /**
@@ -154,6 +154,13 @@ async function seed() {
       requestStatus: 'approved',
     }),
   ]);
+
+  // Creating blocks
+  const blockSeeds = [];
+  for (let i = 0; i < 30; i++) {
+    blockSeeds.push(Block.seed(users, sites));
+  }
+  await Promise.all(blockSeeds);
 
   return {
     users: {

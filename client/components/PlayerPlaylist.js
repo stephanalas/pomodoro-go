@@ -28,12 +28,11 @@ const useStyles = makeStyles((theme) => ({
   playLists: {
     width: '100%',
     maxWidth: 400,
-    backgroundColor: theme.palette.background.paper,
     height: 250,
     overflow: 'scroll',
   },
   playlist: {
-    borderBottom: '1px solid #e57373',
+    borderBottom: '1px solid #545764',
   },
 }));
 
@@ -126,7 +125,7 @@ const PlayerPlaylist = (props) => {
                   })}
                 </Collapse>
                 <ListItem button onClick={() => handleClick('rec-playlist')}>
-                  <ListItemText primary="Our recommendation" />
+                  <ListItemText primary="🌟 Our recommendation" />
                   {open['rec-playlist'] ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={open['rec-playlist']} timeout="auto" unmountOnExit>
