@@ -2,23 +2,49 @@
 const { storage, tabs, runtime, alarms, scripting } = chrome;
 
 const background = {
-  alarmCreated: false,
-  async getCurrentTab() {
+  active: false,
+  currentTab: null,
+  sessionTime: 0,
+  appStarted: false,
+  getCurrentTab: async function () {
     let queryOptions = { active: true, currentWindow: true };
     let [tab] = await chrome.tabs.query(queryOptions);
     return tab;
   },
-  init() {
-    this.listenForAlarm();
-    this.listenToMessages();
-    this.listenToStorage();
-    this.listenToTabs();
-    this.listenForBlackListIncrement();
-    this.listenForDashboardRedirect();
+  init: async function () {
+    try {
+      if (!this.active) {
+        console.log('running app!');
+        storage.sync.clear();
+        alarms.clearAll(() => {
+          console.log('alarms are cleared');
+        });
+
+        this.listenForAlarm();
+        this.listenToExternalMessages();
+        this.listenToStorage();
+        this.listenToTabs();
+        this.listenForBlackListIncrement();
+        this.listenForDashboardRedirect();
+        this.active = true;
+      }
+      this.currentTab = await this.getCurrentTab();
+      // scripting.executeScript(
+      //   {
+      //     target: { tabId: this.currentTab.id },
+      //     files: ['localStorage.js'],
+      //   },
+      //   () => {
+      //     console.log('trying to grabb data from our website');
+      //   }
+      // );
+    } catch (error) {
+      console.log('issue with start up in background js', error);
+    }
   },
-  createAlarm(ms) {
+  createAlarm: function () {
     chrome.alarms.create('timer', {
-      when: Date.now() + Number(ms),
+      when: Date.now() + this.sessionTime,
     });
     this.alarmCreated = true;
     chrome.storage.sync.set({ alarmCreated: true });
@@ -36,8 +62,8 @@ const background = {
     });
   },
 
-  listenToMessages() {
-    return runtime.onMessage.addListener(
+  listenToExternalMessages: function () {
+    return runtime.onMessageExternal.addListener(
       async (message, sender, sendResponse) => {
         try {
           // CLEARS STORAGE AND ALARMS WHEN EXTENSION TAB STARTS (RUNS ONCE
@@ -54,31 +80,34 @@ const background = {
             // MUST RETURN TRUE  TO KEEP MESSAGE PORT OPEN
             return true;
           }
-          if (message === 'startTimer') {
-            chrome.storage.sync.get(['sessionTime'], (results) => {
-              if (!results.sessionTime) {
-                console.log('no time to set');
-              } else {
-                this.createAlarm(results.sessionTime);
-              }
-            });
-            sendResponse('starting timer');
+
+          if (message.message === 'create-timer') {
+            this.sessionTime = message.sessionTime;
+            this.createAlarm();
           }
+          if (message.message === 'continue-alarm') {
+            console.log('you want me to start an alarm?');
+            alarms.clearAll(() => {
+              console.log('alarms are cleared again');
+              alarms.create('timer', {
+                when: Date.now() + message.sessionTime,
+              });
+              console.log('new alarm created');
+            });
+          }
+          if (message.message === 'timer-done') {
+            console.log('received message');
+            alarms.create('timer', { when: Date.now() });
+          }
+          console.log('new message', message);
         } catch (error) {
           console.log(error);
         }
       }
     );
   },
-  listenToStorage() {
+  listenToStorage: function () {
     return storage.onChanged.addListener(async function (changes, namespace) {
-      if (changes.user) {
-        // IF THE A USER LOGINS IN AND SET IN STORAGE LOG MESSAGE
-        if (!changes.user.oldValue && changes.user.newValue) {
-          console.log('user is set in storage');
-        }
-      }
-
       // creates a new alarm
       // try {
       //   // IF THE NEW VALUE OF A CURRENT SESSION HAS A START TIME, CREATE AN ALARM AND KEEP TRACK OF CREATION IN BACKGROUND OBJECT
@@ -104,32 +133,9 @@ const background = {
       }
     });
   },
-  listenToTabs() {
+  listenToTabs: function () {
     return tabs.onUpdated.addListener(function (tabId, changeInfo) {
       console.log('listening to tabs');
-      const url = changeInfo.pendingUrl || changeInfo.url;
-      console.log('switched tabs');
-      if (changeInfo.pendingUrl || changeInfo.url) {
-        if (!url || !url.startsWith('http')) {
-          console.log('we are on the chrome extension');
-          return;
-        }
-        if (url.startsWith('http://localhost:8080/')) {
-          console.log('we are on the website');
-          scripting.executeScript(
-            {
-              target: { tabId },
-              files: ['localStorage.js'],
-            },
-            () => {
-              console.log('trying to grabb data from our website');
-            }
-          );
-        }
-        if (url && !url.startsWith('http://localhost:8080/')) {
-          console.log('we are not on the website');
-        }
-      }
       chrome.tabs.query({ active: false }, (tabs) => {
         let tab = tabs.reduce((previous, current) => {
           return previous.lastAccessed > current.lastAccessed
@@ -137,31 +143,53 @@ const background = {
             : current;
         });
       });
-      const hostname = new URL(url).hostname;
-      console.log('hostname:', hostname);
-      // transfer storage
-
-      storage.sync.set({ userAttempt: hostname });
-
-      storage.sync.get(['blocked'], function (sync) {
-        const { blocked } = sync;
-        console.log('blocked:', blocked);
-        if (
-          Array.isArray(blocked) &&
-          blocked.find((domain) => {
-            console.log(domain);
-            return domain.includes(hostname);
-          })
-        ) {
-          // chrome.tabs.remove(tabId);
-          chrome.tabs.update(tabId, {
-            url: 'https://pomodoro-russ.herokuapp.com/uhoh',
-          }); // hard-code it to production url atm instead of 'http://localhost:8080/uhoh'
+      chrome.storage.sync.get(null, (results) => {
+        const {
+          currentSession,
+          alarmCreated,
+          sessionComplete,
+          sessionTime,
+          timerOn,
+        } = results;
+        const url = changeInfo.pendingUrl || changeInfo.url;
+        if (changeInfo.pendingUrl || changeInfo.url) {
+          if (!url || !url.startsWith('http')) {
+            console.log('we are on the chrome extension');
+            return;
+          }
+          if (url.startsWith('http://localhost:8080/')) {
+            console.log('we are on the website');
+          }
+          if (url && !url.startsWith('http://localhost:8080/')) {
+            console.log('we are not on the website');
+          }
         }
+        const hostname = new URL(url).hostname;
+        // console.log('hostname:', hostname);
+        // transfer storage
+
+        storage.sync.set({ userAttempt: hostname });
+
+        storage.sync.get(['blocked'], function (sync) {
+          const { blocked } = sync;
+          // console.log('blocked:', blocked);
+          if (
+            Array.isArray(blocked) &&
+            blocked.find((domain) => {
+              // console.log(domain);
+              return domain.includes(hostname);
+            })
+          ) {
+            // chrome.tabs.remove(tabId);
+            chrome.tabs.update(tabId, {
+              url: 'https://pomodoro-russ.herokuapp.com/uhoh',
+            }); // hard-code it to production url atm instead of 'http://localhost:8080/uhoh'
+          }
+        });
       });
     });
   },
-  listenForBlackListIncrement() {
+  listenForBlackListIncrement: function () {
     // increment blocks in Blacklist table when a blacklisted site is blocked
 
     return chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
@@ -187,7 +215,7 @@ const background = {
       });
     });
   },
-  listenForAlarm() {
+  listenForAlarm: function () {
     return chrome.alarms.onAlarm.addListener(function (alarm) {
       // notifies the user when the session is over
       chrome.notifications.create(
@@ -212,7 +240,7 @@ const background = {
       });
     });
   },
-  listenForDashboardRedirect() {
+  listenForDashboardRedirect: function () {
     // THIS BUTTON WORKS BUT DASHBOARD DOES NOT LOAD
     return chrome.notifications.onButtonClicked.addListener(
       async (notificationId, buttonIdx) => {
