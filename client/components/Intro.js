@@ -1,10 +1,13 @@
+import { Paper } from '@material-ui/core';
 import React, { Component } from 'react';
 import Typical from 'react-typical';
 
-export default class Intro extends Component {
-  render() {
-    return (
-      <div id="Intro">
+const Intro = () => {
+  
+  return (
+    <div className="paper">
+  <div className="lines">
+    <div className="text">
         <Typical
           steps={[
             'Hello!',
@@ -12,10 +15,16 @@ export default class Intro extends Component {
             'This is the App that helps boots your work effecientcy by blocking time-wasting websites and bringing in your favorite music.Come set the goal,hit the road!',
             600,
           ]}
-          //   loop={Infinity}
+            // loop={3}
           wrapper="b"
         />
-      </div>
-    );
-  }
-}
+    </div>
+    </div>  
+    <div className="holes hole-top"></div>
+  <div className="holes hole-middle"></div>
+  <div className="holes hole-bottom"></div>
+    </div>
+  );
+};
+
+export default Intro;

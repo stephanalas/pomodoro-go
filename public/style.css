@@ -1,5 +1,8 @@
 body {
-  font-family: sans-serif;
+  margin: 0;
+  box-sizing: border-box;
+  background-image:
+    linear-gradient(95deg,#fcccb0 5%, #fdeac4 40%,#faefe8 70%);
 }
 
 a {
@@ -15,18 +18,19 @@ a {
   margin: 0;
   padding: 0px, 0;
 }
-#navBar .home {
+/* #navBar .home {
   justify-content: start;
   flex-wrap: wrap;
-  /* z-index: 200; */
-}
+  z-index: 200;
+} */
 #navBar .account {
   justify-content: start;
   flex-wrap: wrap;
   /* z-index: 200; */
 }
-#navBar .extension-login {
-  justify-content: end;
+
+#main>h3 {
+  padding-left: 30px;
 }
 
 #Intro {
@@ -41,12 +45,17 @@ a {
   box-shadow: 3px 3px 5px gray;
 }
 
-form * {
+#login {
   display: flex;
-  justify-content: fcenter;
+  justify-content: center;
   padding: 5px;
   margin: 1px 0;
   border: none;
+}
+
+#add-site {
+  display: flex;
+  justify-content: space-between;
 }
 
 #login-signin-button {
@@ -59,6 +68,10 @@ form * {
   box-shadow: 0 4px 3px gray;
 }
 
+#navBar .extension-login {
+  justify-content: end;
+}
+/* Ding:for some unknown reason I could set the Button props inside the div ,will try to do some clean up later */
 #googleSignOut {
   color: rgb(66, 133, 244);
   background-color: rgb(255, 255, 255);
@@ -67,7 +80,7 @@ form * {
   border: none;
   text-align: left;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
-  font-size: 18px;
+  font-size: 16px;
   /* line-height: 48px;  */
   display: block;
   border-radius: 3px;
@@ -84,7 +97,7 @@ form * {
   border: none;
   text-align: left;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
-  font-size: 18px;
+  font-size: 16px;
   /* line-height: 48px;  */
   display: block;
   border-radius: 3px;
@@ -92,6 +105,7 @@ form * {
   cursor: pointer;
   user-select: none;
 }
+
 #googleIcon {
   height: 36px;
   width: 36px;
@@ -100,20 +114,16 @@ form * {
   margin: 0 0 0 0;
   vertical-align: text-top;
 }
-#main {
-  width: 90%;
-  margin: auto;
-  display: grid;
-  grid-template-columns: 900px 200px;
-  grid-column-gap: 25px;
+
+#blockList {
+  display: flex;
+  position: center;
 }
 
-#app,
-body,
-html {
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
+#container {
+  display: flex;
+  width: 80%;
+  margin: auto;
 }
 
 #currBlocked {
@@ -130,6 +140,7 @@ img {
 
 #player {
   display: flex;
+  flex-direction: column;
   margin: 25px;
   padding: 10px;
 }
@@ -149,4 +160,72 @@ img {
   width: 100px;
   height: 100px;
   margin: 10px;
+  padding: 1rem;
+  left: 0;
+}
+
+.paper {
+  font-size:'30px';
+  position:relative;
+  height: 550px;
+  width: 450px;
+  background: rgba(255,255,255,0.9);
+  margin: -275px -225px;
+  left: 50%;
+  top: 50%;
+  box-shadow: 0px 0px 5px 0px #888;
+}
+.paper::before {
+  content: '';
+  position: absolute;
+  left: 45px;
+  height: 100%;
+  width: 2px;
+  background: rgba(255,0,0,0.4);
+}
+.lines {
+  margin-top: 40px;
+  height: calc(100% - 40px);
+  width: 100%;
+  background-image: repeating-linear-gradient(white 0px, white 24px, steelblue 25px);
+}
+.text {
+  position: absolute;
+  top: 65px;
+  left: 55px;
+  bottom: 10px;
+  right: 10px;
+  line-height: 28px;
+  font-family: 'Nanum Pen Script';
+  font-size: 28px;
+  overflow: hidden;
+  outline: none;
+}
+.holes {
+  position: absolute;
+  left: 10px;
+  height: 25px;
+  width: 25px;
+  background: lightgoldenrodyellow;
+  border-radius: 50%;
+  box-shadow: inset 0px 0px 2px 0px #888;
+}
+.hole-top {
+  top: 10%;
+}
+.hole-middle {
+  top: 50%;
+}
+.hole-bottom {
+  bottom: 10%;
+}
+
+#device-list, #all-playlists {
+  border-radius: 15px;
+  box-shadow: 0 3px 5px 2px #b49b8f;
+  width: 380px;
+  margin-bottom: 10px;
+  background-image:
+    linear-gradient(140deg,#faefe8 25%, #d7dae8 50%,#cedaa4 90%);
+  padding: 5px;
 }

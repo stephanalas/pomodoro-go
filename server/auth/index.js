@@ -1,9 +1,11 @@
 const router = require('express').Router();
+
 const {
   models: { User },
 } = require('../db');
 module.exports = router;
 const generator = require('generate-password');
+const { default: axios } = require('axios');
 
 router.post('/login', async (req, res, next) => {
   try {
@@ -28,12 +30,7 @@ router.post('/signup', async (req, res, next) => {
 
 router.get('/me', async (req, res, next) => {
   try {
-    console.log('req.body', req.body);
-    const { method } = req.body;
-
-    res.send(
-      await User.findByToken(req.headers.authorization, method ? method : null)
-    );
+    res.send(await User.findByToken(req.headers.authorization));
   } catch (ex) {
     next(ex);
   }
@@ -41,22 +38,28 @@ router.get('/me', async (req, res, next) => {
 
 router.post('/google', async (req, res, next) => {
   try {
-    const { email } = req.body;
+    const response = await axios.get(
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.headers.authorization}`
+    );
+    const { email, name, imageUrl } = req.body.profileObj;
+    const user = await User.findOne({ where: { username: name } });
+    if (!user) {
+      var password = generator.generate({
+        length: 10,
+        numbers: true,
+      });
 
-    const token = req.headers.authorization;
-
-    if (token) {
-      let user = await User.findByGoogleToken(token);
-      if (!user) {
-        const password = generator.generate({
-          length: 10,
-          numbers: true,
-        });
-        user = await User.create({ email, password, googleToken: token });
-      }
-      console.log(user);
-      res.send(user);
-    } else throw Error('No google Token');
+      const newUser = await User.create({
+        email,
+        username: name,
+        password,
+      });
+      const token = newUser.generateToken();
+      console.log('token after user create', token);
+      res.send({ token });
+    } else {
+      res.send({ token: user.generateToken() });
+    }
   } catch (error) {
     next(error);
   }

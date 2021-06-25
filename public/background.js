@@ -1,54 +1,38 @@
 'use strict';
-const { storage, tabs, runtime, alarms } = chrome;
+const { storage, tabs, runtime, alarms, scripting } = chrome;
 
 const background = {
-  user: {},
-  sessionTime: 0,
-  authToken: '',
-  currentSession: {},
   alarmCreated: false,
-  setUser: function (user) {
-    this.user = user;
-  },
-  setSessionTime: function (sessionTime) {
-    this.sessionTime = sessionTime;
-  },
-  setAuthToken: function (authToken) {
-    this.authToken = token;
-  },
-
-  setCurrentSession: function (session) {
-    this.currentSession = session;
-  },
-
   async getCurrentTab() {
     let queryOptions = { active: true, currentWindow: true };
     let [tab] = await chrome.tabs.query(queryOptions);
     return tab;
   },
   init() {
+    this.listenForAlarm();
     this.listenToMessages();
     this.listenToStorage();
     this.listenToTabs();
-    this.listenForAlarm();
     this.listenForBlackListIncrement();
     this.listenForDashboardRedirect();
   },
-  createAlarm() {
+  createAlarm(ms) {
     chrome.alarms.create('timer', {
-      when: Date.now() + changes.currentSession.newValue.sessionTime,
+      when: Date.now() + Number(ms),
     });
     this.alarmCreated = true;
-    const { alarmCreated } = this;
-    chrome.storage.sync.set({ alarmCreated });
+    chrome.storage.sync.set({ alarmCreated: true });
+    console.log('alarm creeated!!!');
   },
   resetStorage() {
-    storage.sync.set({
+    storage.local.set({
       sessionTime: 0,
       timerOn: false,
-      currentSession: null,
+      currentSession: {},
       alarmCreated: false,
       sessionComplete: false,
+      user: {},
+      email: '',
     });
   },
 
@@ -56,41 +40,29 @@ const background = {
     return runtime.onMessage.addListener(
       async (message, sender, sendResponse) => {
         try {
-          // CLEARS STORAGE AND ALARMS WHEN EXTENSION TAB STARTS (RUNS ONCE)
+          // CLEARS STORAGE AND ALARMS WHEN EXTENSION TAB STARTS (RUNS ONCE
           if (message === 'app-starting') {
             // SENDS RESPONSE TO CHROME CONSOLE
             sendResponse('clearing alarms and storage');
             // CLEAR STORAGE
-            await storage.sync.clear();
+            await storage.local.clear();
             // CLEAR ALARMS
             await alarms.clearAll();
             // SETTING DATA IN STORAGE SYNC
             this.resetStorage();
-          }
-          // AFTER CLICKING LOGIN FOR GOOGLE
-          if (message === 'login') {
-            // GETS ALL DATA FROM STORAGE
-            storage.sync.get(null, (results) => {
-              // REQUEST TO SERVER
-              fetch('http://localhost:8080/auth/google', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  authorization: results.authToken,
-                },
-                body: JSON.stringify(results),
-              })
-                .then((response) => response.json())
-                .then((user) => {
-                  // SETS USER TO THE BACKGROUND.USER OBJECT
-                  this.setUser(user);
-                  sendResponse(this.user);
-                  storage.sync.set({ user });
-                })
-                .catch((error) => console.log('issue with fetch', error));
-            });
+
             // MUST RETURN TRUE  TO KEEP MESSAGE PORT OPEN
             return true;
+          }
+          if (message === 'startTimer') {
+            chrome.storage.sync.get(['sessionTime'], (results) => {
+              if (!results.sessionTime) {
+                console.log('no time to set');
+              } else {
+                this.createAlarm(results.sessionTime);
+              }
+            });
+            sendResponse('starting timer');
           }
         } catch (error) {
           console.log(error);
@@ -108,46 +80,71 @@ const background = {
       }
 
       // creates a new alarm
-      try {
-        // IF THE NEW VALUE OF A CURRENT SESSION HAS A START TIME, CREATE AN ALARM AND KEEP TRACK OF CREATION IN BACKGROUND OBJECT
-        if (
-          changes.currentSession &&
-          changes.currentSession.newValue.startTime &&
-          !this.alarmCreated
-        ) {
-          this.createAlarm();
-        }
-      } catch (error) {
-        console.log('alarm not created');
-      }
+      // try {
+      //   // IF THE NEW VALUE OF A CURRENT SESSION HAS A START TIME, CREATE AN ALARM AND KEEP TRACK OF CREATION IN BACKGROUND OBJECT
+      //   if (
+      //     changes.currentSession &&
+      //     changes.currentSession.newValue.startTime
+      //   ) {
+      //   }
+      // } catch (error) {
+      //   console.log('alarm not created');
+      // }
 
       // logging out the changes in storage
       // THIS CODE IS FOR DEV PURPOSES
       // YOU WILL HAVE ALOT OF LOGS IN CONSOLE
-      // for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-      //   console.log(
-      //     `Storage key "${key}" in namespace "${namespace}" changed.`,
-      //     `Old value was "${JSON.stringify(
-      //       oldValue
-      //     )}", new value is "${JSON.stringify(newValue)}".`
-      //   );
-      // }
+      for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+        console.log(
+          `Storage key "${key}" in namespace "${namespace}" changed.`,
+          `Old value was "${JSON.stringify(
+            oldValue
+          )}", new value is "${JSON.stringify(newValue)}".`
+        );
+      }
     });
   },
   listenToTabs() {
     return tabs.onUpdated.addListener(function (tabId, changeInfo) {
+      console.log('listening to tabs');
       const url = changeInfo.pendingUrl || changeInfo.url;
-
-      if (!url || !url.startsWith('http')) {
-        return;
+      console.log('switched tabs');
+      if (changeInfo.pendingUrl || changeInfo.url) {
+        if (!url || !url.startsWith('http')) {
+          console.log('we are on the chrome extension');
+          return;
+        }
+        if (url.startsWith('http://localhost:8080/')) {
+          console.log('we are on the website');
+          scripting.executeScript(
+            {
+              target: { tabId },
+              files: ['localStorage.js'],
+            },
+            () => {
+              console.log('trying to grabb data from our website');
+            }
+          );
+        }
+        if (url && !url.startsWith('http://localhost:8080/')) {
+          console.log('we are not on the website');
+        }
       }
+      chrome.tabs.query({ active: false }, (tabs) => {
+        let tab = tabs.reduce((previous, current) => {
+          return previous.lastAccessed > current.lastAccessed
+            ? previous
+            : current;
+        });
+      });
       const hostname = new URL(url).hostname;
       console.log('hostname:', hostname);
+      // transfer storage
 
-      storage.local.set({ userAttempt: hostname });
+      storage.sync.set({ userAttempt: hostname });
 
-      storage.local.get(['blocked'], function (local) {
-        const { blocked } = local;
+      storage.sync.get(['blocked'], function (sync) {
+        const { blocked } = sync;
         console.log('blocked:', blocked);
         if (
           Array.isArray(blocked) &&
@@ -168,7 +165,7 @@ const background = {
     // increment blocks in Blacklist table when a blacklisted site is blocked
 
     return chrome.tabs.onUpdated.addListener(function async(tabId, changeInfo) {
-      chrome.storage.local.get(['auth', 'blackList'], function (result) {
+      chrome.storage.sync.get(['auth', 'blackList'], function (result) {
         const { auth, blackList } = result;
         if (blackList) {
           const blackListAuth = blackList.filter((entry) => {
@@ -183,7 +180,7 @@ const background = {
             if (matchingBlackList) {
               matchingBlackList.blocks++;
               console.log('matchingBlackList:', matchingBlackList);
-              chrome.storage.local.set({ updatedBlackList: matchingBlackList });
+              chrome.storage.sync.set({ updatedBlackList: matchingBlackList });
             }
           }
         }
@@ -193,16 +190,22 @@ const background = {
   listenForAlarm() {
     return chrome.alarms.onAlarm.addListener(function (alarm) {
       // notifies the user when the session is over
-      chrome.notifications.create(undefined, {
-        type: 'basic',
-        title: 'Pomodoro-Go',
-        message: 'Time has elasped, head back to Pomorodo-Go to review',
-        iconUrl: 'https://img.icons8.com/android/24/000000/timer.png',
-        buttons: [{ title: 'Go to dashboard' }],
-      });
-      chrome.storage.sync.set({
+      chrome.notifications.create(
+        undefined,
+        {
+          type: 'basic',
+          title: 'Pomodoro-Go',
+          message: 'Time has elasped, head back to Pomorodo-Go to review',
+          iconUrl: 'https://img.icons8.com/android/24/000000/timer.png',
+          buttons: [{ title: 'Go to dashboard' }],
+        },
+        () => {
+          console.log('last error: ', chrome.runtime.lastError);
+        }
+      );
+      chrome.storage.local.set({
         alarmCreated: false,
-        currentSession: null,
+        currentSession: {},
         timerOn: false,
         sessionTime: 0,
         sessionComplete: true,

@@ -1,28 +1,16 @@
-import React, { createContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useState } from 'react';
 import { makeStyles, Container, Paper } from '@material-ui/core';
 import Timer from './Timer';
 import FocusConfig from './FocusConfig';
 import { connect, useSelector } from 'react-redux';
 import { loadSession } from '../../store/sessions';
 export const SessionContext = createContext();
-
 const useStyles = makeStyles(() => ({
   main: {
     display: 'flex',
-    alignContent: 'center',
-    justifyContent: 'center',
-    // border: '1px solid red',
+    flexDirection: 'column',
     height: '100%',
-    width: '40rem',
-  },
-  paper: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignContent: 'center',
-    // border: '1px solid red',
-    margin: '10px',
-    width: '40rem',
-    height: '100%',
+    margin:'25px'
   },
 }));
 const CreateSession = (props) => {
@@ -34,7 +22,6 @@ const CreateSession = (props) => {
 
   return (
     <SessionContext.Provider
-      value={{ goal, setGoal, sessionTime, setSessionTime }}
       value={{
         sessionTime,
         setSessionTime,
@@ -45,10 +32,10 @@ const CreateSession = (props) => {
       }}
     >
       <Container className={classes.main}>
-        <Paper className={classes.paper}>
-          <Timer />
-          <FocusConfig />
-        </Paper>
+        {/* <div> */}
+        <FocusConfig />
+        {/* </div> */}
+        <Timer />
       </Container>
     </SessionContext.Provider>
   );

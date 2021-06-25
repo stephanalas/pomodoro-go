@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import TimerInput from './TimerInput';
-import TaskList from './TaskList';
-import CreateTask from './CreateTask';
 import GoalSelector from './GoalSelector';
 
 import { SessionContext } from './CreateSession';
@@ -11,11 +9,12 @@ import { SessionContext } from './CreateSession';
 const useStyles = makeStyles(() => {
   return {
     container: {
-      width: '50%',
+      // width: '45%',
       height: '100%',
       border: '1px solid black',
-      borderRadius: '10px',
+      borderRadius: '15px',
       justifyContent: 'space-around',
+      margin: '10px',
     },
     goal: {
       padding: '1rem',
@@ -25,7 +24,7 @@ const useStyles = makeStyles(() => {
     },
 
     gridInput: {
-      width: '30%',
+      // width: '30%',
     },
     gridContainer: {
       margin: '0',
@@ -50,7 +49,7 @@ const useStyles = makeStyles(() => {
 });
 
 const FocusConfig = (props) => {
-  const { currentSession } = props;
+  const currentSession = useSelector((state) => state.currentSession);
   const { goal } = useContext(SessionContext);
   const classes = useStyles();
   return (
@@ -88,12 +87,6 @@ const FocusConfig = (props) => {
           {[['Hours'], ['Minutes'], ['Seconds']].map((label, idx) => (
             <TimerInput key={idx * 10} label={label[0]} />
           ))}
-        </Grid>
-        <Grid container className={classes.taskArea}>
-          {currentSession.status !== 'Ongoing' ? <CreateTask /> : null}
-          <Grid item xs={12} className={classes.taskList}>
-            <TaskList />
-          </Grid>
         </Grid>
       </Grid>
     </Paper>
