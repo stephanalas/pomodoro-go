@@ -14,7 +14,7 @@ import {
   MenuItem,
   Menu,
   Button,
-  createMuiTheme,
+  createMuiTheme,Avatar
 } from '@material-ui/core';
 import { AccountBox, HomeOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
@@ -74,6 +74,10 @@ const Navbar = (props) => {
             style={{ backgroundColor: '#5061a9' }}
           >
             <Toolbar>
+              <Avatar src={'https://e7.pngegg.com/pngimages/499/436/png-clipart-logo-tomato-app-store-fruit-scribbles-tomato-logo.png'}/>
+              <Typography id="pomo-go" variant="h4" style={{fontFamily:'Righteous'}}>
+                Pomodoro,go!
+              </Typography>
               <IconButton
                 className={classes.icons}
                 id="home"
@@ -98,9 +102,6 @@ const Navbar = (props) => {
               >
                 <AccountBox style={{ color: '#e0e2e4', fontSize: 30 }} />
               </IconButton>
-              <Typography id="pomo-go" variant="h4">
-                Pomodoro,go!
-              </Typography>
               {isLoggedIn ? (
                 <>
                   <Menu
@@ -134,7 +135,7 @@ const Navbar = (props) => {
                     <AssessmentIcon
                       style={{ color: '#e0e2e4', fontSize: 30 }}
                     />
-                    Dashboard
+                     Dashboard
                   </IconButton>
                   <IconButton
                     id="blocksites"
@@ -152,7 +153,7 @@ const Navbar = (props) => {
                     <DomainDisabledIcon
                       style={{ color: '#e0e2e4', fontSize: 30 }}
                     />
-                    Block Sites
+                     Block Sites
                   </IconButton>
                   <IconButton
                     id="friends"
@@ -168,7 +169,7 @@ const Navbar = (props) => {
                     }}
                   >
                     <PeopleAltIcon style={{ color: '#e0e2e4', fontSize: 30 }} />
-                    Friends
+                     Friends
                   </IconButton>
                 </>
               ) : (

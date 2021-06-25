@@ -97,7 +97,7 @@ const AuthForm = (props) => {
                   id="password"
                   label="Password"
                   name="password"
-                  type='password'
+                  // type='password'
                   value={password}
                   onChange={onChange}
                   variant="outlined"
