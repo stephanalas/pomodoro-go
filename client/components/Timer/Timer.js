@@ -1,5 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, makeStyles } from '@material-ui/core';
+import {
+  Button,
+  Paper,
+  Typography,
+  makeStyles,
+  Card,
+  Grid,
+} from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { updateSession } from '../../store/sessions';
 import StopButton from './StopButton';
@@ -7,27 +15,42 @@ import { SessionContext } from '../../app';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
-    border: '1px solid black',
-    height: '50%',
-    width: '25%',
-    borderRadius: '30px',
-    display: 'flex',
-    flexFlow: 'column',
-    justifyContent: 'center',
-    alignContent: 'center',
+    // border: '1px solid #b49b8f',
+    boxShadow: '0 3px 5px 2px #b49b8f',
+    borderRadius: '15px',
+    backgroundColor: 'white',
+    minHeight: '200px',
+    // display: 'flex',
+    // flexBasis:'40%',
+    minWidth: '800px',
+    margin: '10px',
+    // flexFlow: 'column',
+    // justifyContent: 'center',
+    // alignContent: 'center',
   },
   timer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    // display: 'flex',
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   TimeDisplay: {
-    display: 'flex',
+    // display: 'flex',
+  },
+  timerBig: {
+    fontSize: '200px',
+    // display: 'flex',
+    // flexBasis:'40%',
+    // width:'100%',
+    margin: '10px',
+    // flexFlow: 'column',
+    // justifyContent: 'center',
+    // alignContent: 'center',
   },
 }));
 
 const Timer = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
   const dispatch = useDispatch();
   const currentSession = useSelector((state) => state.currentSession);
   const { setCountDown, sessionTime, countDown, setSessionTime } =
@@ -76,25 +99,47 @@ const Timer = (props) => {
   };
   const setChromeStorageTimer = () => {};
   return (
-    <section className={classes.timerContainer}>
-      <div className={classes.timer}>
-        <div>{msToHMS(sessionTime)}</div>
-      </div>
-      <div className={classes.buttons}>
-        {countDown ? (
-          <Button onClick={toggleTimer}>pause</Button>
-        ) : (
-          <Button
-            onClick={toggleTimer}
-            className="start-button"
-            disabled={sessionTime ? false : true}
-          >
-            Start
-          </Button>
-        )}
-        {countDown ? <StopButton toggleTimer={toggleTimer} /> : null}
-      </div>
-      {/* <CountdownCircleTimer
+    <div>
+      <Card className={classes.timerContainer} elevation={10}>
+        {/* <div className={classes.timer}>
+      </div> */}
+        <Grid container direction="column" alignItems="center">
+          <Grid item>
+            <Typography variant="h1" className={classes.timerBig}>
+              {msToHMS(sessionTime)}{' '}
+            </Typography>
+          </Grid>
+          <div className={classes.buttons}>
+            {countDown ? (
+              <Button
+                onClick={toggleTimer}
+                style={{
+                  backgroundColor: '#9a6781',
+                  color: 'white',
+                  marginLeft: '4px',
+                  marginBottom: '10px',
+                }}
+              >
+                pause
+              </Button>
+            ) : (
+              <Button
+                onClick={toggleTimer}
+                disabled={sessionTime ? false : true}
+                style={{
+                  backgroundColor: '#9a6781',
+                  color: 'white',
+                  marginLeft: '4px',
+                  marginBottom: '10px',
+                }}
+              >
+                Play
+              </Button>
+            )}
+            {countDown ? <StopButton toggleTimer={toggleTimer} /> : null}
+          </div>
+        </Grid>
+        {/* <CountdownCircleTimer
         isPlaying={countDown ? true : false}
         duration={sessionTime}
         colors={[
@@ -105,7 +150,9 @@ const Timer = (props) => {
       >
         {({ remainingTime }) => msToHMS(sessionTime)}
       </CountdownCircleTimer> */}
-    </section>
+      </Card>
+      {/* <Typography color="textPrimary" className={classes.timerHuge}>{msToHMS(sessionTime)} </Typography> */}
+    </div>
   );
 };
 export default connect(

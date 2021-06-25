@@ -12,7 +12,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@material-ui/core';
-import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
 import LastSession from './LastSession';
 import TotalSessions from './TotalSessions';
 import AverageSession from './AverageSession';
@@ -38,9 +38,10 @@ const useStyles = makeStyles((theme) => ({
   dashboardContain: {
     paddingLeft: 15,
     paddingRight: 15,
+    margin: 10,
   },
   formControlLabel: {
-    color: '#000000',
+    color: theme.palette.text.primary,
   },
 }));
 
@@ -49,11 +50,14 @@ const Dashboard = () => {
   let sessions = useSelector((state) => state.sessions);
   const auth = useSelector((state) => state.auth);
   let blackList = useSelector((state) => state.blackList);
+  let blocks = useSelector((state) => state.blocks);
+  const sites = useSelector((state) => state.sites);
   const theme = useTheme();
 
   if (auth) {
     sessions = sessions.filter((session) => session.userId === auth.id);
     blackList = blackList.filter((entry) => entry.userId === auth.id);
+    blocks = blocks.filter((block) => block.userId === auth.id);
   }
   let goals = sessions.map((session) => {
     return session.goal;
@@ -140,7 +144,7 @@ const Dashboard = () => {
   return (
     <div
       className={classes.dashboardContain}
-      style={{ backgroundColor: theme.palette.background.default }}
+      // style={{ backgroundColor: theme.palette.background.default }}
     >
       <Grid
         container
@@ -150,7 +154,7 @@ const Dashboard = () => {
         spacing={3}
       >
         <Grid item xs={3}>
-          <Typography variant="overline" color="textPrimary">
+          <Typography variant="overline" color="textPrimary" >
             Dashboard
           </Typography>
           <Typography variant="h6" color="textPrimary">
@@ -317,7 +321,7 @@ const Dashboard = () => {
           {sessionDistribution ? <ChartLeft sessions={sessions} /> : ''}
         </Grid>
         <Grid item xs={6}>
-          {sessionFrequency ? <ChartRight sessions={sessions} /> : ''}
+          {sessionFrequency ? <ChartRight blocks={blocks} sessions={sessions} sites={sites}/> : ''}
         </Grid>
       </Grid>
     </div>

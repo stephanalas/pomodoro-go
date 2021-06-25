@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     top: '30vh',
   },
   item: {
-    width: 200,
+    width: 200
   },
 }));
 
@@ -59,13 +59,13 @@ const AuthForm = (props) => {
   return (
     <div>
       {/* script for google OAuth */}
-      <form onSubmit={handleSubmit} name={name} value={value}>
+      <form id='login' onSubmit={handleSubmit} name={name} value={value}>
         {name === 'signup' ? (
           <Paper className={classes.login}>
             <Grid container direction="column" alignItems="center">
               <Typography
                 style={{
-                  marginBottom: '10px',
+                  marginBottom: '20px',
                 }}
               >
                 Sign Up for an Account
@@ -94,10 +94,11 @@ const AuthForm = (props) => {
               </Grid>
               <Grid item>
                 <TextField
+                  type="password"
                   id="password"
                   label="Password"
                   name="password"
-                  type='password'
+                  // type='password'
                   value={password}
                   onChange={onChange}
                   variant="outlined"
@@ -155,6 +156,7 @@ const AuthForm = (props) => {
               </Grid>
               <Grid item>
                 <TextField
+                  type="password"
                   id="password"
                   label="Password"
                   name="password"

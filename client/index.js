@@ -10,28 +10,32 @@ import App from './app';
 
 const theme = createMuiTheme({
   palette: {
-    background: {
-      default: '#FFFFFF',
-      paper: '#FFFFFF',
-    },
-    //   divider: 'rgba(145, 158, 171, 0.24)',
-    //   error: {
-    //     contrastText: '#ffffff',
-    //     main: '#f44336',
-    //   },
+    // divider: 'rgba(145, 158, 171, 0.24)',
     // mode: 'dark',
+    background: {
+      default: '#ffffff',
+      paper: '#ffffff',
+    },
+    error: {
+      contrastText: '#ffffff',
+      main: '#a83942',
+    },
+
     primary: {
       contrastText: '#e4ddee',
       main: '#261689',
     },
     secondary: {
       contrastText: '#9FE2BF',
-      main: '#a83942',
+      main: '#5c4fa8',
     },
-    // success: {
-    //   contrastText: '#ffffff',
-    //   main: '#4caf50',
-    // },
+    success: {
+      contrastText: '#ffffff',
+      main: '#261689',
+    },
+    info:{
+      main: '#ccb8b8'
+    },
     text: {
       primary: '#4d2a4e',
       secondary: '#9671a2',

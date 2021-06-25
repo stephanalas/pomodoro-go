@@ -1,12 +1,8 @@
-body,
-html * {
-  font-family: sans-serif;
-  /* background-color: rgb(66, 66, 66); */
-  /* color: white; */
-  box-sizing: border-box;
-}
 body {
   margin: 0;
+  box-sizing: border-box;
+  background-image:
+    linear-gradient(95deg,#fcccb0 5%, #fdeac4 40%,#faefe8 70%);
 }
 
 a {
@@ -17,42 +13,28 @@ a {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  /* z-index: 0; */
-  /* background-color: #4d2a4e; */
   margin: 0;
   padding: 0px, 0;
 }
-/* #navBar .home {
-  justify-content: start;
-  flex-wrap: wrap;
-  z-index: 200;
-} */
-#navBar .account {
-  justify-content: start;
-  flex-wrap: wrap;
-  /* z-index: 200; */
-}
-*/ #Intro {
-  display: flex;
-  padding: 50px;
-  margin: 100px;
-  background-color: #5061a9;
-  color: white;
-  line-height: 30px;
-  font-size: larger;
-  text-shadow: 3px 3px 2px rgb(99, 98, 98);
-  box-shadow: 3px 3px 5px gray;
+
+#main>h3 {
+  padding-left: 30px;
 }
 
-form * {
+#login {
   display: flex;
-  justify-content: fcenter;
+  justify-content: center;
   padding: 5px;
   margin: 1px 0;
   border: none;
 }
 
-#login-signin-button {
+#add-site {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* #login-signin-button {
   width: 155px;
   background-color: #5061a9;
   color: white;
@@ -64,41 +46,8 @@ form * {
 
 #navBar .extension-login {
   justify-content: end;
-}
-/* Ding:for some unknown reason I could set the Button props inside the div ,will try to do some clean up later */
-#googleSignOut {
-  color: rgb(66, 133, 244);
-  background-color: rgb(255, 255, 255);
-  height: 45px;
-  width: 220px;
-  border: none;
-  text-align: left;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
-  font-size: 16px;
-  /* line-height: 48px;  */
-  display: block;
-  border-radius: 3px;
-  font-family: Roboto, arial, sans-serif;
-  cursor: pointer;
-  user-select: none;
-}
+}*/
 
-#googleSignIn {
-  color: rgb(66, 133, 244);
-  background-color: rgb(255, 255, 255);
-  height: 45px;
-  width: 220px;
-  border: none;
-  text-align: left;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
-  font-size: 16px;
-  /* line-height: 48px;  */
-  display: block;
-  border-radius: 3px;
-  font-family: Roboto, arial, sans-serif;
-  cursor: pointer;
-  user-select: none;
-}
 #googleIcon {
   height: 36px;
   width: 36px;
@@ -106,26 +55,17 @@ form * {
   padding: 0;
   margin: 0 0 0 0;
   vertical-align: text-top;
-}
+} 
 
 #blockList {
   display: flex;
   position: center;
 }
-#main {
-  width: 90%;
-  margin: auto;
-  display: grid;
-  grid-template-columns: 900px 200px;
-  grid-column-gap: 25px;
-}
 
-#app,
-body,
-html {
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
+#container {
+  display: flex;
+  width: 80%;
+  margin: auto;
 }
 
 #currBlocked {
@@ -142,6 +82,7 @@ img {
 
 #player {
   display: flex;
+  flex-direction: column;
   margin: 25px;
   padding: 10px;
 }
@@ -163,4 +104,70 @@ img {
   margin: 10px;
   padding: 1rem;
   left: 0;
+}
+
+.paper {
+  font-size:'30px';
+  position:relative;
+  height: 550px;
+  width: 450px;
+  background: rgba(255, 255, 255, 0.9);
+  margin: -275px -225px;
+  left: 50%;
+  top: 300px;
+  box-shadow: 0px 0px 6px 0px #888;
+}
+.paper::before {
+  content: '';
+  position: absolute;
+  left: 45px;
+  height: 100%;
+  width: 2px;
+  background: rgba(255,0,0,0.4);
+}
+.lines {
+  margin-top: 40px;
+  height: calc(100% - 40px);
+  width: 100%;
+  background-image: repeating-linear-gradient(white 0px, white 24px, steelblue 25px);
+}
+.text {
+  position: absolute;
+  top: 65px;
+  left: 55px;
+  bottom: 10px;
+  right: 10px;
+  line-height: 28px;
+  font-family: 'Nanum Pen Script';
+  font-size: 28px;
+  overflow: hidden;
+  outline: none;
+}
+.holes {
+  position: absolute;
+  left: 10px;
+  height: 25px;
+  width: 25px;
+  background: rgba(255, 232, 188, 0.9);
+  border-radius: 50%;
+  box-shadow: inset 1px 0px 2px 0px #888;
+}
+.hole-top {
+  top: 10%;
+}
+.hole-middle {
+  top: 50%;
+}
+.hole-bottom {
+  bottom: 10%;
+}
+
+#device-list, #all-playlists {
+  border-radius: 15px;
+  box-shadow: 0 3px 5px 2px #b49b8f;
+  width: 380px;
+  margin-bottom: 10px;
+  background-image:
+    linear-gradient(140deg,#faefe8 25%, #d7dae8 50%,#cedaa4 90%);
+  padding: 5px;
 }
