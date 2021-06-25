@@ -40,6 +40,16 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
     alignContent: 'center',
   },
+  timerHuge: {
+    fontSize: '300px',
+    // display: 'flex',
+    // flexBasis:'40%',
+    // width:'50%',
+    // margin: '10px',
+    // flexFlow: 'column',
+    // justifyContent: 'center',
+    // alignContent: 'center',
+  },
 }));
 
 const Timer = (props) => {
@@ -117,6 +127,8 @@ const Timer = (props) => {
     }
   };
   return (
+    <div>
+
     <Card className={classes.timerContainer} elevation={10}>
       {/* <div className={classes.timer}>
       </div> */}
@@ -157,6 +169,8 @@ const Timer = (props) => {
         {({ remainingTime }) => msToHMS(sessionTime)}
       </CountdownCircleTimer> */}
     </Card>
+    <Typography color="textPrimary" className={classes.timerHuge}>{msToHMS(sessionTime)} </Typography>
+    </div>
   );
 };
 export default connect(
