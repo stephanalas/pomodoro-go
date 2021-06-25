@@ -55,7 +55,8 @@ export default connect(null, (dispatch) => {
             backgroundColor: '#9a6781',
             color: 'white',
             marginTop:'4px',
-            marginLeft:'4px'
+            marginLeft:'4px',
+            marginBottom: '10px'
           }}>stop</Button>
       <Modal
         aria-labelledby="transition-modal-title"

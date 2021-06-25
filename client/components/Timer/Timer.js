@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Paper, makeStyles } from '@material-ui/core';
+import { Button, Paper, Typography, makeStyles, Card, Grid } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { updateSession } from '../../store/sessions';
 import StopButton from './StopButton';
@@ -12,7 +13,7 @@ const useStyles = makeStyles(() => ({
     boxShadow: '0 3px 5px 2px #b49b8f',
     borderRadius: '15px',
     backgroundColor: 'white',
-    height: '800px',
+    height: '200px',
     display: 'flex',
     flexBasis:'40%',
     width:'50%',
@@ -29,11 +30,21 @@ const useStyles = makeStyles(() => ({
   },
   TimeDisplay: {
     display: 'flex',
-  }
+  },
+  timerBig: {
+    display: 'flex',
+    flexBasis:'40%',
+    width:'50%',
+    margin: '10px',
+    flexFlow: 'column',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
 }));
 
 const Timer = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
   const dispatch = useDispatch();
   const [storageSessionTime, setStorageSessionTime] = useState(0);
   const currentSession = useSelector((state) => state.currentSession);
@@ -106,29 +117,35 @@ const Timer = (props) => {
     }
   };
   return (
-    <Paper className={classes.timerContainer} elevation={10}>
-      <div className={classes.timer}>
-        <div>{msToHMS(sessionTime)}</div>
-      </div>
+    <Card className={classes.timerContainer} elevation={10}>
+      {/* <div className={classes.timer}>
+      </div> */}
+      <Grid container direction="column" alignItems="center">
+      <Grid item>
+      <Typography variant="h1" className={classes.timerBig}>{msToHMS(sessionTime)} </Typography>
+      </Grid>
       <div className={classes.buttons}>
         {countDown ? (
           <Button onClick={toggleTimer} style={{
             backgroundColor: '#9a6781',
             color: 'white',
-            marginLeft:'4px'
+            marginLeft:'4px',
+            marginBottom: '10px'
           }}>pause</Button>
         ) : (
           <Button onClick={toggleTimer} disabled={sessionTime ? false : true} style={{
             backgroundColor: '#9a6781',
             color: 'white',
-            marginLeft:'4px'
+            marginLeft:'4px',
+            marginBottom: '10px'
           }}>
             Play
           </Button>
         )}
         {countDown ? <StopButton toggleTimer={toggleTimer} /> : null}
       </div>
-      <CountdownCircleTimer
+      </Grid>
+      {/* <CountdownCircleTimer
         isPlaying={countDown ? true : false}
         duration={sessionTime}
         colors={[
@@ -138,8 +155,8 @@ const Timer = (props) => {
         ]}
       >
         {({ remainingTime }) => msToHMS(sessionTime)}
-      </CountdownCircleTimer>
-    </Paper>
+      </CountdownCircleTimer> */}
+    </Card>
   );
 };
 export default connect(
