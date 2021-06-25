@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import { makeStyles, Container, Paper } from '@material-ui/core';
+import { makeStyles, Container,  Grid } from '@material-ui/core';
 import Timer from './Timer';
 import FocusConfig from './FocusConfig';
 import { connect, useSelector } from 'react-redux';
@@ -7,11 +7,18 @@ import { loadSession } from '../../store/sessions';
 export const SessionContext = createContext();
 const useStyles = makeStyles(() => ({
   main: {
-    display: 'flex',
-    flexDirection: 'column',
+    // display: 'flex',
+    // flexDirection: 'column',
     height: '100%',
     margin:'25px'
   },
+  focus: {
+    margin: '10px',
+  },
+
+  timer: {
+    margin: '10px'
+  }
 }));
 const CreateSession = (props) => {
   const classes = useStyles();
@@ -32,10 +39,14 @@ const CreateSession = (props) => {
       }}
     >
       <Container className={classes.main}>
-        {/* <div> */}
-        <FocusConfig />
-        {/* </div> */}
-        <Timer />
+        <Grid container justify="center" >
+          <Grid item className={classes.focus}>
+            <FocusConfig />
+          </Grid>
+          <Grid item className={classes.timer}>
+            <Timer />
+          </Grid>
+        </Grid>
       </Container>
     </SessionContext.Provider>
   );

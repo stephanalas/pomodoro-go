@@ -6,6 +6,7 @@ import auth from './auth';
 import { sessionsReducer, currentSessionReducer } from './sessions';
 import { sitesReducer } from './sites';
 import { blackListReducer } from './blackList';
+import { blocksReducer } from './blocks';
 import blockedSitesReducer from './blockSites';
 import playlistsReducer from './spotify/getPlaylists';
 import currPlaylistReducer from './spotify/getCurrPlaylist';
@@ -24,6 +25,7 @@ const reducer = combineReducers({
   sessions: sessionsReducer,
   sites: sitesReducer,
   blackList: blackListReducer,
+  blocks: blocksReducer,
   currentSession: currentSessionReducer,
   allPlaylists: playlistsReducer,
   currPlaylist: currPlaylistReducer,

@@ -8,6 +8,7 @@ const Site = require('./models/Site');
 const BlackList = require('./models/BlackList');
 const Task = require('./models/Task');
 const Friendship = require('./models/Friendship');
+const Block = require('./models/Block');
 
 Site.belongsToMany(User, {
   through: BlackList,
@@ -17,7 +18,6 @@ Site.hasMany(BlackList);
 BlackList.belongsTo(Site);
 User.hasMany(BlackList);
 BlackList.belongsTo(User);
-//associations could go here!
 Session.belongsTo(User);
 User.hasMany(Session);
 Task.belongsTo(Session);
@@ -33,6 +33,12 @@ User.belongsToMany(User, {
   as: 'requester',
 });
 
+Block.belongsTo(Site);
+Site.hasMany(Block);
+Block.belongsTo(User);
+User.hasMany(Block)
+
+
 module.exports = {
   db,
   models: {
@@ -42,5 +48,6 @@ module.exports = {
     Site,
     BlackList,
     Friendship,
+    Block
   },
 };

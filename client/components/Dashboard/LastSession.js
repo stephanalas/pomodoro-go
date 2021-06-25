@@ -37,7 +37,7 @@ const LastSession = (props) => {
   }
 
   return (
-    <Paper className={classes.contain}>
+    <Paper className={classes.contain} elevation={10} >
       <Typography className={classes.lsItem} variant="h5" color="textPrimary">
         Last Session
       </Typography>

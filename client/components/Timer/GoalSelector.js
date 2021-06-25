@@ -13,7 +13,7 @@ import { SessionContext } from './CreateSession';
 
 const useStyles = makeStyles(() => ({
   select: {
-    width: '50%',
+    width: '100%',
   },
   form: {
     width: '100%',

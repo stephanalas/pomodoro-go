@@ -94,6 +94,7 @@ const AuthForm = (props) => {
               </Grid>
               <Grid item>
                 <TextField
+                  type="password"
                   id="password"
                   label="Password"
                   name="password"
@@ -155,6 +156,7 @@ const AuthForm = (props) => {
               </Grid>
               <Grid item>
                 <TextField
+                  type="password"
                   id="password"
                   label="Password"
                   name="password"

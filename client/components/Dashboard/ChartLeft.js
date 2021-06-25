@@ -7,13 +7,15 @@ dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import {
-  Card,
+  Paper,
   Typography,
   FormControl,
   Select,
   InputLabel,
   MenuItem,
   Grid,
+  FormControlLabel,
+  Checkbox
 } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -31,17 +33,25 @@ const useStyles = makeStyles({
   },
 });
 
+
+
 //This component displays either the 'By Day of Week' bar chart or the 'By Goal'
 //bar chart depending on what is selected from the dropdown menu
 const ChartLeft = (props) => {
   const classes = useStyles();
-  const theme = useTheme();
   const { sessions } = props;
   const [distribution, setDistribution] = useState('Day of Week');
-  const primaryColor = '#261689';
+  const [stacked, setStacked] = useState(false);
+
+  const theme = useTheme();
+  const {primary, error, secondary} = theme.palette;
 
   const handleDistributionChange = (event) => {
     setDistribution(event.target.value);
+  };
+
+  const handleStackedChange = (event) => {
+    setStacked(event.target.checked);
   };
 
   //Distribution By Days Chart
@@ -66,9 +76,70 @@ const ChartLeft = (props) => {
     valsArr.push(val);
   }
 
+
   const data = {
     series: [{ name: 'Sessions', data: valsArr }],
     categories: daysArr,
+  };
+
+ //Successful Sessions for Stacked Distribution View
+  const sessionsSuccessful = sessions.filter(session => {
+    return session.successful === true;
+  });
+  const sessionDaysSuccessful = sessionsSuccessful.map((session) => {
+    const dayOfWeek = dayjs(session.startTime).format('ddd');
+    return dayOfWeek;
+  });
+
+
+  const distDaysSuccessful = { Sun: 0, Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0 };
+  if (sessionsSuccessful.length) {
+    for (let i = 0; i < sessionDaysSuccessful.length; i++) {
+      distDaysSuccessful[sessionDaysSuccessful[i]]++;
+    }
+  }
+
+
+  let valsArrSuccessful = [];
+  for (const [key, val] of Object.entries(distDaysSuccessful)) {
+    valsArrSuccessful.push(val);
+  }
+
+  //Failed Sessions for Stacked Distribution View
+  const sessionsFailed = sessions.filter(session => {
+    return session.successful === false;
+  });
+  const sessionDaysFailed = sessionsFailed.map((session) => {
+    const dayOfWeek = dayjs(session.startTime).format('ddd');
+    return dayOfWeek;
+  });
+
+
+  const distDaysFailed = { Sun: 0, Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0 };
+  if (sessionsFailed.length) {
+    for (let i = 0; i < sessionDaysFailed.length; i++) {
+      distDaysFailed[sessionDaysFailed[i]]++;
+    }
+  }
+
+
+  let valsArrFailed = [];
+  for (const [key, val] of Object.entries(distDaysFailed)) {
+    valsArrFailed.push(val);
+  }
+
+  const stackedData = {
+    series: [
+      {
+        name: 'Failed',
+        data: valsArrFailed,
+      },
+      {
+        name: 'Successful',
+        data: valsArrSuccessful,
+      },
+
+    ],
   };
 
   const chart = {
@@ -80,7 +151,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: [primaryColor, '#7783DB', '#7783DB'],
+      colors: stacked ? [error.main, primary.main ]: [primary.main],
       dataLabels: {
         enabled: false,
       },
@@ -143,7 +214,7 @@ const ChartLeft = (props) => {
         },
       },
     },
-    series: data.series,
+    series: stacked ? stackedData.series : data.series,
   };
 
   //Distribution By Hours Chart
@@ -198,6 +269,110 @@ const ChartLeft = (props) => {
     categories: hoursArr,
   };
 
+  //Successful Sessions for Stacked Hours Distribution View
+
+  const sessionHoursSuccessful = sessionsSuccessful.map((session) => {
+    const hour = dayjs(session.startTime).format('H');
+    return hour;
+  });
+
+  const distHoursSuccessful = {
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+    8: 0,
+    9: 0,
+    10: 0,
+    11: 0,
+    12: 0,
+    13: 0,
+    14: 0,
+    15: 0,
+    16: 0,
+    17: 0,
+    18: 0,
+    19: 0,
+    20: 0,
+    21: 0,
+    22: 0,
+    23: 0,
+  };
+
+  if (sessionsSuccessful.length) {
+    for (let i = 0; i < sessionHoursSuccessful.length; i++) {
+      distHoursSuccessful[sessionHoursSuccessful[i]]++;
+    }
+  }
+
+  let hourValsArrSuccessful = [];
+  for (const [key, val] of Object.entries(distHoursSuccessful)) {
+    hourValsArrSuccessful.push(val);
+  }
+
+  //Failed Sessions for Stacked Distribution View
+
+  const sessionHoursFailed = sessionsFailed.map((session) => {
+    const hour = dayjs(session.startTime).format('H');
+    return hour;
+  });
+
+  const distHoursFailed = {
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+    8: 0,
+    9: 0,
+    10: 0,
+    11: 0,
+    12: 0,
+    13: 0,
+    14: 0,
+    15: 0,
+    16: 0,
+    17: 0,
+    18: 0,
+    19: 0,
+    20: 0,
+    21: 0,
+    22: 0,
+    23: 0,
+  };
+  if (sessionsFailed.length) {
+    for (let i = 0; i < sessionHoursFailed.length; i++) {
+      distHoursFailed[sessionHoursFailed[i]]++;
+    }
+  }
+
+
+  let hourValsArrFailed = [];
+  for (const [key, val] of Object.entries(distHoursFailed)) {
+    hourValsArrFailed.push(val);
+  }
+
+  const stackedDataHours = {
+    series: [
+      {
+        name: 'Failed',
+        data: hourValsArrFailed,
+      },
+      {
+        name: 'Successful',
+        data: hourValsArrSuccessful,
+      },
+
+    ],
+  };
+
   const hourChart = {
     options: {
       chart: {
@@ -207,7 +382,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: [primaryColor, '#7783DB', '#7783DB'],
+      colors: stacked ? [error.main, primary.main ]: [primary.main],
       dataLabels: {
         enabled: false,
       },
@@ -300,7 +475,7 @@ const ChartLeft = (props) => {
         },
       },
     },
-    series: hourData.series,
+    series: stacked ? stackedDataHours.series : hourData.series,
   };
 
   //Distribution By Goals Chart
@@ -331,6 +506,71 @@ const ChartLeft = (props) => {
     categories: goalsArr,
   };
 
+  //Goals - Stacked View
+  //Successful
+  const sessionGoalsSuccessful = sessionsSuccessful.map((session) => {
+    const goal = session.goal;
+    return goal;
+  });
+
+  let distGoalsSuccessful = {};
+  sessionGoalsSuccessful.forEach((goal) => {
+    if (distGoalsSuccessful[goal]) distGoalsSuccessful[goal]++;
+    else {
+      distGoalsSuccessful[goal] = 1;
+    }
+  });
+
+  let goalsArrSuccessful = [];
+  for (const [key, val] of Object.entries(distGoalsSuccessful)) {
+    goalsArrSuccessful.push(key);
+  }
+
+  let goalValsArrSuccessful = [];
+  for (const [key, val] of Object.entries(distGoalsSuccessful)) {
+    goalValsArrSuccessful.push(val);
+  }
+
+  //Failed - Goals
+  const sessionGoalsFailed = sessionsFailed.map((session) => {
+    const goal = session.goal;
+    return goal;
+  });
+
+  let distGoalsFailed = {};
+  sessionGoalsFailed.forEach((goal) => {
+    if (distGoalsFailed[goal]) distGoalsFailed[goal]++;
+    else {
+      distGoalsFailed[goal] = 1;
+    }
+  });
+
+  let goalsArrFailed = [];
+  for (const [key, val] of Object.entries(distGoalsFailed)) {
+    goalsArrFailed.push(key);
+  }
+
+  let goalValsArrFailed = [];
+  for (const [key, val] of Object.entries(distGoalsFailed)) {
+    goalValsArrFailed.push(val);
+  }
+
+
+
+  const stackedDataGoals = {
+    series: [
+      {
+        name: 'Failed',
+        data: goalValsArrFailed,
+      },
+      {
+        name: 'Successful',
+        data: goalValsArrSuccessful,
+      },
+
+    ],
+  };
+
   const goalChart = {
     options: {
       chart: {
@@ -340,7 +580,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: [primaryColor, '#7783DB', '#7783DB'],
+      colors: stacked ? [error.main, primary.main]: [primary.main],
       dataLabels: {
         enabled: false,
       },
@@ -410,13 +650,13 @@ const ChartLeft = (props) => {
         // },
       },
     },
-    series: goalData.series,
+    series: stacked ? stackedDataGoals.series :goalData.series,
   };
 
   return (
-    <Card className={classes.contain} {...props}>
+    <Paper className={classes.contain} {...props} elevation={10}>
       <Grid container direction="row" justify="space-between">
-        <Grid item>
+        <Grid item sx={8}>
           <Typography
             className={classes.lsItem}
             variant="h5"
@@ -432,19 +672,36 @@ const ChartLeft = (props) => {
             Sessions by {distribution}
           </Typography>
         </Grid>
-        <Grid item>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="distribution-label">Display</InputLabel>
-            <Select
-              labelId="distribution-label"
-              value={distribution}
-              onChange={handleDistributionChange}
-            >
-              <MenuItem value={'Day of Week'}>Day of Week</MenuItem>
-              <MenuItem value={'Hour of Day'}>Hour of Day</MenuItem>
-              <MenuItem value={'Goal'}>Goal</MenuItem>
-            </Select>
-          </FormControl>
+        <Grid container item direction="row" xs={3} justify="flexEnd">
+          <Grid item xs={6}>
+            <FormControlLabel
+              style={{ color: theme.palette.text.primary }}
+              control={
+                <Checkbox
+                  color="primary"
+                  checked={stacked}
+                  onChange={handleStackedChange}
+                  name="stacked"
+                />
+              }
+              label="Stacked View"
+              className={classes.formControlLabel}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="distribution-label">Display</InputLabel>
+              <Select
+                labelId="distribution-label"
+                value={distribution}
+                onChange={handleDistributionChange}
+              >
+                <MenuItem value={'Day of Week'}>Day of Week</MenuItem>
+                <MenuItem value={'Hour of Day'}>Hour of Day</MenuItem>
+                <MenuItem value={'Goal'}>Goal</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
         </Grid>
       </Grid>
       {distribution === 'Day of Week' ? (
@@ -462,7 +719,7 @@ const ChartLeft = (props) => {
       ) : (
         ''
       )}
-    </Card>
+    </Paper>
   );
 };
 
