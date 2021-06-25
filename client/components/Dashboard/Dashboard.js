@@ -49,11 +49,14 @@ const Dashboard = () => {
   let sessions = useSelector((state) => state.sessions);
   const auth = useSelector((state) => state.auth);
   let blackList = useSelector((state) => state.blackList);
+  let blocks = useSelector((state) => state.blocks);
+  const sites = useSelector((state) => state.sites);
   const theme = useTheme();
 
   if (auth) {
     sessions = sessions.filter((session) => session.userId === auth.id);
     blackList = blackList.filter((entry) => entry.userId === auth.id);
+    blocks = blocks.filter((block) => block.userId === auth.id);
   }
   let goals = sessions.map((session) => {
     return session.goal;
@@ -317,7 +320,7 @@ const Dashboard = () => {
           {sessionDistribution ? <ChartLeft sessions={sessions} /> : ''}
         </Grid>
         <Grid item xs={6}>
-          {sessionFrequency ? <ChartRight sessions={sessions} /> : ''}
+          {sessionFrequency ? <ChartRight blocks={blocks} sessions={sessions} sites={sites}/> : ''}
         </Grid>
       </Grid>
     </div>

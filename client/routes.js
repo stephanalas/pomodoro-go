@@ -8,6 +8,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import { me } from './store';
 import { loadSessions } from './store/sessions';
 import { loadBlackList, updateBlackList } from './store/blackList';
+import { loadBlocks } from './store/blocks';
 import { loadSites, updateSite } from './store/sites';
 import BlockError from './components/BlockError';
 import BlockSites from './components/BlockSites';
@@ -97,6 +98,7 @@ const mapDispatch = (dispatch) => {
       dispatch(loadSessions());
       dispatch(loadSites());
       dispatch(loadBlackList());
+      dispatch(loadBlocks());
     },
 
     updateB: (blackListId, blackListInfo) => {

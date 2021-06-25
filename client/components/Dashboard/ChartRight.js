@@ -33,11 +33,13 @@ const ChartRight = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const { sessions } = props;
+  const { blocks } = props;
+  const { sites } = props;
+
   const [rightChart, setRightChart] = useState('Frequency');
   //set colors so that the charts are connected to the Mui theme
   const primaryColor = theme.palette.primary.main;
   const errorColor = theme.palette.error.main;
-
   const backgroundPaper = theme.palette.background.paper;
 
   const handleRightChartChange = (event) => {
@@ -566,6 +568,94 @@ const ChartRight = (props) => {
     },
   };
   const series = monthData.series;
+
+  //Blocks History Line Graph
+  const months = ['Jan', 'Feb','Mar', 'Apr', 'May', 'Jun','Jul','Aug','Sep','Oct', 'Nov', 'Dec']
+  let seriesMonthsBlocks = {}
+  months.forEach(month => {
+    seriesMonthsBlocks[month] = {};
+    sites.forEach(site => {
+      seriesMonthsBlocks[month][site.name] = 0;
+    })
+  })
+
+  blocks.forEach((block) => {
+    const { site: { name }, date } = block;
+    const month = dayjs(date).format('MMM');
+    seriesMonthsBlocks[month][name]++;
+  });
+  console.log('seriesMonthsBs:', seriesMonthsBlocks);
+
+  // let monthsArr = [];
+  // for (const [key, val] of Object.entries(seriesMonths)) {
+  //   monthsArr.push(key);
+  // }
+  // let monthValsArr = [];
+  // for (const [key, val] of Object.entries(seriesMonths)) {
+  //   monthValsArr.push(val);
+  // }
+
+  // const monthData = {
+  //   series: [
+  //     {
+  //       name: 'Successful',
+  //       data: monthValsArr.map((val) => {
+  //         return val.successful;
+  //       }),
+  //     },
+  //     {
+  //       name: 'Failed',
+  //       data: monthValsArr.map((val) => {
+  //         return val.failed;
+  //       }),
+  //     },
+  //   ],
+  //   categories: monthsArr,
+  // };
+
+  // const options = {
+  //   colors: [primaryColor, errorColor],
+  //   chart: {
+  //     id: 'basic-line',
+  //   },
+  //   stroke: {
+  //     curve: 'smooth',
+  //     width: 1.5,
+  //   },
+
+  //   xaxis: {
+  //     categories: [
+  //       'Jan',
+  //       'Feb',
+  //       'Mar',
+  //       'Apr',
+  //       'May',
+  //       'Jun',
+  //       'Jul',
+  //       'Aug',
+  //       'Sep',
+  //       'Oct',
+  //       'Nov',
+  //       'Dec',
+  //     ],
+  //     labels: {
+  //       style: {
+  //         colors: theme.palette.text.secondary,
+  //       },
+  //     },
+  //   },
+  //   yaxis: {
+  //     labels: {
+  //       style: {
+  //         colors: theme.palette.text.secondary,
+  //       },
+  //       formatter: function (val, index) {
+  //         return val.toFixed(0);
+  //       },
+  //     },
+  //   },
+  // };
+  // const series = monthData.series;
 
   return (
     <Card className={classes.contain} {...props}>

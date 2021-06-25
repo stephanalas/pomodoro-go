@@ -157,27 +157,10 @@ async function seed() {
 
   // Creating blocks
   const blockSeeds = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 1000; i++) {
     blockSeeds.push(Block.seed(users, sites));
   }
-
-  const blocks = await Promise.all(blockSeeds);
-
-  // await Promise.all([
-  //   Block.create({
-  //     siteId: twitter.id,
-  //     userId: cody.id
-  //   }),
-  //   Block.create({
-  //     siteId: facebook.id,
-  //     userId: murphy.id
-  //   }),
-  //   Block.create({
-  //     siteId: instagram.id,
-  //     userId: cody.id
-  //   }),
-
-  // ]);
+  await Promise.all(blockSeeds);
 
   return {
     users: {
