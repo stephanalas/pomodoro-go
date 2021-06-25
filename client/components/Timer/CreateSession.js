@@ -37,10 +37,14 @@ const CreateSession = (props) => {
 
   return (
     <Container className={classes.main}>
-      <Paper className={classes.paper}>
-        <FocusConfig />
-        <Timer />
-      </Paper>
+      <Grid container justify="center">
+        <Grid item className={classes.focus}>
+          <FocusConfig />
+        </Grid>
+        <Grid item className={classes.timer}>
+          <Timer />
+        </Grid>
+      </Grid>
     </Container>
   );
 };
