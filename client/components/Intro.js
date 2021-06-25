@@ -3,21 +3,11 @@ import React, { Component } from 'react';
 import Typical from 'react-typical';
 
 const Intro = () => {
-  const paperStyle = {
-    height: '20vh',
-    width: 360,
-    padding: '50px',
-    margin: '100px',
-    backgroundColor: '#414e87',
-    color: 'white',
-    lineHeight: '30px',
-    fontSize: 'larger',
-    display: 'flex',
-    justfyContent: 'center',
-  };
+  
   return (
-    <div id="Intro">
-      <Paper style={paperStyle}>
+    <div className="paper">
+  <div className="lines">
+    <div className="text">
         <Typical
           steps={[
             'Hello!',
@@ -25,10 +15,14 @@ const Intro = () => {
             'This is the App that helps boots your work effecientcy by blocking time-wasting websites and bringing in your favorite music.Come set the goal,hit the road!',
             600,
           ]}
-          //   loop={Infinity}
+            // loop={3}
           wrapper="b"
         />
-      </Paper>
+    </div>
+    </div>  
+    <div className="holes hole-top"></div>
+  <div className="holes hole-middle"></div>
+  <div className="holes hole-bottom"></div>
     </div>
   );
 };
