@@ -584,79 +584,94 @@ const ChartRight = (props) => {
     const month = dayjs(date).format('MMM');
     seriesMonthsBlocks[month][name]++;
   });
-  console.log('seriesMonthsBs:', seriesMonthsBlocks);
 
-  // let monthsArr = [];
-  // for (const [key, val] of Object.entries(seriesMonths)) {
-  //   monthsArr.push(key);
-  // }
-  // let monthValsArr = [];
-  // for (const [key, val] of Object.entries(seriesMonths)) {
-  //   monthValsArr.push(val);
-  // }
+  let blockMonthValsArr = [];
+  for (const [key, val] of Object.entries(seriesMonthsBlocks)) {
+    blockMonthValsArr.push(val);
+  }
+  console.log('bMVA:',blockMonthValsArr)
 
-  // const monthData = {
-  //   series: [
-  //     {
-  //       name: 'Successful',
-  //       data: monthValsArr.map((val) => {
-  //         return val.successful;
-  //       }),
-  //     },
-  //     {
-  //       name: 'Failed',
-  //       data: monthValsArr.map((val) => {
-  //         return val.failed;
-  //       }),
-  //     },
-  //   ],
-  //   categories: monthsArr,
-  // };
+  const monthDataBlocks = {
+    series: [
+      {
+        name: 'Twitter',
+        data: blockMonthValsArr.map((val) => {
+          return val.Twitter;
+        }),
+      },
+      {
+        name: 'Facebook',
+        data: blockMonthValsArr.map((val) => {
+          return val.Facebook;
+        }),
+      },
+      {
+        name: 'Instagram',
+        data: blockMonthValsArr.map((val) => {
+          return val.Instagram;
+        }),
+      },
+         {
+          name: 'Hulu',
+          data: blockMonthValsArr.map((val) => {
+            return val.Hulu;
+          }),
+        },
+          {
+          name: 'Netflix',
+          data: blockMonthValsArr.map((val) => {
+            return val.Netflix;
+          }),
+        },
+    ],
+    categories: monthsArr,
+  };
 
-  // const options = {
-  //   colors: [primaryColor, errorColor],
-  //   chart: {
-  //     id: 'basic-line',
-  //   },
-  //   stroke: {
-  //     curve: 'smooth',
-  //     width: 1.5,
-  //   },
+  const optionsBlocks = {
+    colors: [primaryColor, errorColor],
+    chart: {
+      id: 'basic-line',
+    },
+    stroke: {
+      curve: 'smooth',
+      width: 1.5,
+    },
 
-  //   xaxis: {
-  //     categories: [
-  //       'Jan',
-  //       'Feb',
-  //       'Mar',
-  //       'Apr',
-  //       'May',
-  //       'Jun',
-  //       'Jul',
-  //       'Aug',
-  //       'Sep',
-  //       'Oct',
-  //       'Nov',
-  //       'Dec',
-  //     ],
-  //     labels: {
-  //       style: {
-  //         colors: theme.palette.text.secondary,
-  //       },
-  //     },
-  //   },
-  //   yaxis: {
-  //     labels: {
-  //       style: {
-  //         colors: theme.palette.text.secondary,
-  //       },
-  //       formatter: function (val, index) {
-  //         return val.toFixed(0);
-  //       },
-  //     },
-  //   },
-  // };
-  // const series = monthData.series;
-
+    xaxis: {
+      categories: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ],
+      labels: {
+        style: {
+          colors: theme.palette.text.secondary,
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: theme.palette.text.secondary,
+        },
+        formatter: function (val, index) {
+          return val.toFixed(0);
+        },
+      },
+    },
+  };
+  const seriesBlocks = monthDataBlocks.series;
+  console.log('seriesBlocks:',seriesBlocks)
+  console.log('monthData.sereis:', monthData.series)
   return (
     <Card className={classes.contain} {...props}>
       <Grid container direction="row" justify="space-between">
@@ -667,7 +682,8 @@ const ChartRight = (props) => {
             color="textPrimary"
           >
             {rightChart === 'Frequency' ? 'Session Frequency' : ''}
-            {rightChart === 'History' ? 'Session History' : ''}
+            {rightChart === 'Session History' ? 'Session History' : ''}
+            {rightChart === 'Block History' ? 'Block History' : ''}
           </Typography>
           <Typography
             className={classes.lsItem}
@@ -675,7 +691,8 @@ const ChartRight = (props) => {
             color="textSecondary"
           >
             {rightChart === 'Frequency' ? 'Time of Week' : ''}
-            {rightChart === 'History' ? 'Monthly' : ''}
+            {rightChart === 'Session History' ? 'Monthly' : ''}
+            {rightChart === 'Block History' ? 'Monthly' : ''}
           </Typography>
         </Grid>
         <Grid item>
@@ -687,7 +704,8 @@ const ChartRight = (props) => {
               onChange={handleRightChartChange}
             >
               <MenuItem value={'Frequency'}>Frequency</MenuItem>
-              <MenuItem value={'History'}>History</MenuItem>
+              <MenuItem value={'Session History'}>Session History</MenuItem>
+              <MenuItem value={'Block History'}>Block History</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -703,10 +721,21 @@ const ChartRight = (props) => {
           ) : (
             ''
           )}
-          {rightChart === 'History' ? (
+          {rightChart === 'Session History' ? (
             <Chart
               options={options}
               series={series}
+              type="line"
+              width="800"
+              height="450"
+            />
+          ) : (
+            ''
+          )}
+          {rightChart === 'Block History' ? (
+            <Chart
+              options={optionsBlocks}
+              series={seriesBlocks}
               type="line"
               width="800"
               height="450"

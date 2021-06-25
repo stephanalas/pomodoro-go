@@ -157,7 +157,7 @@ async function seed() {
 
   // Creating blocks
   const blockSeeds = [];
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 30; i++) {
     blockSeeds.push(Block.seed(users, sites));
   }
   await Promise.all(blockSeeds);
