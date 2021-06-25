@@ -68,6 +68,7 @@ export const authenticate =
 export const logout = () => {
   window.localStorage.removeItem(TOKEN);
   window.localStorage.removeItem('user');
+  window.localStorage.removeItem('timerDone');
   window.localStorage.removeItem(SPOTIFY_ACCESS_TOKEN);
   window.localStorage.removeItem(SPOTIFY_REFRESH_TOKEN);
   window.localStorage.removeItem(NEW_SPOTIFY_DEVICE);
