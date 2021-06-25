@@ -12,7 +12,7 @@ const Intro = () => {
           steps={[
             'Hello!',
             1000,
-            'This is the App that helps boots your work effecientcy by blocking time-wasting websites and bringing in your favorite music.Come set the goal,hit the road!',
+            'This is the App that helps boot your work effeciency by blocking time-wasting websites and bringing in your favorite music. Come set the goal and hit the road!',
             600,
           ]}
             // loop={3}

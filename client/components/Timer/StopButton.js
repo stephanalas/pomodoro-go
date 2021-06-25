@@ -51,7 +51,12 @@ export default connect(null, (dispatch) => {
 
   return (
     <div>
-      <Button onClick={handleOpen}>stop</Button>
+      <Button onClick={handleOpen} style={{
+            backgroundColor: '#9a6781',
+            color: 'white',
+            marginTop:'4px',
+            marginLeft:'4px'
+          }}>stop</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -71,8 +76,16 @@ export default connect(null, (dispatch) => {
               If you stop the focus session, this session will be considered
               unsuccessful! Do you want to end the session?
             </p>
-            <Button onClick={handleClose}>Go back</Button>
-            <Button onClick={handleStop}>End Session</Button>
+            <Button onClick={handleClose} style={{
+            backgroundColor: '#9a6781',
+            color: 'white',
+            marginLeft:'4px'
+          }}>Go back</Button>
+            <Button onClick={handleStop} style={{
+            backgroundColor: '#9a6781',
+            color: 'white',
+            marginLeft:'8px'
+          }}>End Session</Button>
           </div>
         </Fade>
       </Modal>

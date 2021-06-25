@@ -9,12 +9,20 @@ import { SessionContext } from './CreateSession';
 const useStyles = makeStyles(() => {
   return {
     container: {
-      // width: '45%',
-      height: '100%',
-      border: '1px solid black',
+      border: '1px solid #b49b8f',
+      boxShadow: '0 3px 5px 2px #b49b8f',
       borderRadius: '15px',
-      justifyContent: 'space-around',
+      backgroundColor: 'white',
+      height: '100%',
+      display:'flex',
+      flexBasis:'40%',
+      width:'50%',
       margin: '10px',
+      justifyContent: 'space-around',
+      
+      
+      
+      
     },
     goal: {
       padding: '1rem',
