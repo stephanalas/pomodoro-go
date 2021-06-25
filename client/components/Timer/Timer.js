@@ -13,10 +13,10 @@ const useStyles = makeStyles(() => ({
     boxShadow: '0 3px 5px 2px #b49b8f',
     borderRadius: '15px',
     backgroundColor: 'white',
-    height: '200px',
+    minHeight: '200px',
     display: 'flex',
     flexBasis:'40%',
-    width:'50%',
+    // width:'50%',
     margin: '10px',
     flexFlow: 'column',
     justifyContent: 'center',
@@ -32,6 +32,7 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
   },
   timerBig: {
+    fontSize: '200px',
     display: 'flex',
     flexBasis:'40%',
     width:'50%',
@@ -134,7 +135,7 @@ const Timer = (props) => {
       </div> */}
       <Grid container direction="column" alignItems="center">
       <Grid item>
-      <Typography variant="h1" className={classes.timerBig}>{msToHMS(sessionTime)} </Typography>
+        <Typography variant="h1" className={classes.timerBig}>{msToHMS(sessionTime)} </Typography>
       </Grid>
       <div className={classes.buttons}>
         {countDown ? (
@@ -169,7 +170,7 @@ const Timer = (props) => {
         {({ remainingTime }) => msToHMS(sessionTime)}
       </CountdownCircleTimer> */}
     </Card>
-    <Typography color="textPrimary" className={classes.timerHuge}>{msToHMS(sessionTime)} </Typography>
+    {/* <Typography color="textPrimary" className={classes.timerHuge}>{msToHMS(sessionTime)} </Typography> */}
     </div>
   );
 };
