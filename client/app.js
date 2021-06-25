@@ -48,6 +48,7 @@ const App = () => {
         message: 'timer-done',
       });
       window.localStorage.setItem('currentSession', null);
+      window.localStorage.removeItem('timerDone');
     }
     console.log('app is refreshing');
   });
