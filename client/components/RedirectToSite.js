@@ -6,7 +6,6 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#e4ddee',
     height: '100%',
     width: '100%',
   },

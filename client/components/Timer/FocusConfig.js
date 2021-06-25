@@ -9,11 +9,12 @@ import { SessionContext } from './CreateSession';
 const useStyles = makeStyles(() => {
   return {
     container: {
-      width: '50%',
+      // width: '45%',
       height: '100%',
       border: '1px solid black',
-      borderRadius: '10px',
+      borderRadius: '15px',
       justifyContent: 'space-around',
+      margin: '10px',
     },
     goal: {
       padding: '1rem',
@@ -23,7 +24,7 @@ const useStyles = makeStyles(() => {
     },
 
     gridInput: {
-      width: '30%',
+      // width: '30%',
     },
     gridContainer: {
       margin: '0',

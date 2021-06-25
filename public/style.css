@@ -1,12 +1,8 @@
-body,
-html * {
-  font-family: sans-serif;
-  /* background-color: rgb(66, 66, 66); */
-  /* color: white; */
-  box-sizing: border-box;
-}
 body {
   margin: 0;
+  box-sizing: border-box;
+  background-image:
+    linear-gradient(95deg,#fcccb0 5%, #fdeac4 40%,#faefe8 70%);
 }
 
 a {
@@ -32,7 +28,12 @@ a {
   flex-wrap: wrap;
   /* z-index: 200; */
 }
-*/ #Intro {
+
+#main>h3 {
+  padding-left: 30px;
+}
+
+#Intro {
   display: flex;
   padding: 50px;
   margin: 100px;
@@ -44,12 +45,17 @@ a {
   box-shadow: 3px 3px 5px gray;
 }
 
-form * {
+#login {
   display: flex;
-  justify-content: fcenter;
+  justify-content: center;
   padding: 5px;
   margin: 1px 0;
   border: none;
+}
+
+#add-site {
+  display: flex;
+  justify-content: space-between;
 }
 
 #login-signin-button {
@@ -99,6 +105,7 @@ form * {
   cursor: pointer;
   user-select: none;
 }
+
 #googleIcon {
   height: 36px;
   width: 36px;
@@ -112,20 +119,11 @@ form * {
   display: flex;
   position: center;
 }
-#main {
-  width: 90%;
-  margin: auto;
-  display: grid;
-  grid-template-columns: 900px 200px;
-  grid-column-gap: 25px;
-}
 
-#app,
-body,
-html {
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
+#container {
+  display: flex;
+  width: 80%;
+  margin: auto;
 }
 
 #currBlocked {
@@ -142,6 +140,7 @@ img {
 
 #player {
   display: flex;
+  flex-direction: column;
   margin: 25px;
   padding: 10px;
 }
@@ -219,4 +218,14 @@ img {
 }
 .hole-bottom {
   bottom: 10%;
+}
+
+#device-list, #all-playlists {
+  border-radius: 15px;
+  box-shadow: 0 3px 5px 2px #b49b8f;
+  width: 380px;
+  margin-bottom: 10px;
+  background-image:
+    linear-gradient(140deg,#faefe8 25%, #d7dae8 50%,#cedaa4 90%);
+  padding: 5px;
 }

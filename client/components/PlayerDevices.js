@@ -18,11 +18,9 @@ import { getCurrPlayback } from '../store/spotify/getCurrPlayback';
 const useStyles = makeStyles((theme) => ({
   deviceList: {
     width: '100%',
-    maxWidth: 400,
-    backgroundColor: theme.palette.background.paper,
   },
   deviceItem: {
-    borderBottom: '1px solid #e57373',
+    borderBottom: '1px solid #545764',
   },
 }));
 

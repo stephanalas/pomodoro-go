@@ -16,24 +16,8 @@ export const Home = (props) => {
 
   return (
     <div id="main">
+      <h3>Welcome, {username}</h3>
       <div id="container" display="inline">
-        <h3>Welcome, {username}</h3>
-        {/* <div id="controls">
-          <Link to="/blocksites">
-            <button>
-              <DomainDisabledIcon />
-              <br />
-              Block sites
-            </button>
-          </Link>
-          <Link to="/friends">
-            <button>
-              <PeopleAltIcon />
-              <br />
-              Friends
-            </button>
-          </Link>
-        </div> */}
         <CreateSession />
         <Player />
       </div>

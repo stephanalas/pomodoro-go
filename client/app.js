@@ -7,8 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const useStyles = makeStyles(() => ({
   main: {
     height: '100%',
-    width: '100%',
-    backgroundColor: '#e4ddee',
+    width: '100%'
   },
 }));
 const App = () => {

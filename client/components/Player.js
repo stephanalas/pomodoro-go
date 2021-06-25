@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
     width: 400,
     marginRight: 10,
     height: 250,
+    marginBottom: '10px',
+    boxShadow: '0 3px 5px 2px #b49b8f',
+    borderRadius: '15px',
   },
   details: {
     display: 'flex',
@@ -51,14 +54,6 @@ const useStyles = makeStyles((theme) => ({
   playIcon: {
     height: 38,
     width: 38,
-  },
-  deviceList: {
-    width: '100%',
-    maxWidth: 400,
-    backgroundColor: theme.palette.background.paper,
-  },
-  deviceItem: {
-    borderBottom: '1px solid #e57373',
   },
   spotifyConnect: {
     width: '50%',

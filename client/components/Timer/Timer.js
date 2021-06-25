@@ -9,13 +9,15 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 const useStyles = makeStyles(() => ({
   timerContainer: {
     border: '1px solid black',
-    height: '50%',
-    width: '50%',
-    borderRadius: '30px',
+    backgroundColor: 'white',
+    height: '500px',
+    borderRadius: '15px',
     display: 'flex',
     flexFlow: 'column',
     justifyContent: 'center',
     alignContent: 'center',
+    margin: '10px',
+    backgroundImage: 'http://localhost:8080/public/S4_Research.jpg'
   },
   timer: {
     display: 'flex',
