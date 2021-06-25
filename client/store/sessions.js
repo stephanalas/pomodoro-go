@@ -94,6 +94,42 @@ const updateSession = (sessionId, sessionInfo) => async (dispatch) => {
     console.log(error);
   }
 };
+const END_SESSION = 'END_SESSION';
+const REMOVE_SESSION = 'REMOVE_SESSION';
+export const removeSession = () => {
+  return { type: REMOVE_SESSION };
+};
+export const _endSession = (session) => {
+  return {
+    type: END_SESSION,
+    session,
+  };
+};
+
+export const endSession =
+  (sessionId, successful = false) =>
+  async (dispatch) => {
+    try {
+      let response = await axios.put(
+        `${process.env.API_URL}/api/sessions/${sessionId}/end`,
+        { successful }
+      );
+      if (response.data.status === 'Ongoing') {
+        response = await axios.put(
+          `${process.env.API_URL}/api/sessions/${sessionId}/end`,
+          { successful }
+        );
+      }
+      const updatedSession = response.data;
+      console.log(updatedSession);
+      localStorage.setItem('timerDone', false);
+      dispatch(_endSession(updatedSession));
+      dispatch(removeSession());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 const ADD_TASK = 'ADD_TASK';
 
 const addTaskCreator = (session) => {
@@ -162,10 +198,11 @@ const currentSessionReducer = (state = {}, action) => {
     action.type === ADD_TASK ||
     action.type === DELETE_TASK ||
     action.type === UPDATE_TASK ||
-    action.type === LOAD_SESSION
+    action.type === LOAD_SESSION ||
+    action.type === END_SESSION
   ) {
     state = action.session;
-  } else if (action.type === 'REMOVE_SESSION') {
+  } else if (action.type === REMOVE_SESSION || action.type === 'LOG_OUT') {
     return {};
   }
   return state;
