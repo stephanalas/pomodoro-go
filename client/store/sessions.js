@@ -63,6 +63,8 @@ const createSession = (userId, goal) => async (dispatch) => {
       goal,
     });
     const { data } = response;
+
+    localStorage.setItem('currentSession', JSON.stringify(data));
     dispatch(createSessionActionCreator(data));
   } catch (error) {
     console.log('error in createSession thunk');
@@ -85,13 +87,13 @@ const updateSession = (sessionId, sessionInfo) => async (dispatch) => {
       sessionInfo
     );
     const { data } = response;
+    window.localStorage.setItem('currentSession', JSON.stringify(data));
     dispatch(updateSessionActionCreator(data));
   } catch (error) {
     console.log('error in updateSession thunk');
     console.log(error);
   }
 };
-
 const ADD_TASK = 'ADD_TASK';
 
 const addTaskCreator = (session) => {
@@ -163,6 +165,8 @@ const currentSessionReducer = (state = {}, action) => {
     action.type === LOAD_SESSION
   ) {
     state = action.session;
+  } else if (action.type === 'REMOVE_SESSION') {
+    return {};
   }
   return state;
 };
