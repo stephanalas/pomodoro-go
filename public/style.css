@@ -13,36 +13,12 @@ a {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  /* z-index: 0; */
-  /* background-color: #4d2a4e; */
   margin: 0;
   padding: 0px, 0;
-}
-/* #navBar .home {
-  justify-content: start;
-  flex-wrap: wrap;
-  z-index: 200;
-} */
-#navBar .account {
-  justify-content: start;
-  flex-wrap: wrap;
-  /* z-index: 200; */
 }
 
 #main>h3 {
   padding-left: 30px;
-}
-
-#Intro {
-  display: flex;
-  padding: 50px;
-  margin: 100px;
-  background-color: #5061a9;
-  color: white;
-  line-height: 30px;
-  font-size: larger;
-  text-shadow: 3px 3px 2px rgb(99, 98, 98);
-  box-shadow: 3px 3px 5px gray;
 }
 
 #login {
@@ -58,7 +34,7 @@ a {
   justify-content: space-between;
 }
 
-#login-signin-button {
+/* #login-signin-button {
   width: 155px;
   background-color: #5061a9;
   color: white;
@@ -70,41 +46,7 @@ a {
 
 #navBar .extension-login {
   justify-content: end;
-}
-/* Ding:for some unknown reason I could set the Button props inside the div ,will try to do some clean up later */
-#googleSignOut {
-  color: rgb(66, 133, 244);
-  background-color: rgb(255, 255, 255);
-  height: 45px;
-  width: 220px;
-  border: none;
-  text-align: left;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
-  font-size: 16px;
-  /* line-height: 48px;  */
-  display: block;
-  border-radius: 3px;
-  font-family: Roboto, arial, sans-serif;
-  cursor: pointer;
-  user-select: none;
-}
-
-#googleSignIn {
-  color: rgb(66, 133, 244);
-  background-color: rgb(255, 255, 255);
-  height: 45px;
-  width: 220px;
-  border: none;
-  text-align: left;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
-  font-size: 16px;
-  /* line-height: 48px;  */
-  display: block;
-  border-radius: 3px;
-  font-family: Roboto, arial, sans-serif;
-  cursor: pointer;
-  user-select: none;
-}
+}*/
 
 #googleIcon {
   height: 36px;
@@ -113,7 +55,7 @@ a {
   padding: 0;
   margin: 0 0 0 0;
   vertical-align: text-top;
-}
+} 
 
 #blockList {
   display: flex;
@@ -169,11 +111,11 @@ img {
   position:relative;
   height: 550px;
   width: 450px;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
   margin: -275px -225px;
   left: 50%;
-  top: 50%;
-  box-shadow: 0px 0px 5px 0px #888;
+  top: 300px;
+  box-shadow: 0px 0px 6px 0px #888;
 }
 .paper::before {
   content: '';
@@ -206,9 +148,9 @@ img {
   left: 10px;
   height: 25px;
   width: 25px;
-  background: lightgoldenrodyellow;
+  background: rgba(255, 232, 188, 0.9);
   border-radius: 50%;
-  box-shadow: inset 0px 0px 2px 0px #888;
+  box-shadow: inset 1px 0px 2px 0px #888;
 }
 .hole-top {
   top: 10%;

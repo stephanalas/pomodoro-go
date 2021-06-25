@@ -8,15 +8,18 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
-    border: '1px solid black',
-    backgroundColor: 'white',
-    height: '500px',
+    border: '1px solid #b49b8f',
+    boxShadow: '0 3px 5px 2px #b49b8f',
     borderRadius: '15px',
+    backgroundColor: 'white',
+    height: '800px',
     display: 'flex',
+    flexBasis:'40%',
+    width:'50%',
+    margin: '10px',
     flexFlow: 'column',
     justifyContent: 'center',
     alignContent: 'center',
-    margin: '10px',
     backgroundImage: 'http://localhost:8080/public/S4_Research.jpg'
   },
   timer: {
@@ -26,7 +29,7 @@ const useStyles = makeStyles(() => ({
   },
   TimeDisplay: {
     display: 'flex',
-  },
+  }
 }));
 
 const Timer = (props) => {
@@ -109,9 +112,17 @@ const Timer = (props) => {
       </div>
       <div className={classes.buttons}>
         {countDown ? (
-          <Button onClick={toggleTimer}>pause</Button>
+          <Button onClick={toggleTimer} style={{
+            backgroundColor: '#9a6781',
+            color: 'white',
+            marginLeft:'4px'
+          }}>pause</Button>
         ) : (
-          <Button onClick={toggleTimer} disabled={sessionTime ? false : true}>
+          <Button onClick={toggleTimer} disabled={sessionTime ? false : true} style={{
+            backgroundColor: '#9a6781',
+            color: 'white',
+            marginLeft:'4px'
+          }}>
             Play
           </Button>
         )}
