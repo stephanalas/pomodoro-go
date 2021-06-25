@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { TextField, makeStyles, Grid } from '@material-ui/core';
-import { SessionContext } from './CreateSession';
+import { SessionContext } from '../../app';
 
 const useStyles = makeStyles(() => ({
   input: {

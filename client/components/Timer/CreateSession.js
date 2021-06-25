@@ -4,53 +4,33 @@ import Timer from './Timer';
 import FocusConfig from './FocusConfig';
 import { connect, useSelector } from 'react-redux';
 import { loadSession } from '../../store/sessions';
-export const SessionContext = createContext();
 const useStyles = makeStyles(() => ({
   main: {
     display: 'flex',
-    alignContent: 'center',
+    alignContent: 'left',
     justifyContent: 'center',
     // border: '1px solid red',
     height: '100%',
-    width: '40rem',
+    width: '100%',
   },
   paper: {
     display: 'flex',
-    justifyContent: 'space-around',
     alignContent: 'center',
     // border: '1px solid red',
-    margin: '10px',
-    width: '40rem',
+    width: '100%',
     height: '100%',
   },
 }));
 const CreateSession = (props) => {
   const classes = useStyles();
-  const currentSession = useSelector((state) => state.currentSession);
-  const [sessionTime, setSessionTime] = useState(0);
-  const [goal, setGoal] = useState('');
-  const [countDown, setCountDown] = useState(false);
 
   return (
-    <SessionContext.Provider
-      value={{
-        sessionTime,
-        setSessionTime,
-        goal,
-        setGoal,
-        countDown,
-        setCountDown,
-      }}
-    >
-      <Container className={classes.main}>
-        <Paper className={classes.paper}>
-          <div>
-            <FocusConfig />
-          </div>
-          <Timer />
-        </Paper>
-      </Container>
-    </SessionContext.Provider>
+    <Container className={classes.main}>
+      <Paper className={classes.paper}>
+        <FocusConfig />
+        <Timer />
+      </Paper>
+    </Container>
   );
 };
 export default connect(null, (dispatch) => {

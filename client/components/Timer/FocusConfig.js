@@ -4,7 +4,7 @@ import { Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import TimerInput from './TimerInput';
 import GoalSelector from './GoalSelector';
 
-import { SessionContext } from './CreateSession';
+import { SessionContext } from '../../app';
 
 const useStyles = makeStyles(() => {
   return {
