@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { connect, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Button, Typography, Grid } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -16,9 +16,12 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    // border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(2, 2, 3),
+  },
+  buttonGrid: {
+    marginTop: '15px',
   },
 }));
 
@@ -29,6 +32,8 @@ export default connect(null, (dispatch) => {
   };
 })(function (props) {
   const classes = useStyles();
+  const theme = useTheme();
+  const {palette: {primary, secondary}} = theme
   const { updateSession, toggleTimer } = props;
   const { setCountDown } = useContext(SessionContext);
   const currentSession = useSelector((state) => state.currentSession);
@@ -72,21 +77,27 @@ export default connect(null, (dispatch) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Warning!!!!</h2>
-            <p id="transition-modal-description">
-              If you stop the focus session, this session will be considered
-              unsuccessful! Do you want to end the session?
-            </p>
-            <Button onClick={handleClose} style={{
-            backgroundColor: '#9a6781',
-            color: 'white',
-            marginLeft:'4px'
-          }}>Go back</Button>
-            <Button onClick={handleStop} style={{
-            backgroundColor: '#9a6781',
-            color: 'white',
-            marginLeft:'8px'
-          }}>End Session</Button>
+            <Grid container direction="column" alignItems="center">
+              <Grid item>
+                <Typography color="textPrimary" variant="h5" id="transition-modal-title">Warning!!!!</Typography>
+                <Typography color="textPrimary" variant="p" >
+                  If you stop the focus session, this session will be considered
+                  unsuccessful! Do you want to end the session?
+                </Typography>
+              </Grid>
+              <Grid item className={classes.buttonGrid}>
+                <Button onClick={handleClose} style={{
+                backgroundColor: '#9a6781',
+                color: 'white',
+                marginLeft:'4px'
+              }}>Go back</Button>
+                <Button onClick={handleStop} style={{
+                backgroundColor: '#9a6781',
+                color: 'white',
+                marginLeft:'8px'
+              }}>End Session</Button>
+            </Grid>
+          </Grid>
           </div>
         </Fade>
       </Modal>
