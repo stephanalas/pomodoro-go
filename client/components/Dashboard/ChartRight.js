@@ -532,7 +532,7 @@ const ChartRight = (props) => {
     },
     stroke: {
       curve: 'smooth',
-      width: 1.5,
+      width: 2,
     },
 
     xaxis: {
@@ -634,7 +634,7 @@ const ChartRight = (props) => {
     },
     stroke: {
       curve: 'smooth',
-      width: 1.5,
+      width: 2,
     },
 
     xaxis: {
