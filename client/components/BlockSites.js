@@ -86,10 +86,10 @@ const Alert = (props) => {
 
 //Start of component
 const BlockSites = (props) => {
-  console.log(props);
+  // console.log(props);
   //states
   const [toggleStatus, setToggleStatus] = useState({});
-  console.log(toggleStatus);
+  // console.log(toggleStatus);
   const [urlInput, setUrlInput] = useState({
     siteUrl: '',
     category: '',

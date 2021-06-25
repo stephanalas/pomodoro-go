@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { TextField, makeStyles, Grid } from '@material-ui/core';
-import { SessionContext } from './CreateSession';
+import { SessionContext } from '../../app';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(() => ({
   input: {
@@ -12,6 +13,7 @@ const useStyles = makeStyles(() => ({
 const TimerInput = (props) => {
   const classes = useStyles();
   const { goal, sessionTime, setSessionTime } = useContext(SessionContext);
+  const currentSession = useSelector((state) => state.currentSession);
   const [inputError, setInputError] = useState(false);
   const [input, setInput] = useState('');
   const { label } = props;
@@ -73,6 +75,11 @@ const TimerInput = (props) => {
       );
     }
   };
+  useEffect(() => {
+    if (sessionTime === 0) {
+      setInput(0);
+    }
+  });
   return (
     // <Grid item xs={4}>
       <TextField

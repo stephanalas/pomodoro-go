@@ -1,26 +1,20 @@
-// window.onload = () => {
-//   const sessionTime = localStorage.getItem('sessionTime');
-//   console.log('typeof sessionTime', typeof sessionTime);
-//   if (sessionTime >= 0 && sessionTime !== 'null') {
-//     chrome.storage.sync.set({ sessionTime: sessionTime });
-//     chrome.storage.sync.get(['sessionTime'], (results) => {
-//       if (results.sessionTime) {
-//         chrome.runtime.sendMessage('startTimer', () => {
-//           console.log('timer has been created');
-//         });
-//       }
-//     });
+// window.onbeforeunload = () => {
+//   const currentSessionTime = window.localStorage.getItem('sessionTime');
+//   const sessionIsSet = window.localStorage.getItem('sessionIsSet');
+//   const timerDone = window.localStorage.getItem('timerDone');
+//   if (
+//     timerDone === 'false' &&
+//     parseInt(currentSessionTime) &&
+//     sessionIsSet === 'true'
+//   ) {
+//     clearInterval(window.timer);
+//     // chrome.runtime.sendExternalMessage('jgphbioennmnjogfbpchcgphelmfoiig', {
+//     //   message: 'create-alarm',
+//     //   sessionTime: parseInt(currentSessionTime),
+//     // });
+//   }
+//   if (timerDone === 'true') {
+//     clearInterval(window.timer);
+//     localStorage.removeItem('timerDone');
 //   }
 // };
-
-window.onload = async () => {
-  const sessionTime = localStorage.getItem('sessionTime');
-  console.log('windowONload sessiontime,', sessionTime);
-  if (sessionTime >= 0 && sessionTime) {
-    chrome.storage.sync.set({ sessionTime: Number(sessionTime) });
-    chrome.storage.sync.get(['sessionTime'], (results) => {
-      console.log('grabbed sessionTime from chromeStorage', results);
-    });
-  }
-  cons;
-};

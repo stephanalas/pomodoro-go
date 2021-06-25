@@ -45,6 +45,7 @@ const Navbar = (props) => {
     console.log('sign in failure', response);
   };
   const handleLogOut = () => {
+    clearInterval(window.timer);
     setAnchorEl(null);
     window.localStorage.clear();
     props.handleClick();

@@ -66,6 +66,23 @@ router.put('/:sessionId', async (req, res, next) => {
     next(error);
   }
 });
+// END SESSION
+router.put('/:sessionId/end', async (req, res, next) => {
+  try {
+    console.log('ENDING SESSION TIME', req.body);
+    const { sessionId } = req.params;
+    const { successful } = req.body;
+    const session = await Session.findByPk(sessionId);
+    session.end({ successful, status: 'Done' });
+    const updatedSession = await Session.findByPk(sessionId, {
+      include: [User, Task],
+    });
+    console.log(updatedSession);
+    res.send(updatedSession);
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.get('/user/:userId', async (req, res, next) => {
   try {

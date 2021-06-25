@@ -4,9 +4,21 @@ import Timer from './Timer';
 import FocusConfig from './FocusConfig';
 import { connect, useSelector } from 'react-redux';
 import { loadSession } from '../../store/sessions';
-export const SessionContext = createContext();
 const useStyles = makeStyles(() => ({
   main: {
+    display: 'flex',
+    alignContent: 'left',
+    justifyContent: 'center',
+    // border: '1px solid red',
+    height: '100%',
+    width: '100%',
+  },
+  paper: {
+    display: 'flex',
+    alignContent: 'center',
+    // border: '1px solid red',
+    width: '100%',
+    height: '100%',
     // display: 'flex',
     // flexDirection: 'column',
     height: '100%',
@@ -14,6 +26,7 @@ const useStyles = makeStyles(() => ({
   },
   focus: {
     margin: '10px',
+
   },
 
   timer: {
@@ -22,22 +35,8 @@ const useStyles = makeStyles(() => ({
 }));
 const CreateSession = (props) => {
   const classes = useStyles();
-  const currentSession = useSelector((state) => state.currentSession);
-  const [sessionTime, setSessionTime] = useState(0);
-  const [goal, setGoal] = useState('');
-  const [countDown, setCountDown] = useState(false);
 
   return (
-    <SessionContext.Provider
-      value={{
-        sessionTime,
-        setSessionTime,
-        goal,
-        setGoal,
-        countDown,
-        setCountDown,
-      }}
-    >
       <Container className={classes.main}>
         <Grid container justify="center" >
           <Grid item className={classes.focus}>
@@ -48,7 +47,6 @@ const CreateSession = (props) => {
           </Grid>
         </Grid>
       </Container>
-    </SessionContext.Provider>
   );
 };
 export default connect(null, (dispatch) => {

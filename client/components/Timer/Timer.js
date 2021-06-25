@@ -4,8 +4,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { updateSession } from '../../store/sessions';
 import StopButton from './StopButton';
-import { SessionContext } from './CreateSession';
-import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import { SessionContext } from '../../app';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
@@ -46,29 +45,11 @@ const Timer = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
-  const [storageSessionTime, setStorageSessionTime] = useState(0);
   const currentSession = useSelector((state) => state.currentSession);
   const { setCountDown, sessionTime, countDown, setSessionTime } =
     useContext(SessionContext);
   const { updateSession } = props;
 
-  useEffect(() => {
-    if (sessionTime >= 0) {
-      localStorage.setItem('sessionTime', sessionTime);
-      if (chrome.storage) chrome.storage.local.set({ sessionTime });
-    }
-  });
-  useEffect(() => {
-    if (chrome.storage) {
-      chrome.storage.local.get(['sessionTime'], (results) => {
-        setStorageSessionTime(results.sessionTime);
-        console.log('from timer: ', results);
-      });
-    }
-  });
-  useEffect(() => {
-    console.log('on mount of timer', localStorage.getItem('sessionTime'));
-  }, [dispatch]);
   const msToHMS = (ms) => {
     let seconds = ms / 1000;
 
@@ -83,13 +64,12 @@ const Timer = (props) => {
     seconds = seconds < 10 ? (seconds >= 0 ? '0' + seconds : '00') : seconds;
     //Ding:I added seconds>=0? '0' + seconds:'00'
     //But the play button may also need to be modified...
-
     return hours + ':' + minutes + ':' + seconds;
   };
 
   const toggleTimer = (ev) => {
     const button = ev.target.innerText;
-    if (button === 'PLAY') {
+    if (button === 'START') {
       if (!currentSession.sessionTime) {
         updateSession(currentSession.id, { sessionTime });
         console.log('props', props);
@@ -108,15 +88,9 @@ const Timer = (props) => {
       setCountDown(false);
       clearInterval(timer);
     }
-    sendSessionToChrome();
-  };
-  const setChromeStorageTimer = () => {};
-  const sendSessionToChrome = () => {
-    if (chrome.storage) {
-      chrome.storage.local.set({ currentSession });
-    }
   };
   return (
+
     <div>
 
     <Card className={classes.timerContainer} elevation={10}>

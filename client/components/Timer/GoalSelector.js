@@ -9,7 +9,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import { createSession, updateSession } from '../../store/sessions';
-import { SessionContext } from './CreateSession';
+import { SessionContext } from '../../app';
 
 const useStyles = makeStyles(() => ({
   select: {
@@ -28,7 +28,8 @@ const GoalSelector = (props) => {
 
   const handleChange = (ev) => {
     const { value } = ev.target;
-
+    localStorage.setItem('sessionIsSet', true);
+    localStorage.setItem('timerDone', false);
     if (!currentSession.id) {
       createSession(auth.id, value);
     }

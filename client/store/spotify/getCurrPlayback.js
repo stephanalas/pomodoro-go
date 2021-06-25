@@ -4,16 +4,17 @@ const GET_CURRPLAYBACK = 'GET_CURRPLAYBACK';
 
 //get current playback
 export const getCurrPlayback = (accessToken) => {
-  console.log('access token', accessToken);
-  return async(dispatch) => {
+  // console.log('access token', accessToken);
+  return async (dispatch) => {
     try {
       const params = 'market=from_token';
-      let response = (
-        await axios.get(`https://api.spotify.com/v1/me/player?${params}`, {
+      let response = await axios.get(
+        `https://api.spotify.com/v1/me/player?${params}`,
+        {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        })
+        }
       );
       if (response.status === 200) {
         const currPlayback = response.data;
@@ -24,7 +25,7 @@ export const getCurrPlayback = (accessToken) => {
         window.localStorage.removeItem('new-spotify-device');
         history.push('/home');
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err.message);
     }
   };
@@ -33,7 +34,7 @@ export const getCurrPlayback = (accessToken) => {
 const _getCurrPlayback = (currPlayback) => {
   return {
     type: GET_CURRPLAYBACK,
-    currPlayback
+    currPlayback,
   };
 };
 

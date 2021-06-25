@@ -74,7 +74,7 @@ const SpotifyConnectButton = withStyles(() => ({
 }))(Button);
 
 const Player = (props) => {
-  console.log(process.env.API_URL); //reads env correctly
+  // console.log(process.env.API_URL); //reads env correctly
   const classes = useStyles();
   const theme = useTheme();
 
@@ -163,7 +163,7 @@ const Player = (props) => {
       );
       // props.getRecentTrack(window.localStorage.getItem('spotify_access_token'));
     }
-    console.log('state duration - initial state', props.trackDuration);
+    // console.log('state duration - initial state', props.trackDuration);
   }, []);
 
   useEffect(() => {
@@ -172,7 +172,7 @@ const Player = (props) => {
         window.localStorage.getItem('spotify_access_token')
       );
     }, props.trackDuration);
-    console.log('update playback after designated delay', props.currPlayback);
+    // console.log('update playback after designated delay', props.currPlayback);
   }, [props]);
 
   return (
