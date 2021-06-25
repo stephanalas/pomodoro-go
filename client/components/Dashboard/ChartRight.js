@@ -419,7 +419,7 @@ const ChartRight = (props) => {
         curve: 'smooth',
         lineCap: 'butt',
         colors: [backgroundPaper],
-        width: 2,
+        width: .5,
         dashArray: 0,
       },
       tooltip: {
@@ -634,7 +634,7 @@ const ChartRight = (props) => {
     },
     stroke: {
       curve: 'smooth',
-      width: 2,
+       width: 2,
     },
 
     xaxis: {
