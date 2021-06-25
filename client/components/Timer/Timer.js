@@ -48,7 +48,6 @@ const Timer = (props) => {
     seconds = seconds < 10 ? (seconds >= 0 ? '0' + seconds : '00') : seconds;
     //Ding:I added seconds>=0? '0' + seconds:'00'
     //But the play button may also need to be modified...
-
     return hours + ':' + minutes + ':' + seconds;
   };
 
@@ -74,7 +73,6 @@ const Timer = (props) => {
       clearInterval(timer);
     }
   };
-  const setChromeStorageTimer = () => {};
   return (
     <section className={classes.timerContainer}>
       <div className={classes.timer}>
@@ -94,17 +92,6 @@ const Timer = (props) => {
         )}
         {countDown ? <StopButton toggleTimer={toggleTimer} /> : null}
       </div>
-      {/* <CountdownCircleTimer
-        isPlaying={countDown ? true : false}
-        duration={sessionTime}
-        colors={[
-          ['#004777', 0.33],
-          ['#F7B801', 0.33],
-          ['#A30000', 0.33],
-        ]}
-      >
-        {({ remainingTime }) => msToHMS(sessionTime)}
-      </CountdownCircleTimer> */}
     </section>
   );
 };
