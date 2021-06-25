@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   dashboardContain: {
     paddingLeft: 15,
     paddingRight: 15,
+    margin: 10,
   },
   formControlLabel: {
     color: theme.palette.text.primary,
@@ -143,7 +144,7 @@ const Dashboard = () => {
   return (
     <div
       className={classes.dashboardContain}
-      style={{ backgroundColor: theme.palette.background.default }}
+      // style={{ backgroundColor: theme.palette.background.default }}
     >
       <Grid
         container
@@ -153,7 +154,7 @@ const Dashboard = () => {
         spacing={3}
       >
         <Grid item xs={3}>
-          <Typography variant="overline" color="textPrimary">
+          <Typography variant="overline" color="textPrimary" >
             Dashboard
           </Typography>
           <Typography variant="h6" color="textPrimary">

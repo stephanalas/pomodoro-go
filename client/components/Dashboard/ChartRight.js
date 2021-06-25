@@ -6,13 +6,13 @@ dayjs.extend(localizedFormat);
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import {
   Box,
-  Card,
   Typography,
   Grid,
   FormControl,
   MenuItem,
   Select,
   InputLabel,
+  Paper
 } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -673,7 +673,7 @@ const ChartRight = (props) => {
   console.log('seriesBlocks:',seriesBlocks)
   console.log('monthData.sereis:', monthData.series)
   return (
-    <Card className={classes.contain} {...props}>
+    <Paper className={classes.contain} {...props} elevation={10}>
       <Grid container direction="row" justify="space-between">
         <Grid item>
           <Typography
@@ -745,7 +745,7 @@ const ChartRight = (props) => {
           )}
         </Box>
       </Grid>
-    </Card>
+    </Paper>
   );
 };
 

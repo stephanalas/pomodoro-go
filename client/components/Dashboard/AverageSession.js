@@ -10,7 +10,6 @@ const useStyles = makeStyles({
     padding: 10,
     minWidth: 100,
     minHeight: 272,
-    // maxWidth: 300,
     flexGrow: 1,
   },
   lsItem: {
@@ -141,7 +140,7 @@ const AverageSession = (props) => {
   const avgFailedSessionMinutes = Math.round(avgFailedSessionLength / 60000);
 
   return (
-    <Paper className={classes.contain}>
+    <Paper className={classes.contain} elevation={10}>
       <Typography className={classes.lsItem} variant="h5" color="textPrimary">
         Average Session
       </Typography>

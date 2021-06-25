@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, makeStyles } from '@material-ui/core';
+import { Button, Paper, makeStyles } from '@material-ui/core';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { updateSession } from '../../store/sessions';
 import StopButton from './StopButton';
@@ -103,7 +103,7 @@ const Timer = (props) => {
     }
   };
   return (
-    <section className={classes.timerContainer}>
+    <Paper className={classes.timerContainer} elevation={10}>
       <div className={classes.timer}>
         <div>{msToHMS(sessionTime)}</div>
       </div>
@@ -128,7 +128,7 @@ const Timer = (props) => {
       >
         {({ remainingTime }) => msToHMS(sessionTime)}
       </CountdownCircleTimer>
-    </section>
+    </Paper>
   );
 };
 export default connect(

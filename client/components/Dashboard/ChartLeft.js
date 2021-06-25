@@ -7,7 +7,7 @@ dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import {
-  Card,
+  Paper,
   Typography,
   FormControl,
   Select,
@@ -654,7 +654,7 @@ const ChartLeft = (props) => {
   };
 
   return (
-    <Card className={classes.contain} {...props}>
+    <Paper className={classes.contain} {...props} elevation={10}>
       <Grid container direction="row" justify="space-between">
         <Grid item sx={8}>
           <Typography
@@ -719,7 +719,7 @@ const ChartLeft = (props) => {
       ) : (
         ''
       )}
-    </Card>
+    </Paper>
   );
 };
 

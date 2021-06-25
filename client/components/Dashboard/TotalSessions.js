@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   contain: {
     padding: 10,
     minWidth: 100,
-    minHeight: 250,
+    minHeight: 272,
     flexGrow: 1,
   },
   lsItem: {
@@ -47,7 +47,7 @@ const TotalSessions = (props) => {
   }
 
   return (
-    <Paper className={classes.contain}>
+    <Paper className={classes.contain} elevation={10}>
       <Typography className={classes.lsItem} variant="h5" color="textPrimary">
         Total Sessions
       </Typography>
