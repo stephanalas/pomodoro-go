@@ -8,20 +8,9 @@ export const SessionContext = createContext();
 const useStyles = makeStyles(() => ({
   main: {
     display: 'flex',
-    alignContent: 'center',
-    justifyContent: 'center',
-    // border: '1px solid red',
+    flexDirection: 'column',
     height: '100%',
-    width: '40rem',
-  },
-  paper: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignContent: 'center',
-    // border: '1px solid red',
-    margin: '10px',
-    width: '40rem',
-    height: '100%',
+    margin:'25px'
   },
 }));
 const CreateSession = (props) => {
@@ -43,12 +32,10 @@ const CreateSession = (props) => {
       }}
     >
       <Container className={classes.main}>
-        <Paper className={classes.paper}>
-          <div>
-            <FocusConfig />
-          </div>
-          <Timer />
-        </Paper>
+        {/* <div> */}
+        <FocusConfig />
+        {/* </div> */}
+        <Timer />
       </Container>
     </SessionContext.Provider>
   );

@@ -39,6 +39,7 @@ const StyledBadge = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
   contain: {
     background: 'linear-gradient(110deg, #4a4d6c 60%, #fce7a9 60%)',
+    width: '100%',
     padding: 20,
     borderRadius: 15,
     color: 'white',
