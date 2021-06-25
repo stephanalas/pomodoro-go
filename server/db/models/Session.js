@@ -48,6 +48,7 @@ Session.prototype.end = async function ({ successful, status }) {
   this.successful = successful;
   this.status = status;
   this.actualEndTime = Date.now();
+  await this.save();
   return this;
 };
 /**
@@ -119,10 +120,14 @@ Session.beforeUpdate((session) => {
   if (!session.startTime && session.sessionTime) {
     session.startTime = new Date();
   }
-  if (session.startTime) {
+  if (session.startTime && !session.actualEndTime) {
     calcExpectedEndTime(session);
     session.status = 'Ongoing';
   }
 });
-
+Session.afterUpdate((session) => {
+  if (session.actualEndTime) {
+    session.status = 'Done';
+  }
+});
 module.exports = Session;
