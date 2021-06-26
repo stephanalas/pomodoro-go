@@ -195,7 +195,7 @@ const background = {
             // chrome.tabs.remove(tabId);
             chrome.tabs.update(tabId, {
               // url: 'https://pomodoro-russ.herokuapp.com/uhoh',
-              url: `${process.env.API_URL}/uhoh',
+              url: `${process.env.API_URL}/uhoh`,
             }); // hard-code it to production url atm instead of 'http://localhost:8080/uhoh'
           }
         });
