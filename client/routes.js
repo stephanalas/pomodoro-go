@@ -22,10 +22,18 @@ import Intro from './components/Intro';
  * COMPONENT
  */
 class Routes extends Component {
+  constructor(props) {
+    super(props);
+  }
   async componentDidMount() {
     await this.props.loadInitialData();
   }
-
+  componentDidUpdate() {
+    chrome.runtime.sendMessage('jgphbioennmnjogfbpchcgphelmfoiig', {
+      message: 'set-blocked-sites',
+      blockedSites: this.props.sites,
+    });
+  }
   render() {
     const { isLoggedIn, auth, blackList, updateB } = this.props;
     //this enters auth and blackList into chrome.storage so it can be accessed
