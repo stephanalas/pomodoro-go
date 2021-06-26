@@ -18,7 +18,7 @@ const RedirectToSite = () => {
   const classes = useStyles();
   return (
     <div className={classes.background}>
-      <a href="http://localhost:8080">
+      <a href={`${process.env.API_URL}/`}>
         <Button className={classes.text}>
           Click to navigate to site www.pomodoro.go
         </Button>
