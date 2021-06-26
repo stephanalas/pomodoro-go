@@ -99,7 +99,19 @@ const background = {
             console.log('received message');
             alarms.create('timer', { when: Date.now() });
           }
-          console.log('new message', message);
+          if (message.message === 'set-blocked-sites') {
+            const sites = [];
+            message.blockedSites.forEach((site) => {
+              sites.push(site.siteUrl);
+            });
+            chrome.storage.sync.set({ blocked: sites }, () => {
+              console.log('sites are blocked in chrome');
+            });
+            console.log('blocked sites', message);
+            chrome.storage.sync.get(null, (results) => {
+              console.log('current chrome storage', results);
+            });
+          }
         } catch (error) {
           console.log(error);
         }
@@ -182,7 +194,8 @@ const background = {
           ) {
             // chrome.tabs.remove(tabId);
             chrome.tabs.update(tabId, {
-              url: 'https://pomodoro-russ.herokuapp.com/uhoh',
+              // url: 'https://pomodoro-russ.herokuapp.com/uhoh',
+              url: 'http://localhost:8080/uhoh',
             }); // hard-code it to production url atm instead of 'http://localhost:8080/uhoh'
           }
         });
