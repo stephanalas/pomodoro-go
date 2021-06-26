@@ -10,6 +10,7 @@ import { loadSessions } from './store/sessions';
 import { loadBlackList, updateBlackList } from './store/blackList';
 import { loadBlocks } from './store/blocks';
 import { loadSites, updateSite } from './store/sites';
+import { getSites } from './store/blockSites';
 import BlockError from './components/BlockError';
 import BlockSites from './components/BlockSites';
 import Player from './components/Player';
@@ -28,10 +29,17 @@ class Routes extends Component {
   async componentDidMount() {
     await this.props.loadInitialData();
   }
-  componentDidUpdate() {
-    chrome.runtime.sendMessage('jgphbioennmnjogfbpchcgphelmfoiig', {
+
+  async componentDidUpdate(prevProps) {
+    if (this.props.auth && this.props.auth.id !== prevProps.auth.id) {
+      await this.props.getSites(this.props.auth.id);
+    }
+
+    chrome?.runtime?.sendMessage('nneodopjgecodnebbdlmafcgpbhgddpi', {
       message: 'set-blocked-sites',
-      blockedSites: this.props.sites,
+      blockedSites: this.props.blockedSites.filter((each) => {
+        return each.blacklist.blockingEnabled === true;
+      }),
     });
   }
   render() {
@@ -66,8 +74,10 @@ class Routes extends Component {
         {isLoggedIn && !chrome.storage ? (
           <Switch>
             <Route path="/home" component={Home} />
+            <Route path='/login'>
+              <Redirect to="/home" />
+            </Route>
             <Route path="/dashboard" component={Dashboard} />
-            {/* <Redirect to="/home" /> */}
             <Route path="/timer" exact component={CreateSession} />
             <Route exact path="/blocksites" component={BlockSites} />
             <Route exact path="/friends" component={Friends} />
@@ -75,9 +85,7 @@ class Routes extends Component {
           </Switch>
         ) : (
           <Switch>
-            <Route path="/home" component={Intro} />
             <Route path="/" exact component={Intro} />
-            <Route path="/timer" exact component={CreateSession} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route exact path="/uhoh" component={BlockError} />
@@ -99,6 +107,7 @@ const mapState = (state) => {
     sites: state.sites,
     auth: state.auth,
     blackList: state.blackList,
+    blockedSites: state.blockedSites
   };
 };
 
@@ -114,6 +123,10 @@ const mapDispatch = (dispatch) => {
 
     updateB: (blackListId, blackListInfo) => {
       return dispatch(updateBlackList(blackListId, blackListInfo));
+    },
+
+    getSites: (userId) => {
+      return dispatch(getSites(userId));
     },
   };
 };

@@ -23,7 +23,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import { Paper } from '@material-ui/core';
-import { getSites, addSite, deleteSite } from '../store/blockSites';
+import { getSites, addSite, deleteSite, updateBlocking } from '../store/blockSites';
 
 // material-ui style definitions
 const LightGreenSwitch = withStyles({
@@ -86,10 +86,7 @@ const Alert = (props) => {
 
 //Start of component
 const BlockSites = (props) => {
-  // console.log(props);
   //states
-  const [toggleStatus, setToggleStatus] = useState({});
-  // console.log(toggleStatus);
   const [urlInput, setUrlInput] = useState({
     siteUrl: '',
     category: '',
@@ -105,46 +102,20 @@ const BlockSites = (props) => {
     props.getSites(props.auth.id);
   }, []);
 
-  useEffect(() => {
-    let result = {};
-    for (let i = 0; i < props.blockedSites.length; i++) {
-      result[`item${props.blockedSites[i].id}`] = true;
-    }
-    setToggleStatus({ ...toggleStatus, ...result });
-  }, [props.blockedSites]);
-
-  useEffect(() => {
-    if (chrome.storage !== undefined) {
-      blockIt();
-    }
-  }, [toggleStatus]);
-  //
-
   //user interactions > change state, dispatch to store
   const handleChange = (event) => {
-    setToggleStatus({
-      ...toggleStatus,
-      [event.target.name]: event.target.checked,
+    const siteId = event.target.name.slice(4);
+    const toggleSite = props.blockedSites.filter(each => each.id === siteId);
+
+    chrome?.runtime?.sendMessage('nneodopjgecodnebbdlmafcgpbhgddpi', {
+      message: 'toggle-block-or-not',
+      toggleSite: toggleSite[0]?.siteUrl
     });
+    props.updateBlocking(props.auth.id, siteId);
   };
 
   const submitNewUrl = () => {
     props.addSite(urlInput, props.auth.id);
-  };
-
-  //block functionalities - chrome API
-  const blockIt = () => {
-    const blocked = props.blockedSites
-      .filter((each) => {
-        return toggleStatus[`item${each.id}`] === true;
-      })
-      .map((site) => {
-        return site.siteUrl;
-      });
-    console.log(blocked);
-    chrome.storage.local.set({ blocked }, function () {
-      console.log('we shall block', blocked);
-    });
   };
 
   const paperStyle = {
@@ -225,9 +196,7 @@ const BlockSites = (props) => {
                     control={
                       <LightGreenSwitch
                         checked={
-                          toggleStatus[`item${each.id}`] !== undefined
-                            ? toggleStatus[`item${each.id}`]
-                            : true
+                          each.blacklist?.blockingEnabled
                         }
                         onChange={handleChange}
                         name={`item${each.id}`}
@@ -269,6 +238,9 @@ const mapDispatchToProps = (dispatch) => {
     deleteSite: (userId, siteId) => {
       dispatch(deleteSite(userId, siteId));
     },
+    updateBlocking: (userId, siteId) => {
+      dispatch(updateBlocking(userId, siteId));
+    }
   };
 };
 

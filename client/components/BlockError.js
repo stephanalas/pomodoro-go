@@ -17,8 +17,6 @@ const Alert = (props) => {
 const useStyles = makeStyles((theme) => ({
   uhoh: {
     width: '60%',
-    height: 500,
-    overflow: 'scroll',
     margin: '20px auto 20px auto',
     border: '1px solid #a83942',
     borderRadius: 10,
@@ -27,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     boxShadow: '0 5px 10px 0px #ccb8b8',
+    backgroundColor: 'white'
   },
   form: {
     width: '80%',

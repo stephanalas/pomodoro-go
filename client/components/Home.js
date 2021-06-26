@@ -15,20 +15,20 @@ import CreateSession from './Timer/CreateSession';
  */
 export const Home = (props) => {
   const { username } = props;
-  const theme = useTheme()
+  const theme = useTheme();
   const {palette: { text }} = theme;
   return (
     <div id="main">
       <h3 style={{color: text.primary}}>Welcome, {username}!</h3>
 
-        <Grid container direction="row" justify="center" alignItems="flex-start">
-          <Grid item xs={8}>
-            <CreateSession />
-          </Grid>
-          <Grid item xs={4}>
-            <Player />
-          </Grid>
+      <Grid container direction="row" justify="center" alignItems="flex-start">
+        <Grid item xs={8}>
+          <CreateSession />
         </Grid>
+        <Grid item xs={4}>
+          <Player />
+        </Grid>
+      </Grid>
 
     </div>
   );

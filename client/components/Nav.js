@@ -76,42 +76,21 @@ const Navbar = (props) => {
             style={{ backgroundColor: '#5061a9' }}
           >
             <Toolbar>
-              <Avatar
-                src={
-                  'https://e7.pngegg.com/pngimages/499/436/png-clipart-logo-tomato-app-store-fruit-scribbles-tomato-logo.png'
-                }
-              />
-              <Typography
-                id="pomo-go"
-                variant="h4"
-                style={{ fontFamily: 'Righteous' }}
-              >
+              <div id='logo'>
+                <Avatar
+                  src={
+                    'https://e7.pngegg.com/pngimages/499/436/png-clipart-logo-tomato-app-store-fruit-scribbles-tomato-logo.png'
+                  }
+                />
+                <Typography
+                  id="pomo-go"
+                  variant="h4"
+                  style={{ fontFamily: 'Righteous' }}
+                >
                 Pomodoro,go!
-              </Typography>
-              <IconButton
-                className={classes.icons}
-                id="home"
-                aria-label="home"
-                edge="start"
-                size="medium"
-                component={Link}
-                to="/home"
-              >
-                <HomeOutlined style={{ color: '#e0e2e4', fontSize: 34 }} />
-              </IconButton>
+                </Typography>
+              </div>
 
-              <IconButton
-                className={classes.icons}
-                id="account"
-                aria-label="menu"
-                aria-haspopup="true"
-                edge="start"
-                size="medium"
-                onClick={(ev) => setAnchorEl(ev.currentTarget)}
-                // ref={anchorRef}
-              >
-                <AccountBox style={{ color: '#e0e2e4', fontSize: 30 }} />
-              </IconButton>
               {isLoggedIn ? (
                 <>
                   <Menu
@@ -128,6 +107,23 @@ const Navbar = (props) => {
                   <MenuItem onClick={this.handleLogOut}>Block Sites</MenuItem>
                   <MenuItem onClick={this.handleLogOut}>Friends</MenuItem> */}
                   </Menu>
+                  <IconButton
+                    className={classes.icons}
+                    id="home"
+                    aria-label="home"
+                    edge="start"
+                    size="medium"
+                    component={Link}
+                    to="/home"
+                    style={{
+                      color: 'white',
+                      fontSize: 15,
+                      flexDirection: 'column',
+                    }}
+                  >
+                    <HomeOutlined style={{ color: '#e0e2e4', fontSize: 30 }} />
+                      Home
+                  </IconButton>
                   <IconButton
                     id="dashboard"
                     // aria-label="menu"
@@ -210,12 +206,34 @@ const Navbar = (props) => {
                 </Menu>
               )}
               <div id="extension-login">
+                <IconButton
+                  className={classes.icons}
+                  id="account"
+                  aria-label="menu"
+                  aria-haspopup="true"
+                  edge="start"
+                  size="medium"
+                  onClick={(ev) => setAnchorEl(ev.currentTarget)}
+                // ref={anchorRef}
+                >
+                  <AccountBox style={{ color: '#e0e2e4', fontSize: 30 }} />
+                </IconButton>
+
                 {props.isLoggedIn ? (
                   <GoogleLogout
                     clientId="811227993938-nd59os35t80qtuqgmul58232c54sbmsm.apps.googleusercontent.com"
                     buttonText="Logout"
                     onLogoutSuccess={handleLogOut}
                     isSignedIn={props.isLoggedIn}
+                    render={renderProps => (
+                      <Avatar onClick={renderProps.onClick} style={{
+                        height: 30,
+                        width: 30,
+                        border: 0,
+                        borderRadius: '50%',
+                        marginTop: '10px'
+                      }} src='https://i.pinimg.com/originals/a3/d5/8f/a3d58f0b2820871d486e9851c0fdbb60.jpg'/>
+                    )}
                   ></GoogleLogout>
                 ) : (
                   <GoogleLogin
@@ -226,6 +244,15 @@ const Navbar = (props) => {
                     cookiePolicy={'single_host_origin'}
                     isSignedIn={props.isLoggedIn}
                     redirectUri={`${process.env.API_URL}/home`}
+                    render={renderProps => (
+                      <Avatar onClick={renderProps.onClick} style={{
+                        height: 30,
+                        width: 30,
+                        border: 0,
+                        borderRadius: '50%',
+                        marginTop: '10px'
+                      }} src='https://img-authors.flaticon.com/google.jpg'/>
+                    )}
                   />
                 )}
               </div>
