@@ -133,7 +133,7 @@ const Timer = (props) => {
                   marginBottom: '10px',
                 }}
               >
-                Play
+                Start
               </Button>
             )}
             {countDown ? <StopButton toggleTimer={toggleTimer} /> : null}
