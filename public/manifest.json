@@ -36,7 +36,11 @@
     }
   ],
   "externally_connectable": {
-    "matches": ["*://localhost/*"]
+    "matches": [
+      "*://pomodoro-russ.herokuapp.com/*",
+      "*://localhost:8080/*",
+      "*://localhost/*"
+    ]
   },
   "oauth2": {
     "client_id": "811227993938-bdnup0onkbhf33rejoirhia20j2kf51r.apps.googleusercontent.com",
