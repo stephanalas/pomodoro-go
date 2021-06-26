@@ -169,33 +169,33 @@ const background = {
             console.log('we are on the chrome extension');
             return;
           }
-          if (url.startsWith(process.env.API_URL)) {
+          if (url.startsWith('http://localhost:8080')) {
             console.log('we are on the website');
           }
-          if (url && !url.startsWith(procces.env.API_URL)) {
+          if (url && !url.startsWith('http://localhost:8080')) {
             console.log('we are not on the website');
           }
         }
         const hostname = new URL(url).hostname;
-        // console.log('hostname:', hostname);
+        console.log('hostname:', hostname);
         // transfer storage
 
         storage.sync.set({ userAttempt: hostname });
 
         storage.sync.get(['blocked'], function (sync) {
           const { blocked } = sync;
-          // console.log('blocked:', blocked);
+          console.log('blocked:', blocked);
           if (
             Array.isArray(blocked) &&
             blocked.find((domain) => {
-              // console.log(domain);
+              console.log(domain);
               return domain.includes(hostname);
             })
           ) {
             // chrome.tabs.remove(tabId);
             chrome.tabs.update(tabId, {
               // url: 'https://pomodoro-russ.herokuapp.com/uhoh',
-              url: `${process.env.API_URL}/uhoh`,
+              url: `http://localhost:8080/uhoh`,
             }); // hard-code it to production url atm instead of 'http://localhost:8080/uhoh'
           }
         });

@@ -225,7 +225,7 @@ const Navbar = (props) => {
                     onFailure={handleFail}
                     cookiePolicy={'single_host_origin'}
                     isSignedIn={props.isLoggedIn}
-                    redirectUri={`${process.env.API_URL}/home`}
+                    redirectUri={`http://localhost:8080/home`}
                   />
                 )}
               </div>
