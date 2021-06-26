@@ -396,7 +396,7 @@ const ChartRight = (props) => {
         heatmap: {
           // radius: 2,
           enableShades: true,
-          shadeIntensity: 0.5,
+          shadeIntensity: 1,
           // reverseNegativeShade: true,
           // distributed: false,
           // useFillColorAsStroke: false,
