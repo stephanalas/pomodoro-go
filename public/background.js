@@ -169,10 +169,10 @@ const background = {
             console.log('we are on the chrome extension');
             return;
           }
-          if (url.startsWith('http://localhost:8080/')) {
+          if (url.startsWith(process.env.API_URL)) {
             console.log('we are on the website');
           }
-          if (url && !url.startsWith('http://localhost:8080/')) {
+          if (url && !url.startsWith(procces.env.API_URL)) {
             console.log('we are not on the website');
           }
         }
@@ -195,7 +195,7 @@ const background = {
             // chrome.tabs.remove(tabId);
             chrome.tabs.update(tabId, {
               // url: 'https://pomodoro-russ.herokuapp.com/uhoh',
-              url: 'http://localhost:8080/uhoh',
+              url: `${process.env.API_URL}/uhoh`,
             }); // hard-code it to production url atm instead of 'http://localhost:8080/uhoh'
           }
         });
