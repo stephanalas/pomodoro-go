@@ -64,7 +64,7 @@ async function seed() {
   //Creating sessions
   const sessionSeeds = [];
   const goals = ['Study', 'Work', 'Read', 'Meditate'];
-  for (let i = 0; i < 400; i++) {
+  for (let i = 0; i < 800; i++) {
     sessionSeeds.push(Session.seed(users, goals));
   }
 
@@ -157,7 +157,7 @@ async function seed() {
 
   // Creating blocks
   const blockSeeds = [];
-  for (let i = 0; i < 60; i++) {
+  for (let i = 0; i < 200; i++) {
     blockSeeds.push(Block.seed(users, sites));
   }
   await Promise.all(blockSeeds);
