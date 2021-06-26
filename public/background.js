@@ -169,10 +169,10 @@ const background = {
             console.log('we are on the chrome extension');
             return;
           }
-          if (url.startsWith('http://localhost:8080/')) {
+          if (url.startsWith(process.env.API_URL)) {
             console.log('we are on the website');
           }
-          if (url && !url.startsWith('http://localhost:8080/')) {
+          if (url && !url.startsWith(procces.env.API_URL)) {
             console.log('we are not on the website');
           }
         }
