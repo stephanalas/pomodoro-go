@@ -17,6 +17,12 @@ a {
   padding: 0px, 0;
 }
 
+#logo {
+  display: flex;
+  justify-content: space-between;
+  width: 20%;
+}
+
 #main>h3 {
   padding-left: 30px;
 }
@@ -42,11 +48,15 @@ a {
   font-weight: bold;
   border-radius: 3px;
   box-shadow: 0 4px 3px gray;
+} */
+
+#extension-login {
+  display: flex;
+  justify-content: space-between;
+  width: 8%;
 }
 
-#navBar .extension-login {
-  justify-content: end;
-}*/
+
 
 #googleIcon {
   height: 36px;
@@ -55,7 +65,7 @@ a {
   padding: 0;
   margin: 0 0 0 0;
   vertical-align: text-top;
-} 
+}
 
 #blockList {
   display: flex;

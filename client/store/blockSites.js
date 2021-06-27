@@ -58,6 +58,18 @@ export const deleteSite = (userId, siteId) => {
   };
 };
 
+//update whether a site is de-blocked for the user temporarily
+export const updateBlocking = (userId, siteId) => {
+  return async (dispatch) => {
+    try {
+      await axios.put(`${process.env.API_URL}/api/blackList/${userId}/${siteId}`);
+      dispatch(getSites(userId));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 const blockedSitesReducer = (state = [], action) => {
   if (action.type === GET_SITES) {
     return (state = action.blockedSites);

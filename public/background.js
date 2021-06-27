@@ -112,6 +112,24 @@ const background = {
               console.log('current chrome storage', results);
             });
           }
+          if (message.message === 'toggle-block-or-not') {
+            console.log('user is toggleing a blocked site', message.toggleSite);
+            chrome.storage.sync.get(['blocked'], (results) => {
+              const doesItExist = results.blocked.find((url) => {
+                return url === message.toggleSite;
+              });
+              if (doesItExist) {
+                const update = results.blocked.filter((each) => {
+                  return each !== message.toggleSite;
+                });
+                // console.log(update);
+                chrome.storage.sync.set({ blocked: update });
+              } else {
+                results.blocked.push(message.toggleSite);
+                chrome.storage.sync.set({ blocked: results.blocked });
+              }
+            });
+          }
         } catch (error) {
           console.log(error);
         }
@@ -147,7 +165,7 @@ const background = {
   },
   listenToTabs: function () {
     return tabs.onUpdated.addListener(function (tabId, changeInfo) {
-      console.log('listening to tabs');
+      console.log('listening to tabs, tabID', tabId);
       chrome.tabs.query({ active: false }, (tabs) => {
         let tab = tabs.reduce((previous, current) => {
           return previous.lastAccessed > current.lastAccessed
@@ -164,18 +182,22 @@ const background = {
           timerOn,
         } = results;
         const url = changeInfo.pendingUrl || changeInfo.url;
-        if (changeInfo.pendingUrl || changeInfo.url) {
-          if (!url || !url.startsWith('http')) {
-            console.log('we are on the chrome extension');
-            return;
-          }
-          if (url.startsWith(process.env.API_URL)) {
-            console.log('we are on the website');
-          }
-          if (url && !url.startsWith(procces.env.API_URL)) {
-            console.log('we are not on the website');
-          }
+        if (!url || !url.startsWith('http')) {
+          return;
         }
+
+        // if (changeInfo.pendingUrl || changeInfo.url) {
+        //   if (!url || !url.startsWith('http')) {
+        //     console.log('we are on the chrome extension');
+        //     return;
+        //   }
+        //   if (url.startsWith(process.env.API_URL)) {
+        //     console.log('we are on the website');
+        //   }
+        //   if (url && !url.startsWith(procces.env.API_URL)) {
+        //     console.log('we are not on the website');
+        //   }
+        // }
         const hostname = new URL(url).hostname;
         // console.log('hostname:', hostname);
         // transfer storage
@@ -195,7 +217,7 @@ const background = {
             // chrome.tabs.remove(tabId);
             chrome.tabs.update(tabId, {
               // url: 'https://pomodoro-russ.herokuapp.com/uhoh',
-              url: `${process.env.API_URL}/uhoh`,
+              url: 'http://localhost:8080/uhoh',
             }); // hard-code it to production url atm instead of 'http://localhost:8080/uhoh'
           }
         });
