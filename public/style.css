@@ -116,6 +116,69 @@ img {
   left: 0;
 }
 
+#intro-content {
+  display: flex;
+  justify-content: space-around;
+  height: 500px;
+}
+
+#profile-expand {
+  height: 80%;
+  display: flex;
+}
+
+#profile-expand svg {
+  font-size: 50px;
+}
+
+#profile-expand a {
+  color: black;
+}
+
+.each-profile {
+  border: 2px solid black;
+  border-radius: 10px;
+  margin: 10px;
+  width: 350px;
+  display: flex;
+  height: 70px;
+  position: relative;
+  top: 280px;
+}
+
+.dev-name {
+  width: 40%;
+  background-color: black;
+  color: white;
+  padding: 10px;
+  font-family: 'Nanum Pen Script';
+  font-size: 1.5em;
+}
+
+.links {
+  width: 60%;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+#avatars {
+  height: 20%;
+}
+
+#avatar div {
+  z-index: 1;
+}
+
+#avatars div:hover {
+  position: relative;
+  top: -30px;
+  left: -10px;
+  border: 3px solid black;
+  box-shadow: 7px 7px black;
+  z-index: 2
+}
+
 .paper {
   font-size:'30px';
   position:relative;
@@ -123,7 +186,7 @@ img {
   width: 450px;
   background: rgba(255, 255, 255, 0.9);
   margin: -275px -225px;
-  left: 50%;
+  left: 150px;
   top: 300px;
   box-shadow: 0px 0px 6px 0px #888;
 }
