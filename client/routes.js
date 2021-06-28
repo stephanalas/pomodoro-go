@@ -35,12 +35,16 @@ class Routes extends Component {
       await this.props.getSites(this.props.auth.id);
     }
 
-    chrome?.runtime?.sendMessage('jgphbioennmnjogfbpchcgphelmfoiig', {
+    chrome?.runtime?.sendMessage('nneodopjgecodnebbdlmafcgpbhgddpi', {
       message: 'set-blocked-sites',
       blockedSites: this.props.blockedSites.filter((each) => {
         return each.blacklist.blockingEnabled === true;
       }),
     });
+
+    // chrome?.runtime?.onMessage?.addListener(function(request, sender, sendResponse){
+    //   console.log(request.msg);
+    // });
   }
   render() {
     const { isLoggedIn, auth, blackList, updateB } = this.props;
@@ -75,6 +79,9 @@ class Routes extends Component {
           <Switch>
             <Route path="/home" component={Home} />
             <Route path='/login'>
+              <Redirect to="/home" />
+            </Route>
+            <Route exact path='/'>
               <Redirect to="/home" />
             </Route>
             <Route path="/dashboard" component={Dashboard} />

@@ -18,11 +18,24 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const { siteId } = req.body;
-    const block = await Block.create({
-      siteId
-    });
-    res.send(block);
+    console.log('req.body', req.body);
+    if (req.body.siteId) {
+      const { siteId } = req.body;
+      const block = await Block.create({
+        siteId
+      });
+      res.send(block);
+    } else if (req.body.userAttempted) {
+      const matchingSite = await Site.findOne({
+        where: {
+          siteUrl: req.body.userAttempted
+        }
+      });
+      if (matchingSite) {
+        console.log('get site ID', matchingSite.id); //prints the site ID correctly, next create a block entry using siteID and userID
+      }
+    }
+
   } catch (err) {
     next(err);
   }

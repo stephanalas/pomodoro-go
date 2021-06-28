@@ -49,13 +49,13 @@ const BlockError = () => {
     } else {
       return false;
     }
-  }
+  };
 
   const handleChange = (ev) => {
     setAnswers({ ...answers, [ev.target.name]: ev.target.value });
   };
 
-  console.log(answers);
+  // console.log(answers);
 
   return (
     <div id='uhoh-blocked' className={classes.uhoh}>
@@ -67,11 +67,11 @@ const BlockError = () => {
         🧠 Think about these before you start browsing around:
       </Typography>
       { goOrNoGo() ? undefined : (
-          <Alert severity="info" className={classes.form}>
+        <Alert severity="info" className={classes.form}>
           If any of the answers is No, then you should probably go 👏 back 👏 to 👏 what you were
           doing!
-          </Alert>
-        )}
+        </Alert>
+      )}
       <br />
       <FormControl component="fieldset" className={classes.form}>
         <FormLabel component="legend">Is looking at this site going to give you more satisfaction than finishing up your task at hand?</FormLabel>

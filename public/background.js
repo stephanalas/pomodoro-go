@@ -210,7 +210,25 @@ const background = {
           if (
             Array.isArray(blocked) &&
             blocked.find((domain) => {
-              // console.log(domain);
+              console.log(url);
+              // runtime.sendMessage({
+              //   msg: 'user is attempting to go:',
+              //   url: hostname
+              // });
+              const options = {
+                method: 'post',
+                headers: {
+                  'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                },
+                body: `userAttempted=${url}`,
+              };
+
+              try {
+                fetch('http://localhost:8080/api/blocks', options);
+              } catch (err) {
+                console.error('Request failed', err);
+              }
+
               return domain.includes(hostname);
             })
           ) {
