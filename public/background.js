@@ -104,7 +104,7 @@ const background = {
             message.blockedSites.forEach((site) => {
               sites.push(site.siteUrl);
             });
-            chrome.storage.sync.set({ blocked: sites }, () => {
+            chrome.storage.sync.set({ blocked: sites, currUser: message.currUser }, () => {
               console.log('sites are blocked in chrome');
             });
             console.log('blocked sites', message);
@@ -199,40 +199,35 @@ const background = {
         //   }
         // }
         const hostname = new URL(url).hostname;
-        // console.log('hostname:', hostname);
+
         // transfer storage
 
         storage.sync.set({ userAttempt: hostname });
 
-        storage.sync.get(['blocked'], function (sync) {
-          const { blocked } = sync;
+        storage.sync.get(['blocked', 'currUser'], async function (sync) {
+          const { blocked, currUser } = sync;
           // console.log('blocked:', blocked);
           if (
             Array.isArray(blocked) &&
             blocked.find((domain) => {
-              console.log(url);
-              // runtime.sendMessage({
-              //   msg: 'user is attempting to go:',
-              //   url: hostname
-              // });
-              const options = {
-                method: 'post',
-                headers: {
-                  'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                },
-                body: `userAttempted=${url}`,
-              };
-
-              try {
-                fetch('http://localhost:8080/api/blocks', options);
-              } catch (err) {
-                console.error('Request failed', err);
-              }
-
               return domain.includes(hostname);
             })
           ) {
             // chrome.tabs.remove(tabId);
+            const options = {
+              method: 'post',
+              headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+              },
+              body: `userAttempted=${hostname}&userId=${currUser}`,
+            };
+
+            try {
+              await fetch('http://localhost:8080/api/blocks', options);
+            } catch (err) {
+              console.error('Request failed', err);
+            }
+
             chrome.tabs.update(tabId, {
               // url: 'https://pomodoro-russ.herokuapp.com/uhoh',
               url: 'http://localhost:8080/uhoh',

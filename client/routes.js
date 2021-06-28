@@ -40,6 +40,7 @@ class Routes extends Component {
       blockedSites: this.props.blockedSites.filter((each) => {
         return each.blacklist.blockingEnabled === true;
       }),
+      currUser: this.props.auth.id
     });
 
     // chrome?.runtime?.onMessage?.addListener(function(request, sender, sendResponse){

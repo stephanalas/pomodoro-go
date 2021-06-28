@@ -8,6 +8,9 @@ router.get('/', async (req, res, next) => {
   try {
     const blocks = await Block.findAll({
       include: [User, Site],
+      order: [
+        ['createdAt', 'DESC'],
+      ]
     });
     res.send(blocks);
   } catch (err) {
@@ -32,10 +35,14 @@ router.post('/', async (req, res, next) => {
         }
       });
       if (matchingSite) {
-        console.log('get site ID', matchingSite.id); //prints the site ID correctly, next create a block entry using siteID and userID
+        const { userId } = req.body;
+        const block = await Block.create({
+          siteId: matchingSite.id,
+          userId
+        });
+        res.send(block);
       }
     }
-
   } catch (err) {
     next(err);
   }

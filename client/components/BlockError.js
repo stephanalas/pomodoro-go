@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Typography,
@@ -9,6 +11,7 @@ import {
   FormLabel,
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
+import { updateBlocking } from '../store/blockSites';
 
 const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -32,9 +35,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const BlockError = () => {
+const BlockError = (props) => {
+  console.log('block error props', props);
   const classes = useStyles();
-  //local states
+  const dispatch = useDispatch();
+  let history = useHistory();
+  //states
+  const blocks = useSelector((state) => state.blocks);
+  const auth = useSelector((state) => state.auth);
+
+  const latestBlockUrl = blocks?.[0]?.site?.siteUrl;
+  const latestBlockId = blocks?.[0]?.site?.id;
+
+  console.log('latest blocked url', latestBlockUrl);
+
   const [answers, setAnswers] = useState({
     question1: 'false',
     question2: 'false',
@@ -49,6 +63,10 @@ const BlockError = () => {
     } else {
       return false;
     }
+  };
+
+  const goAnyway = () => {
+    dispatch(updateBlocking(auth.id, latestBlockId));
   };
 
   const handleChange = (ev) => {
@@ -105,11 +123,13 @@ const BlockError = () => {
           <FormControlLabel value="false" control={<Radio />} label="No" />
         </RadioGroup>
       </FormControl>
-      {/* {goOrNoGo() ? (
-      <button>Take me there anyway! I really want a break😅</button>
+      {goOrNoGo() ? (
+        // <a href={`http://${latestBlockUrl}`}>
+          <button onClick={goAnyway}>Take me there anyway! I really want a break😅</button>
+        // </a>
       ) : (
         null
-      )} */}
+      )}
     </div>
   );
 };
