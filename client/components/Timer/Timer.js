@@ -35,18 +35,12 @@ const Timer = (props) => {
   const {info, primary, secondary, text, error} = theme.palette;
   const dispatch = useDispatch();
   const currentSession = useSelector((state) => state.currentSession);
-  console.log(currentSession);
   const {expectedEndTime, startTime} = currentSession;
   const end = Date.parse(expectedEndTime);
   const start = Date.parse(startTime);
   const targetTime = (end - start);
-
-  console.log('targetTime:', targetTime);
-
-
   const { setCountDown, sessionTime, countDown, setSessionTime } =
     useContext(SessionContext);
-    console.log('sessionTime:', sessionTime);
   const { updateSession } = props;
   let seconds;
   const msToHMS = (ms) => {
@@ -61,9 +55,6 @@ const Timer = (props) => {
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     seconds = seconds < 10 ? (seconds >= 0 ? '0' + seconds : '00') : seconds;
-    //Ding:I added seconds>=0? '0' + seconds:'00'
-    //But the play button may also need to be modified...
-
     return hours + ':' + minutes + ':' + seconds;
   };
 
@@ -72,11 +63,10 @@ const Timer = (props) => {
     seconds = seconds % 3600;
     seconds = seconds % 60;
     seconds = seconds < 10 ? (seconds >= 0 ? '0' + seconds : '00') : seconds;
-    console.log('seconds:', seconds)
     if (seconds === '00') {
       return 100;
     } else {
-    return ((seconds)/60)*100;
+      return ((seconds)/60)*100;
     }
   };
 
@@ -85,7 +75,6 @@ const Timer = (props) => {
     if (button === 'START') {
       if (!currentSession.sessionTime) {
         updateSession(currentSession.id, { sessionTime });
-        console.log('props', props);
       }
       localStorage.setItem('currentSession', JSON.stringify(currentSession));
       setCountDown(true);
@@ -120,7 +109,7 @@ const Timer = (props) => {
                 <Button
                   onClick={toggleTimer}
                   style={{
-                    backgroundColor: '#9a6781',
+                    backgroundColor: '#5061a9',
                     color: 'white',
                     marginLeft: '4px',
                     marginBottom: '10px',
@@ -142,7 +131,7 @@ const Timer = (props) => {
               onClick={toggleTimer}
               disabled={sessionTime ? false : true}
               style={{
-                backgroundColor: '#9a6781',
+                backgroundColor: '#5061a9',
                 color: 'white',
                 marginLeft: '4px',
                 marginBottom: '10px',
@@ -159,23 +148,23 @@ const Timer = (props) => {
           '0%': info.main,
           '100%': '#5061a9',
         }}
-        trailColor='#e4ddee'
+        trailColor={primary.contrastText}
         style={{
           width: '100%',
           position: 'relative',
           bottom: '160px'
         }}/>
-         <Circle percent={msToS(sessionTime)} strokeWidth="1" strokeColor={{
-        '0%': info.main,
-        '100%': '#5061a9',
-      }}
-      trailColor='#e4ddee'
-      style={{
-        width: '92%',
-        position: 'relative',
-        bottom: '644px',
-        left: '20px',
-      }}/>
+        <Circle percent={msToS(sessionTime)} strokeWidth="1" strokeColor={{
+          '0%': info.main,
+          '100%': '#5061a9',
+        }}
+        trailColor={primary.contrastText}
+        style={{
+          width: '92%',
+          position: 'relative',
+          bottom: '644px',
+          left: '20px',
+        }}/>
       </Card>
 
     </div>

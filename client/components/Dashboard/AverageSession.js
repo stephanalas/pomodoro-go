@@ -136,7 +136,6 @@ const AverageSession = (props) => {
 
   const avgFailedSessionLength =
     totalFailedSessionLength / sessionsFailed.length;
-    console.log('totalFailedSessionLength:',sessionsFailed.length);
   const avgFailedSessionMinutes = Math.round(avgFailedSessionLength / 60000);
 
   return (
