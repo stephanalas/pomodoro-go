@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
     borderRadius: '15px',
     height: '500px',
     width: '500px',
-    margin: '10px',
+    margin: '35px',
     padding: '10px',
 
   },
@@ -49,8 +49,6 @@ const Timer = (props) => {
   const end = Date.parse(expectedEndTime);
   const start = Date.parse(startTime);
   const targetTime = (end - start);
-  const { setCountDown, sessionTime, countDown, setSessionTime } =
-    useContext(SessionContext);
   const { updateSession } = props;
   let seconds;
   const msToHMS = (ms) => {
