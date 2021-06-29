@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Typography,
@@ -9,6 +11,7 @@ import {
   FormLabel,
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
+import { updateBlocking } from '../store/blockSites';
 
 const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -29,17 +32,58 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: '80%',
+  },
+  goAnyway: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  button: {
+    border: 0,
+    backgroundColor: 'transparent',
+    color: 'black',
+    fontSize: 15,
+    padding: 6,
+    borderRadius: 5,
+    width: 200,
+    backgroundImage: 'linear-gradient(140deg,#ffffff 25%, #ffffff 50%,#ffffff 90%)',
+    transition: 'width 2s, background-image 4s, ease-out',
+    '&:hover': {
+      backgroundImage: 'linear-gradient(140deg,#faefe8 25%, #d7dae8 50%,#cedaa4 90%)',
+      width: 400
+    },
+  },
+  link: {
+    color: 'black',
+    fontSize: 15,
+    borderRadius: 5,
+    padding: 6,
+    textAlign: 'center',
+    '&:hover': {
+      backgroundImage: 'linear-gradient(140deg,#faefe8 25%, #d7dae8 50%,#cedaa4 90%)',
+    },
   }
 }));
 
-const BlockError = () => {
+const BlockError = (props) => {
+  console.log('block error props', props);
   const classes = useStyles();
-  //local states
+  const dispatch = useDispatch();
+  let history = useHistory();
+  //states
+  const blocks = useSelector((state) => state.blocks);
+  const auth = useSelector((state) => state.auth);
+
+  const latestBlockUrl = blocks?.[0]?.site?.siteUrl;
+  const latestBlockId = blocks?.[0]?.site?.id;
+
+  console.log('latest blocked url', latestBlockUrl);
+
   const [answers, setAnswers] = useState({
     question1: 'false',
     question2: 'false',
     question3: 'false',
   });
+  const [showLink, setShowLink] = useState(false);
 
   const goOrNoGo = () => {
     if (answers.question1 === 'true' &&
@@ -49,13 +93,18 @@ const BlockError = () => {
     } else {
       return false;
     }
-  }
+  };
+
+  const goAnyway = () => {
+    dispatch(updateBlocking(auth.id, latestBlockId));
+    setShowLink(true);
+  };
 
   const handleChange = (ev) => {
     setAnswers({ ...answers, [ev.target.name]: ev.target.value });
   };
 
-  console.log(answers);
+  // console.log(answers);
 
   return (
     <div id='uhoh-blocked' className={classes.uhoh}>
@@ -67,11 +116,11 @@ const BlockError = () => {
         🧠 Think about these before you start browsing around:
       </Typography>
       { goOrNoGo() ? undefined : (
-          <Alert severity="info" className={classes.form}>
+        <Alert severity="info" className={classes.form}>
           If any of the answers is No, then you should probably go 👏 back 👏 to 👏 what you were
           doing!
-          </Alert>
-        )}
+        </Alert>
+      )}
       <br />
       <FormControl component="fieldset" className={classes.form}>
         <FormLabel component="legend">Is looking at this site going to give you more satisfaction than finishing up your task at hand?</FormLabel>
@@ -105,11 +154,16 @@ const BlockError = () => {
           <FormControlLabel value="false" control={<Radio />} label="No" />
         </RadioGroup>
       </FormControl>
-      {/* {goOrNoGo() ? (
-      <button>Take me there anyway! I really want a break😅</button>
+      {goOrNoGo() ? (
+        <div id='go-anyway' className={classes.goAnyway}>
+          <button onClick={goAnyway} className={classes.button}>Take me there anyway!😅</button>
+          {showLink === true && (
+            <a href={'https://'+latestBlockUrl} target='_blank' rel="noreferrer" className={classes.link}>Go to {latestBlockUrl} ➡️</a>
+          )}
+        </div>
       ) : (
         null
-      )} */}
+      )}
     </div>
   );
 };
