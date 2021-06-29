@@ -151,7 +151,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: stacked ? [error.main, primary.main ]: [primary.main],
+      colors: stacked ? [secondary.main, primary.main ]: [primary.main],
       dataLabels: {
         enabled: false,
       },
@@ -382,7 +382,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: stacked ? [error.main, primary.main ]: [primary.main],
+      colors: stacked ? [secondary.main, primary.main ]: [primary.main],
       dataLabels: {
         enabled: false,
       },
@@ -580,7 +580,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: stacked ? [error.main, primary.main]: [primary.main],
+      colors: stacked ? [secondary.main, primary.main]: [primary.main],
       dataLabels: {
         enabled: false,
       },

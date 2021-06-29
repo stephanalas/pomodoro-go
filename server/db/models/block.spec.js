@@ -29,8 +29,4 @@ describe('Block Model', function () {
     expect(blocks).to.be.a('array');
     expect(blocks.length).to.be.greaterThan(0);
   });
-  it('should have a `date` attribute that is a date', async () => {
-    const block = await Block.findOne();
-    expect(block.date).to.be.a('date');
-  });
 });
