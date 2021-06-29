@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { connect, useDispatch, useSelector } from 'react-redux';
+import dayjs from 'dayjs';
 import { updateSession } from '../../store/sessions';
 import StopButton from './StopButton';
 import { SessionContext } from '../../app';
@@ -32,14 +33,21 @@ const useStyles = makeStyles(() => ({
 const Timer = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  console.log('theme:', theme);
   const {info, primary, secondary, text, error} = theme.palette;
-  console.log('info:', info);
   const dispatch = useDispatch();
   const currentSession = useSelector((state) => state.currentSession);
-  console.log('currentSession:', currentSession)
+  console.log(currentSession);
+  const {expectedEndTime, startTime} = currentSession;
+  const end = Date.parse(expectedEndTime);
+  const start = Date.parse(startTime);
+  const targetTime = (end - start);
+
+  console.log('targetTime:', targetTime);
+
+
   const { setCountDown, sessionTime, countDown, setSessionTime } =
     useContext(SessionContext);
+    console.log('sessionTime:', sessionTime);
   const { updateSession } = props;
   let seconds;
   const msToHMS = (ms) => {
@@ -95,7 +103,6 @@ const Timer = (props) => {
       clearInterval(timer);
     }
   };
-  const setChromeStorageTimer = () => {};
   return (
     <div>
       <Card className={classes.timerContainer} elevation={10}>
@@ -149,7 +156,7 @@ const Timer = (props) => {
             </Button>
           )}
         </Grid>
-        <Circle percent={msToS(sessionTime)} strokeWidth="3" strokeColor={{
+        <Circle percent={(sessionTime/targetTime)*100} strokeWidth="3" strokeColor={{
           '0%': info.main,
           '100%': text.primary,
         }}
@@ -159,6 +166,17 @@ const Timer = (props) => {
           bottom: '250px'
         }}/>
       </Card>
+      <Circle percent={msToS(sessionTime)} strokeWidth="1" strokeColor={{
+          '0%': info.main,
+          '100%': text.primary,
+        }}
+        trailColor='#e4ddee'
+        style={{
+          width: '90%',
+          position: 'relative',
+          bottom: '1032px',
+          left: '40px',
+        }}/>
     </div>
   );
 };
