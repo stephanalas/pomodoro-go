@@ -37,6 +37,7 @@ const CreateSession = (props) => {
       const sec = seconds * 1000;
       const min = minutes * 60000;
       const hour = hours * 3600000;
+
       setSessionTime(sec + min + hour);
       window.localStorage.setItem('sessionTime', sec + min + hour);
     } else {
