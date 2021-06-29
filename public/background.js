@@ -29,15 +29,6 @@ const background = {
         this.active = true;
       }
       this.currentTab = await this.getCurrentTab();
-      // scripting.executeScript(
-      //   {
-      //     target: { tabId: this.currentTab.id },
-      //     files: ['localStorage.js'],
-      //   },
-      //   () => {
-      //     console.log('trying to grabb data from our website');
-      //   }
-      // );
     } catch (error) {
       console.log('issue with start up in background js', error);
     }
@@ -66,21 +57,6 @@ const background = {
     return runtime.onMessageExternal.addListener(
       async (message, sender, sendResponse) => {
         try {
-          // CLEARS STORAGE AND ALARMS WHEN EXTENSION TAB STARTS (RUNS ONCE
-          if (message === 'app-starting') {
-            // SENDS RESPONSE TO CHROME CONSOLE
-            sendResponse('clearing alarms and storage');
-            // CLEAR STORAGE
-            await storage.local.clear();
-            // CLEAR ALARMS
-            await alarms.clearAll();
-            // SETTING DATA IN STORAGE SYNC
-            this.resetStorage();
-
-            // MUST RETURN TRUE  TO KEEP MESSAGE PORT OPEN
-            return true;
-          }
-
           if (message.message === 'create-timer') {
             this.sessionTime = message.sessionTime;
             this.createAlarm();
@@ -138,18 +114,6 @@ const background = {
   },
   listenToStorage: function () {
     return storage.onChanged.addListener(async function (changes, namespace) {
-      // creates a new alarm
-      // try {
-      //   // IF THE NEW VALUE OF A CURRENT SESSION HAS A START TIME, CREATE AN ALARM AND KEEP TRACK OF CREATION IN BACKGROUND OBJECT
-      //   if (
-      //     changes.currentSession &&
-      //     changes.currentSession.newValue.startTime
-      //   ) {
-      //   }
-      // } catch (error) {
-      //   console.log('alarm not created');
-      // }
-
       // logging out the changes in storage
       // THIS CODE IS FOR DEV PURPOSES
       // YOU WILL HAVE ALOT OF LOGS IN CONSOLE
@@ -185,36 +149,18 @@ const background = {
         if (!url || !url.startsWith('http')) {
           return;
         }
-
-        // if (changeInfo.pendingUrl || changeInfo.url) {
-        //   if (!url || !url.startsWith('http')) {
-        //     console.log('we are on the chrome extension');
-        //     return;
-        //   }
-        //   if (url.startsWith(process.env.API_URL)) {
-        //     console.log('we are on the website');
-        //   }
-        //   if (url && !url.startsWith(procces.env.API_URL)) {
-        //     console.log('we are not on the website');
-        //   }
-        // }
         const hostname = new URL(url).hostname;
-        // console.log('hostname:', hostname);
-        // transfer storage
 
         storage.sync.set({ userAttempt: hostname });
 
         storage.sync.get(['blocked'], function (sync) {
           const { blocked } = sync;
-          // console.log('blocked:', blocked);
           if (
             Array.isArray(blocked) &&
             blocked.find((domain) => {
-              // console.log(domain);
               return domain.includes(hostname);
             })
           ) {
-            // chrome.tabs.remove(tabId);
             chrome.tabs.update(tabId, {
               // url: 'https://pomodoro-russ.herokuapp.com/uhoh',
               url: 'http://localhost:8080/uhoh',
