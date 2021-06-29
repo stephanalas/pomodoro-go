@@ -9,16 +9,13 @@ import { SessionContext } from '../../app';
 const useStyles = makeStyles(() => {
   return {
     container: {
-      // border: '1px solid #b49b8f',
       boxShadow: '0 3px 5px 2px #b49b8f',
       borderRadius: '15px',
       backgroundColor: 'white',
       height: '100%',
-      // display:'flex',
-      // flexBasis:'40%',
-      width:'780px',
+      minHeight: '120px',
+      width:'500px',
       margin: '10px',
-      // justifyContent: 'space-around',
       paddingLeft: '10px',
       paddingRight: '10px',
       paddingBottom: '10px',
@@ -26,12 +23,9 @@ const useStyles = makeStyles(() => {
     goal: {
       padding: '1rem',
       margin: '1rem',
-      // display: 'flex',
-      // justifyContent: 'space-around',
     },
 
     gridInput: {
-      // width: '30%',
     },
     gridContainer: {
       margin: '0',

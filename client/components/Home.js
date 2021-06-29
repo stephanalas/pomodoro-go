@@ -19,13 +19,13 @@ export const Home = (props) => {
   const {palette: { text }} = theme;
   return (
     <div id="main">
-      <h3 style={{color: text.primary}}>Welcome, {username}!</h3>
+      {/* <h3 style={{color: text.primary}}>Welcome, {username}!</h3> */}
 
       <Grid container direction="row" justify="center" alignItems="flex-start">
-        <Grid item xs={8}>
+        <Grid item xs={6}>
           <CreateSession />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} >
           <Player />
         </Grid>
       </Grid>

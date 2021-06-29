@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    // border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 2, 3),
   },
@@ -57,12 +56,16 @@ export default connect(null, (dispatch) => {
   return (
     <div>
       <Button onClick={handleOpen} style={{
-            backgroundColor: '#9a6781',
-            color: 'white',
-            marginTop:'4px',
-            marginLeft:'4px',
-            marginBottom: '10px'
-          }}>stop</Button>
+        backgroundColor: '#9a6781',
+        color: 'white',
+        marginTop:'4px',
+        marginLeft:'4px',
+        marginBottom: '10px',
+        zIndex: 1,
+        position: 'relative',
+        top: '181px',
+        left: '185px'
+      }}>stop</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -87,17 +90,18 @@ export default connect(null, (dispatch) => {
               </Grid>
               <Grid item className={classes.buttonGrid}>
                 <Button onClick={handleClose} style={{
-                backgroundColor: '#9a6781',
-                color: 'white',
-                marginLeft:'4px'
-              }}>Go back</Button>
+                  backgroundColor: '#5061a9',
+                  color: 'white',
+                  marginLeft:'4px',
+
+                }}>Go back</Button>
                 <Button onClick={handleStop} style={{
-                backgroundColor: '#9a6781',
-                color: 'white',
-                marginLeft:'8px'
-              }}>End Session</Button>
+                  backgroundColor: '#9a6781',
+                  color: 'white',
+                  marginLeft:'8px'
+                }}>End Session</Button>
+              </Grid>
             </Grid>
-          </Grid>
           </div>
         </Fade>
       </Modal>
