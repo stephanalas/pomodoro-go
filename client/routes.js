@@ -46,12 +46,7 @@ class Routes extends Component {
     const { isLoggedIn, auth, blackList, updateB } = this.props;
     //this enters auth and blackList into chrome.storage so it can be accessed
     //in background.js file
-    // if (auth) {
-    //   if (chrome.storage) chrome.storage.local.set({ auth: auth });
-    // }
-    // if (blackList) {
-    //   if (chrome.storage) chrome.storage.local.set({ blackList: blackList });
-    // }
+
     //this listens for changes in chrome.storage so that it can update the database
     // with the updated blacklist info
     if (chrome.storage)
@@ -74,7 +69,7 @@ class Routes extends Component {
         {isLoggedIn && !chrome.storage ? (
           <Switch>
             <Route path="/home" component={Home} />
-            <Route path='/login'>
+            <Route path="/login">
               <Redirect to="/home" />
             </Route>
             <Route path="/dashboard" component={Dashboard} />
@@ -107,7 +102,7 @@ const mapState = (state) => {
     sites: state.sites,
     auth: state.auth,
     blackList: state.blackList,
-    blockedSites: state.blockedSites
+    blockedSites: state.blockedSites,
   };
 };
 
