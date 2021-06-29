@@ -7,7 +7,8 @@
     "newtab": "index.html"
   },
   "icons": {
-   "128": "pngegg.png" },
+    "128": "pngegg.png"
+  },
   "permissions": [
     "storage",
     "tabs",
@@ -21,39 +22,18 @@
     "https://*/",
     "<URL>"
   ],
-  "host_permissions": [
-    "http://*/",
-    "https://*/"
-  ],
+  "host_permissions": ["http://*/", "https://*/"],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
     "default_popup": "popup.html"
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "localStorage.js"
-      ],
-      "run_at": "document_idle",
-      "all_frames": false,
-      "match_about_blank": true
-    }
-  ],
   "externally_connectable": {
-    "matches": [
-      "*://pomodoro-russ.herokuapp.com/*",
-      "*://localhost/*"
-    ]
+    "matches": ["*://pomodoro-russ.herokuapp.com/*", "*://localhost/*"]
   },
   "oauth2": {
     "client_id": "811227993938-bdnup0onkbhf33rejoirhia20j2kf51r.apps.googleusercontent.com",
-    "scopes": [
-      "https://www.googleapis.com/auth/userinfo.email"
-    ]
+    "scopes": ["https://www.googleapis.com/auth/userinfo.email"]
   }
 }

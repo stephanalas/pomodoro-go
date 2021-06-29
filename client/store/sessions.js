@@ -102,7 +102,6 @@ export const removeSession = () => {
 export const _endSession = (session) => {
   return {
     type: END_SESSION,
-    session,
   };
 };
 
@@ -120,11 +119,13 @@ export const endSession =
           { successful }
         );
       }
+      chrome.runtime.sendMessage('jgphbioennmnjogfbpchcgphelmfoiig', {
+        message: 'timer-done',
+      });
+
       const updatedSession = response.data;
-      console.log(updatedSession);
-      localStorage.setItem('timerDone', false);
-      dispatch(_endSession(updatedSession));
-      dispatch(removeSession());
+      dispatch(_endSession());
+      localStorage.setItem('currentSession', null);
     } catch (error) {
       console.log(error);
     }
@@ -198,11 +199,14 @@ const currentSessionReducer = (state = {}, action) => {
     action.type === ADD_TASK ||
     action.type === DELETE_TASK ||
     action.type === UPDATE_TASK ||
-    action.type === LOAD_SESSION ||
-    action.type === END_SESSION
+    action.type === LOAD_SESSION
   ) {
     state = action.session;
-  } else if (action.type === REMOVE_SESSION || action.type === 'LOG_OUT') {
+  } else if (
+    action.type === REMOVE_SESSION ||
+    action.type === 'LOG_OUT' ||
+    action.type === END_SESSION
+  ) {
     return {};
   }
   return state;
