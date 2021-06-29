@@ -12,6 +12,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { updateSession } from '../../store/sessions';
 import StopButton from './StopButton';
 import { SessionContext } from '../../app';
+import { Circle } from 'rc-progress';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
@@ -139,19 +140,17 @@ const Timer = (props) => {
             {countDown ? <StopButton toggleTimer={toggleTimer} /> : null}
           </div>
         </Grid>
-        {/* <CountdownCircleTimer
-        isPlaying={countDown ? true : false}
-        duration={sessionTime}
-        colors={[
-          ['#004777', 0.33],
-          ['#F7B801', 0.33],
-          ['#A30000', 0.33],
-        ]}
-      >
-        {({ remainingTime }) => msToHMS(sessionTime)}
-      </CountdownCircleTimer> */}
+        <Circle percent={msToS(sessionTime)} strokeWidth="3" strokeColor={{
+          '0%': info.main,
+          '100%': text.primary,
+        }}
+        trailColor='#e4ddee'
+        style={{
+          position: 'relative',
+          bottom: '250px'
+        }}/>
       </Card>
-      {/* <Typography color="textPrimary" className={classes.timerHuge}>{msToHMS(sessionTime)} </Typography> */}
+
     </div>
   );
 };
