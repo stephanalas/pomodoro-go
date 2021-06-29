@@ -119,44 +119,55 @@ const Timer = (props) => {
   return (
     <div>
       <Card className={classes.timerContainer} elevation={10}>
-        {/* <div className={classes.timer}>
-      </div> */}
         <Grid container direction="column" alignItems="center">
           <Grid item>
-            <Typography variant="h1" className={classes.timerBig}>
+            <Typography variant="h1" className={classes.timer} style={{
+              position: 'relative',
+              top: '270px'
+            }}>
               {msToHMS(sessionTime)}{' '}
             </Typography>
           </Grid>
-          <div className={classes.buttons}>
-            {countDown ? (
-              <Button
-                onClick={toggleTimer}
-                style={{
-                  backgroundColor: '#9a6781',
-                  color: 'white',
-                  marginLeft: '4px',
-                  marginBottom: '10px',
-                }}
-              >
-                pause
-              </Button>
-            ) : (
-              <Button
-                onClick={toggleTimer}
-                disabled={sessionTime ? false : true}
-                style={{
-                  backgroundColor: '#9a6781',
-                  color: 'white',
-                  marginLeft: '4px',
-                  marginBottom: '10px',
-                  zIndex: 1
-                }}
-              >
-                Start
-              </Button>
-            )}
-            {countDown ? <StopButton toggleTimer={toggleTimer} /> : null}
-          </div>
+          {countDown ? (
+            <Grid container direction="row" className={classes.buttons}>
+              <Grid>
+                <Button
+                  onClick={toggleTimer}
+                  style={{
+                    backgroundColor: '#9a6781',
+                    color: 'white',
+                    marginLeft: '4px',
+                    marginBottom: '10px',
+                    zIndex: 1,
+                    position: 'relative',
+                    top: '270px',
+                    left: '330px'
+                  }}
+                >
+                  pause
+                </Button>
+              </Grid>
+              <Grid>
+                <StopButton toggleTimer={toggleTimer} />
+              </Grid>
+            </Grid>
+          ) : (
+            <Button
+              onClick={toggleTimer}
+              disabled={sessionTime ? false : true}
+              style={{
+                backgroundColor: '#9a6781',
+                color: 'white',
+                marginLeft: '4px',
+                marginBottom: '10px',
+                zIndex: 1,
+                position: 'relative',
+                top: '270px'
+              }}
+            >
+              Start
+            </Button>
+          )}
         </Grid>
         <Circle percent={msToS(sessionTime)} strokeWidth="3" strokeColor={{
           '0%': info.main,
@@ -168,7 +179,6 @@ const Timer = (props) => {
           bottom: '250px'
         }}/>
       </Card>
-
     </div>
   );
 };
