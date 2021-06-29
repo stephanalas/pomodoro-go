@@ -64,8 +64,8 @@ export default connect(null, (dispatch) => {
             marginBottom: '10px',
             zIndex: 1,
             position: 'relative',
-            top: '266px',
-            left: '330px'
+            top: '181px',
+            left: '185px'
           }}>stop</Button>
       <Modal
         aria-labelledby="transition-modal-title"

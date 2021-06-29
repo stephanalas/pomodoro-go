@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => {
       backgroundColor: 'white',
       height: '100%',
       minHeight: '120px',
-      width:'780px',
+      width:'500px',
       margin: '10px',
       paddingLeft: '10px',
       paddingRight: '10px',

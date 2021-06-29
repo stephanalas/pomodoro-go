@@ -17,16 +17,15 @@ import { Circle } from 'rc-progress';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
-    boxShadow: '0 3px 5px 2px #b49b8f',
     borderRadius: '15px',
-    backgroundColor: 'white',
-    minHeight: '200px',
-    minWidth: '800px',
+    height: '500px',
+    width: '500px',
     margin: '10px',
+    padding: '10px',
+
   },
   timer: {
-    fontSize: '170px',
-    margin: '10px',
+    fontSize: '100px',
   },
 }));
 
@@ -110,7 +109,7 @@ const Timer = (props) => {
           <Grid item>
             <Typography variant="h1" className={classes.timer} style={{
               position: 'relative',
-              top: '270px'
+              top: '185px'
             }}>
               {msToHMS(sessionTime)}{' '}
             </Typography>
@@ -127,8 +126,8 @@ const Timer = (props) => {
                     marginBottom: '10px',
                     zIndex: 1,
                     position: 'relative',
-                    top: '270px',
-                    left: '330px'
+                    top: '185px',
+                    left: '185px'
                   }}
                 >
                   pause
@@ -149,7 +148,7 @@ const Timer = (props) => {
                 marginBottom: '10px',
                 zIndex: 1,
                 position: 'relative',
-                top: '270px'
+                top: '185px'
               }}
             >
               Start
@@ -162,21 +161,44 @@ const Timer = (props) => {
         }}
         trailColor='#e4ddee'
         style={{
+          width: '100%',
           position: 'relative',
-          bottom: '250px'
+          bottom: '160px'
         }}/>
+         <Circle percent={msToS(sessionTime)} strokeWidth="1" strokeColor={{
+        '0%': info.main,
+        '100%': text.primary,
+      }}
+      trailColor='#e4ddee'
+      style={{
+        width: '92%',
+        position: 'relative',
+        bottom: '644px',
+        left: '20px',
+      }}/>
       </Card>
-      <Circle percent={msToS(sessionTime)} strokeWidth="1" strokeColor={{
-          '0%': info.main,
-          '100%': text.primary,
-        }}
-        trailColor='#e4ddee'
-        style={{
-          width: '90%',
-          position: 'relative',
-          bottom: '1032px',
-          left: '40px',
-        }}/>
+      {/* <Circle percent={msToS(sessionTime)} strokeWidth="1" strokeColor={{
+        '0%': info.main,
+        '100%': text.primary,
+      }}
+      trailColor='#e4ddee'
+      style={{
+        width: '460px',
+        position: 'relative',
+        bottom: '540px',
+        left: '40px',
+      }}/>
+      <Circle percent={(sessionTime/targetTime)*100} strokeWidth="3" strokeColor={{
+        '0%': info.main,
+        '100%': text.primary,
+      }}
+      trailColor='#e4ddee'
+      style={{
+        width: '500px',
+        position: 'relative',
+        bottom: '520px',
+        right: '440px',
+      }}/> */}
     </div>
   );
 };
