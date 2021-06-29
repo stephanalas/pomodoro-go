@@ -12,39 +12,21 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { updateSession } from '../../store/sessions';
 import StopButton from './StopButton';
 import { SessionContext } from '../../app';
-
+import { TimerContext } from './CreateSession';
 const useStyles = makeStyles(() => ({
   timerContainer: {
-    // border: '1px solid #b49b8f',
     boxShadow: '0 3px 5px 2px #b49b8f',
     borderRadius: '15px',
     backgroundColor: 'white',
     minHeight: '200px',
-    // display: 'flex',
-    // flexBasis:'40%',
     minWidth: '800px',
     margin: '10px',
-    // flexFlow: 'column',
-    // justifyContent: 'center',
-    // alignContent: 'center',
   },
-  timer: {
-    // display: 'flex',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-  },
-  TimeDisplay: {
-    // display: 'flex',
-  },
+  timer: {},
+  TimeDisplay: {},
   timerBig: {
     fontSize: '200px',
-    // display: 'flex',
-    // flexBasis:'40%',
-    // width:'100%',
     margin: '10px',
-    // flexFlow: 'column',
-    // justifyContent: 'center',
-    // alignContent: 'center',
   },
 }));
 
@@ -53,8 +35,16 @@ const Timer = (props) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const currentSession = useSelector((state) => state.currentSession);
-  const { setCountDown, sessionTime, countDown, setSessionTime } =
-    useContext(SessionContext);
+  const { setHours, setMinutes, setSeconds } = useContext(TimerContext);
+
+  const {
+    setCountDown,
+    sessionTime,
+    countDown,
+    setSessionTime,
+    intervalID,
+    setIntervalID,
+  } = useContext(SessionContext);
   const { updateSession } = props;
 
   const msToHMS = (ms) => {
@@ -74,27 +64,17 @@ const Timer = (props) => {
 
     return hours + ':' + minutes + ':' + seconds;
   };
-
   const toggleTimer = (ev) => {
     const button = ev.target.innerText;
     if (button === 'START') {
       if (!currentSession.sessionTime) {
         updateSession(currentSession.id, { sessionTime });
-        console.log('props', props);
       }
       localStorage.setItem('currentSession', JSON.stringify(currentSession));
       setCountDown(true);
-      window.timer = setInterval(() => {
-        setSessionTime((sessionTime) => {
-          const newSessionTime = sessionTime - 1000;
-          localStorage.setItem('sessionTime', newSessionTime);
-          return newSessionTime;
-        });
-      }, 1000);
     }
     if (button === 'STOP' || button === 'PAUSE') {
       setCountDown(false);
-      clearInterval(timer);
     }
   };
   const setChromeStorageTimer = () => {};
@@ -125,7 +105,7 @@ const Timer = (props) => {
             ) : (
               <Button
                 onClick={toggleTimer}
-                disabled={sessionTime ? false : true}
+                disabled={sessionTime && currentSession.id ? false : true}
                 style={{
                   backgroundColor: '#9a6781',
                   color: 'white',
