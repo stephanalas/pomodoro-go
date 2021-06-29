@@ -136,7 +136,7 @@ const AverageSession = (props) => {
 
   const avgFailedSessionLength =
     totalFailedSessionLength / sessionsFailed.length;
-
+    console.log('totalFailedSessionLength:',sessionsFailed.length);
   const avgFailedSessionMinutes = Math.round(avgFailedSessionLength / 60000);
 
   return (
@@ -179,7 +179,7 @@ const AverageSession = (props) => {
               Expected
             </Typography>
             <Typography variant="h5">
-              {sessions.length ? `${avgFailedExpSessionMinutes}min` : ''}
+              {sessionsFailed.length ? `${avgFailedExpSessionMinutes}min` : 'N/A'}
             </Typography>
           </Grid>
         </Grid>
@@ -198,7 +198,7 @@ const AverageSession = (props) => {
               Actual
             </Typography>
             <Typography variant="h5">
-              {sessions.length ? `${avgFailedSessionMinutes}min` : ''}
+              {sessionsFailed.length ? `${avgFailedSessionMinutes}min` : 'N/A'}
             </Typography>
           </Grid>
         </Grid>

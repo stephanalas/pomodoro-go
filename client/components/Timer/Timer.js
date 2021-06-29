@@ -155,7 +155,7 @@ const Timer = (props) => {
             </Button>
           )}
         </Grid>
-        <Circle percent={(sessionTime/targetTime)*100} strokeWidth="3" strokeColor={{
+        <Circle percent={((sessionTime/targetTime))*100-1} strokeWidth="3" strokeColor={{
           '0%': info.main,
           '100%': '#5061a9',
         }}
@@ -177,28 +177,7 @@ const Timer = (props) => {
         left: '20px',
       }}/>
       </Card>
-      {/* <Circle percent={msToS(sessionTime)} strokeWidth="1" strokeColor={{
-        '0%': info.main,
-        '100%': text.primary,
-      }}
-      trailColor='#e4ddee'
-      style={{
-        width: '460px',
-        position: 'relative',
-        bottom: '540px',
-        left: '40px',
-      }}/>
-      <Circle percent={(sessionTime/targetTime)*100} strokeWidth="3" strokeColor={{
-        '0%': info.main,
-        '100%': text.primary,
-      }}
-      trailColor='#e4ddee'
-      style={{
-        width: '500px',
-        position: 'relative',
-        bottom: '520px',
-        right: '440px',
-      }}/> */}
+
     </div>
   );
 };
