@@ -40,7 +40,12 @@ class Routes extends Component {
       blockedSites: this.props.blockedSites.filter((each) => {
         return each.blacklist.blockingEnabled === true;
       }),
+      currUser: this.props.auth.id
     });
+
+    // chrome?.runtime?.onMessage?.addListener(function(request, sender, sendResponse){
+    //   console.log(request.msg);
+    // });
   }
   render() {
     const { isLoggedIn, auth, blackList, updateB } = this.props;
@@ -70,6 +75,9 @@ class Routes extends Component {
           <Switch>
             <Route path="/home" component={Home} />
             <Route path="/login">
+              <Redirect to="/home" />
+            </Route>
+            <Route exact path='/'>
               <Redirect to="/home" />
             </Route>
             <Route path="/dashboard" component={Dashboard} />

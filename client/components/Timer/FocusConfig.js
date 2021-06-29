@@ -13,7 +13,8 @@ const useStyles = makeStyles(() => {
       borderRadius: '15px',
       backgroundColor: 'white',
       height: '100%',
-      width: '780px',
+      minHeight: '120px',
+      width:'500px',
       margin: '10px',
       paddingLeft: '10px',
       paddingRight: '10px',
@@ -23,6 +24,7 @@ const useStyles = makeStyles(() => {
       padding: '1rem',
       margin: '1rem',
     },
+
     gridContainer: {
       margin: '0',
       display: 'flex',

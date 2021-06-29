@@ -80,7 +80,7 @@ const background = {
             message.blockedSites.forEach((site) => {
               sites.push(site.siteUrl);
             });
-            chrome.storage.sync.set({ blocked: sites }, () => {
+            chrome.storage.sync.set({ blocked: sites, currUser: message.currUser }, () => {
               console.log('sites are blocked in chrome');
             });
             console.log('blocked sites', message);
@@ -161,6 +161,20 @@ const background = {
               return domain.includes(hostname);
             })
           ) {
+            const options = {
+              method: 'post',
+              headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+              },
+              body: `userAttempted=${hostname}&userId=${currUser}`,
+            };
+
+            try {
+              await fetch('http://localhost:8080/api/blocks', options);
+            } catch (err) {
+              console.error('Request failed', err);
+            }
+
             chrome.tabs.update(tabId, {
               // url: 'https://pomodoro-russ.herokuapp.com/uhoh',
               url: 'http://localhost:8080/uhoh',

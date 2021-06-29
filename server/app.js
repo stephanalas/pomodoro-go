@@ -13,6 +13,7 @@ app.use(cors());
 
 // body parsing middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // auth and api routes

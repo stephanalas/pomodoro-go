@@ -14,6 +14,7 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
     height: '100%',
     width: '100%',
+    margin: '25px'
   },
   paper: {
     display: 'flex',
@@ -21,13 +22,6 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     height: '100%',
     margin: '25px',
-  },
-  focus: {
-    margin: '10px',
-  },
-
-  timer: {
-    margin: '10px',
   },
 }));
 const CreateSession = (props) => {
@@ -74,14 +68,13 @@ const CreateSession = (props) => {
         setSeconds,
       }}
     >
-      <Container className={classes.main}>
-        <Grid container justify="center">
-          <Grid item className={classes.focus}>
-            <FocusConfig />
-          </Grid>
-          <Grid item className={classes.timer}>
-            <Timer />
-          </Grid>
+    <Container className={classes.main}>
+      <Grid container direction="column" alignItems="center" justify="center">
+        <Grid item >
+          <FocusConfig />
+        </Grid>
+        <Grid item >
+          <Timer />
         </Grid>
       </Container>
     </TimerContext.Provider>

@@ -36,9 +36,9 @@ Block.seed = async function (users, sites) {
 /**
  * hooks
  */
-Block.afterCreate((block) => {
-  block.date = block.createdAt;
-  block.save();
-});
+// Block.afterCreate((block) => {
+//   block.date = block.createdAt;
+//   block.save();
+// });
 
 module.exports = Block;

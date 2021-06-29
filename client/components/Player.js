@@ -20,6 +20,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import Badge from '@material-ui/core/Badge';
+import {Grid} from '@material-ui/core';
 
 //import other components
 import PlayerPlaylist from './PlayerPlaylist';
@@ -176,47 +177,58 @@ const Player = (props) => {
   }, [props]);
 
   return (
+    <Grid container direction="column" alignItems="center">
     <div id="player">
       {window.localStorage.getItem('spotify_access_token') ? (
         <>
           <div>
-            <Card className={classes.root}>
-              <div className={classes.details}>
-                <CardContent className={classes.content}>
-                  <Typography component="h5" variant="h5">
-                    {props.currPlayback.item
-                      ? props.currPlayback.item.name
-                      : 'Nothing is playing right now'}
-                  </Typography>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    {props.currPlayback.item
-                      ? props.currPlayback.item.artists[0].name
-                      : undefined}
-                  </Typography>
-                </CardContent>
-                <div className={classes.controls}>
-                  <IconButton
-                    aria-label="previous"
-                    onClick={() => playPrevious()}
-                  >
-                    {theme.direction === 'rtl' ? (
-                      <SkipNextIcon />
+
+              <Card className={classes.root}>
+                <div className={classes.details}>
+                  <CardContent className={classes.content}>
+                    <Typography component="h5" variant="h5">
+                      {props.currPlayback.item
+                        ? props.currPlayback.item.name
+                        : 'Nothing is playing right now'}
+                    </Typography>
+                    <Typography variant="subtitle1" color="textSecondary">
+                      {props.currPlayback.item
+                        ? props.currPlayback.item.artists[0].name
+                        : undefined}
+                    </Typography>
+                  </CardContent>
+                  <div className={classes.controls}>
+                    <IconButton
+                      aria-label="previous"
+                      onClick={() => playPrevious()}
+                    >
+                      {theme.direction === 'rtl' ? (
+                        <SkipNextIcon />
+                      ) : (
+                        <SkipPreviousIcon />
+                      )}
+                    </IconButton>
+                    <IconButton
+                      aria-label="play/pause"
+                      onClick={() => playStart()}
+                    >
+                      {!props.currPlayback.is_playing ? (
+                        <PlayArrowIcon className={classes.playIcon} />
+                      ) : (
+                        <PauseIcon className={classes.playIcon} />
+                      )}
+                    </IconButton>
+                    {props.newlyAddedTrack && props.newlyAddedTrack !== '' ? (
+                      <Badge color="secondary" variant="dot" overlap="circle">
+                        <IconButton aria-label="next" onClick={() => playNext()}>
+                          {theme.direction === 'rtl' ? (
+                            <SkipPreviousIcon />
+                          ) : (
+                            <SkipNextIcon />
+                          )}
+                        </IconButton>
+                      </Badge>
                     ) : (
-                      <SkipPreviousIcon />
-                    )}
-                  </IconButton>
-                  <IconButton
-                    aria-label="play/pause"
-                    onClick={() => playStart()}
-                  >
-                    {!props.currPlayback.is_playing ? (
-                      <PlayArrowIcon className={classes.playIcon} />
-                    ) : (
-                      <PauseIcon className={classes.playIcon} />
-                    )}
-                  </IconButton>
-                  {props.newlyAddedTrack && props.newlyAddedTrack !== '' ? (
-                    <Badge color="secondary" variant="dot" overlap="circle">
                       <IconButton aria-label="next" onClick={() => playNext()}>
                         {theme.direction === 'rtl' ? (
                           <SkipPreviousIcon />
@@ -224,24 +236,16 @@ const Player = (props) => {
                           <SkipNextIcon />
                         )}
                       </IconButton>
-                    </Badge>
-                  ) : (
-                    <IconButton aria-label="next" onClick={() => playNext()}>
-                      {theme.direction === 'rtl' ? (
-                        <SkipPreviousIcon />
-                      ) : (
-                        <SkipNextIcon />
-                      )}
-                    </IconButton>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
-              <CardMedia
-                className={classes.cover}
-                image={`${props.currPlayback.item?.album?.images[0]?.url}`}
-                title="album cover"
-              />
-            </Card>
+                <CardMedia
+                  className={classes.cover}
+                  image={`${props.currPlayback.item?.album?.images[0]?.url}`}
+                  title="album cover"
+                />
+              </Card>
+
           </div>
           <PlayerDevices currPlayback={props.currPlayback} />
           <PlayerPlaylist />
@@ -256,7 +260,9 @@ const Player = (props) => {
         </a>
       )}
     </div>
+    </Grid>
   );
+
 };
 
 const mapStateToProps = (state) => {
