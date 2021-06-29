@@ -21,7 +21,7 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log('req.body', req.body);
+    // console.log('req.body', req.body);
     if (req.body.siteId) {
       const { siteId } = req.body;
       const block = await Block.create({
@@ -40,6 +40,10 @@ router.post('/', async (req, res, next) => {
           siteId: matchingSite.id,
           userId
         });
+        const date = block.createdAt;
+        block.date = date;
+        await block.save();
+        console.log('after adding date', block.date);
         res.send(block);
       }
     }
