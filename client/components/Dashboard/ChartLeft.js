@@ -184,7 +184,7 @@ const ChartLeft = (props) => {
         show: false,
       },
       stroke: {
-        colors: ['transparent'],
+        colors: ['#FFFFFF'],
         show: true,
         width: 2,
       },
@@ -415,9 +415,9 @@ const ChartLeft = (props) => {
         show: false,
       },
       stroke: {
-        colors: ['transparent'],
+        colors: ['#FFFFFF'],
         show: true,
-        width: 2,
+        width: 1,
       },
       theme: {
         mode: theme.palette.mode,
@@ -614,7 +614,7 @@ const ChartLeft = (props) => {
       },
 
       stroke: {
-        colors: ['transparent'],
+        colors: ['#FFFFFF'],
         show: true,
         width: 2,
       },
