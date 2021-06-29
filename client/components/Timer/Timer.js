@@ -13,8 +13,8 @@ import dayjs from 'dayjs';
 import { updateSession } from '../../store/sessions';
 import StopButton from './StopButton';
 import { SessionContext } from '../../app';
+import { TimerContext } from './CreateSession';
 import { Circle } from 'rc-progress';
-
 const useStyles = makeStyles(() => ({
   timerContainer: {
     borderRadius: '15px',
@@ -35,6 +35,16 @@ const Timer = (props) => {
   const {info, primary, secondary, text, error} = theme.palette;
   const dispatch = useDispatch();
   const currentSession = useSelector((state) => state.currentSession);
+  const { setHours, setMinutes, setSeconds } = useContext(TimerContext);
+
+  const {
+    setCountDown,
+    sessionTime,
+    countDown,
+    setSessionTime,
+    intervalID,
+    setIntervalID,
+  } = useContext(SessionContext);
   const {expectedEndTime, startTime} = currentSession;
   const end = Date.parse(expectedEndTime);
   const start = Date.parse(startTime);
@@ -78,17 +88,9 @@ const Timer = (props) => {
       }
       localStorage.setItem('currentSession', JSON.stringify(currentSession));
       setCountDown(true);
-      window.timer = setInterval(() => {
-        setSessionTime((sessionTime) => {
-          const newSessionTime = sessionTime - 1000;
-          localStorage.setItem('sessionTime', newSessionTime);
-          return newSessionTime;
-        });
-      }, 1000);
     }
     if (button === 'STOP' || button === 'PAUSE') {
       setCountDown(false);
-      clearInterval(timer);
     }
   };
   return (

@@ -11,7 +11,7 @@ export const SessionContext = createContext();
 const useStyles = makeStyles(() => ({
   main: {
     height: '100%',
-    width: '100%'
+    width: '100%',
   },
 }));
 const App = (props) => {
@@ -22,40 +22,29 @@ const App = (props) => {
   const [sessionTime, setSessionTime] = useState(0);
   const [goal, setGoal] = useState('');
   const [countDown, setCountDown] = useState(false);
-
+  const [intervalID, setIntervalID] = useState('');
   useEffect(() => {
-    if (!sessionTime) {
-      setCountDown(false);
-    }
-
-    const sT = window.localStorage.getItem('sessionTime');
-
-    if (!parseInt(sT) && localStorage.getItem('currentSession') !== 'null') {
-      if (window.timer && !sessionTime) {
-        localStorage.setItem('timerDone', true);
-        console.log('timer is over');
-        clearInterval(window.timer);
-      }
-      localStorage.setItem('sessionTime', 0);
-    }
-
-    if (
-      localStorage.getItem('timerDone') === 'true' &&
-      localStorage.getItem('currentSession') !== 'null' &&
-      localStorage.getItem('sessionIsSet') === 'true'
-    ) {
-      console.log('checkout out the goal', goal);
+    const timeLeft = localStorage.getItem('sessionTime');
+    if (parseInt(timeLeft) < 0) return;
+    if (!parseInt(timeLeft) && currentSession.id && countDown) {
       props.endSession(currentSession.id, true);
-      chrome.runtime.sendMessage('jgphbioennmnjogfbpchcgphelmfoiig', {
-        message: 'timer-done',
-      });
-      localStorage.setItem('currentSession', null);
-      localStorage.setItem('timerDone', false);
-      localStorage.setItem('sessionIsSet', false);
     }
-    console.log('app is refreshing');
-  });
-
+  }, [sessionTime]);
+  useEffect(() => {
+    if ((sessionTime, countDown)) {
+      const id = setInterval(() => {
+        setSessionTime((sessionTime) => {
+          localStorage.setItem('sessionTime', sessionTime - 1000);
+          return sessionTime - 1000;
+        });
+      }, 1000);
+      setIntervalID(id);
+    }
+    if (!countDown) {
+      clearInterval(intervalID);
+      setSessionTime(0);
+    }
+  }, [dispatch]);
   useEffect(() => {
     if (window.localStorage.getItem('token')) {
       dispatch(me());
@@ -71,6 +60,8 @@ const App = (props) => {
           setGoal,
           countDown,
           setCountDown,
+          intervalID,
+          setIntervalID,
         }}
       >
         <Nav />
@@ -82,6 +73,7 @@ const App = (props) => {
 
 export default connect(null, (dispatch) => {
   return {
-    endSession: (sessionId, status) => dispatch(endSession(sessionId, status)),
+    endSession: (sessionId, successful) =>
+      dispatch(endSession(sessionId, successful)),
   };
 })(App);

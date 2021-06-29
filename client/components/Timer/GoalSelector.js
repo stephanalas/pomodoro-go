@@ -28,8 +28,6 @@ const GoalSelector = (props) => {
 
   const handleChange = (ev) => {
     const { value } = ev.target;
-    localStorage.setItem('sessionIsSet', true);
-    localStorage.setItem('timerDone', false);
     if (!currentSession.id) {
       createSession(auth.id, value);
     }
@@ -48,7 +46,7 @@ const GoalSelector = (props) => {
         <Select
           labelId="goal-label"
           className={classes.select}
-          value={goal}
+          value={currentSession.id ? goal : ''}
           onChange={handleChange}
         >
           <MenuItem value="Study">Study</MenuItem>

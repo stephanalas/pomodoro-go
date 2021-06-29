@@ -6,7 +6,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { SessionContext } from '../../app';
-import { updateSession } from '../../store/sessions';
+import { endSession, updateSession } from '../../store/sessions';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -28,11 +28,14 @@ export default connect(null, (dispatch) => {
   return {
     updateSession: (sessionId, sessionTime) =>
       dispatch(updateSession(sessionId, sessionTime)),
+    endSession: (sessionId) => dispatch(endSession(sessionId)),
   };
 })(function (props) {
   const classes = useStyles();
   const theme = useTheme();
-  const {palette: {primary, secondary}} = theme
+  const {
+    palette: { primary, secondary },
+  } = theme;
   const { updateSession, toggleTimer } = props;
   const { setCountDown } = useContext(SessionContext);
   const currentSession = useSelector((state) => state.currentSession);
@@ -47,7 +50,7 @@ export default connect(null, (dispatch) => {
   };
   const handleStop = (ev) => {
     handleClose();
-    updateSession(currentSession.id, { status: 'Done' });
+    props.endSession(currentSession.id);
     clearInterval(window.timer);
     setCountDown(false);
     toggleTimer(ev);
@@ -82,8 +85,14 @@ export default connect(null, (dispatch) => {
           <div className={classes.paper}>
             <Grid container direction="column" alignItems="center">
               <Grid item>
-                <Typography color="textPrimary" variant="h5" id="transition-modal-title">Warning!!!!</Typography>
-                <Typography color="textPrimary" variant="p" >
+                <Typography
+                  color="textPrimary"
+                  variant="h5"
+                  id="transition-modal-title"
+                >
+                  Warning!!!!
+                </Typography>
+                <Typography color="textPrimary" variant="p">
                   If you stop the focus session, this session will be considered
                   unsuccessful! Do you want to end the session?
                 </Typography>
