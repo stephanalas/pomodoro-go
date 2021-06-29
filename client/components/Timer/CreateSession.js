@@ -8,6 +8,7 @@ const useStyles = makeStyles(() => ({
   main: {
     height: '100%',
     width: '100%',
+    margin: '25px'
   },
   paper: {
     display: 'flex',
@@ -16,25 +17,17 @@ const useStyles = makeStyles(() => ({
     height: '100%',
     margin: '25px',
   },
-  focus: {
-    margin: '10px',
-  },
-
-  timer: {
-    margin: '10px',
-
-  },
 }));
 const CreateSession = (props) => {
   const classes = useStyles();
 
   return (
     <Container className={classes.main}>
-      <Grid container direction="column" justify="center">
-        <Grid item className={classes.focus}>
+      <Grid container direction="column" alignItems="center" justify="center">
+        <Grid item >
           <FocusConfig />
         </Grid>
-        <Grid item className={classes.timer}>
+        <Grid item >
           <Timer />
         </Grid>
       </Grid>
