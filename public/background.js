@@ -80,9 +80,12 @@ const background = {
             message.blockedSites.forEach((site) => {
               sites.push(site.siteUrl);
             });
-            chrome.storage.sync.set({ blocked: sites, currUser: message.currUser }, () => {
-              console.log('sites are blocked in chrome');
-            });
+            chrome.storage.sync.set(
+              { blocked: sites, currUser: message.currUser },
+              () => {
+                console.log('sites are blocked in chrome');
+              }
+            );
             console.log('blocked sites', message);
             chrome.storage.sync.get(null, (results) => {
               console.log('current chrome storage', results);
@@ -153,8 +156,8 @@ const background = {
 
         storage.sync.set({ userAttempt: hostname });
 
-        storage.sync.get(['blocked'], function (sync) {
-          const { blocked } = sync;
+        storage.sync.get(['blocked', 'currUser'], async function (sync) {
+          const { blocked, currUser } = sync;
           if (
             Array.isArray(blocked) &&
             blocked.find((domain) => {
@@ -164,20 +167,24 @@ const background = {
             const options = {
               method: 'post',
               headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'Content-type':
+                  'application/x-www-form-urlencoded; charset=UTF-8',
               },
               body: `userAttempted=${hostname}&userId=${currUser}`,
             };
 
             try {
-              await fetch('http://localhost:8080/api/blocks', options);
+              await fetch(
+                'https://pomodoro-russ.herokuapp.com/api/blocks',
+                options
+              );
             } catch (err) {
               console.error('Request failed', err);
             }
 
             chrome.tabs.update(tabId, {
               // url: 'https://pomodoro-russ.herokuapp.com/uhoh',
-              url: 'http://localhost:8080/uhoh',
+              url: 'https://pomodoro-russ.herokuapp.com/uhoh',
             }); // hard-code it to production url atm instead of 'http://localhost:8080/uhoh'
           }
         });
@@ -241,7 +248,9 @@ const background = {
       async (notificationId, buttonIdx) => {
         // redirects to dashboard after session is complete
         let tab = await this.getCurrentTab();
-        chrome.tabs.update(tab.id, { url: 'http://localhost:8080/dashboard' });
+        chrome.tabs.update(tab.id, {
+          url: 'https://pomodoro-russ.herokuapp.com/dashboard',
+        });
       }
     );
   },
