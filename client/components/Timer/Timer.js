@@ -16,36 +16,16 @@ import { Circle } from 'rc-progress';
 
 const useStyles = makeStyles(() => ({
   timerContainer: {
-    // border: '1px solid #b49b8f',
     boxShadow: '0 3px 5px 2px #b49b8f',
     borderRadius: '15px',
     backgroundColor: 'white',
     minHeight: '200px',
-    // display: 'flex',
-    // flexBasis:'40%',
     minWidth: '800px',
     margin: '10px',
-    // flexFlow: 'column',
-    // justifyContent: 'center',
-    // alignContent: 'center',
   },
   timer: {
-    // display: 'flex',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-  },
-  TimeDisplay: {
-    // display: 'flex',
-  },
-  timerBig: {
-    fontSize: '200px',
-    // display: 'flex',
-    // flexBasis:'40%',
-    // width:'100%',
+    fontSize: '170px',
     margin: '10px',
-    // flexFlow: 'column',
-    // justifyContent: 'center',
-    // alignContent: 'center',
   },
 }));
 
