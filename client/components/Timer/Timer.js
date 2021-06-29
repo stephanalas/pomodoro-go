@@ -52,14 +52,18 @@ const useStyles = makeStyles(() => ({
 const Timer = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  console.log('theme:', theme);
+  const {info, primary, secondary, text, error} = theme.palette;
+  console.log('info:', info);
   const dispatch = useDispatch();
   const currentSession = useSelector((state) => state.currentSession);
+  console.log('currentSession:', currentSession)
   const { setCountDown, sessionTime, countDown, setSessionTime } =
     useContext(SessionContext);
   const { updateSession } = props;
-
+  let seconds;
   const msToHMS = (ms) => {
-    let seconds = ms / 1000;
+    seconds = ms / 1000;
 
     let hours = parseInt(seconds / 3600);
     seconds = seconds % 3600;
@@ -74,6 +78,19 @@ const Timer = (props) => {
     //But the play button may also need to be modified...
 
     return hours + ':' + minutes + ':' + seconds;
+  };
+
+  const msToS = (ms) => {
+    seconds = ms / 1000;
+    seconds = seconds % 3600;
+    seconds = seconds % 60;
+    seconds = seconds < 10 ? (seconds >= 0 ? '0' + seconds : '00') : seconds;
+    console.log('seconds:', seconds)
+    if (seconds === '00') {
+      return 100;
+    } else {
+    return ((seconds)/60)*100;
+    }
   };
 
   const toggleTimer = (ev) => {
@@ -132,6 +149,7 @@ const Timer = (props) => {
                   color: 'white',
                   marginLeft: '4px',
                   marginBottom: '10px',
+                  zIndex: 1
                 }}
               >
                 Start
