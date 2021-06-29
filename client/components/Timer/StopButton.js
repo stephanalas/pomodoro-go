@@ -61,7 +61,11 @@ export default connect(null, (dispatch) => {
             color: 'white',
             marginTop:'4px',
             marginLeft:'4px',
-            marginBottom: '10px'
+            marginBottom: '10px',
+            zIndex: 1,
+            position: 'relative',
+            top: '266px',
+            left: '330px'
           }}>stop</Button>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -87,17 +91,18 @@ export default connect(null, (dispatch) => {
               </Grid>
               <Grid item className={classes.buttonGrid}>
                 <Button onClick={handleClose} style={{
-                backgroundColor: '#9a6781',
-                color: 'white',
-                marginLeft:'4px'
-              }}>Go back</Button>
+                  backgroundColor: '#9a6781',
+                  color: 'white',
+                  marginLeft:'4px',
+
+                }}>Go back</Button>
                 <Button onClick={handleStop} style={{
-                backgroundColor: '#9a6781',
-                color: 'white',
-                marginLeft:'8px'
-              }}>End Session</Button>
+                  backgroundColor: '#9a6781',
+                  color: 'white',
+                  marginLeft:'8px'
+                }}>End Session</Button>
+              </Grid>
             </Grid>
-          </Grid>
           </div>
         </Fade>
       </Modal>
