@@ -32,6 +32,35 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: '80%',
+  },
+  goAnyway: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  button: {
+    border: 0,
+    backgroundColor: 'transparent',
+    color: 'black',
+    fontSize: 15,
+    padding: 6,
+    borderRadius: 5,
+    width: 200,
+    backgroundImage: 'linear-gradient(140deg,#ffffff 25%, #ffffff 50%,#ffffff 90%)',
+    transition: 'width 2s, background-image 4s, ease-out',
+    '&:hover': {
+      backgroundImage: 'linear-gradient(140deg,#faefe8 25%, #d7dae8 50%,#cedaa4 90%)',
+      width: 400
+    },
+  },
+  link: {
+    color: 'black',
+    fontSize: 15,
+    borderRadius: 5,
+    padding: 6,
+    textAlign: 'center',
+    '&:hover': {
+      backgroundImage: 'linear-gradient(140deg,#faefe8 25%, #d7dae8 50%,#cedaa4 90%)',
+    },
   }
 }));
 
@@ -54,6 +83,7 @@ const BlockError = (props) => {
     question2: 'false',
     question3: 'false',
   });
+  const [showLink, setShowLink] = useState(false);
 
   const goOrNoGo = () => {
     if (answers.question1 === 'true' &&
@@ -67,6 +97,7 @@ const BlockError = (props) => {
 
   const goAnyway = () => {
     dispatch(updateBlocking(auth.id, latestBlockId));
+    setShowLink(true);
   };
 
   const handleChange = (ev) => {
@@ -124,9 +155,12 @@ const BlockError = (props) => {
         </RadioGroup>
       </FormControl>
       {goOrNoGo() ? (
-        // <a href={`http://${latestBlockUrl}`}>
-          <button onClick={goAnyway}>Take me there anyway! I really want a break😅</button>
-        // </a>
+        <div id='go-anyway' className={classes.goAnyway}>
+          <button onClick={goAnyway} className={classes.button}>Take me there anyway!😅</button>
+          {showLink === true && (
+            <a href={'https://'+latestBlockUrl} target='_blank' rel="noreferrer" className={classes.link}>Go to {latestBlockUrl} ➡️</a>
+          )}
+        </div>
       ) : (
         null
       )}
