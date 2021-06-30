@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
     height: '100%',
     width: '100%',
-    margin: '25px'
+    margin: '25px',
   },
   paper: {
     display: 'flex',
@@ -37,6 +37,7 @@ const CreateSession = (props) => {
       const sec = seconds * 1000;
       const min = minutes * 60000;
       const hour = hours * 3600000;
+
       setSessionTime(sec + min + hour);
       window.localStorage.setItem('sessionTime', sec + min + hour);
     } else {
@@ -70,10 +71,11 @@ const CreateSession = (props) => {
     >
       <Container className={classes.main}>
         <Grid container direction="column" alignItems="center" justify="center">
-          <Grid item >
+          <Grid item>
             <FocusConfig />
           </Grid>
-          <Grid item >
+          <Grid item>
+
             <Timer />
           </Grid>
         </Grid>

@@ -22,7 +22,6 @@ const useStyles = makeStyles(() => ({
     width: '500px',
     margin: '35px',
     padding: '10px',
-
   },
   timer: {
     fontSize: '100px',
@@ -32,22 +31,17 @@ const useStyles = makeStyles(() => ({
 const Timer = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const {info, primary, secondary, text, error} = theme.palette;
+  const { info, primary, secondary, text, error } = theme.palette;
   const dispatch = useDispatch();
   const currentSession = useSelector((state) => state.currentSession);
   const { setHours, setMinutes, setSeconds } = useContext(TimerContext);
 
-  const {
-    setCountDown,
-    sessionTime,
-    countDown,
-    setSessionTime,
-    intervalID,
-    setIntervalID,
-  } = useContext(SessionContext);
-  const {expectedEndTime, startTime} = currentSession;
+  const { expectedEndTime, startTime } = currentSession;
   const end = Date.parse(expectedEndTime);
   const start = Date.parse(startTime);
+  const targetTime = end - start;
+  const { setCountDown, sessionTime, countDown, setSessionTime } =
+    useContext(SessionContext);
   const targetTime = (end - start);
   const { updateSession } = props;
   let seconds;
@@ -74,7 +68,7 @@ const Timer = (props) => {
     if (seconds === '00') {
       return 100;
     } else {
-      return ((seconds)/60)*100;
+      return (seconds / 60) * 100;
     }
   };
 
@@ -96,10 +90,14 @@ const Timer = (props) => {
       <Card className={classes.timerContainer} elevation={10}>
         <Grid container direction="column" alignItems="center">
           <Grid item>
-            <Typography variant="h1" className={classes.timer} style={{
-              position: 'relative',
-              top: '185px'
-            }}>
+            <Typography
+              variant="h1"
+              className={classes.timer}
+              style={{
+                position: 'relative',
+                top: '185px',
+              }}
+            >
               {msToHMS(sessionTime)}{' '}
             </Typography>
           </Grid>
@@ -116,7 +114,7 @@ const Timer = (props) => {
                     zIndex: 1,
                     position: 'relative',
                     top: '185px',
-                    left: '185px'
+                    left: '185px',
                   }}
                 >
                   pause
@@ -137,36 +135,43 @@ const Timer = (props) => {
                 marginBottom: '10px',
                 zIndex: 1,
                 position: 'relative',
-                top: '185px'
+                top: '185px',
               }}
             >
               Start
             </Button>
           )}
         </Grid>
-        <Circle percent={((sessionTime/targetTime))*100-1} strokeWidth="3" strokeColor={{
-          '0%': info.main,
-          '100%': '#5061a9',
-        }}
-        trailColor={primary.contrastText}
-        style={{
-          width: '100%',
-          position: 'relative',
-          bottom: '160px'
-        }}/>
-        <Circle percent={msToS(sessionTime)} strokeWidth="1" strokeColor={{
-          '0%': info.main,
-          '100%': '#5061a9',
-        }}
-        trailColor={primary.contrastText}
-        style={{
-          width: '92%',
-          position: 'relative',
-          bottom: '644px',
-          left: '20px',
-        }}/>
+        <Circle
+          percent={(sessionTime / targetTime) * 100 - 1}
+          strokeWidth="3"
+          strokeColor={{
+            '0%': info.main,
+            '100%': '#5061a9',
+          }}
+          trailColor={primary.contrastText}
+          style={{
+            width: '100%',
+            position: 'relative',
+            bottom: '160px',
+          }}
+        />
+        <Circle
+          percent={msToS(sessionTime)}
+          strokeWidth="1"
+          strokeColor={{
+            '0%': info.main,
+            '100%': '#5061a9',
+          }}
+          trailColor={primary.contrastText}
+          style={{
+            width: '92%',
+            position: 'relative',
+            bottom: '644px',
+            left: '20px',
+          }}
+        />
       </Card>
-
     </div>
   );
 };
