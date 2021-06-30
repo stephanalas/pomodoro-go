@@ -50,22 +50,7 @@ const App = (props) => {
       dispatch(me());
     }
   }, [dispatch]);
-  useEffect(() => {
-    const sessTime = JSON.parse(localStorage.getItem('sessionTime'));
-    if (!intervalID && sessTime) {
-      const id = setInterval(() => {
-        setSessionTime((sessionTime) => {
-          localStorage.setItem('sessionTime', sessionTime - 1000);
-          return sessionTime - 1000;
-        });
-      }, 1000);
-      setIntervalID(id);
-    }
-    if (!countDown) {
-      clearInterval(intervalID);
-      setSessionTime(0);
-    }
-  });
+
   return (
     <div className={classes.main}>
       <SessionContext.Provider
