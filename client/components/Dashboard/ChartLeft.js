@@ -151,7 +151,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: stacked ? [error.main, primary.main ]: [primary.main],
+      colors: stacked ? [secondary.main, primary.main ]: [primary.main],
       dataLabels: {
         enabled: false,
       },
@@ -184,7 +184,7 @@ const ChartLeft = (props) => {
         show: false,
       },
       stroke: {
-        colors: ['transparent'],
+        colors: ['#FFFFFF'],
         show: true,
         width: 2,
       },
@@ -382,7 +382,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: stacked ? [error.main, primary.main ]: [primary.main],
+      colors: stacked ? [secondary.main, primary.main ]: [primary.main],
       dataLabels: {
         enabled: false,
       },
@@ -415,9 +415,9 @@ const ChartLeft = (props) => {
         show: false,
       },
       stroke: {
-        colors: ['transparent'],
+        colors: ['#FFFFFF'],
         show: true,
-        width: 2,
+        width: 1,
       },
       theme: {
         mode: theme.palette.mode,
@@ -580,7 +580,7 @@ const ChartLeft = (props) => {
           show: true,
         },
       },
-      colors: stacked ? [error.main, primary.main]: [primary.main],
+      colors: stacked ? [secondary.main, primary.main]: [primary.main],
       dataLabels: {
         enabled: false,
       },
@@ -614,7 +614,7 @@ const ChartLeft = (props) => {
       },
 
       stroke: {
-        colors: ['transparent'],
+        colors: ['#FFFFFF'],
         show: true,
         width: 2,
       },

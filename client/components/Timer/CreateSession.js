@@ -75,6 +75,7 @@ const CreateSession = (props) => {
             <FocusConfig />
           </Grid>
           <Grid item>
+
             <Timer />
           </Grid>
         </Grid>
