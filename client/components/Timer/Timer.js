@@ -142,7 +142,7 @@ const Timer = (props) => {
           )}
         </Grid>
         <Circle
-          percent={(sessionTime / targetTime) * 100 - 1}
+          percent={(sessionTime / targetTime) * 100}
           strokeWidth="3"
           strokeColor={{
             '0%': info.main,
