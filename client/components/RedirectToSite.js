@@ -18,9 +18,9 @@ const RedirectToSite = () => {
   const classes = useStyles();
   return (
     <div className={classes.background}>
-      <a href={`${process.env.API_URL}/`}>
+      <a href='https://pomodoro-russ.herokuapp.com'>
         <Button className={classes.text}>
-          Click to navigate to site www.pomodoro.go
+          Click to navigate to site pomodoro-russ.herokuapp.com
         </Button>
       </a>
     </div>
