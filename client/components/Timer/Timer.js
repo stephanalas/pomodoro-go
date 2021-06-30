@@ -39,7 +39,6 @@ const Timer = (props) => {
   const { expectedEndTime, startTime } = currentSession;
   const end = Date.parse(expectedEndTime);
   const start = Date.parse(startTime);
-  const targetTime = end - start;
   const { setCountDown, sessionTime, countDown, setSessionTime } =
     useContext(SessionContext);
   const targetTime = (end - start);
