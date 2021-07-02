@@ -50,6 +50,7 @@ const App = (props) => {
       dispatch(me());
     }
   }, [dispatch]);
+
   return (
     <div className={classes.main}>
       <SessionContext.Provider
