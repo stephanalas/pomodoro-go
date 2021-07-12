@@ -99,11 +99,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/2101-Warriors/pomodoro-go.git"
+    "url": "git+https://github.com/stephanalas/pomodoro-go.git"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/2101-Warriors/pomodoro-go/issues"
+    "url": "https://github.com/stephanalas/pomodoro-go/issues"
   },
-  "homepage": "https://github.com/2101-Warriors/pomodoro-go#readme"
+  "homepage": "https://github.com/stephanalas/pomodoro-go#readme"
 }
