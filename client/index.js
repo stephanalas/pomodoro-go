@@ -2,13 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import {
+  ThemeProvider as MuiThemeProvider,
+  createTheme,
+} from '@material-ui/core/styles';
 import history from './history';
 import store from './store';
 import App from './app';
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     // divider: 'rgba(145, 158, 171, 0.24)',
     // mode: 'dark',
@@ -33,8 +35,8 @@ const theme = createMuiTheme({
       contrastText: '#ffffff',
       main: '#261689',
     },
-    info:{
-      main: '#ccb8b8'
+    info: {
+      main: '#ccb8b8',
     },
     text: {
       primary: '#4d2a4e',
