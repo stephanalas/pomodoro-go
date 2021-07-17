@@ -2,15 +2,18 @@ const router = require('express').Router();
 const axios = require('axios');
 const path = require('path');
 const querystring = require('query-string');
-require('dotenv').config({ path: path.join(__dirname, `../../.env.${process.env.NODE_ENV}`)});
+require('dotenv').config({
+  path: path.join(__dirname, `../../.env.${process.env.NODE_ENV}`),
+});
 
 module.exports = router;
 
 let client_id = process.env.CLIENT_ID_SPOTIFY;
-let redirect_uri = process.env.API_URL+'/callback';
+let redirect_uri = process.env.API_URL + '/callback';
 
 router.get('/', async (req, res, next) => {
   try {
+    console.log(redirect_uri);
     const scope =
       'user-read-private user-read-email user-read-currently-playing user-read-playback-state user-modify-playback-state user-read-recently-played streaming';
 

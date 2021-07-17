@@ -20,7 +20,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import Badge from '@material-ui/core/Badge';
-import {Grid} from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 //import other components
 import PlayerPlaylist from './PlayerPlaylist';
@@ -75,7 +75,7 @@ const SpotifyConnectButton = withStyles(() => ({
 }))(Button);
 
 const Player = (props) => {
-  // console.log(process.env.API_URL); //reads env correctly
+  console.log(process.env.API_URL); //reads env correctly
   const classes = useStyles();
   const theme = useTheme();
 
@@ -178,11 +178,10 @@ const Player = (props) => {
 
   return (
     <Grid container direction="column" alignItems="center">
-    <div id="player">
-      {window.localStorage.getItem('spotify_access_token') ? (
-        <>
-          <div>
-
+      <div id="player">
+        {window.localStorage.getItem('spotify_access_token') ? (
+          <>
+            <div>
               <Card className={classes.root}>
                 <div className={classes.details}>
                   <CardContent className={classes.content}>
@@ -220,7 +219,10 @@ const Player = (props) => {
                     </IconButton>
                     {props.newlyAddedTrack && props.newlyAddedTrack !== '' ? (
                       <Badge color="secondary" variant="dot" overlap="circle">
-                        <IconButton aria-label="next" onClick={() => playNext()}>
+                        <IconButton
+                          aria-label="next"
+                          onClick={() => playNext()}
+                        >
                           {theme.direction === 'rtl' ? (
                             <SkipPreviousIcon />
                           ) : (
@@ -245,24 +247,22 @@ const Player = (props) => {
                   title="album cover"
                 />
               </Card>
-
-          </div>
-          <PlayerDevices currPlayback={props.currPlayback} />
-          <PlayerPlaylist />
-        </>
-      ) : (
-        <a href={`${process.env.API_URL}/spotifyconnect`}>
-          <Card className={classes.root}>
-            <CardContent className={classes.spotifyConnect}>
-              <SpotifyConnectButton>Connect to Spotify</SpotifyConnectButton>
-            </CardContent>
-          </Card>
-        </a>
-      )}
-    </div>
+            </div>
+            <PlayerDevices currPlayback={props.currPlayback} />
+            <PlayerPlaylist />
+          </>
+        ) : (
+          <a href={`${process.env.API_URL}/spotifyconnect`}>
+            <Card className={classes.root}>
+              <CardContent className={classes.spotifyConnect}>
+                <SpotifyConnectButton>Connect to Spotify</SpotifyConnectButton>
+              </CardContent>
+            </Card>
+          </a>
+        )}
+      </div>
     </Grid>
   );
-
 };
 
 const mapStateToProps = (state) => {

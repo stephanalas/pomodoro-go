@@ -5,6 +5,7 @@ const io = require('socket.io');
 
 const init = async () => {
   try {
+    console.log(process.env.API_URL);
     await db.sync();
     // start listening (and create a 'server' object representing our server)
     const server = app.listen(PORT, () =>
@@ -13,8 +14,8 @@ const init = async () => {
     const socketServer = new io.Server(server, {
       cors: {
         origin: '*',
-        methods: ['GET', 'POST']
-      }
+        methods: ['GET', 'POST'],
+      },
     });
 
     //sockets

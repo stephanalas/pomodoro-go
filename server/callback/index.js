@@ -7,10 +7,13 @@ module.exports = router;
 
 let client_id = process.env.CLIENT_ID_SPOTIFY;
 let client_secret = process.env.CLIENT_SECRET_SPOTIFY;
-let redirect_uri = process.env.API_URL+'/callback';
+let redirect_uri = process.env.API_URL + '/callback';
 
 router.get('/', async (req, res, next) => {
   try {
+    console.log('client id ', client_id);
+    console.log('client secret ', client_secret);
+    console.log('redirect uri ', redirect_uri);
     let code = req.query.code;
     console.log(code);
     if (code) {
@@ -28,13 +31,15 @@ router.get('/', async (req, res, next) => {
         '&client_secret=' +
         client_secret;
       try {
-        let response = (
-          await axios.post('https://accounts.spotify.com/api/token', params, {
+        let response = await axios.post(
+          'https://accounts.spotify.com/api/token',
+          params,
+          {
             headers: {
               Authorization: `Basic ${auth}`,
               'Content-Type': 'application/x-www-form-urlencoded',
             },
-          })
+          }
         );
         if (response.status === 200) {
           const responseData = response.data;
