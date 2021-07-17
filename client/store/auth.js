@@ -26,6 +26,7 @@ const setAuth = (auth) => ({ type: SET_AUTH, auth });
 export const me = () => async (dispatch) => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
+    console.log(process.env.API_URL);
     const res = await axios.get(`${process.env.API_URL}/auth/me`, {
       headers: {
         authorization: token,
