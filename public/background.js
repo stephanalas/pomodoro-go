@@ -174,17 +174,14 @@ const background = {
             };
 
             try {
-              await fetch(
-                'https://pomodoro-go-2101.herokuapp.com/api/blocks',
-                options
-              );
+              await fetch(process.env.API_URL + '/api/blocks', options);
             } catch (err) {
               console.error('Request failed', err);
             }
 
             chrome.tabs.update(tabId, {
               // url: 'https://pomodoro-go-2101.herokuapp.com/uhoh',
-              url: 'https://pomodoro-go-2101.herokuapp.com/uhoh',
+              url: 'https://pomodoro-go.herokuapp.com/uhoh',
             }); // hard-code it to production url atm instead of 'http://localhost:8080/uhoh'
           }
         });
@@ -249,7 +246,7 @@ const background = {
         // redirects to dashboard after session is complete
         let tab = await this.getCurrentTab();
         chrome.tabs.update(tab.id, {
-          url: 'https://pomodoro-go-2101.herokuapp.com/dashboard',
+          url: 'https://pomodoro-go.herokuapp.com/dashboard',
         });
       }
     );
