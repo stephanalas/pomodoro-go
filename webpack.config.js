@@ -18,7 +18,8 @@ module.exports = {
     filename: './public/bundle.js',
   },
   devtool: 'source-map',
-  plugins: [new webpack.DefinePlugin(envKeys)],
+  // plugins: [new webpack.DefinePlugin(envKeys)],
+
   module: {
     rules: [
       {
