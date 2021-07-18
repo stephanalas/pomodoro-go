@@ -9,9 +9,8 @@ const finalPath = fs.existsSync(envPath) ? envPath : basePath;
 console.log(finalPath);
 
 const fileEnv = dotenv.config({ path: finalPath }).parsed;
-console.log(fileEnv);
 let envKeys;
-if (Object.keys(fileEnv).length) {
+if (fileEnv) {
   envKeys = Object.keys(fileEnv).reduce((prev, next) => {
     prev[`process.env.${next}`] = JSON.stringify(fileEnv[next]);
     return prev;
