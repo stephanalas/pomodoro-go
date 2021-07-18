@@ -38,7 +38,7 @@ const webpackConfig = {
     ],
   },
 };
-
+console.log(process.env);
 if (fileEnv) {
   webpackConfig.plugins = [new webpack.DefinePlugin(envKeys)];
 }
