@@ -41,6 +41,19 @@ const webpackConfig = {
 console.log(process.env);
 if (fileEnv) {
   webpackConfig.plugins = [new webpack.DefinePlugin(envKeys)];
+} else {
+  webpackConfig.plugins = [
+    new webpack.DefinePlugin({
+      'process.env.API_URL': JSON.stringify(process.env.API_URL),
+      'process.env.CLIENT_ID_SPOTIFY': JSON.stringify(
+        process.env.CLIENT_ID_SPOTIFY
+      ),
+      'process.env.CLIENT_SECRET_SPOTIFY': JSON.stringify(
+        process.env.CLIENT_SECRET_SPOTIFY
+      ),
+      'process.env.DATABASE_URL': JSON.stringify(process.env.DATABASE_URL),
+    }),
+  ];
 }
 
 module.exports = webpackConfig;
