@@ -17,16 +17,13 @@ if (fileEnv) {
   }, {});
 }
 console.log('env keys', envKeys);
-
-module.exports = {
+const webpackConfig = {
   entry: ['./client/index.js'],
   output: {
     path: __dirname,
     filename: './public/bundle.js',
   },
   devtool: 'source-map',
-
-  plugins: [new webpack.DefinePlugin(envKeys)],
 
   module: {
     rules: [
@@ -41,3 +38,9 @@ module.exports = {
     ],
   },
 };
+
+if (fileEnv) {
+  webpackConfig.plugins = [new webpack.DefinePlugin(envKeys)];
+}
+
+module.exports = webpackConfig;
