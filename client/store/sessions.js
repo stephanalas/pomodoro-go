@@ -119,7 +119,7 @@ export const endSession =
           { successful }
         );
       }
-      chrome.runtime.sendMessage('jgphbioennmnjogfbpchcgphelmfoiig', {
+      chrome.runtime.sendMessage('opechfjocpfdfihnebpmdbkajmmomihl', {
         message: 'timer-done',
       });
 
