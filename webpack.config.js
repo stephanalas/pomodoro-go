@@ -16,6 +16,7 @@ if (Object.keys(fileEnv).length) {
     return prev;
   }, {});
 }
+console.log('env keys', envKeys);
 
 module.exports = {
   entry: ['./client/index.js'],
@@ -24,6 +25,7 @@ module.exports = {
     filename: './public/bundle.js',
   },
   devtool: 'source-map',
+
   plugins: [new webpack.DefinePlugin(envKeys)],
 
   module: {
