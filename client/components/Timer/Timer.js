@@ -41,7 +41,7 @@ const Timer = (props) => {
   const start = Date.parse(startTime);
   const { setCountDown, sessionTime, countDown, setSessionTime } =
     useContext(SessionContext);
-  const targetTime = (end - start);
+  const targetTime = end - start;
   const { updateSession } = props;
   let seconds;
   const msToHMS = (ms) => {
@@ -126,7 +126,11 @@ const Timer = (props) => {
           ) : (
             <Button
               onClick={toggleTimer}
-              disabled={sessionTime ? false : true}
+              disabled={
+                JSON.parse(localStorage.getItem('currentSession'))
+                  ? false
+                  : true
+              }
               style={{
                 backgroundColor: '#5061a9',
                 color: 'white',
