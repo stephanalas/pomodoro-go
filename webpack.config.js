@@ -6,9 +6,9 @@ const currentPath = path.join(__dirname);
 const basePath = currentPath + '/.env';
 const envPath = basePath + '.' + process.env.NODE_ENV;
 const finalPath = fs.existsSync(envPath) ? envPath : basePath;
-console.log(finalPath);
 
 const fileEnv = dotenv.config({ path: finalPath }).parsed;
+console.log(fileEnv);
 let envKeys;
 if (fileEnv) {
   envKeys = Object.keys(fileEnv).reduce((prev, next) => {
