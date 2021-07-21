@@ -13,7 +13,6 @@ let redirect_uri = process.env.API_URL + '/callback';
 
 router.get('/', async (req, res, next) => {
   try {
-    console.log(redirect_uri);
     const scope =
       'user-read-private user-read-email user-read-currently-playing user-read-playback-state user-modify-playback-state user-read-recently-played streaming';
 
