@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => {
       backgroundColor: 'white',
       height: '100%',
       minHeight: '120px',
-      width:'500px',
+      width: '500px',
       margin: '10px',
       paddingLeft: '10px',
       paddingRight: '10px',
@@ -56,7 +56,7 @@ const FocusConfig = (props) => {
   return (
     <Paper className={classes.container} elevation={10}>
       <Grid
-        justify="center"
+        justifyContent="center"
         item
         container
         xs={12}
