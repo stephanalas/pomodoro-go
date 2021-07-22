@@ -74,6 +74,11 @@ const Timer = (props) => {
   const toggleTimer = (ev) => {
     const button = ev.target.innerText;
     if (button === 'START') {
+      localStorage.setItem('sessionActive', true);
+      chrome.runtime.sendMessage('opechfjocpfdfihnebpmdbkajmmomihl', {
+        message: 'create-interval',
+        time: sessionTime,
+      });
       if (!currentSession.sessionTime) {
         updateSession(currentSession.id, { sessionTime });
       }
