@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState, useContext } from 'react';
 import { makeStyles, Container, Grid } from '@material-ui/core';
 import Timer from './Timer';
 import FocusConfig from './FocusConfig';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { loadSession } from '../../store/sessions';
 import { SessionContext } from '../../app';
 export const TimerContext = createContext();
@@ -33,7 +33,8 @@ const CreateSession = (props) => {
   const { setSessionTime, sessionTime, countDown, setCountDown } =
     useContext(SessionContext);
   useEffect(() => {
-    if (!countDown) {
+    console.log('currentSession', currentSession);
+    if (!countDown && currentSession.status === 'Not Started') {
       const sec = seconds * 1000;
       const min = minutes * 60000;
       const hour = hours * 3600000;
@@ -41,6 +42,12 @@ const CreateSession = (props) => {
       setSessionTime(sec + min + hour);
       window.localStorage.setItem('sessionTime', sec + min + hour);
     } else {
+      const sessionFromLocalStorage = JSON.parse(
+        localStorage.getItem('currentSession')
+      );
+      if (sessionFromLocalStorage && !currentSession)
+        props.fetchCurrentSession(sessionFromLocalStorage.id);
+      console.log(sessionFromLocalStorage);
       window.timer = setInterval(() => {
         setSessionTime((sessionTime) => {
           const newSessionTime = sessionTime - 1000;
@@ -70,12 +77,16 @@ const CreateSession = (props) => {
       }}
     >
       <Container className={classes.main}>
-        <Grid container direction="column" alignItems="center" justify="center">
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+        >
           <Grid item>
             <FocusConfig />
           </Grid>
           <Grid item>
-
             <Timer />
           </Grid>
         </Grid>
