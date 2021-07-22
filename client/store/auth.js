@@ -1,6 +1,7 @@
 import axios from 'axios';
 import history from '../history';
 import socketIOClient from 'socket.io-client';
+import { removeSession } from './sessions';
 // comment
 const ENDPOINT = process.env.API_URL;
 export const socket = socketIOClient(ENDPOINT);
@@ -73,6 +74,7 @@ export const logout = () => {
   window.localStorage.removeItem(SPOTIFY_ACCESS_TOKEN);
   window.localStorage.removeItem(SPOTIFY_REFRESH_TOKEN);
   window.localStorage.removeItem(NEW_SPOTIFY_DEVICE);
+
   history.push('/login');
   return {
     type: SET_AUTH,

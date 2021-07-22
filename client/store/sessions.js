@@ -205,7 +205,8 @@ const currentSessionReducer = (state = {}, action) => {
   } else if (
     action.type === REMOVE_SESSION ||
     action.type === 'LOG_OUT' ||
-    action.type === END_SESSION
+    action.type === END_SESSION ||
+    action.type === 'SET_AUTH'
   ) {
     return {};
   }
