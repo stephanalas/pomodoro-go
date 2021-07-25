@@ -75,7 +75,6 @@ const SpotifyConnectButton = withStyles(() => ({
 }))(Button);
 
 const Player = (props) => {
-  console.log(process.env.API_URL); //reads env correctly
   const classes = useStyles();
   const theme = useTheme();
 
