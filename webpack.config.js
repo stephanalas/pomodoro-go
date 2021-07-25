@@ -8,7 +8,6 @@ const envPath = basePath + '.' + process.env.NODE_ENV;
 const finalPath = fs.existsSync(envPath) ? envPath : basePath;
 
 const fileEnv = dotenv.config({ path: finalPath }).parsed;
-console.log(fileEnv);
 let envKeys;
 if (fileEnv) {
   envKeys = Object.keys(fileEnv).reduce((prev, next) => {
@@ -16,7 +15,6 @@ if (fileEnv) {
     return prev;
   }, {});
 }
-console.log('env keys', envKeys);
 const webpackConfig = {
   entry: ['./client/index.js'],
   output: {
