@@ -31,18 +31,15 @@ const useStyles = makeStyles(() => ({
 const Timer = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const { info, primary, secondary, text, error } = theme.palette;
-  const dispatch = useDispatch();
+  const { info, primary } = theme.palette;
   const currentSession = useSelector((state) => state.currentSession);
-  const { setHours, setMinutes, setSeconds } = useContext(TimerContext);
-
   const { expectedEndTime, startTime } = currentSession;
   const end = Date.parse(expectedEndTime);
   const start = Date.parse(startTime);
-  const { setCountDown, sessionTime, countDown, setSessionTime } =
-    useContext(SessionContext);
+  const { sessionTime } = useContext(SessionContext);
   const targetTime = end - start;
   const { updateSession } = props;
+  const sessionActive = JSON.parse(localStorage.getItem('sessionActive'));
   let seconds;
   const msToHMS = (ms) => {
     seconds = ms / 1000;
@@ -74,19 +71,23 @@ const Timer = (props) => {
   const toggleTimer = (ev) => {
     const button = ev.target.innerText;
     if (button === 'START') {
+      // starts session
       localStorage.setItem('sessionActive', true);
+      // creates timer in extension context
       chrome.runtime.sendMessage('opechfjocpfdfihnebpmdbkajmmomihl', {
-        message: 'create-interval',
+        message: 'create-timer',
         time: sessionTime,
       });
       if (!currentSession.sessionTime) {
         updateSession(currentSession.id, { sessionTime });
       }
+
       localStorage.setItem('currentSession', JSON.stringify(currentSession));
-      setCountDown(true);
     }
-    if (button === 'STOP' || button === 'PAUSE') {
-      setCountDown(false);
+    if (button === 'PAUSE') {
+      // I have to clear the timer in the extension context
+      clearInterval(window.timer);
+      localStorage.setItem('sessionActive', false);
     }
   };
   return (
@@ -105,7 +106,7 @@ const Timer = (props) => {
               {msToHMS(sessionTime)}{' '}
             </Typography>
           </Grid>
-          {countDown ? (
+          {sessionActive ? (
             <Grid container direction="row" className={classes.buttons}>
               <Grid>
                 <Button
