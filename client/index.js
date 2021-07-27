@@ -12,8 +12,6 @@ import App from './app';
 
 const theme = createTheme({
   palette: {
-    // divider: 'rgba(145, 158, 171, 0.24)',
-    // mode: 'dark',
     background: {
       default: '#ffffff',
       paper: '#ffffff',
