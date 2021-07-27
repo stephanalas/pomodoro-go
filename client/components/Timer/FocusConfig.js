@@ -75,7 +75,7 @@ const FocusConfig = (props) => {
             {currentSession.status !== 'Ongoing' ? (
               <GoalSelector className={classes.goal} />
             ) : (
-              <Typography>Goal : {goal}</Typography>
+              <Typography>Goal : {currentSession.goal}</Typography>
             )}
           </Grid>
           <Grid
