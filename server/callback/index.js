@@ -11,11 +11,7 @@ let redirect_uri = process.env.API_URL + '/callback';
 
 router.get('/', async (req, res, next) => {
   try {
-    console.log('client id ', client_id);
-    console.log('client secret ', client_secret);
-    console.log('redirect uri ', redirect_uri);
     let code = req.query.code;
-    console.log(code);
     if (code) {
       const auth = Buffer.from(`${client_id}:${client_secret}`).toString(
         'base64'
