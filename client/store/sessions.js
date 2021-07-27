@@ -22,7 +22,7 @@ const loadSessions = () => {
 
 const LOAD_SESSION = 'LOAD_SESSION';
 
-const loadSessionActionCreator = (session) => {
+export const loadSessionActionCreator = (session) => {
   return {
     type: LOAD_SESSION,
     session,
@@ -100,6 +100,7 @@ export const removeSession = () => {
   return { type: REMOVE_SESSION };
 };
 export const _endSession = (session) => {
+  localStorage.setItem('currentSession', null);
   return {
     type: END_SESSION,
   };
@@ -120,12 +121,14 @@ export const endSession =
         );
       }
       chrome.runtime.sendMessage('opechfjocpfdfihnebpmdbkajmmomihl', {
-        message: 'timer-done',
+        message: 'stop-timer',
       });
 
       const updatedSession = response.data;
-      dispatch(_endSession());
+      console.log('clearing local storagae');
       localStorage.setItem('currentSession', null);
+      localStorage.setItem('sessionTime', 0);
+      dispatch(_endSession());
     } catch (error) {
       console.log(error);
     }
