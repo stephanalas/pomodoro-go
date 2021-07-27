@@ -56,42 +56,36 @@ const background = {
     return runtime.onMessageExternal.addListener(
       async (message, sender, sendResponse) => {
         try {
-          if (message.message === 'create-interval') {
+          if (message.message === 'create-timer') {
             let sessionTime = message.time;
 
             var timer = setInterval(() => {
               sessionTime -= 1000;
-              console.log(sessionTime);
               if (sessionTime <= 0) {
                 clearInterval(timer);
                 alarms.create('timer', { when: Date.now() });
               }
               storage.sync.set({ sessionTime: sessionTime });
             }, 1000);
+            storage.sync.set({ timer: timer });
+          }
+
+          if (message.message === 'stop-timer') {
+            storage.sync.get(['timer'], (results) => {
+              storage.sync.set({ sessionTime: 0 });
+              clearInterval(results.timer);
+            });
+          }
+          if (message.message === 'pause-timer') {
+            storage.sync.get(['timer'], (results) => {
+              clearInterval(results.timer);
+            });
           }
           if (message.message === 'get-time') {
             storage.sync.get(['sessionTime'], (results) => {
               sendResponse(results);
             });
           }
-          // if (message.message === 'create-timer') {
-          //   this.sessionTime = message.sessionTime;
-          //   this.createAlarm();
-          // }
-          // if (message.message === 'continue-alarm') {
-          //   console.log('you want me to start an alarm?');
-          //   alarms.clearAll(() => {
-          //     console.log('alarms are cleared again');
-          //     alarms.create('timer', {
-          //       when: Date.now() + message.sessionTime,
-          //     });
-          //     console.log('new alarm created');
-          //   });
-          // }
-          // if (message.message === 'timer-done') {
-          //   console.log('received message');
-          //   alarms.create('timer', { when: Date.now() });
-          // }
           if (message.message === 'set-blocked-sites') {
             const sites = [];
             message.blockedSites.forEach((site) => {
