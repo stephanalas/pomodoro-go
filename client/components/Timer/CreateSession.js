@@ -23,43 +23,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 const CreateSession = (props) => {
-  const dispatch = useDispatch();
   const classes = useStyles();
-  const currentSession = useSelector((state) => state.currentSession);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const { setSessionTime, sessionTime } = useContext(SessionContext);
-  const sessionActive = JSON.parse(
-    localStorage.getItem('sessionActive') || false
-  );
-  useEffect(() => {
-    // before session starts
-    if (!sessionActive && currentSession.status === 'Not Started') {
-      const sec = seconds * 1000;
-      const min = minutes * 60000;
-      const hour = hours * 3600000;
-
-      setSessionTime(sec + min + hour);
-      window.localStorage.setItem('sessionTime', sec + min + hour);
-    } else {
-      // for ongoing session
-      window.timer = setInterval(() => {
-        setSessionTime((sessionTime) => {
-          const newSessionTime = sessionTime - 1000;
-          localStorage.setItem('sessionTime', newSessionTime);
-          return newSessionTime;
-        });
-        if (!sessionTime || !sessionActive) {
-          setSessionTime(0);
-          clearInterval(window.timer);
-        }
-      }, 1000);
-      return () => {
-        clearInterval(window.timer);
-      };
-    }
-  });
   return (
     <TimerContext.Provider
       value={{
@@ -69,6 +37,8 @@ const CreateSession = (props) => {
         setMinutes,
         seconds,
         setSeconds,
+        setSessionTime,
+        sessionTime,
       }}
     >
       <Container className={classes.main}>
