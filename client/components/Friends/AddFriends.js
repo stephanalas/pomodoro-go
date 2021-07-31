@@ -64,9 +64,9 @@ const AddFriends = (props) => {
   });
   const [successOpen, setSuccessOpen] = useState(false);
 
-  useEffect(() => {
-    props.getAllUsers();
-  }, [props.newFriendRequest]);
+  // useEffect(() => {
+  //   props.getAllUsers();
+  // }, [props.newFriendRequest]);
 
   const dynamicSearch = () => {
     if (searchValues.searchWord !== '') {
