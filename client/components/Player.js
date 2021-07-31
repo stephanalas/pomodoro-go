@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getCurrPlayback } from '../store/spotify/getCurrPlayback';
@@ -11,21 +10,15 @@ import { extractQueries } from '../../utils/helper';
 import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import PauseIcon from '@material-ui/icons/Pause';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
-import Badge from '@material-ui/core/Badge';
+import { CardContent } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 
 //import other components
 import PlayerPlaylist from './PlayerPlaylist';
 import PlayerDevices from './PlayerDevices';
-
+import CurrentPlayback from './CurrentPlayback';
+import SpotifyControls from './SpotifyControls';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -80,67 +73,6 @@ const Player = (props) => {
 
   const accessToken = props.location.search.slice(1);
 
-  const playStart = async () => {
-    const args = window.localStorage.getItem('spotify_access_token');
-    if (props.currPlayback.is_playing === true) {
-      await axios.put(
-        'https://api.spotify.com/v1/me/player/pause',
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${args}`,
-          },
-        }
-      );
-      props.getCurrPlayback(
-        window.localStorage.getItem('spotify_access_token')
-      );
-    } else {
-      await axios.put(
-        'https://api.spotify.com/v1/me/player/play',
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${args}`,
-          },
-        }
-      );
-      props.getCurrPlayback(
-        window.localStorage.getItem('spotify_access_token')
-      );
-    }
-    console.log('play! updated playback: ', props.currPlayback);
-  };
-
-  const playPrevious = async () => {
-    const args = window.localStorage.getItem('spotify_access_token');
-    await axios.post(
-      'https://api.spotify.com/v1/me/player/previous',
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${args}`,
-        },
-      }
-    );
-    props.getCurrPlayback(window.localStorage.getItem('spotify_access_token'));
-  };
-
-  const playNext = async () => {
-    const args = window.localStorage.getItem('spotify_access_token');
-    await axios.post(
-      'https://api.spotify.com/v1/me/player/next',
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${args}`,
-        },
-      }
-    );
-    props.getCurrPlayback(window.localStorage.getItem('spotify_access_token'));
-    props.resetQueue();
-  };
-
   useEffect(() => {
     if (
       accessToken.length > 0 &&
@@ -161,19 +93,19 @@ const Player = (props) => {
       props.getCurrPlayback(
         window.localStorage.getItem('spotify_access_token')
       );
-      // props.getRecentTrack(window.localStorage.getItem('spotify_access_token'));
     }
     // console.log('state duration - initial state', props.trackDuration);
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      props.getCurrPlayback(
-        window.localStorage.getItem('spotify_access_token')
-      );
-    }, props.trackDuration);
-    // console.log('update playback after designated delay', props.currPlayback);
-  }, [props]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     console.log('over here');
+  //     props.getCurrPlayback(
+  //       window.localStorage.getItem('spotify_access_token')
+  //     );
+  //   }, props.trackDuration);
+  //   // console.log('update playback after designated delay', props.currPlayback);
+  // }, [props]);
 
   return (
     <Grid container direction="column" alignItems="center">
@@ -183,62 +115,15 @@ const Player = (props) => {
             <div>
               <Card className={classes.root}>
                 <div className={classes.details}>
-                  <CardContent className={classes.content}>
-                    <Typography component="h5" variant="h5">
-                      {props.currPlayback.item
-                        ? props.currPlayback.item.name
-                        : 'Nothing is playing right now'}
-                    </Typography>
-                    <Typography variant="subtitle1" color="textSecondary">
-                      {props.currPlayback.item
-                        ? props.currPlayback.item.artists[0].name
-                        : undefined}
-                    </Typography>
-                  </CardContent>
-                  <div className={classes.controls}>
-                    <IconButton
-                      aria-label="previous"
-                      onClick={() => playPrevious()}
-                    >
-                      {theme.direction === 'rtl' ? (
-                        <SkipNextIcon />
-                      ) : (
-                        <SkipPreviousIcon />
-                      )}
-                    </IconButton>
-                    <IconButton
-                      aria-label="play/pause"
-                      onClick={() => playStart()}
-                    >
-                      {!props.currPlayback.is_playing ? (
-                        <PlayArrowIcon className={classes.playIcon} />
-                      ) : (
-                        <PauseIcon className={classes.playIcon} />
-                      )}
-                    </IconButton>
-                    {props.newlyAddedTrack && props.newlyAddedTrack !== '' ? (
-                      <Badge color="secondary" variant="dot" overlap="circle">
-                        <IconButton
-                          aria-label="next"
-                          onClick={() => playNext()}
-                        >
-                          {theme.direction === 'rtl' ? (
-                            <SkipPreviousIcon />
-                          ) : (
-                            <SkipNextIcon />
-                          )}
-                        </IconButton>
-                      </Badge>
-                    ) : (
-                      <IconButton aria-label="next" onClick={() => playNext()}>
-                        {theme.direction === 'rtl' ? (
-                          <SkipPreviousIcon />
-                        ) : (
-                          <SkipNextIcon />
-                        )}
-                      </IconButton>
-                    )}
-                  </div>
+                  <CurrentPlayback
+                    content={classes.content}
+                    currPlayback={props.currPlayback}
+                  />
+                  <SpotifyControls
+                    controls={classes.controls}
+                    theme={theme}
+                    playIcon={classes.playIcon}
+                  />
                 </div>
                 <CardMedia
                   className={classes.cover}
