@@ -72,8 +72,8 @@ const background = {
 
           if (message.message === 'stop-timer') {
             storage.sync.get(['timer'], (results) => {
-              storage.sync.set({ sessionTime: 0 });
               clearInterval(results.timer);
+              storage.sync.set({ sessionTime: 0 });
             });
           }
           if (message.message === 'pause-timer') {

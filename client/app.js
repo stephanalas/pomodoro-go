@@ -3,8 +3,7 @@ import { makeStyles } from '@material-ui/core';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import Nav from './components/Nav';
 import Routes from './routes';
-import { me } from './store';
-import { endSession, loadSession } from './store/sessions';
+import { endSession } from './store/sessions';
 
 export const SessionContext = createContext();
 
@@ -22,50 +21,69 @@ const App = (props) => {
   const [sessionTime, setSessionTime] = useState(0);
   const [goal, setGoal] = useState('');
   const [intervalID, setIntervalID] = useState('');
-  const sessionActive = JSON.parse(localStorage.getItem('sessionActive'));
-  const timeFromStorage = JSON.parse(localStorage.getItem('currentSession'));
-  const sessionFromStorage = JSON.parse(localStorage.getItem('currentSession'));
 
   useEffect(() => {
-    // end session if time for storage is zero (during active session)
-    if (timeFromStorage <= 0 && sessionActive && sessionFromStorage) {
+    console.log('on app mount');
+
+    const timeFromStorage = JSON.parse(localStorage.getItem('sessionTime'));
+    const sessionFromStorage = JSON.parse(
+      localStorage.getItem('currentSession')
+    );
+    console.log('sessionFromStorage', sessionFromStorage);
+    console.log('timeFromStorage', timeFromStorage);
+    if (sessionFromStorage?.status === 'Ongoing' && !sessionTime) {
+      console.log('should end session');
       props.endSession(sessionFromStorage.id, true);
     }
-
-    chrome.runtime.sendMessage(
-      'opechfjocpfdfihnebpmdbkajmmomihl',
-      {
-        message: 'get-time',
-      },
-      (response) => {
-        if (sessionFromStorage) {
-          localStorage.setItem('sessionTime', response.sessionTime);
-          setSessionTime(response.sessionTime);
-        } else {
-          localStorage.setItem('sessionTime', 0);
-        }
-      }
-    );
   }, [dispatch]);
 
   useEffect(() => {
-    // load current session if lost on reload
-    if (sessionFromStorage && !currentSession.id) {
-      dispatch(loadSession(sessionFromStorage.id));
+    if (!sessionTime && currentSession) {
+      if (currentSession.status === 'Ongoing') {
+        props.endSession(currentSession.id, true);
+      }
     }
-  }, [currentSession]);
+  }, [sessionTime]);
+  // useEffect(() => {
+  //   // end session if time for storage is zero (during active session)
+  //   if (timeFromStorage <= 0 && sessionActive && sessionFromStorage) {
+  //     props.endSession(sessionFromStorage.id, true);
+  //   }
+
+  //   chrome.runtime.sendMessage(
+  //     'opechfjocpfdfihnebpmdbkajmmomihl',
+  //     {
+  //       message: 'get-time',
+  //     },
+  //     (response) => {
+  //       if (sessionFromStorage) {
+  //         localStorage.setItem('sessionTime', response.sessionTime);
+  //         setSessionTime(response.sessionTime);
+  //       } else {
+  //         localStorage.setItem('sessionTime', 0);
+  //       }
+  //     }
+  //   );
+  // }, [dispatch]);
 
   // useEffect(() => {
-  //   if (!timeFromStorage && currentSession && sessionActive) {
-  //     props.endSession(currentSession.id, true);
+  //   // load current session if lost on reload
+  //   if (sessionFromStorage && !currentSession.id) {
+  //     dispatch(loadSession(sessionFromStorage.id));
   //   }
-  // }, [timeFromStorage]);
+  // }, [currentSession]);
 
-  useEffect(() => {
-    if (window.localStorage.getItem('token')) {
-      dispatch(me());
-    }
-  }, [dispatch]);
+  // // useEffect(() => {
+  // //   if (!timeFromStorage && currentSession && sessionActive) {
+  // //     props.endSession(currentSession.id, true);
+  // //   }
+  // // }, [timeFromStorage]);
+
+  // useEffect(() => {
+  //   if (window.localStorage.getItem('token')) {
+  //     dispatch(me());
+  //   }
+  // }, [dispatch]);
 
   return (
     <div className={classes.main}>

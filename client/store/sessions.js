@@ -65,6 +65,7 @@ const createSession = (userId, goal) => async (dispatch) => {
     const { data } = response;
 
     localStorage.setItem('currentSession', JSON.stringify(data));
+    localStorage.setItem('sessionActive', false);
     dispatch(createSessionActionCreator(data));
   } catch (error) {
     console.log('error in createSession thunk');
@@ -99,7 +100,7 @@ const REMOVE_SESSION = 'REMOVE_SESSION';
 export const removeSession = () => {
   return { type: REMOVE_SESSION };
 };
-export const _endSession = (session) => {
+export const _endSession = () => {
   localStorage.setItem('currentSession', null);
   return {
     type: END_SESSION,
@@ -120,6 +121,7 @@ export const endSession =
           { successful }
         );
       }
+      console.log(response);
       chrome.runtime.sendMessage('opechfjocpfdfihnebpmdbkajmmomihl', {
         message: 'stop-timer',
       });
@@ -128,6 +130,8 @@ export const endSession =
       console.log('clearing local storagae');
       localStorage.setItem('currentSession', null);
       localStorage.setItem('sessionTime', 0);
+      localStorage.setItem('sessionActive', false);
+      clearInterval(window.timer);
       dispatch(_endSession());
     } catch (error) {
       console.log(error);

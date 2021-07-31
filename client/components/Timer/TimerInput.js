@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
 
 const TimerInput = (props) => {
   const classes = useStyles();
-  const { goal, sessionTime, setSessionTime } = useContext(SessionContext);
+  const { goal } = useContext(SessionContext);
   const currentSession = useSelector((state) => state.currentSession);
   const [inputError, setInputError] = useState(false);
   const { label } = props;
@@ -28,7 +28,7 @@ const TimerInput = (props) => {
       setInputError(true);
       return;
     }
-    props.setTime(parseInt(value));
+    props.setTime(value);
   };
 
   return (
