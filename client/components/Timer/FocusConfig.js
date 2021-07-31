@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import TimerInput from './TimerInput';
@@ -49,10 +49,36 @@ const useStyles = makeStyles(() => {
 
 const FocusConfig = (props) => {
   const currentSession = useSelector((state) => state.currentSession);
+  const [currentSessionTime, setCurrentSessionTime] = useState(0);
   const { goal } = useContext(SessionContext);
-  const { hours, minutes, seconds, setHours, setMinutes, setSeconds } =
-    useContext(TimerContext);
+  const {
+    hours,
+    minutes,
+    seconds,
+    setHours,
+    setMinutes,
+    setSeconds,
+    setSessionTime,
+    sessionTime,
+  } = useContext(TimerContext);
   const classes = useStyles();
+  const sessionActive = JSON.parse(localStorage.getItem('sessionActive'));
+
+  useEffect(() => {
+    console.log('something happend');
+    const convertToMilliseconds = () => {
+      let totalTime = 0;
+      totalTime += seconds * 1000;
+      totalTime += minutes * 60000;
+      totalTime += hours * 3600000;
+      return totalTime;
+    };
+    // should updated everytime input changes, goal selected and when session starts
+    if (!sessionActive && currentSession.status === 'Not Started') {
+      setSessionTime(convertToMilliseconds());
+      localStorage.setItem('sessionTime', convertToMilliseconds());
+    }
+  }, [seconds, minutes, hours]);
   return (
     <Paper className={classes.container} elevation={10}>
       <Grid
