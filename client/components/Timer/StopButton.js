@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, useSelector } from 'react-redux';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import { endSession, updateSession } from '../../store/sessions';
@@ -58,7 +58,7 @@ export default connect(null, (dispatch) => {
   };
 
   return (
-    <div>
+    <Grid>
       <Button
         onClick={handleOpen}
         style={{
@@ -95,6 +95,6 @@ export default connect(null, (dispatch) => {
           handleStop={handleStop}
         />
       </Modal>
-    </div>
+    </Grid>
   );
 });
