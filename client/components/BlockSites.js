@@ -103,9 +103,9 @@ const BlockSites = (props) => {
   //
 
   //lifecycles
-  // useEffect(() => {
-  //   props.getSites(props.auth.id);
-  // }, []);
+  useEffect(() => {
+    props.getSites(props.auth.id);
+  }, []);
 
   //user interactions > change state, dispatch to store
   const handleChange = (event) => {

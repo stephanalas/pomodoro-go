@@ -46,9 +46,9 @@ const RequestsToMe = (props) => {
   const classes = useStyles();
   const [successOpen, setSuccessOpen] = useState(false);
 
-  // useEffect(() => {
-  //   props.getRequestsToMe(props.auth.id);
-  // }, [props.newFriendRequest]);
+  useEffect(() => {
+    props.getRequestsToMe(props.auth.id);
+  }, [props.newFriendRequest]);
 
   const approveRequest = (requesteeId, requesterId) => {
     props.approveFriend(requesteeId, requesterId);
