@@ -5,9 +5,8 @@ import Typical from 'react-typical';
 import TeamProfile from './TeamProfile';
 
 const Intro = () => {
-
   return (
-    <div id='intro-content'>
+    <div id="intro-content">
       <div className="paper">
         <div className="lines">
           <div className="text">
@@ -18,17 +17,13 @@ const Intro = () => {
                 'Welcome to Pomodoro Go 🍅!',
                 3000,
                 'This is an app that helps boost your work effeciency by blocking time-sinking websites and bringing in your favorite music...come set the goal and hit the road!',
-                3000
+                3000,
               ]}
               loop={2}
               wrapper="h3"
             />
             <Typical
-              steps={[
-                'Brought to you by these lovely folks 👉',
-                5000,
-              ]}
-              // loop={3}
+              steps={['Brought to you by these lovely folks 👉', 5000]}
               wrapper="p"
             />
           </div>

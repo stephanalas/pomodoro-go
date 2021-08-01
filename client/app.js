@@ -44,46 +44,6 @@ const App = (props) => {
       }
     }
   }, [sessionTime]);
-  // useEffect(() => {
-  //   // end session if time for storage is zero (during active session)
-  //   if (timeFromStorage <= 0 && sessionActive && sessionFromStorage) {
-  //     props.endSession(sessionFromStorage.id, true);
-  //   }
-
-  //   chrome.runtime.sendMessage(
-  //     'opechfjocpfdfihnebpmdbkajmmomihl',
-  //     {
-  //       message: 'get-time',
-  //     },
-  //     (response) => {
-  //       if (sessionFromStorage) {
-  //         localStorage.setItem('sessionTime', response.sessionTime);
-  //         setSessionTime(response.sessionTime);
-  //       } else {
-  //         localStorage.setItem('sessionTime', 0);
-  //       }
-  //     }
-  //   );
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   // load current session if lost on reload
-  //   if (sessionFromStorage && !currentSession.id) {
-  //     dispatch(loadSession(sessionFromStorage.id));
-  //   }
-  // }, [currentSession]);
-
-  // // useEffect(() => {
-  // //   if (!timeFromStorage && currentSession && sessionActive) {
-  // //     props.endSession(currentSession.id, true);
-  // //   }
-  // // }, [timeFromStorage]);
-
-  // useEffect(() => {
-  //   if (window.localStorage.getItem('token')) {
-  //     dispatch(me());
-  //   }
-  // }, [dispatch]);
 
   return (
     <div className={classes.main}>

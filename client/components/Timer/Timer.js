@@ -49,7 +49,6 @@ const Timer = (props) => {
     const button = ev.target.innerText;
     if (button === 'START') {
       // starts session
-      // localStorage.setItem('sessionActive', true);
       chrome.runtime.sendMessage('opechfjocpfdfihnebpmdbkajmmomihl', {
         message: 'create-timer',
         time: sessionTime,
@@ -129,12 +128,6 @@ const Timer = (props) => {
       }
     }
   }, [dispatch]);
-
-  // useEffect(() => {
-  //   if (!sessionTime && currentSession) {
-  //     endSession(currentSession.id, true);
-  //   }
-  // }, [sessionTime]);
 
   return (
     <Card className={classes.timerContainer} elevation={10}>

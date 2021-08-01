@@ -21,8 +21,6 @@ export const Home = (props) => {
   } = theme;
   return (
     <div id="main">
-      {/* <h3 style={{color: text.primary}}>Welcome, {username}!</h3> */}
-
       <Grid
         container
         direction="row"
