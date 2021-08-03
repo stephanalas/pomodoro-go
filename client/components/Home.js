@@ -27,10 +27,10 @@ export const Home = (props) => {
         justifyContent="center"
         alignItems="flex-start"
       >
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <CreateSession />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <Player />
         </Grid>
       </Grid>

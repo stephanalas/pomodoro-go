@@ -69,7 +69,7 @@ class Routes extends Component {
       });
 
     return (
-      <div style={{ height: '100%' }}>
+      <div style={{ height: '100%', paddingTop: '50px' }}>
         {chrome.storage ? <RedirectToSite /> : null}
         {isLoggedIn && !chrome.storage ? (
           <Switch>

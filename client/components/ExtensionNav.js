@@ -7,11 +7,13 @@ const ExtensionNav = (props) => {
       className={props.style}
       style={{ backgroundColor: '#5061a9' }}
     >
-      <Toolbar>
-        <Typography id="pomo-go" align="center" variant="h4">
-          Pomodoro,go!
-        </Typography>
-      </Toolbar>
+      <Toolbar
+        children={[
+          <Typography id="pomo-go" align="center" variant="h4">
+            Pomodoro,go!
+          </Typography>,
+        ]}
+      ></Toolbar>
     </AppBar>
   );
 };
