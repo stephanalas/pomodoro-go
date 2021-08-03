@@ -1,4 +1,4 @@
-import axios from 'axios';
+import customAxios from './customAxios';
 const LOAD_SESSIONS = 'LOAD_SESSIONS';
 const loadSessionsActionCreator = (sessions) => {
   return {
@@ -10,7 +10,7 @@ const loadSessionsActionCreator = (sessions) => {
 const loadSessions = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${process.env.API_URL}/api/sessions`);
+      const response = await customAxios.get(`sessions`);
       const sessions = response.data;
       dispatch(loadSessionsActionCreator(sessions));
     } catch (error) {
@@ -31,9 +31,7 @@ export const loadSessionActionCreator = (session) => {
 
 const loadSession = (sessionId) => async (dispatch) => {
   try {
-    const res = await axios.get(
-      `${process.env.API_URL}/api/sessions/${sessionId}`
-    );
+    const res = await customAxios.get(`sessions/${sessionId}`);
     dispatch(loadSessionActionCreator(res.data));
   } catch (error) {
     console.log('error in loadSession thunk');
@@ -58,7 +56,7 @@ const createSessionActionCreator = (session) => {
 };
 const createSession = (userId, goal) => async (dispatch) => {
   try {
-    const response = await axios.post(`${process.env.API_URL}/api/sessions`, {
+    const response = await customAxios.post(`sessions`, {
       userId,
       goal,
     });
@@ -83,8 +81,8 @@ const updateSessionActionCreator = (session) => {
 };
 const updateSession = (sessionId, sessionInfo) => async (dispatch) => {
   try {
-    const response = await axios.put(
-      `${process.env.API_URL}/api/sessions/${sessionId}`,
+    const response = await customAxios.put(
+      `sessions/${sessionId}`,
       sessionInfo
     );
     const { data } = response;
@@ -111,15 +109,13 @@ export const endSession =
   (sessionId, successful = false) =>
   async (dispatch) => {
     try {
-      let response = await axios.put(
-        `${process.env.API_URL}/api/sessions/${sessionId}/end`,
-        { successful }
-      );
+      let response = await customAxios.put(`sessions/${sessionId}/end`, {
+        successful,
+      });
       if (response.data.status === 'Ongoing') {
-        response = await axios.put(
-          `${process.env.API_URL}/api/sessions/${sessionId}/end`,
-          { successful }
-        );
+        response = await customAxios.put(`sessions/${sessionId}/end`, {
+          successful,
+        });
       }
       console.log(response);
       chrome.runtime.sendMessage('opechfjocpfdfihnebpmdbkajmmomihl', {
@@ -149,12 +145,9 @@ const addTaskCreator = (session) => {
 
 const addTask = (task, sessionId) => {
   return async (dispatch) => {
-    const response = await axios.post(
-      `${process.env.API_URL}/api/sessions/${sessionId}/tasks`,
-      {
-        task,
-      }
-    );
+    const response = await customAxios.post(`sessions/${sessionId}/tasks`, {
+      task,
+    });
     const updatedSession = response.data;
     dispatch(addTaskCreator(updatedSession));
   };
@@ -171,9 +164,7 @@ const deleteTaskCreator = (session) => {
 
 const deleteTask = (id, sessionId) => {
   return async (dispatch) => {
-    const res = await axios.delete(
-      `${process.env.API_URL}/api/sessions/${sessionId}/tasks/${id}`
-    );
+    const res = await customAxios.delete(`sessions/${sessionId}/tasks/${id}`);
     dispatch(deleteTaskCreator(res.data));
   };
 };
@@ -189,9 +180,7 @@ const updateTaskActionCreator = (session) => {
 
 const updateTask = (taskId, sessionId) => async (dispatch) => {
   try {
-    const res = await axios.put(
-      `${process.env.API_URL}/api/sessions/${sessionId}/tasks/${taskId}`
-    );
+    const res = await customAxios.put(`sessions/${sessionId}/tasks/${taskId}`);
     dispatch(updateTaskActionCreator(res.data));
   } catch (error) {
     console.log('error with updateTask');
