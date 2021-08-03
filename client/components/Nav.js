@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import ExtensionNav from './ExtensionNav';
 import WebsiteNav from './WebsiteNav';
+import Header from './Header';
 // https://stackoverflow.com/questions/56432167/how-to-style-components-using-makestyles-and-still-have-lifecycle-methods-in-mat
 const styles = () => ({
   header: { color: 'white' },
@@ -29,12 +30,10 @@ const Navbar = (props) => {
       <nav id="navBar">
         {chrome.storage ? (
           // change to headerStyle maybe use context instead
-          <ExtensionNav style={classes.header} />
+          <ExtensionNav headerStyle={classes.header} />
         ) : (
-          <WebsiteNav
-            anchorEl={anchorEl}
-            setAnchorEl={setAnchorEl}
-            headerStyle={classes.header}
+          <Header
+            handleLogOut={handleLogOut}
             isLoggedIn={props.isLoggedIn}
             getMe={props.getMe}
             handleLogOut={handleLogOut}
