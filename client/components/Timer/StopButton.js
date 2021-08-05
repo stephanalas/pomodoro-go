@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Button, Grid } from '@material-ui/core';
@@ -6,6 +6,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import { endSession, updateSession } from '../../store/sessions';
 import EndSessionWarning from './EndSessionWarning';
+import { SessionContext } from '../../app';
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -37,7 +38,7 @@ export default connect(null, (dispatch) => {
   const { toggleTimer } = props;
   const currentSession = useSelector((state) => state.currentSession);
   const [open, setOpen] = React.useState(false);
-
+  const { setSessionTime } = useContext(SessionContext);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -49,11 +50,16 @@ export default connect(null, (dispatch) => {
     handleClose();
     props.endSession(currentSession.id);
     chrome.runtime.sendMessage('opechfjocpfdfihnebpmdbkajmmomihl', {
-      message: 'stop-timer',
+      message: 'timer',
+      action: 'stop-timer',
+      pause: false,
     });
     localStorage.setItem('sessionActive', false);
     localStorage.setItem('sessionTime', 0);
+
     clearInterval(window.timer);
+    window.timer = null;
+    setSessionTime(0);
     toggleTimer(ev);
   };
 

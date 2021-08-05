@@ -56,31 +56,47 @@ const background = {
     return runtime.onMessageExternal.addListener(
       async (message, sender, sendResponse) => {
         try {
-          if (message.message === 'create-timer') {
-            let sessionTime = message.time;
+          if (message.message === 'store-session-data') {
+            console.log('left site', message);
+            const { sessionId } = message.sessionData;
+            await storage.sync.set({ sessionId });
+          }
+          if (message.message === 'timer') {
+            if (message.action === 'create-timer') {
+              let sessionTime = message.time;
 
-            var timer = setInterval(() => {
-              sessionTime -= 1000;
-              if (sessionTime <= 0) {
-                clearInterval(timer);
-                alarms.create('timer', { when: Date.now() });
-              }
-              storage.sync.set({ sessionTime: sessionTime });
-            }, 1000);
-            storage.sync.set({ timer: timer });
+              var timer = setInterval(() => {
+                sessionTime -= 1000;
+                if (sessionTime <= 0) {
+                  clearInterval(timer);
+
+                  alarms.create('timer', { when: Date.now() });
+                }
+                storage.sync.set({ sessionTime: sessionTime });
+              }, 1000);
+              storage.sync.set({ timer: timer });
+            } else if (message.action === 'stop-timer') {
+              if (!message.pause) storage.sync.set({ sessionTime: 0 });
+              clearInterval(timer);
+            }
           }
 
           if (message.message === 'stop-timer') {
-            storage.sync.get(['timer'], (results) => {
+            chrome.alarms.getAll((results) => {
+              console.log(results);
+            });
+            await storage.sync.get(['timer'], async (results) => {
               clearInterval(results.timer);
-              storage.sync.set({ sessionTime: 0 });
+              if (!message.pause) {
+                storage.sync.set({ sessionTime: 0 });
+              }
             });
           }
-          if (message.message === 'pause-timer') {
-            storage.sync.get(['timer'], (results) => {
-              clearInterval(results.timer);
-            });
-          }
+          // if (message.message === 'pause-timer') {
+          //   storage.sync.get(['timer'], (results) => {
+          //     clearInterval(results.timer);
+          //   });
+          // }
           if (message.message === 'get-time') {
             storage.sync.get(['sessionTime'], (results) => {
               sendResponse(results);
@@ -159,15 +175,7 @@ const background = {
           return;
         }
         const hostname = new URL(url).hostname;
-        if (
-          hostname === 'localhost' ||
-          hostname === 'pomodoro-go.herokuapp.com'
-        ) {
-          scripting.executeScript({
-            tabId,
-            files: ['timer.js'],
-          });
-        }
+
         storage.sync.set({ userAttempt: hostname });
 
         storage.sync.get(['blocked', 'currUser'], async function (sync) {
@@ -229,7 +237,38 @@ const background = {
     });
   },
   listenForAlarm: function () {
-    return chrome.alarms.onAlarm.addListener(function (alarm) {
+    return chrome.alarms.onAlarm.addListener(async function (alarm) {
+      const allTabs = await tabs.query({});
+      console.log(allTabs);
+      let appInTabs = false;
+      allTabs.forEach((tab) => {
+        if (tab.url.includes('pomodoro-go') || tab.url.includes('localhost')) {
+          appInTabs = true;
+        }
+      });
+      if (!appInTabs) {
+        await storage.sync.get(['sessionId', 'authToken'], (results) => {
+          console.log('results', results);
+          const options = {
+            method: 'put',
+            headers: {
+              'Content-type': 'application/json',
+              //     Authorization: results.authToken,
+            },
+            // body: 'successful=true',
+          };
+          fetch(
+            `http://localhost:8080/api/sessions/${results.sessionId}/end`,
+            options
+          )
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+      }
       // notifies the user when the session is over
       chrome.notifications.create(
         undefined,
@@ -240,7 +279,9 @@ const background = {
           iconUrl: 'https://img.icons8.com/android/24/000000/timer.png',
           buttons: [{ title: 'Go to dashboard' }],
         },
-        () => {
+        async () => {
+          await chrome.alarms.clearAll();
+
           console.log('last error: ', chrome.runtime.lastError);
         }
       );

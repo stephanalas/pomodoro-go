@@ -36,7 +36,7 @@ router.post('/', requireToken, async (req, res, next) => {
 
 router.get('/:sessionId', requireToken, async (req, res, next) => {
   try {
-    if (req.user.admin) {
+    if (req.user) {
       const session = await Session.findByPk(req.params.sessionId, {
         include: [User, Task],
       });
@@ -75,18 +75,16 @@ router.put('/:sessionId', requireToken, async (req, res, next) => {
   }
 });
 // END SESSION
-router.put('/:sessionId/end', requireToken, async (req, res, next) => {
+router.put('/:sessionId/end', async (req, res, next) => {
   try {
     const { sessionId } = req.params;
     const { successful } = req.body;
     const session = await Session.findByPk(sessionId, { include: [User] });
-    if (req.user.id === session.user.id) {
-      await session.end({ successful, status: 'Done' });
-      const updatedSession = await Session.findByPk(sessionId, {
-        include: [User, Task],
-      });
-      res.send(updatedSession);
-    } else res.sendStatus(401);
+    await session.end({ successful, status: 'Done' });
+    const updatedSession = await Session.findByPk(sessionId, {
+      include: [User, Task],
+    });
+    res.send(updatedSession);
   } catch (error) {
     next(error);
   }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Typography, makeStyles, Card, Grid } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -30,8 +30,12 @@ const Timer = (props) => {
   const { sessionTime, setSessionTime } = useContext(SessionContext);
   const targetTime = end - start;
   const { updateSession, endSession } = props;
-  const sessionActive = JSON.parse(localStorage.getItem('sessionActive'));
+  const sessionActiveFromStorage = JSON.parse(
+    localStorage.getItem('sessionActive')
+  );
+  const [sessionActive, setSessionActive] = useState(false);
   let seconds;
+  const [showStart, setShowStart] = useState(true);
 
   const msToS = (ms) => {
     seconds = ms / 1000;
@@ -49,9 +53,12 @@ const Timer = (props) => {
     const button = ev.target.innerText;
     if (button === 'START') {
       // starts session
+      setShowStart(false);
+      setSessionActive(true);
       chrome.runtime.sendMessage('opechfjocpfdfihnebpmdbkajmmomihl', {
-        message: 'create-timer',
+        message: 'timer',
         time: sessionTime,
+        action: 'create-timer',
       });
       // creates timer in extension context
       window.timer = setInterval(() => {
@@ -73,17 +80,24 @@ const Timer = (props) => {
 
       localStorage.setItem('currentSession', JSON.stringify(currentSession));
     }
-    if (button === 'PAUSE') {
-      // I have to clear the timer in the extension context
-      clearInterval(window.timer);
-      localStorage.setItem('sessionActive', false);
-    }
   };
 
   useEffect(() => {
-    if (!sessionTime) {
+    const timeFromStorage = JSON.parse(localStorage.getItem('sessionTime'));
+    if (!sessionTime && !timeFromStorage) {
       clearInterval(window.timer);
+      window.timer = null;
       localStorage.setItem('sessionActive', false);
+      setSessionActive(false);
+      setShowStart(true);
+    }
+    if (window.timer && !currentSession?.id) {
+      clearInterval(window.timer);
+      window.timer = null;
+      setShowStart(true);
+    }
+    if (window.timer && currentSession?.status === 'Ongoing') {
+      setShowStart(false);
     }
   });
 
@@ -97,16 +111,20 @@ const Timer = (props) => {
         if (currentSession) {
           localStorage.setItem('sessionTime', response.sessionTime);
           setSessionTime(response.sessionTime);
-          window.timer = setInterval(() => {
-            if (JSON.parse(localStorage.getItem('sessionTime'))) {
-              setSessionTime((sessionTime) => {
-                localStorage.setItem('sessionTime', sessionTime);
-                return sessionTime - 1000;
-              });
-            }
-          }, 1000);
+          if (!window.timer) {
+            setShowStart(false);
+            window.timer = setInterval(() => {
+              if (JSON.parse(localStorage.getItem('sessionTime'))) {
+                setSessionTime((sessionTime) => {
+                  localStorage.setItem('sessionTime', sessionTime);
+                  return sessionTime - 1000;
+                });
+              }
+            }, 1000);
+          }
         } else {
           localStorage.setItem('sessionTime', 0);
+          setShowStart(true);
         }
       }
     );
@@ -133,9 +151,13 @@ const Timer = (props) => {
     <Card className={classes.timerContainer} elevation={10}>
       <Grid container direction="column" alignItems="center">
         <TimeDisplay />
-        {sessionActive ? (
+        {!showStart ? (
           <Grid container direction="row" className={classes.buttons}>
-            <PauseButton toggleTimer={toggleTimer} />
+            <PauseButton
+              toggleTimer={toggleTimer}
+              setShowStart={setShowStart}
+              setSessionActive={setSessionActive}
+            />
             <StopButton toggleTimer={toggleTimer} />
           </Grid>
         ) : (

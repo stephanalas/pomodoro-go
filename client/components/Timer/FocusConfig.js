@@ -49,8 +49,6 @@ const useStyles = makeStyles(() => {
 
 const FocusConfig = (props) => {
   const currentSession = useSelector((state) => state.currentSession);
-  const [currentSessionTime, setCurrentSessionTime] = useState(0);
-  const { goal } = useContext(SessionContext);
   const {
     hours,
     minutes,
@@ -59,13 +57,11 @@ const FocusConfig = (props) => {
     setMinutes,
     setSeconds,
     setSessionTime,
-    sessionTime,
   } = useContext(TimerContext);
   const classes = useStyles();
   const sessionActive = JSON.parse(localStorage.getItem('sessionActive'));
 
   useEffect(() => {
-    console.log('something happend');
     const convertToMilliseconds = () => {
       let totalTime = 0;
       totalTime += seconds * 1000;
@@ -77,6 +73,10 @@ const FocusConfig = (props) => {
     if (!sessionActive && currentSession.status === 'Not Started') {
       setSessionTime(convertToMilliseconds());
       localStorage.setItem('sessionTime', convertToMilliseconds());
+    }
+    const session = JSON.parse(localStorage.getItem('currentSession'));
+    if (session?.status === 'Done') {
+      localStorage.setItem('currentSession', null);
     }
   }, [seconds, minutes, hours]);
   return (

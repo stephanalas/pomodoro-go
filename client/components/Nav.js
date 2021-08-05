@@ -19,6 +19,7 @@ const Navbar = (props) => {
 
   const handleLogOut = () => {
     clearInterval(window.timer);
+    window.timer = null;
     setAnchorEl(null);
     props.handleClick();
   };

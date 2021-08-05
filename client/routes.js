@@ -27,10 +27,11 @@ class Routes extends Component {
   }
   componentDidMount() {
     this.props.loadInitialData();
-    console.log('rendering from routes');
     const currentSession = JSON.parse(localStorage.getItem('currentSession'));
-    if (currentSession) {
+    if (currentSession?.status === 'Ongoing') {
       this.props.loadCurrentSession(currentSession.id);
+    } else {
+      localStorage.setItem('currentSession', null);
     }
   }
 

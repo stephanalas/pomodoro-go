@@ -23,16 +23,15 @@ const App = (props) => {
   const [intervalID, setIntervalID] = useState('');
 
   useEffect(() => {
-    console.log('on app mount');
-
     const timeFromStorage = JSON.parse(localStorage.getItem('sessionTime'));
     const sessionFromStorage = JSON.parse(
       localStorage.getItem('currentSession')
     );
-    console.log('sessionFromStorage', sessionFromStorage);
-    console.log('timeFromStorage', timeFromStorage);
-    if (sessionFromStorage?.status === 'Ongoing' && !sessionTime) {
-      console.log('should end session');
+    if (
+      sessionFromStorage?.status === 'Ongoing' &&
+      !sessionTime &&
+      !timeFromStorage
+    ) {
       props.endSession(sessionFromStorage.id, true);
     }
   }, [dispatch]);
@@ -45,6 +44,16 @@ const App = (props) => {
     }
   }, [sessionTime]);
 
+  useEffect(() => {
+    return () =>
+      chrome.runtime.sendMessage('opechfjocpfdfihnebpmdbkajmmomihl', {
+        message: 'store-session-data',
+        sessionData: {
+          sessionId: currentSession.id,
+          token: localStorage.getItem('token'),
+        },
+      });
+  }, []);
   return (
     <div className={classes.main}>
       <SessionContext.Provider

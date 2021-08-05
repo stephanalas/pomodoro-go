@@ -128,6 +128,7 @@ export const endSession =
       localStorage.setItem('sessionTime', 0);
       localStorage.setItem('sessionActive', false);
       clearInterval(window.timer);
+      window.timer = null;
       dispatch(_endSession());
     } catch (error) {
       console.log(error);
