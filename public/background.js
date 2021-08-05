@@ -196,7 +196,7 @@ const background = {
             };
 
             try {
-              await fetch(process.env.API_URL + '/api/blocks', options);
+              await fetch('https://localhost:8080' + '/api/blocks', options);
             } catch (err) {
               console.error('Request failed', err);
             }
