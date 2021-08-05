@@ -12,6 +12,5 @@ export default () => {
       authorization: authToken,
     },
   };
-  console.log(payload);
   return payload;
 };
