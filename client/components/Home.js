@@ -27,10 +27,18 @@ export const Home = (props) => {
         justifyContent="center"
         alignItems="flex-start"
       >
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} lg={4}>
           <CreateSession />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid
+          item
+          xs={12}
+          md={4}
+          alignContent="flex-end"
+          style={{
+            marginLeft: '10rem',
+          }}
+        >
           <Player />
         </Grid>
       </Grid>

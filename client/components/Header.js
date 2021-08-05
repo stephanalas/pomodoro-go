@@ -10,12 +10,16 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, cloneElement } from 'react';
 import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import GoogleAuth from './GoogleAuth';
 import MainLogo from './MainLogo';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { HomeOutlined } from '@material-ui/icons';
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import DomainDisabledIcon from '@material-ui/icons/DomainDisabled';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 const headersData = [
   {
@@ -109,6 +113,7 @@ export default connect(({ auth }) => ({ auth }))(function Header(props) {
     console.log('sign in failure', response);
   };
   const displayDesktop = () => {
+    console.log(getMenuButtons());
     return (
       <Toolbar className={toolbar}>
         <MainLogo />
@@ -157,24 +162,65 @@ export default connect(({ auth }) => ({ auth }))(function Header(props) {
 
   const getDrawerChoices = () => {
     const choices = headersData.map(({ label, href }) => {
-      if (props.isLoggedIn && label === 'Logout') {
-        return <MenuItem onClick={props.handleLogOut}>Logout</MenuItem>;
-      } else if (!props.isLoggedIn && ['Login', 'Sign up'].includes(label))
-        return (
-          <Link
-            {...{
-              component: RouterLink,
-              to: href,
-              color: 'inherit',
-              style: { textDecoration: 'none' },
-              key: label,
-            }}
-          >
-            <MenuItem>{label}</MenuItem>
-          </Link>
-        );
+      if (props.isLoggedIn) {
+        if (label === 'Logout' && !['Login', 'Sign'].includes(label)) {
+          return <MenuItem onClick={props.handleLogOut}>Logout</MenuItem>;
+        } else if (!['Login', 'Sign'].includes(label)) {
+          return (
+            <Link
+              {...{
+                component: RouterLink,
+                to: href,
+                color: 'inherit',
+                style: { textDecoration: 'none' },
+                key: label,
+              }}
+            >
+              <MenuItem>{label}</MenuItem>
+            </Link>
+          );
+        }
+      } else {
+        if (
+          ![
+            'Dashboard',
+            'Home',
+            'Block Sites',
+            'Sign',
+            'Friends',
+            'Logout',
+          ].includes(label)
+        ) {
+          return (
+            <Link
+              {...{
+                component: RouterLink,
+                to: href,
+                color: 'inherit',
+                style: { textDecoration: 'none' },
+                key: label,
+              }}
+            >
+              <MenuItem>{label}</MenuItem>
+            </Link>
+          );
+        }
+      }
     });
     if (!props.isLoggedIn) {
+      choices.unshift(
+        <Link
+          {...{
+            component: RouterLink,
+            to: '/',
+            color: 'inherit',
+            style: { textDecoration: 'none' },
+            key: 'Home',
+          }}
+        >
+          <MenuItem>Home</MenuItem>
+        </Link>
+      );
       choices.push(
         <GoogleLogin
           clientId="811227993938-nd59os35t80qtuqgmul58232c54sbmsm.apps.googleusercontent.com"
@@ -184,72 +230,120 @@ export default connect(({ auth }) => ({ auth }))(function Header(props) {
           cookiePolicy={'single_host_origin'}
           isSignedIn={props.isLoggedIn}
           redirectUri={`${process.env.API_URL}/home`}
-          // render={(renderProps) => (
-          //   <Avatar
-          //     onClick={renderProps.onClick}
-          //     style={{
-          //       height: 30,
-          //       width: 30,
-          //       border: 0,
-          //       borderRadius: '50%',
-          //     }}
-          //     src="https://img-authors.flaticon.com/google.jpg"
-          //   />
-          // )}
         />
       );
     }
     return choices;
   };
-
-  const getMenuButtons = () => {
-    return headersData.map(({ label, href }) => {
-      if (props.isLoggedIn && label === 'Logout') {
-        return (
-          <Button
-            {...{
-              key: label,
-              color: 'inherit',
-              className: menuButton,
-              onClick: props.handleLogOut,
-            }}
-          >
-            {label}
-          </Button>
+  const addIcons = (choices) => {
+    return choices.map((navItem) => {
+      if (navItem?.key === 'Home') {
+        return cloneElement(
+          navItem,
+          [navItem.props],
+          [<HomeOutlined style={{ color: '#e0e2e4', fontSize: 30 }} />, 'Home']
         );
-      } else if (
-        props.isLoggedIn &&
-        ['Home', 'Dashboard', 'Block Sites', 'Friends'].includes(label)
-      )
-        return (
-          <Button
-            {...{
-              key: label,
-              color: 'inherit',
-              to: href,
-              component: RouterLink,
-              className: menuButton,
-            }}
-          >
-            {label}
-          </Button>
+      } else if (navItem?.key === 'Dashboard') {
+        return cloneElement(
+          navItem,
+          [navItem.props],
+          [
+            <AssessmentIcon style={{ color: '#e0e2e4', fontSize: 30 }} />,
+            'Dashboard',
+          ]
         );
-      else if (!props.isLoggedIn && ['Login', 'Sign up'].includes(label)) {
-        return (
-          <Button
-            {...{
-              key: label,
-              color: 'inherit',
-              to: href,
-              component: RouterLink,
-              className: menuButton,
-            }}
-          >
-            {label}
-          </Button>
+      } else if (navItem?.key === 'Block Sites') {
+        return cloneElement(
+          navItem,
+          [navItem.props],
+          [
+            <DomainDisabledIcon style={{ color: '#e0e2e4', fontSize: 30 }} />,
+            'Block Sites',
+          ]
+        );
+      } else if (navItem?.key === 'Friends') {
+        return cloneElement(
+          navItem,
+          [navItem.props],
+          [
+            <PeopleAltIcon style={{ color: '#e0e2e4', fontSize: 30 }} />,
+            'Friends',
+          ]
         );
       }
     });
+  };
+  const getMenuButtons = () => {
+    return addIcons(
+      headersData.map(({ label, href }) => {
+        if (props.isLoggedIn && label === 'Logout') {
+          return (
+            <IconButton
+              {...{
+                key: label,
+                color: 'inherit',
+                className: menuButton,
+                onClick: props.handleLogOut,
+                edge: 'start',
+                size: 'medium',
+                style: {
+                  color: 'white',
+                  fontSize: 15,
+                  flexDirection: 'column',
+                },
+              }}
+            >
+              {label}
+            </IconButton>
+          );
+        } else if (
+          props.isLoggedIn &&
+          ['Home', 'Dashboard', 'Block Sites', 'Friends'].includes(label)
+        )
+          return (
+            <IconButton
+              {...{
+                key: label,
+                color: 'inherit',
+                to: href,
+                component: RouterLink,
+                className: menuButton,
+                edge: 'start',
+                size: 'medium',
+                style: {
+                  color: 'white',
+                  fontSize: 15,
+                  flexDirection: 'column',
+                },
+              }}
+            >
+              {label}
+            </IconButton>
+          );
+        else if (!props.isLoggedIn && ['Login', 'Sign up'].includes(label)) {
+          return (
+            <IconButton
+              {...{
+                key: label,
+                color: 'inherit',
+                to: href,
+                component: RouterLink,
+                className: menuButton,
+                edge: 'start',
+                size: 'medium',
+                style: {
+                  color: 'white',
+                  fontSize: 15,
+                  flexDirection: 'column',
+                },
+              }}
+            >
+              {label}
+            </IconButton>
+          );
+        }
+      })
+    );
   };
 
   return (
