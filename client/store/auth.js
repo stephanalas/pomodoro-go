@@ -67,6 +67,16 @@ export const authenticate =
     }
   };
 
+export const resetPassword = (email) => async (dispatch) => {
+  try {
+    const res = await axios.post(`${process.env.API_URL}/auth/forgotPassword`, {
+      email,
+    });
+  } catch (authError) {
+    return dispatch(setAuth({ error: authError }));
+  }
+};
+
 export const logout = () => {
   window.localStorage.removeItem(TOKEN);
   window.localStorage.removeItem('user');

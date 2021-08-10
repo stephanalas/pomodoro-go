@@ -4,7 +4,6 @@ const {
 
 module.exports = async (req, res, next) => {
   const token = req.headers.authorization;
-  console.log(req.headers);
   if (token) {
     try {
       const user = await User.findByToken(token);

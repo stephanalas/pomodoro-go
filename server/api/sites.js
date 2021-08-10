@@ -62,8 +62,6 @@ router.post('/', requireToken, async (req, res, next) => {
 });
 
 router.delete('/:userId/:siteId', requireToken, async (req, res, next) => {
-  console.log('userId:', req.params.userId, 'siteId:', req.params.siteId);
-
   try {
     if (req.user.admin || req.params.userId === req.user.id) {
       const associationToDelete = await BlackList.findOne({

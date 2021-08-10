@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { Login, Signup } from './components/AuthForm';
+import {
+  withRouter,
+  Route,
+  Switch,
+  Redirect,
+  HashRouter,
+  BrowserRouter,
+} from 'react-router-dom';
+import { Login, ResetPassword, Signup } from './components/AuthForm';
 import CreateSession from './components/Timer/CreateSession';
 import Home from './components/Home';
 import Dashboard from './components/Dashboard/Dashboard';
@@ -15,7 +22,7 @@ import BlockError from './components/BlockError';
 import BlockSites from './components/BlockSites';
 import Friends from './components/Friends/Friends';
 import RedirectToSite from './components/RedirectToSite';
-
+import ResetPasswordForm from './components/ResetPasswordForm';
 import Intro from './components/Intro';
 
 /**
@@ -92,6 +99,10 @@ class Routes extends Component {
             <Route path="/" exact component={Intro} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+
+            <Route path="/sendPasswordReset" component={ResetPassword} exact />
+
+            <Route path="/resetPassword" component={ResetPasswordForm} />
             <Route exact path="/uhoh" component={BlockError} />
           </Switch>
         )}
@@ -118,11 +129,13 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     loadInitialData() {
-      dispatch(me());
-      dispatch(loadSessions());
-      dispatch(loadSites());
-      dispatch(loadBlackList());
-      dispatch(loadBlocks());
+      if (localStorage.getItem('token')) {
+        dispatch(me());
+        dispatch(loadSessions());
+        dispatch(loadSites());
+        dispatch(loadBlackList());
+        dispatch(loadBlocks());
+      }
     },
 
     updateB: (blackListId, blackListInfo) => {
