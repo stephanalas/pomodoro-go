@@ -117,7 +117,6 @@ export const endSession =
           successful,
         });
       }
-      console.log(response);
       chrome.runtime.sendMessage('opechfjocpfdfihnebpmdbkajmmomihl', {
         message: 'stop-timer',
       });

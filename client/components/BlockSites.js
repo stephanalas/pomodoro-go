@@ -68,7 +68,7 @@ const useStyles = makeStyles({
   form: {
     maxWidth: 600,
     marginTop: '10px',
-    marginBottom: '5px',
+    marginBottom: '40px',
     display: 'flex',
     justifyContent: 'space-around',
   },
@@ -182,7 +182,7 @@ const BlockSites = (props) => {
         />
         <FormControl
           style={{
-            width: 150,
+            width: 200,
           }}
         >
           <InputLabel
@@ -221,7 +221,6 @@ const BlockSites = (props) => {
           Add
         </LightGreenButton>
       </form>
-      <Typography variant="caption"> Hello </Typography>
       <div id="currBlocked">
         {props.blockedSites.length > 0 &&
           props.blockedSites.map((each, idx) => {

@@ -34,7 +34,6 @@ export const Home = (props) => {
           item
           xs={12}
           md={4}
-          alignContent="flex-end"
           style={{
             marginLeft: '10rem',
           }}

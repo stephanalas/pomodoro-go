@@ -20,6 +20,7 @@ import { HomeOutlined } from '@material-ui/icons';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import DomainDisabledIcon from '@material-ui/icons/DomainDisabled';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import { authenticateGoogle, logout } from '../store';
 
 const headersData = [
   {
@@ -63,13 +64,13 @@ const useStyles = makeStyles(() => ({
   },
   logo: {
     // fontFamily: 'Work Sans, sans-serif',
-    fontWeight: 600,
+    // fontWeight: 600,
     color: '#ffffff',
     textAlign: 'left',
   },
   menuButton: {
     // fontFamily: 'Open Sans, sans-serif',
-    fontWeight: 700,
+    // fontWeight: 700,
     size: '18px',
     marginLeft: '38px',
   },
@@ -82,7 +83,16 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default connect(({ auth }) => ({ auth }))(function Header(props) {
+export default connect(
+  ({ auth }) => ({ auth }),
+  (dispatch) => {
+    return {
+      getMe(data) {
+        dispatch(authenticateGoogle(data));
+      },
+    };
+  }
+)(function Header(props) {
   const { header, logo, menuButton, toolbar, drawerContainer } = useStyles();
 
   const [state, setState] = useState({
@@ -107,7 +117,7 @@ export default connect(({ auth }) => ({ auth }))(function Header(props) {
     };
   }, []);
   const handleSuccess = (response) => {
-    getMe(response);
+    props.getMe(response);
   };
   const handleFail = (response) => {
     console.log('sign in failure', response);
@@ -270,6 +280,12 @@ export default connect(({ auth }) => ({ auth }))(function Header(props) {
             'Friends',
           ]
         );
+      } else if (
+        navItem?.key === 'Logout' ||
+        navItem?.key === 'Login' ||
+        navItem?.key === 'Sign up'
+      ) {
+        return navItem;
       }
     });
   };
@@ -278,23 +294,20 @@ export default connect(({ auth }) => ({ auth }))(function Header(props) {
       headersData.map(({ label, href }) => {
         if (props.isLoggedIn && label === 'Logout') {
           return (
-            <IconButton
+            <Button
               {...{
                 key: label,
                 color: 'inherit',
                 className: menuButton,
                 onClick: props.handleLogOut,
-                edge: 'start',
-                size: 'medium',
                 style: {
                   color: 'white',
                   fontSize: 15,
-                  flexDirection: 'column',
                 },
               }}
             >
               {label}
-            </IconButton>
+            </Button>
           );
         } else if (
           props.isLoggedIn &&
